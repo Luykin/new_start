@@ -3,7 +3,7 @@
     <div>
      <div class="user-header mg10">
        <div class="user-header-inner-warp flex">
-        <span class="titps">傭金已累加進余額</span>
+        <span class="titps">傭金自动累加進余額</span>
         <div class="flex js uhiw-top">
           <p class="flex s" style="margin-bottom: 10px">總傭金收益</p>
           <span class="flex maxiiii">￥{{$root.user.sum_income || '0.00'}}</span>
@@ -216,15 +216,16 @@
 }
 .titps{
   position:absolute;
-  right: 1%;
+  right: 0;
   top: 5%;
-  font-size: 10px;
+  font-size: 12px;
   height: 20px;
   line-height: 22px;
   color: #ffc4c4;
   padding: 0 5px;
   border: 1px solid #ffc4c4;
   border-radius: 10px;
-  transform: scale(.9,.9) translate(-5%, 0);
+  margin: 0;
+  transform: scale(.9,.9) translate(1%, 0);
 }
 </style>
