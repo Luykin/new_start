@@ -134,7 +134,7 @@
   import popup from 'base/popup/popup'
   import { inedxtimeformat } from 'common/js/util'
   import interlayer from 'base/interlayer/interlayer'
-  import Fingerprint2 from 'fingerprintjs2'
+  // import Fingerprint2 from 'fingerprintjs2'
   const DEFULAT_URL = 'http://p7o5mvmp4.bkt.clouddn.com/.favicon.png'
   export default {
     data() {
@@ -296,21 +296,21 @@
           }
           return false
         }
-        try {
-          let options = {}
-          Fingerprint2.getV18(options, async (result, components) =>{
-            this.$root.eventHub.$emit('loading', true)
-            const ret = await login(result.slice(0, 5), 'http://p7o5mvmp4.bkt.clouddn.com/.favicon.png', result)
-            this.$root.eventHub.$emit('loading', null)
-            if (ret.status == 200 && ret.data.code == 200) {
-              this.$root.user = ret.data.data
-              this._transactionlist()
-              this.$root.eventHub.$emit('wxuser')
-            }
-          })
-        } catch(err){
-          console.log(err)
-        }
+        // try {
+        //   let options = {}
+        //   Fingerprint2.getV18(options, async (result, components) =>{
+        //     this.$root.eventHub.$emit('loading', true)
+        //     const ret = await login(result.slice(0, 5), 'http://p7o5mvmp4.bkt.clouddn.com/.favicon.png', result)
+        //     this.$root.eventHub.$emit('loading', null)
+        //     if (ret.status == 200 && ret.data.code == 200) {
+        //       this.$root.user = ret.data.data
+        //       this._transactionlist()
+        //       this.$root.eventHub.$emit('wxuser')
+        //     }
+        //   })
+        // } catch(err){
+        //   console.log(err)
+        // }
       },
       async _message() {
         const ret = await message()
