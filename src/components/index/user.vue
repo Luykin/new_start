@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <div>
-     <div class="user-header mg10">
+     <div class="user-header">
        <div class="user-header-inner-warp flex">
         <div class="flex js uhiw-top">
           <userheader></userheader>
@@ -102,9 +102,9 @@
 </script>
 <style type="text/css" scoped>
 .user-header{
-  width: 92%;
-  padding-top: 45%;
-  border-radius: 8px;
+  width: 100%;
+  padding-top: 50%;
+  /*border-radius: 8px;*/
   position: relative;
   background: #524E4B;
   overflow: hidden;
@@ -137,10 +137,10 @@
   color: #353535;
 }
 .uhiw-top{
-  height: 55%;
+  height: 60%;
 }
 .uhiw-bottom{
-  height: 45%;
+  height: 40%;
   color: #fff;
 }
 .uhiw-btn{

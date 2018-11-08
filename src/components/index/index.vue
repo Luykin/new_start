@@ -22,6 +22,7 @@
           <div class="flex ell from-item-left">作品链接:</div>
           <div class="flex from-item-right">
             <input type="text" name="作品链接" placeholder="请输入作品链接" class="index-input" v-model="link" />
+            <div class="flex course-btn ell">查看教程</div>
           </div>
         </div>
         <div class="from-item flex mg20">
@@ -191,5 +192,14 @@
   .index-input{
     text-indent: 20px;
     color: #353535;
+  }
+  .course-btn{
+    background: #FF2E5D;
+    color: #fff;
+    font-size: 12px;
+    width: 50px;
+    height: 80%;
+    flex-shrink: 0;
+    text-align: center;
   }
 </style>

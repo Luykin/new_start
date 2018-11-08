@@ -14,7 +14,12 @@ const routerconst = new Router({
 		path: '/index',
 		name: 'index',
 		component: () =>
-			import (`components/index/index`)
+			import (`components/index/index`),
+    children:[{
+		  path: ':id',
+      component: () =>
+        import (`components/details/course`),
+    }]
 	}, {
 		path: '/commision',
 		name: 'commision',
