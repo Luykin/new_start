@@ -34,7 +34,7 @@
   top: 0;
   bottom: 0;
   background: #000;
-  opacity: .7;
+  opacity: .6;
   user-select: none;
 }
 .loading{
@@ -51,14 +51,14 @@
   width: 5px;
   height: 100%;
   border-radius: 2px;
-  margin: 0px 3px;
-  background: lightgreen;
+  margin: 0 3px;
+  background: #ff2966;
   -webkit-animation: load 1s ease infinite;
 }
 @keyframes load{
   0%,100%{
     transform: scale3d(1,1,1);
-    background: lightgreen;
+    background: #ff2966;
   }
   50%{
     transform: scale3d(1,2.5,1);

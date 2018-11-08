@@ -31,11 +31,6 @@ const routerconst = new Router({
 		component: () =>
 			import (`components/withdraw/withdraw`)
 	}, {
-		path: '/recharge',
-		name: 'recharge',
-		component: () =>
-			import (`components/recharge/recharge`)
-	}, {
 		path: '/recharge-record',
 		name: 'recharge-record',
 		component: () =>

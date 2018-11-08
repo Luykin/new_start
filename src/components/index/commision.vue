@@ -4,7 +4,7 @@
       <div class="header-warp">
         <div class="user-header mg10">
           <div class="user-header-inner-warp flex">
-            <span class="titps">傭金自动累加進余額</span>
+            <span class="titps">收益自动累加进余额</span>
             <div class="flex js uhiw-top">
               <p class="flex s" style="margin-bottom: 10px">代理总收益</p>
               <span class="flex maxiiii">￥{{$root.user.sum_income || '0.00'}}</span>
@@ -34,7 +34,7 @@
       </div>
       <div class="flex commision-item">
         <img src="https://cdn.xingkwh.com/%E5%9B%A2%E9%98%9F-%E6%88%91%E7%9A%84%E5%9B%A2%E9%98%9F.png" class="iconlll">
-        <span class="flex s bc-title">我的團隊</span>
+        <span class="flex s bc-title">我的团队</span>
         <div class="flex ci-num-warp-list">
           <span class="flex cnwl-span ell" style="color: #B17B13">目前下级人数</span>
           <span class="flex cnwl-span">{{$root.user.num_people}}人</span>

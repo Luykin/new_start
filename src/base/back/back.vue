@@ -17,6 +17,7 @@
 		width: 86px;
 		height: 38px;
 		background: #ff3535;
+    background: linear-gradient(right, #FF561E, #FF2966);
 		color: #fff;
 		border-radius: 30px;
 		position: fixed;

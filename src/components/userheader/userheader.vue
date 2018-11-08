@@ -4,6 +4,9 @@
 		<div class="flex namewarp fw llll">
 			<span class="flex js nw-item ell" :style="'font-weight: 900; color:'+ fontcolor">{{$root.user.nickname || ''}}</span>
 			<p class="flex js nw-item ell" :style="'color:' + fontcolor">余額： <span>{{$root.user.score || 0}}币</span></p>
+      <router-link tag='div' to='./withdraw' class="flex user-btn">
+        提现
+      </router-link>
 		</div>
 	</div>
 </template>
@@ -49,6 +52,20 @@
 	flex-shrink: 0;
 	flex-grow: 1;
 	overflow: hidden;
+  position: relative;
+}
+.user-btn{
+  position: absolute;
+  right: 5%;
+  bottom: 0%;
+  width: 60px;
+  height: 26px;
+  border-radius: 4px;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 12px;
+  opacity: 1;
+  transition: all .5s;
 }
 .nw-item{
 	height: 25px;
@@ -56,5 +73,9 @@
 .nw-item span{
 	color: #DDBB6C;
 	text-indent: 6px;
+}
+.router-link-active{
+  opacity: 0;
+  transition: all .5s;
 }
 </style>

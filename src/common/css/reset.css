@@ -98,6 +98,9 @@ a:visited {
 input {
   outline: 0;
   outline: none;
+  border: none;
+  width: 100%;
+  height: 100%;
 }
 
 input:focus::-webkit-contacts-auto-fill-button {

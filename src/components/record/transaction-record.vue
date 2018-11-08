@@ -30,7 +30,7 @@
 	</transition>
 </template>
 <script type="text/javascript">
-	import { transactionlist } from 'api/index'
+	// import { transactionlist } from 'api/index'
 	import { timeformat } from 'common/js/util'
 	import betterscroll from 'base/better-scroll/better-scroll'
 	import back from 'base/back/back'
@@ -48,7 +48,7 @@
 		},
 		mounted() {
 			this._inint()
-			this._transactionlist()
+			// this._transactionlist()
 			this.$root.eventHub.$on('update', () => {
         this._pulldown()
       })
@@ -88,14 +88,14 @@
 				this.num = 10
 				this.page = 0
 				this.list = []
-				this._transactionlist()
+				// this._transactionlist()
 			},
 			_scrollToEnd(){
 				console.log(this.list.length, this.totle)
 				if (this.list.length < this.totle) {
 					console.log('触底加载')
 					this.page += 1
-					this._transactionlist()
+					// this._transactionlist()
 				}
 			}
 		},

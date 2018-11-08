@@ -8,9 +8,11 @@
 			<div class="mg30"></div>
 			<div class="flex ll recharge-title">请输入提现金额<p class="ss" style="color:#727589;">(今日剩余提现次数<span style="color: #ffcd32;">{{$root.user.count ?  Math.abs(10 - $root.user.count) : 10}}</span> 次)</p></div>
 			<div class="flex input-warp">
-				<img src="https://cdn.xingkwh.com/%E6%8F%90%E7%8E%B0%E4%BA%BA%E5%90%8D%E5%B8%81icon@3x.png" class="recharge-img">
-				<input type="text" name="提现输入框" class="flex my-input" v-model="money">
-			</div>
+        <div class="recharge-img maxmaxmaxs">￥</div>
+        <label>
+          <input type="text" name="提现输入框" class="flex my-input" v-model="money">
+        </label>
+      </div>
 			<div class="flex btn-buy lll" @click="_withdraw">提现</div>
 			<img src="https://cdn.xingkwh.com/%E6%8F%90%E7%8E%B0%E8%AF%B4%E6%98%8Eimg@3x.png" class="font-img">
 		</div>
@@ -50,21 +52,21 @@
 				this.$root.eventHub.$emit('loading', true)
 				const ret = await withdraw(this.$root.user.username, this.money)
 				this.$root.eventHub.$emit('loading', null)
-				if (ret.status == 200 && ret.data.code == 200) {
+				if (ret.status === 200 && ret.data.code === 200) {
 					this.$root.eventHub.$emit('titps', '提现申请已提交')
 					this.money = ''
 					const ret = await updateuserinfo(this.$root.user.username)
-					if (ret.status == 200 && ret.data.code == 200 ){
+					if (ret.status === 200 && ret.data.code === 200 ){
 						this.$root.user = ret.data.data
 						this.$root.eventHub.$emit('update')
 					}
 				} else {
-					if (ret == 438) {
+					if (parseInt(ret) === 438) {
 						this.$root.eventHub.$emit('titps', '今日已超出提现次数上限')
 						this.$root.eventHub.$emit('loading', null)
 						return false
 					}
-					if (ret == 439) {
+					if (parseInt(ret) === 439) {
 						this.$root.eventHub.$emit('titps', '奖励金需要进行一次交易才能提现')
 						this.$root.eventHub.$emit('loading', null)
 						return false
@@ -83,7 +85,7 @@
 <style scoped>
 .header{
 	height: 100px;
-	background: #27283A;
+	background: #fff;
 }
 .body{
 	position: fixed;
@@ -92,7 +94,7 @@
 	left: 0;
 	right: 0;
 	z-index: 99999;
-	background: #10111E;
+	background: #fff;
 	overflow-y: scroll;
 }
 .recharge-img{
@@ -116,8 +118,8 @@
 	width: 90%;
 	margin: 20px auto;
 	height: 50px;
-	background: #F3A523;
-	color: #10111E;
+	background: #524E4B;
+	color: #fff;
 	border-radius: 10px;
 }
 .my-input{

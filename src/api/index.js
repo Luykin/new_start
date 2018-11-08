@@ -5,25 +5,14 @@ import {
   UAID
 } from './config'
 import {
-  getTime,
   getSign
 } from 'common/js/util'
 
-export function login(nickname, avatar, wx_login_code, super_code) {
-  const url = `${PREFIX_URL}/login`
+export function login(wx_login_code, super_code) {
+  const url = `${PREFIX_URL}/wechat_login`
   let data = {
-    channel: 'wx',
     uaid: UAID,
-    federated: 2,
-    app_version: '1.0.0',
-    wx_login_code,
-    timestamp: getTime()
-  }
-  if (nickname && avatar) {
-    Object.assign(data, {
-      nickname,
-      avatar
-    })
+    wx_login_code
   }
   if (super_code) {
     Object.assign(data, {
@@ -35,63 +24,43 @@ export function login(nickname, avatar, wx_login_code, super_code) {
   }, data))).then(function(res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.response.status)
   })
 }
 
-export function transaction(direction, username, score) {
-  const url = `${PREFIX_URL}/add/transaction`
+export function withdrawlist(user_id, num, page) {
+  const url = `${PREFIX_URL}/wechat_withdraw_list`
   let data = {
     uaid: UAID,
-    direction,
-    username,
-    score,
-    timestamp: getTime()
+    user_id,
+    num,
+    page
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data))).then(function(res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.response.status)
   })
 }
 
-export function transactionlist(username, num, page) {
-  const url = `${PREFIX_URL}/transaction_list`
+export function withdraw(user_id, score) {
+  const url = `${PREFIX_URL}/wechat_withdraw`
   let data = {
     uaid: UAID,
-    username,
-    timestamp: getTime()
+    user_id,
+    score
   }
-  if (num && (page || page === 0)) {
-    Object.assign(data, {
-      num,
-      page
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data)))
+    .then(function(res) {
+      return Promise.resolve(res)
     })
-  }
-  return axios.post(url, qs.stringify(Object.assign({
-    sign: getSign(data)
-  }, data))).then(function(res) {
-    return Promise.resolve(res)
-  }).catch(res => {
-    return Promise.resolve(res)
-  })
-}
-
-export function goodlist() {
-  const url = `${PREFIX_URL}/goods`
-  let data = {
-    uaid: UAID,
-    timestamp: getTime()
-  }
-  return axios.post(url, qs.stringify(Object.assign({
-    sign: getSign(data)
-  }, data))).then(function(res) {
-    return Promise.resolve(res)
-  }).catch(res => {
-    return Promise.resolve(res)
-  })
+    .catch(res => {
+      return Promise.resolve(res.response.status)
+    })
 }
 
 export function orders(username, num, page) {
@@ -108,25 +77,7 @@ export function orders(username, num, page) {
   }, data))).then(function(res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res)
-  })
-}
-
-export function withdrawlist(username, num, page) {
-  const url = `${PREFIX_URL}/withdraw_list`
-  let data = {
-    uaid: UAID,
-    username,
-    num,
-    page,
-    timestamp: getTime()
-  }
-  return axios.post(url, qs.stringify(Object.assign({
-    sign: getSign(data)
-  }, data))).then(function(res) {
-    return Promise.resolve(res)
-  }).catch(res => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.response.status)
   })
 }
 
@@ -141,7 +92,7 @@ export function message() {
   }, data))).then(function(res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.response.status)
   })
 }
 
@@ -163,7 +114,7 @@ export function addorder(good_id, score, price, username) {
   }, data))).then(function(res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.response.status)
   })
 }
 
@@ -179,7 +130,7 @@ export function updateuserinfo(username) {
   }, data))).then(function(res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.response.status)
   })
 }
 
@@ -195,25 +146,7 @@ export function teams(username) {
   }, data))).then(function(res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.response.status)
   })
 }
 
-export function withdraw(username, score) {
-  const url = `${PREFIX_URL}/withdraw`
-  let data = {
-    uaid: UAID,
-    username,
-    score,
-    timestamp: getTime()
-  }
-  return axios.post(url, qs.stringify(Object.assign({
-      sign: getSign(data)
-    }, data)))
-    .then(function(res) {
-      return Promise.resolve(res)
-    })
-    .catch(res => {
-      return Promise.resolve(res.response.status)
-    })
-}
