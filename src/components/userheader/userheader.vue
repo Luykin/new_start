@@ -36,6 +36,8 @@
 .header-user{
 	height: 100%;
 	justify-content: flex-start;
+  background: url("https://cdn.xingkwh.com/%E6%88%91%E7%9A%84-%E5%A4%B4%E5%83%8F%E8%83%8C%E6%99%AF.png") no-repeat;
+  background-size: cover;
 }
 .avater{
 	flex-shrink: 0;
@@ -52,7 +54,7 @@
 	height: 25px;
 }
 .nw-item span{
-	color: #F3A523;
+	color: #DDBB6C;
 	text-indent: 6px;
 }
 </style>

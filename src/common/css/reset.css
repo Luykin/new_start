@@ -151,10 +151,19 @@ input:focus::-webkit-contacts-auto-fill-button {
 }
 .explain-warp{
   height: 40px;
-  text-indent: 20px;
-  background: url('http://pd70b9zd0.bkt.clouddn.com/%E5%88%86%E5%89%B2%E7%BA%BFimg@3x.png') no-repeat;
-  background-position: 20px 100%;
-  background-size: auto 2px;
+  text-indent: 24px;
+  position: relative;
+  /*border-left: 3px solid #333333;*/
+}
+.explain-warp:after{
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 4px;
+  height: 18px;
+  transform: translate(0, -58%);
+  background: #333333;
 }
 .hidek{
   opacity: 0;

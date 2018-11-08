@@ -166,7 +166,7 @@
 	left: 0;
 	right: 0;
 	z-index: 99998;
-	background: #10111E;
+	background: #f5f5f5;
 	overflow-y: scroll;
 }
 .record-header{
@@ -177,12 +177,12 @@
 	right: 0;
 	top: 0;
 	z-index: 99999;
-	background: #27283A;
+	background: #524E4B;
 }
 .rh-item{
 	height: 100%;
 	flex-grow: 1;
-	color: #727589;
+	color: #A8A6A4;
 }
 .rh-item span{
 	box-sizing: border-box;
@@ -191,8 +191,8 @@
 	white-space: nowrap;
 }
 .ative-record span{
-	color: #F3A523;
-	border-bottom: 2px solid #F3A523;
+	color: #DBB868;
+	border-bottom: 2px solid #DBB868;
 }
 .wrapper {
 	width: 100%;

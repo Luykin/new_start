@@ -44,7 +44,7 @@
 			}
 		},
 		created() {
-			
+
 		},
 		mounted() {
 			this._inint()
@@ -113,7 +113,7 @@
 	left: 0;
 	right: 0;
 	z-index: 99998;
-	background: #10111E;
+	background: #fff;
 }
 .transcat-header{
 	position: fixed;

@@ -4,44 +4,46 @@
      <div class="user-header mg10">
        <div class="user-header-inner-warp flex">
         <div class="flex js uhiw-top">
-          <userheader :fontcolor="'#353535'"></userheader>
+          <userheader></userheader>
         </div>
         <div class="flex js uhiw-bottom s">
-          <router-link tag='div' to='./withdraw' class="uhiw-btn flex">提現</router-link>
-          <router-link tag='div' to='./recharge' class="uhiw-btn flex">充值</router-link>
+          <router-link tag='div' :to='item.path' class="flex fw" v-for="item in user_route" :key='path'>
+            <img :src="item.icon" class="iconsss">
+            <span class="flex mg10">{{item.name}}</span>
+          </router-link>
         </div>
-      </div> 
+      </div>
     </div>
-    <div class="order-btn-list-warp flex mg10">
-      <router-link tag='div' to='./recharge-record?ativerecord=1' class="oblw-item flex">
-        <i class="iconfont icon-chongzhijilu maxmaxmax"></i>
-        <span class="flex oblw-title s mg10">充值记录</span>
-      </router-link>
-      <router-link tag='div' to='./recharge-record?ativerecord=2' class="oblw-item flex">
-        <i class="iconfont icon-tixianjilu maxmax"></i>
-        <span class="flex oblw-title s" style="margin-top: 15px;">提现记录</span>
-      </router-link>
-      <router-link tag='div' to='./transaction-record' class="oblw-item flex">
-        <i class="iconfont icon-jiaoyijilu maxmaxmaxs" style="transform: translate(0, -5px);"></i>
-        <span class="flex oblw-title s" style="margin-top: 5px;">交易记录</span>
-      </router-link>
-    </div>
-    <div class="flex mg10"></div>
-    <router-link tag='div' to='./strategy' class="user-list-item flex">
-      <i class="iconfont icon-xinshoubangzhu uli-icon xx"></i>
-      <span class="uli-title flex">新手攻略</span>
-      <img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">
-    </router-link>
-    <router-link tag='div' to='./introduce' class="user-list-item flex">
-      <i class="iconfont icon-jieshao uli-icon xx"></i>
-      <span class="uli-title flex">平台介绍</span>
-      <img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">
-    </router-link>
-    <router-link tag='div' to='./skill' class="user-list-item flex">
-      <i class="iconfont icon-yongjin uli-icon xx"></i>
-      <span class="uli-title flex">传播技巧</span>
-      <img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">
-    </router-link>
+    <!--<div class="order-btn-list-warp flex mg10">-->
+      <!--<router-link tag='div' to='./recharge-record?ativerecord=1' class="oblw-item flex">-->
+        <!--<i class="iconfont icon-chongzhijilu maxmaxmax"></i>-->
+        <!--<span class="flex oblw-title s mg10">充值记录</span>-->
+      <!--</router-link>-->
+      <!--<router-link tag='div' to='./recharge-record?ativerecord=2' class="oblw-item flex">-->
+        <!--<i class="iconfont icon-tixianjilu maxmax"></i>-->
+        <!--<span class="flex oblw-title s" style="margin-top: 15px;">提现记录</span>-->
+      <!--</router-link>-->
+      <!--<router-link tag='div' to='./transaction-record' class="oblw-item flex">-->
+        <!--<i class="iconfont icon-jiaoyijilu maxmaxmaxs" style="transform: translate(0, -5px);"></i>-->
+        <!--<span class="flex oblw-title s" style="margin-top: 5px;">交易记录</span>-->
+      <!--</router-link>-->
+    <!--</div>-->
+    <!--<div class="flex mg10"></div>-->
+    <!--<router-link tag='div' to='./strategy' class="user-list-item flex">-->
+      <!--<i class="iconfont icon-xinshoubangzhu uli-icon xx"></i>-->
+      <!--<span class="uli-title flex">新手攻略</span>-->
+      <!--<img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">-->
+    <!--</router-link>-->
+    <!--<router-link tag='div' to='./introduce' class="user-list-item flex">-->
+      <!--<i class="iconfont icon-jieshao uli-icon xx"></i>-->
+      <!--<span class="uli-title flex">平台介绍</span>-->
+      <!--<img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">-->
+    <!--</router-link>-->
+    <!--<router-link tag='div' to='./skill' class="user-list-item flex">-->
+      <!--<i class="iconfont icon-yongjin uli-icon xx"></i>-->
+      <!--<span class="uli-title flex">传播技巧</span>-->
+      <!--<img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">-->
+    <!--</router-link>-->
     <!-- <router-link tag='div' to='./inlet' class="user-list-item flex">
       <i class="iconfont icon-rukou uli-icon xx"></i>
       <span class="uli-title flex">平台入口</span>
@@ -58,6 +60,19 @@
   export default {
     data() {
       return {
+        user_route: [{
+          icon: 'https://cdn.xingkwh.com/%E8%B4%AD%E4%B9%B0%E8%AE%B0%E5%BD%95.png',
+          path: './recharge-record?ativerecord=1',
+          name: '购买记录'
+        },{
+          icon: 'https://cdn.xingkwh.com/%E6%8F%90%E7%8E%B0%E8%AE%B0%E5%BD%95.png',
+          path: './recharge-record?ativerecord=2',
+          name: '提现记录'
+        },{
+          icon: 'https://cdn.xingkwh.com/%E4%B8%8B%E5%8D%95%E8%AE%B0%E5%BD%95.png',
+          path: './transaction-record',
+          name: '下单记录'
+        }]
       }
     },
     created() {
@@ -87,12 +102,12 @@
 </script>
 <style type="text/css" scoped>
 .user-header{
-  background: url('https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83bg@3x.png') no-repeat;
-  background-size: 100% 100%;
   width: 92%;
   padding-top: 45%;
   border-radius: 8px;
   position: relative;
+  background: #524E4B;
+  overflow: hidden;
 }
 .user-header-inner-warp{
   position: absolute;
@@ -126,6 +141,7 @@
 }
 .uhiw-bottom{
   height: 45%;
+  color: #fff;
 }
 .uhiw-btn{
   width: 42%;

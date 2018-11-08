@@ -11,11 +11,11 @@ export default {
   data() {
     return {
       footer_config:[{
-        name: '首頁',
+        name: '首页',
         icon: 'icon-shouye',
         path: '/index'
       },{
-        name: '傭金',
+        name: '团队',
         icon: 'icon-qunzu',
         path: '/commision'
       },{

@@ -50,8 +50,8 @@
          			"timeStamp": reualt.timeStamp,         //时间戳，自1970年以来的秒数
          			"nonceStr":reualt.nonceStr, //随机串
          			"package": reualt.package,
-         			"signType":"MD5",         //微信签名方式：     
-         			"paySign": reualt.paySign //微信签名 
+         			"signType":"MD5",         //微信签名方式：
+         			"paySign": reualt.paySign //微信签名
          		},(res) => {
          			if(res.err_msg == "get_brand_wcpay_request:ok"){
          				this.$root.eventHub.$emit('titps', '充值成功~')
@@ -89,7 +89,7 @@
 <style scoped>
 .header{
 	height: 100px;
-	background: #27283A;
+	background: #524E4B;
 }
 .body{
 	position: fixed;
@@ -98,7 +98,7 @@
 	left: 0;
 	right: 0;
 	z-index: 99999;
-	background: #10111E;
+	background: #fff;
 	overflow-y: scroll;
 }
 .goods-warp{
