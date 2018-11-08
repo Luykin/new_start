@@ -5,7 +5,6 @@
     <router-view ref='body'></router-view>
   </keep-alive>
   <foot></foot>
-  <music></music>
   <preloading :preloadingshow='preloadingshow'></preloading>
   <loading v-show="loading"></loading>
   <centerTips ref='centerTips'>
@@ -17,7 +16,6 @@
 // import MHeader from 'components/header/header'
 import foot from 'components/footer/footer'
 import centerTips from 'base/centerTips/centerTips'
-import music from 'base/music/music'
 import loading from 'base/loading/loading'
 import preloading from 'components/preloading/preloading'
 
@@ -47,7 +45,6 @@ export default {
   },
   components: {
     foot,
-    music,
     loading,
     preloading,
     centerTips

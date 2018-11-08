@@ -1,6 +1,6 @@
 <template>
   <footer class="flex">
-    <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footerconfig" :key='path'>
+    <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path'>
       <i class="iconfont x" :class="item.icon" ></i>
       <span class="flex mg5 ssss">{{item.name}}</span>
     </router-link>
@@ -10,17 +10,17 @@
 export default {
   data() {
     return {
-      footerconfig:[{
+      footer_config:[{
         name: '首頁',
-        icon: 'icon-xingqing',
+        icon: 'icon-shouye',
         path: '/index'
       },{
         name: '傭金',
-        icon: 'icon-yongjin',
+        icon: 'icon-qunzu',
         path: '/commision'
       },{
         name: '我的',
-        icon: 'icon-gerenzhongxin',
+        icon: 'icon-wode',
         path: '/user'
       }]
     }
@@ -41,16 +41,18 @@ footer{
   right: 0;
   width: 100%;
   height: 55px;
-  border-top: 1px solid rgba(255,255,255,.2);
-  z-index: 999;
-  background: #27283A;
+  border-top: 1px solid rgba(0,0,0,.1);
+  z-index: 9999;
+  background: #fff;
+  color: #8E8E93;
+  box-shadow: 0 0 2px rgba(0,0,0,.1);
 }
 .footer-item{
   height: 100%;
   flex-grow: 1;
 }
 .router-link-active{
-  color: #ffcd32;
-  background: #10111E;
+  color: #FF4830;
+  background: #f8f8f8;
 }
 </style>
