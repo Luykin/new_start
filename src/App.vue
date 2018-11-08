@@ -70,5 +70,6 @@ export default {
   font-size: 15px;
   opacity: .9;
   border-radius: 10px;
+  white-space: nowrap;
 }
 </style>

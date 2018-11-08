@@ -59,8 +59,13 @@
 						this.$root.eventHub.$emit('update')
 					}
 				} else {
-					if (ret.data.code == 438) {
+					if (ret == 438) {
 						this.$root.eventHub.$emit('titps', '今日已超出提现次数上限')
+						this.$root.eventHub.$emit('loading', null)
+						return false
+					}
+					if (ret == 439) {
+						this.$root.eventHub.$emit('titps', '奖励金需要进行一次交易才能提现')
 						this.$root.eventHub.$emit('loading', null)
 						return false
 					}

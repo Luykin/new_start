@@ -214,6 +214,6 @@ export function withdraw(username, score) {
       return Promise.resolve(res)
     })
     .catch(res => {
-      return Promise.resolve(res)
+      return Promise.resolve(res.response.status)
     })
 }
