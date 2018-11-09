@@ -54,7 +54,8 @@
         <div class="from-item flex mg20">
           <div class="flex ell from-item-left">商品数量:</div>
           <div class="flex from-item-right">
-            <input type="text" name="作品链接" placeholder="请输入商品数量" class="index-input" v-model="num" @keyup="_rectifyMoney"/>
+            <span v-show="!now_good.min_num">1 (固定数量)</span>
+            <input type="text" name="作品链接" placeholder="请输入商品数量" class="index-input" v-model="num" @keyup="_rectifyMoney" v-show="now_good.min_num"/>
           </div>
         </div>
         <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围： {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}</div>
@@ -162,6 +163,7 @@
         }
       },
       async _getServices(id) {
+        this.num = ''
         if (this.good_catch[id]) {
           this.good_list = this.good_catch[id]
           this.active_id = this.good_catch[id][0].id
@@ -177,6 +179,7 @@
         }
       },
       async _combos_category(id = -1) {
+        this.num = 1
         if (this.good_catch[id]) {
           this.good_list = this.good_catch[id]
           this.active_id = this.good_catch[id][0].id
