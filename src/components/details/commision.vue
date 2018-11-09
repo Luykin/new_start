@@ -54,10 +54,10 @@
     </div>
     <div class="transcat-item flex" v-for="item in profit_details" v-if="profit_details.length">
       <div class="tran-line flex">{{item.level == 1 ? '一' : item.level == 2 ? '二' : '三'}}级</div>
-      <div class="tran-line flex">{{item.today_trans}}</div>
-      <div class="tran-line flex">{{item.total_trans}}</div>
-      <div class="tran-line flex">{{item.today_profit}}</div>
-      <div class="tran-line flex">{{item.total_profit}}</div>
+      <div class="tran-line flex">{{item.today_count}}</div>
+      <div class="tran-line flex">{{item.total_count}}</div>
+      <div class="tran-line flex">{{item.today_income}}</div>
+      <div class="tran-line flex">{{item.total_income}}</div>
     </div>
   </div>
 </template>
@@ -89,16 +89,16 @@
     methods: {
       async _teams() {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await teams(this.$root.user.username)
+        const ret = await teams(this.$root.user.user_id)
         this.$root.eventHub.$emit('loading', null)
-        if (ret.status == 200 && ret.data.code == 200) {
+        if (ret.status === 200 && ret.data.code === 200) {
           this.team_level = ret.data.data.team_level
           this.profit_details = ret.data.data.profit_details
         }
       },
       async _updateuserinfo() {
         const ret = await updateuserinfo(this.$root.user.username)
-        if (ret.status == 200 && ret.data.code == 200) {
+        if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
           this.$root.eventHub.$emit('update')
         }
@@ -204,9 +204,9 @@
   .transcat-item {
     height: 60px;
     width: 100%;
-    border-bottom: 1px solid #27283A;
+    border-bottom: 1px solid rgba(0,0,0,.1);
     font-size: 13px;
-    color: #fff;
+    color: #777;
     justify-content: flex-start;
   }
 

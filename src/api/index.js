@@ -8,6 +8,67 @@ import {
   getSign
 } from 'common/js/util'
 
+export function appinfo() {
+  const url = `${PREFIX_URL}/app_info`
+  let data = {
+    uaid: UAID
+  }
+  return axios.get(url, {
+    params: Object.assign({
+      sign: getSign(data)
+    }, data)
+  }).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+export function combos_category() {
+  const url = `${PREFIX_URL}/combos_category`
+  let data = {
+    uaid: UAID
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+export function getServices(id) {
+  const url = `${PREFIX_URL}/services`
+  let data = {
+    uaid: UAID,
+    service_category_id: id
+  }
+  return axios.get(url, {
+    params: Object.assign({
+      sign: getSign(data)
+    }, data)
+  }).then(function (res) {
+    return Promise.resolve(res)
+  })
+}
+
+export function getCombos(categoryid) {
+  const url = `${PREFIX_URL}/combos`
+  let data = {
+    category_id: categoryid,
+    uaid: UAID
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data)))
+    .then(function (res) {
+      return Promise.resolve(res)
+    }).catch(res => {
+      return Promise.resolve(res.response.status)
+    })
+}
+
 export function login(wx_login_code, super_code) {
   const url = `${PREFIX_URL}/wechat_login`
   let data = {
@@ -21,11 +82,34 @@ export function login(wx_login_code, super_code) {
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
-  }, data))).then(function(res) {
+  }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
+}
+
+// 统一购买服务，包含套餐
+export function addtask(family, user_id, point, service_id, price, addition) {
+  const url = `${PREFIX_URL}/wechat/add/task`
+  let data = {
+    family,
+    user_id,
+    point,
+    service_id,
+    price,
+    addition,
+    pay_type: 'wx',
+    uaid: UAID
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data)))
+    .then(function (res) {
+      return Promise.resolve(res)
+    }).catch(res => {
+      return Promise.resolve(res.response.status)
+    })
 }
 
 export function withdrawlist(user_id, num, page) {
@@ -38,7 +122,7 @@ export function withdrawlist(user_id, num, page) {
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
-  }, data))).then(function(res) {
+  }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
@@ -55,7 +139,7 @@ export function withdraw(user_id, score) {
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data)))
-    .then(function(res) {
+    .then(function (res) {
       return Promise.resolve(res)
     })
     .catch(res => {
@@ -74,7 +158,7 @@ export function orders(username, num, page) {
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
-  }, data))).then(function(res) {
+  }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
@@ -89,7 +173,7 @@ export function message() {
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
-  }, data))).then(function(res) {
+  }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
@@ -111,7 +195,7 @@ export function addorder(good_id, score, price, username) {
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
-  }, data))).then(function(res) {
+  }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
@@ -127,23 +211,22 @@ export function updateuserinfo(username) {
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
-  }, data))).then(function(res) {
+  }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
 }
 
-export function teams(username) {
-  const url = `${PREFIX_URL}/teams`
+export function teams(user_id) {
+  const url = `${PREFIX_URL}/wechat/team/detail`
   let data = {
     uaid: UAID,
-    username,
-    timestamp: getTime()
+    user_id
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
-  }, data))).then(function(res) {
+  }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)

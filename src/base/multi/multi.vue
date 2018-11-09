@@ -1,6 +1,6 @@
 <template>
   <div class="multi-body">
-    <div class="click-warp" v-show="show" @click="show = false"></div>
+    <div class="click-warp" v-if="show" @click="show = false"></div>
     <div class="multi-warp" :class="{'hidden': !show}">
       <div v-for="item in multi_list" class="flex multi-item ell" @click="$emit('chose', item)"
            :class="{'active-item': active_id === item.id}">
@@ -30,11 +30,12 @@
 </script>
 
 <style scoped>
+
   .multi-warp {
     height: auto;
     min-height: 30px;
     background: #fff;
-    transform: translate(0, 100%) scale(1, 1);
+    transform: scale(1, 1);
     transform-origin: left top;
     transition: all .3s;
     box-shadow: 0 0 6px rgba(0, 0, 0, .1);
@@ -54,8 +55,9 @@
   }
 
   .hidden {
-    transform: translate(0, 100%) scale(1, 0);
+    transform: scale(1, 0);
   }
+
 
   .click-warp {
     position: fixed;
@@ -66,11 +68,14 @@
     z-index: -1;
     opacity: 0;
   }
-  .multi-body{
+
+  .multi-body {
     position: absolute;
     bottom: 2px;
     width: 101%;
-    height: auto;
-    z-index: 9999;
+    height: 0;
+    z-index: 999;
+    transition: all .3s;
+    transform-origin: left bottom;
   }
 </style>

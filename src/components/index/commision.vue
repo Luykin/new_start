@@ -133,6 +133,7 @@
 </script>
 <style type="text/css" scoped>
   .header-warp{
+    padding-top: 10px;
     background: rgb(79, 74, 73);
     overflow: hidden;
   }

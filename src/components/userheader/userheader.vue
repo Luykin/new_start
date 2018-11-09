@@ -2,7 +2,9 @@
 	<div class="flex header-user">
 		<img :src="$root.user.avatar" class="iconx avater">
 		<div class="flex namewarp fw llll">
-			<span class="flex js nw-item ell" :style="'font-weight: 900; color:'+ fontcolor">{{$root.user.nickname || ''}}</span>
+			<p class="flex js nw-item ell x" :style="'font-weight: 900; color:'+ fontcolor">{{$root.user.nickname || ''}}
+        <span class="ssss" style="color: rgba(255,255,255,.4)">{{$root.user.is_agent ? '(代理)' : '(非代理)'}}</span>
+      </p>
 			<p class="flex js nw-item ell" :style="'color:' + fontcolor">余額： <span>{{$root.user.score || 0}}币</span></p>
       <router-link tag='div' to='./withdraw' class="flex user-btn">
         提现

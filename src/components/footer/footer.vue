@@ -42,7 +42,7 @@ footer{
   width: 100%;
   height: 55px;
   border-top: 1px solid rgba(0,0,0,.1);
-  z-index: 9999;
+  z-index: 999;
   background: #fff;
   color: #8E8E93;
   box-shadow: 0 0 2px rgba(0,0,0,.1);

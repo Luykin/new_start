@@ -41,7 +41,7 @@ export default {
   top: 0;
   bottom: 0;
   background: #000;
-  opacity: .6;
+  opacity: .65;
   display: none;
 }
 
