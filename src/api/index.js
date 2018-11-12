@@ -147,14 +147,35 @@ export function withdraw(user_id, score) {
     })
 }
 
-export function orders(username, num, page) {
-  const url = `${PREFIX_URL}/orders`
+export function wechat_agent_good(user_id) {
+  const url = `${PREFIX_URL}/wechat_agent_good`
   let data = {
     uaid: UAID,
-    username,
+    user_id,
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data)))
+    .then(function (res) {
+      return Promise.resolve(res)
+    })
+    .catch(res => {
+      return Promise.resolve(res.response.status)
+    })
+}
+
+export function orders(user_id, num, page, status) {
+  const url = `${PREFIX_URL}/wechat/buy/record`
+  let data = {
+    uaid: UAID,
+    user_id,
     num,
-    page,
-    timestamp: getTime()
+    page
+  }
+  if (status) {
+    Object.assign(data, {
+      status
+    })
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)

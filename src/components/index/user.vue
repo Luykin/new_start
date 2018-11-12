@@ -70,7 +70,7 @@
           name: '提现记录'
         },{
           icon: 'https://cdn.xingkwh.com/%E4%B8%8B%E5%8D%95%E8%AE%B0%E5%BD%95.png',
-          path: './transaction-record',
+          path: './order-record',
           name: '下单记录'
         }]
       }

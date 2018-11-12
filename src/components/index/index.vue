@@ -48,20 +48,27 @@
           <div class="flex ell from-item-left">作品链接:</div>
           <div class="flex from-item-right">
             <input type="text" name="作品链接" placeholder="请输入作品链接" class="index-input" v-model="link"/>
-            <router-link tag='div' to='./index/dy' class="flex course-btn ell">查看教程</router-link>
+            <router-link tag='div'
+                         :to="'./index/course?url=' + now_good.tutorials_mobile"
+                         class="flex course-btn ell">查看教程
+            </router-link>
           </div>
         </div>
         <div class="from-item flex mg20">
           <div class="flex ell from-item-left">商品数量:</div>
-          <div class="flex from-item-right">
+          <div class="flex from-item-right ell">
             <span v-show="!now_good.min_num">1 (固定数量)</span>
-            <input type="text" name="作品链接" placeholder="请输入商品数量" class="index-input" v-model="num" @keyup="_rectifyMoney" v-show="now_good.min_num"/>
+            <input type="text" name="作品链接" placeholder="请输入商品数量" class="index-input" v-model="num"
+                   @keyup="_rectifyMoney" v-show="now_good.min_num"/>
           </div>
         </div>
-        <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围： {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}</div>
+        <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围：
+          {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}
+        </div>
         <div class="from-item flex mg20">
           <div class="flex ell from-item-left">所需金额:</div>
-          <div class="flex from-item-right">{{num ? num : 0}}*{{(now_good.price || now_good.score)}}= {{agencyPrice}}</div>
+          <div class="flex from-item-right ell">{{num ? num : 0}}*{{(now_good.price || now_good.score)}}= {{agencyPrice}}
+          </div>
         </div>
       </div>
       <div class="index-btn flex ll mg10" @click="_addTask">提交订单</div>
@@ -73,7 +80,7 @@
           <span class="flex sss">2、拥有招收代理权限，收取的代理金获得50%分成。</span>
           <span class="flex sss">3、成为代理，拥有专属代理群。</span>
           <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90.png"/>
-          <span class="flex sss">1、支付38元代理费用即可解锁。</span>
+          <span class="flex sss">1、支付{{proxy_price}}元代理费用即可解锁。</span>
           <div class="proxy-btn-buy lll flex mg10">立即成为代理</div>
         </div>
       </popup>
@@ -83,7 +90,7 @@
   </transition>
 </template>
 <script type="text/javascript">
-  import {login, appinfo, combos_category, getServices, getCombos, addtask} from 'api/index'
+  import {login, appinfo, combos_category, getServices, getCombos, addtask, wechat_agent_good} from 'api/index'
   import multi from 'base/multi/multi'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
@@ -100,6 +107,7 @@
         good_list: [],
         link: '',
         num: '',
+        proxy_price: 128,
         good_catch: {}
       }
     },
@@ -139,6 +147,10 @@
         if (!this.$root.user.id) {
           return false
         }
+        if (!this.$root.user.is_agent) {
+          this._showproxy()
+          return false
+        }
         if (!this.link || this.link.indexOf('http') < 0) {
           this.$root.eventHub.$emit('titps', '请正确填写链接')
           return false
@@ -150,16 +162,28 @@
         this.$root.eventHub.$emit('loading', true)
         const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link)
         this.$root.eventHub.$emit('loading', null)
-        console.log(ret)
       },
       async _getCombos(com_id, id) {
         this.$root.eventHub.$emit('loading', true)
         const ret = await getCombos(com_id)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.err_code === 200) {
-          this.good_catch[id] = ret.data.data
-          this.good_list = ret.data.data
+          this.good_catch[id] = this._formatCombos(ret.data.data)
+          this.good_list = this.good_catch[id]
           this.active_id = ret.data.data[0].id
+        }
+      },
+      _formatCombos(list) {
+        try {
+          list.forEach((res) => {
+            if (res.services.length) {
+              res.tutorials_mobile = res.services[0].tutorials_mobile
+            }
+          })
+          return list
+        } catch (e) {
+          console.log(e)
+          return list
         }
       },
       async _getServices(id) {
@@ -176,6 +200,15 @@
           this.good_list = ret.data.data
           this.good_catch[id] = ret.data.data
           this.active_id = ret.data.data[0].id
+        }
+      },
+      async _wechat_agent_good(id, callback) {
+        const ret = await wechat_agent_good(id)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.proxy_price = ret.data.data.score
+          if (callback) {
+            callback()
+          }
         }
       },
       async _combos_category(id = -1) {
@@ -207,10 +240,13 @@
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
           if (!ret.data.data.is_agent) {
-            this.$refs.proxy._showPopup()
-            this.$refs.interlace._showLayer()
+            this._wechat_agent_good(this.$root.user.user_id, this._showproxy)
           }
         }
+      },
+      _showproxy() {
+        this.$refs.proxy._showPopup()
+        this.$refs.interlace._showLayer()
       },
       _multiChose(e) {
         this.active_id = e.id
@@ -219,7 +255,7 @@
         if (isNaN(this.num) || this.num.indexOf('.') > -1 || this.num <= 0) {
           this.num = ''
         }
-      }
+      },
     },
     components: {
       multi,
@@ -454,7 +490,8 @@
     padding-bottom: 10px;
     transition: all .3s;
   }
-  .note{
+
+  .note {
     width: 90%;
     margin-bottom: -15px;
     height: 30px;

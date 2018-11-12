@@ -60,8 +60,8 @@
   position: absolute;
   right: 5%;
   bottom: 0%;
-  width: 60px;
-  height: 26px;
+  width: 66px;
+  height: 28px;
   border-radius: 4px;
   border: 1px solid #fff;
   color: #fff;

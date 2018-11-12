@@ -16,7 +16,7 @@ const routerconst = new Router({
 		component: () =>
 			import (`components/index/index`),
     children:[{
-		  path: ':id',
+		  path: 'course',
       component: () =>
         import (`components/details/course`),
     }]
@@ -70,7 +70,12 @@ const routerconst = new Router({
 		name: 'inlet',
 		component: () =>
 			import (`components/userlist/inlet`)
-	}]
+	}, {
+    path: '/order-record',
+    name: 'order-record',
+    component: () =>
+      import (`components/record/order-record`)
+  }]
 })
 routerconst.beforeEach((to, from, next) => {
 	loading(true)

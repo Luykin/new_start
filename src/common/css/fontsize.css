@@ -1,104 +1,140 @@
-.ssss{
+.ssss {
   font-size: 10px !important;
 }
-.sss{
+
+.sss {
   font-size: 11px !important;
 }
-.ss{
+
+.ss {
   font-size: 12px !important;
 }
-.s{
+
+.s {
   font-size: 13px !important;
 }
-.llll{
-	font-size: 14px !important;
-}
-.lll{
-	font-size: 15px !important;
-}
-.ll{
-	font-size: 16px !important;
-}
-.l{
-	font-size: 17px !important;
-}
-.xxxx{
-	font-size: 18px !important;
-}
-.xxx{
-	font-size: 19px !important;
-}
-.xx{
-	font-size: 20px !important;
-}
-.x{
-	font-size: 22px !important;
-}
-.maxi{
-	font-size: 24px !important;
-}
-.maxii{
-	font-size: 26px !important;
-}
-.maxiii{
-	font-size: 28px !important;
-}
-.maxiiii{
-	font-size: 30px !important;
-}
-.maxmax{
-	font-size: 40px !important;
-}
-.maxmaxmax{
-	font-size: 46px !important;
-}
-.maxmaxmaxs{
-	font-size: 52px !important;
+
+.llll {
+  font-size: 14px !important;
 }
 
-.icons{
-	width: 20px;
-	height: 20px;
+.lll {
+  font-size: 15px !important;
 }
-.iconss{
-	width: 24px;
-	height: 24px;
+
+.ll {
+  font-size: 16px !important;
 }
-.iconsss{
-	width: 28px;
-	height: 28px;
+
+.l {
+  font-size: 17px !important;
 }
-.iconssss{
-	width: 38px;
-	height: 38px;
+
+.xxxx {
+  font-size: 18px !important;
 }
-.iconlll{
-	width: 45px;
-	height: 45px;
+
+.xxx {
+  font-size: 19px !important;
 }
-.iconllll{
-	width: 50px;
-	height: 50px;
+
+.xx {
+  font-size: 20px !important;
 }
-.iconx{
-	width: 55px;
-	height: 55px;
+
+.x {
+  font-size: 22px !important;
 }
-.mg5{
-	margin: 5px auto 0;
+
+.maxi {
+  font-size: 24px !important;
 }
-.mg10{
-	margin: 10px auto 0;
+
+.maxii {
+  font-size: 26px !important;
 }
-.mg20{
-	margin: 20px auto 0;
+
+.maxiii {
+  font-size: 28px !important;
 }
-.mg30{
-	margin: 30px auto 0;
+
+.maxiiii {
+  font-size: 30px !important;
 }
-.font-img{
+
+.maxmax {
+  font-size: 40px !important;
+}
+
+.maxmaxmax {
+  font-size: 46px !important;
+}
+
+.maxmaxmaxs {
+  font-size: 52px !important;
+}
+
+.icons {
+  width: 20px;
+  height: 20px;
+}
+
+.iconss {
+  width: 24px;
+  height: 24px;
+}
+
+.iconsss {
+  width: 28px;
+  height: 28px;
+}
+
+.iconssss {
+  width: 38px;
+  height: 38px;
+}
+
+.iconlll {
+  width: 45px;
+  height: 45px;
+}
+
+.iconllll {
+  width: 50px;
+  height: 50px;
+}
+
+.iconx {
+  width: 55px;
+  height: 55px;
+}
+
+.mg5 {
+  margin: 5px auto 0;
+}
+
+.mg10 {
+  margin: 10px auto 0;
+}
+
+.mg20 {
+  margin: 20px auto 0;
+}
+
+.mg30 {
+  margin: 30px auto 0;
+}
+
+.font-img {
   display: block;
   width: 90%;
   height: auto;
   margin: 20px auto;
+}
+
+.line-font {
+  width: 92%;
+  margin: 0 auto;
+  justify-content: flex-start;
+  line-height: 25px;
 }

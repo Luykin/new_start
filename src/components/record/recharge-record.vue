@@ -3,37 +3,36 @@
 		<div class="body">
 			<back></back>
 			<div class="record-header flex">
-				<div class="flex rh-item" :class="{'ative-record':  ativerecord == 1}" @click="_choseitem(1)">
-					<span class="flex">充值记录</span>
+				<div class="flex rh-item" :class="{'ative-record':  ativerecord === 1}" @click="_choseitem(1)">
+					<span class="flex">购买记录</span>
 				</div>
-				<div class="flex rh-item" :class="{'ative-record':  ativerecord == 2}" @click="_choseitem(2)">
+				<div class="flex rh-item" :class="{'ative-record':  ativerecord === 2}" @click="_choseitem(2)">
 					<span class="flex">提现记录</span>
 				</div>
 			</div>
 			<div style="margin-top: 60px"></div>
 			<betterscroll class="wrapper" :data="list" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper'>
 				<div class="scroll">
-					<div v-for="item in list" class="better-item flex" v-if="ativerecord == 1">
-						<img src="https://cdn.xingkwh.com/%E6%AD%A3%E7%A1%AE%20%282%29%20%281%29.png" class="iconssss bi-img" v-show="item.status != 1">
-						<img src="https://cdn.xingkwh.com/%E6%AD%A3%E7%A1%AE%20%282%29.png" class="iconssss bi-img" v-show="item.status == 1">
+					<div v-for="item in list" class="better-item flex" v-if="ativerecord === 1">
 						<div class="flex fw bi-center">
-							<span class="flex js ll">+{{item.price}}</span>
-							<span class="flex js ssss bi-name">充值</span>
+							<!--<span class="flex js ll">+{{item.price}}</span>-->
+							<!--<span class="flex js ssss bi-name">充值</span>-->
+              {{item.lable}}
 						</div>
 						<div class="flex fw">
-							<span class="flex ssss bi-name flex-end">{{item.status == 1 ? '失败' : '成功'}}</span>
-							<span class="flex ssss bi-name flex-end">{{item.updateA}}</span>
+							<span class="flex lll bi-name flex-end" style="color: #333">{{item.price}}</span>
+							<span class="flex s bi-name flex-end">{{item.updateA}}</span>
 						</div>
 					</div>
-					<div v-for="item in list" class="better-item flex" v-if="ativerecord == 2">
-						<img src="https://cdn.xingkwh.com/%E6%AD%A3%E7%A1%AE%20%283%29.png" class="iconssss bi-img" v-show="item.status != 0">
-						<img src="https://cdn.xingkwh.com/%E6%AD%A3%E7%A1%AE%20%282%29.png" class="iconssss bi-img" v-show="item.status == 0">
+					<div v-for="item in list" class="better-item flex" v-if="ativerecord === 2">
+						<img src="https://cdn.xingkwh.com/%E6%AD%A3%E7%A1%AE%20%283%29.png" class="iconssss bi-img" v-show="item.status !==0">
+						<img src="https://cdn.xingkwh.com/%E6%AD%A3%E7%A1%AE%20%282%29.png" class="iconssss bi-img" v-show="item.status === 0">
 						<div class="flex fw bi-center">
 							<span class="flex js ll">+{{item.score}}</span>
 							<span class="flex js ssss bi-name">提现</span>
 						</div>
 						<div class="flex fw">
-							<span class="flex ssss bi-name flex-end">{{item.status == 0 ? '审核中' : '成功'}}</span>
+							<span class="flex ssss bi-name flex-end">{{item.status === 0 ? '审核中' : '成功'}}</span>
 							<span class="flex ssss bi-name flex-end">{{item.updateA}}</span>
 						</div>
 					</div>
@@ -63,7 +62,7 @@
 		created() {
 			try{
 				if (this.$route.query.ativerecord) {
-					this.ativerecord = this.$route.query.ativerecord
+					this.ativerecord = parseInt(this.$route.query.ativerecord)
 				}
 			}catch(err){
 				console.log(err)
@@ -77,7 +76,7 @@
 			})
 			let time = setTimeout(() => {
 				this.$root.eventHub.$on('ativerecord', (ativerecord) => {
-					this.ativerecord = ativerecord
+					this.ativerecord = parseInt(ativerecord)
 					this._pulldown()
 				})
 				clearTimeout(time)
@@ -94,16 +93,16 @@
 				this.$refs.wrapper._initScroll()
 			},
 			_choseitem(num){
-				this.ativerecord = num
+				this.ativerecord = parseInt(num)
 				this._pulldown()
 			},
 			async _orders() {
 				this.$root.eventHub.$emit('loading', true)
-				const ret = await orders(this.$root.user.username, this.num, this.page)
+				const ret = await orders(this.$root.user.user_id, this.num, this.page)
 				this.$root.eventHub.$emit('loading', null)
-				if(ret.status == 200 && ret.data.code == 200) {
+				if(ret.status === 200 && ret.data.code === 200) {
 					if (ret.data.data.count) {
-						this.list = [...this.list, ...this._formatdata(ret.data.data.ret)]
+						this.list = [...this.list, ...this._formatdata(ret.data.data.tasks)]
 						this.totle = ret.data.data.count
 					}
 				}
@@ -111,7 +110,7 @@
 			_formatdata(list) {
 				if(list.length) {
 					list.forEach((item) => {
-						item.updateA = timeformat(item.update || new Date().valueOf())
+						item.updateA = timeformat(item.create || new Date().valueOf())
 					})
 					return list
 				} else {
@@ -120,9 +119,9 @@
 			},
 			async _withdrawlist() {
 				this.$root.eventHub.$emit('loading', true)
-				const ret = await withdrawlist(this.$root.user.username, this.num, this.page)
+				const ret = await withdrawlist(this.$root.user.user_id, this.num, this.page)
 				this.$root.eventHub.$emit('loading', null)
-				if(ret.status == 200 && ret.data.code == 200) {
+				if(ret.status === 200 && ret.data.code === 200) {
 					if (ret.data.data.count) {
 						this.list = [...this.list, ...this._formatdata(ret.data.data.ret)]
 						this.totle = ret.data.data.count
@@ -134,7 +133,7 @@
 				this.num = 10
 				this.page = 0
 				this.list = []
-				if (this.ativerecord == 1) {
+				if (this.ativerecord === 1) {
 					this._orders()
 				} else {
 					this._withdrawlist()
@@ -144,7 +143,7 @@
 				if (this.list.length < this.totle) {
 					// console.log('触底加载')
 					this.page += 1
-					if (this.ativerecord == 1) {
+					if (this.ativerecord === 1) {
 						this._orders()
 					} else {
 						this._withdrawlist()
@@ -190,7 +189,7 @@
 	height: 100%;
 	white-space: nowrap;
 }
-.ative-record span{
+.ative-record{
 	color: #DBB868;
 	border-bottom: 2px solid #DBB868;
 }
@@ -207,13 +206,17 @@
 .better-item{
 	width: 100%;
 	height: 70px;
-	border-bottom: 1px solid #27283A;
+  background: #fff;
+	border-bottom: 1px solid #F2F2F2;
 }
 .bi-img{
 	margin: 0 4%;
 }
 .bi-center{
+  color: #333;
 	flex-grow: 1;
+  justify-content: flex-start;
+  text-indent: 20px;
 }
 .bi-name{
 	color: #727589;
