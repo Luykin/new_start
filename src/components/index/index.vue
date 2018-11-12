@@ -91,7 +91,7 @@
   </transition>
 </template>
 <script type="text/javascript">
-  import {login, appinfo, combos_category, getServices, getCombos, addtask, wechat_agent_good, wechat_agent_order} from 'api/index'
+  import {login, appinfo, combos_category, getServices, getCombos, addtask, wechat_agent_good, wechat_agent_order, updateuserinfo} from 'api/index'
   import multi from 'base/multi/multi'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'

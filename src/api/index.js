@@ -223,11 +223,11 @@ export function addorder(good_id, score, price, username) {
   })
 }
 
-export function updateuserinfo(username) {
+export function updateuserinfo(user_id) {
   const url = `${PREFIX_URL}/update_user_info`
   let data = {
     uaid: UAID,
-    username
+    user_id
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
