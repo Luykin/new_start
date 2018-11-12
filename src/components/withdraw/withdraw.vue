@@ -61,7 +61,7 @@
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', '提现申请已提交')
           this.money = ''
-          const ret = await updateuserinfo(this.$root.user.username)
+          const ret = await updateuserinfo(this.$root.user.user_id)
           if (ret.status === 200 && ret.data.code === 200) {
             this.$root.user = ret.data.data
             this.$root.eventHub.$emit('update')

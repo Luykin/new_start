@@ -227,8 +227,7 @@ export function updateuserinfo(username) {
   const url = `${PREFIX_URL}/update_user_info`
   let data = {
     uaid: UAID,
-    username,
-    timestamp: getTime()
+    username
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
@@ -244,6 +243,23 @@ export function teams(user_id) {
   let data = {
     uaid: UAID,
     user_id
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+export function wechat_agent_order(user_id, score, good_id) {
+  const url = `${PREFIX_URL}/wechat_agent_order`
+  let data = {
+    uaid: UAID,
+    user_id,
+    score,
+    good_id
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)

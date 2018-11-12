@@ -67,7 +67,8 @@
         </div>
         <div class="from-item flex mg20">
           <div class="flex ell from-item-left">所需金额:</div>
-          <div class="flex from-item-right ell">{{num ? num : 0}}*{{(now_good.price || now_good.score)}}= {{agencyPrice}}
+          <div class="flex from-item-right ell">{{num ? num : 0}}*{{(now_good.price || now_good.score)}}=
+            {{agencyPrice}}
           </div>
         </div>
       </div>
@@ -81,7 +82,7 @@
           <span class="flex sss">3、成为代理，拥有专属代理群。</span>
           <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90.png"/>
           <span class="flex sss">1、支付{{proxy_price}}元代理费用即可解锁。</span>
-          <div class="proxy-btn-buy lll flex mg10">立即成为代理</div>
+          <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即成为代理</div>
         </div>
       </popup>
       <interlayer ref="interlace" @close="$refs.proxy._hiddenPopup(); $refs.interlace._hiddenLayer()"></interlayer>
@@ -90,7 +91,7 @@
   </transition>
 </template>
 <script type="text/javascript">
-  import {login, appinfo, combos_category, getServices, getCombos, addtask, wechat_agent_good} from 'api/index'
+  import {login, appinfo, combos_category, getServices, getCombos, addtask, wechat_agent_good, wechat_agent_order} from 'api/index'
   import multi from 'base/multi/multi'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
@@ -108,7 +109,8 @@
         link: '',
         num: '',
         proxy_price: 128,
-        good_catch: {}
+        good_catch: {},
+        proxy_good_id: null
       }
     },
     created() {
@@ -139,9 +141,55 @@
       }
     },
     methods: {
+      async _wxbuy() {
+        if (!this.proxy_good_id && this.proxy_good_id !== 0) {
+          return false
+        }
+        if (!window.WeixinJSBridge) {
+          console.log('未在微信内')
+        } else {
+          this.$root.eventHub.$emit('loading', true)
+          const ret = await wechat_agent_order(this.$root.user.user_id, this.proxy_price, this.proxy_good_id)
+          this.$root.eventHub.$emit('loading', null)
+          if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
+            const reualt = ret.data.data.pay_ret
+            WeixinJSBridge.invoke(
+              'getBrandWCPayRequest', {
+                'appId': reualt.appId,     //公众号名称，由商户传入
+                'timeStamp': reualt.timeStamp,         //时间戳，自1970年以来的秒数
+                'nonceStr': reualt.nonceStr, //随机串
+                'package': reualt.package,
+                'signType': 'MD5',         //微信签名方式：
+                'paySign': reualt.paySign //微信签名
+              }, (res) => {
+                if (res.err_msg === 'get_brand_wcpay_request:ok') {
+                  this.$root.eventHub.$emit('titps', '开通代理成功~')
+                  setTimeout(async () => {
+                    const ret = await updateuserinfo(this.$root.user.user_id)
+                    if (ret.status === 200 && ret.data.code === 200) {
+                      this.$root.user = ret.data.data
+                      this.$root.eventHub.$emit('update')
+                      this.$router.replace({
+                        path: '/user'
+                      })
+                    }
+                  }, 300)
+                }
+              })
+          }
+        }
+      },
       _init() {
+        const url = window.location.href
+        const start = url.indexOf('code=') + 5
+        const end = url.indexOf('&state')
+        if (start > 4 && end > -1) {
+          this._login(url.slice(start, end))
+          history.replaceState(null, null, window.location.origin)
+        } else {
+          this._wechat_agent_good(85, this._showproxy)
+        }
         this._appinfo()
-        this._login()
       },
       async _addTask() {
         if (!this.$root.user.id) {
@@ -206,6 +254,7 @@
         const ret = await wechat_agent_good(id)
         if (ret.status === 200 && ret.data.code === 200) {
           this.proxy_price = ret.data.data.score
+          this.proxy_good_id = ret.data.data.good_id
           if (callback) {
             callback()
           }
@@ -233,9 +282,9 @@
           this._getServices(this.title[0].id)
         }
       },
-      async _login() {
+      async _login(code) {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await login('dGJDKA4561')
+        const ret = await login(code)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
