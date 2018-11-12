@@ -45,7 +45,7 @@ export default {
   height: auto;
   transform: translate3d(0, -50%, 0);
   flex-wrap: wrap;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+  /*box-shadow: 0 0 5px rgba(0, 0, 0, .1);*/
   z-index: 99999;
   opacity: 1;
 }

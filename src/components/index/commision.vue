@@ -170,11 +170,12 @@
   }
 
   .uhiwb-item {
-    height: 30%;
+    height: 32%;
     color: #fff;
   }
 
   .uhiwb-item:nth-child(1) {
+    padding-right: 5px;
     border-right: 1px solid #fff;
   }
 
@@ -239,12 +240,6 @@
   .myqr img {
     width: 100%;
     height: 100%;
-  }
-
-  .cancelimg {
-    display: block;
-    transform: translate(0px, 100%);
-    margin: 0 auto;
   }
 
   .titps {
