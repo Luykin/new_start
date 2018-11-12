@@ -164,9 +164,11 @@
               }, (res) => {
                 if (res.err_msg === 'get_brand_wcpay_request:ok') {
                   this.$root.eventHub.$emit('titps', '开通代理成功~')
+                  this.$refs.proxy._hiddenPopup();
+                  this.$refs.interlace._hiddenLayer();
                   setTimeout(async () => {
                     const ret = await updateuserinfo(this.$root.user.user_id)
-                    if (ret.status === 200 && ret.data.code === 200) {
+                    if (ret.status === 200 && ret.data.code == 200) {
                       this.$root.user = ret.data.data
                       this.$root.eventHub.$emit('update')
                       this.$router.replace({
@@ -179,15 +181,25 @@
           }
         }
       },
+      async _updateuserinfo(username) {
+        const ret = await updateuserinfo(username)
+        if (ret.status === 200 && ret.data.code == 200) {
+          this.$root.user = ret.data.data
+        }
+      },
       _init() {
         const url = window.location.href
         const start = url.indexOf('code=') + 5
         const end = url.indexOf('&state')
         if (start > 4 && end > -1) {
           this._login(url.slice(start, end))
-          history.replaceState(null, null, window.location.origin)
+          history.replaceState(null, null, window.location.origin + '/#/index');
         } else {
-          this._wechat_agent_good(85, this._showproxy)
+          const user = localStorage.getItem('user_id')
+          if (user) {
+            this._updateuserinfo(user)
+          } else {
+          }
         }
         this._appinfo()
       },
@@ -288,6 +300,7 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
+          localStorage.setItem('user_id', ret.data.data.user_id)
           if (!ret.data.data.is_agent) {
             this._wechat_agent_good(this.$root.user.user_id, this._showproxy)
           }
@@ -345,6 +358,7 @@
     height: 4px;
     width: 100%;
     background: linear-gradient(right, #FF1212, #FFCF41);
+    background: -webkit-gradient(linear, right top, left top, from(#FF1212), to(#FFCF41));
     opacity: .8;
     border-radius: 10px;
     transform: translate(-50%, 0);
@@ -385,6 +399,7 @@
     border-radius: 8px;
     color: #fff;
     background: linear-gradient(right, #FF561E, #FF2966);
+    background: -webkit-gradient(linear, right top, left top, from(#FF561E), to(#FF2966));
   }
 
   .from-item {
