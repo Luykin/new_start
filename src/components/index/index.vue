@@ -241,6 +241,7 @@
         if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
           this._afterpay(ret.data.data.pay_ret, () => {
             this.$root.eventHub.$emit('titps', '下单成功~')
+            this.$root.eventHub.$emit('update')
             this.$router.replace({
               path: '/order-record'
             })
