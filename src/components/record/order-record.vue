@@ -18,9 +18,9 @@
               <span class="flex js ll">{{item.lable}}</span>
               <span class="flex js ssss bi-name">{{item.addition}}</span>
             </div>
-            <div class="flex fw">
-              <span class="flex lll bi-name flex-end" style="color: #333">{{item.price}}</span>
+            <div class="flex fw" style="justify-content: flex-end;">
               <span class="flex s bi-name flex-end">{{item.updateA}}</span>
+              <span class="flex s bi-name flex-end" style="color: #fff; background: #BBB; padding: 6px 10px 5px; border-radius: 100px; flex-grow: 0; width: auto;">{{item.status === 2 ? '已完成' : '进行中'}}</span>
             </div>
           </div>
           <div v-show="!list.length" class="flex sss mg30" style="color: #727589;">
@@ -72,6 +72,9 @@
         this.$refs.wrapper._initScroll()
       },
       _choseitem(num){
+        if (this.ativerecord === parseInt(num)) {
+          return false
+        }
         this.ativerecord = parseInt(num)
         this._pulldown()
       },
@@ -101,9 +104,9 @@
         this.page = 0
         this.list = []
         if (this.ativerecord === 1) {
-          this._orders(2)
-        } else {
           this._orders(1)
+        } else {
+          this._orders(2)
         }
       },
       _scrollToEnd(){
@@ -111,9 +114,9 @@
           // console.log('触底加载')
           this.page += 1
           if (this.ativerecord === 1) {
-            this._orders(2)
-          } else {
             this._orders(1)
+          } else {
+            this._orders(2)
           }
         }
       }

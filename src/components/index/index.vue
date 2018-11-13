@@ -91,7 +91,17 @@
   </transition>
 </template>
 <script type="text/javascript">
-  import {login, appinfo, combos_category, getServices, getCombos, addtask, wechat_agent_good, wechat_agent_order, updateuserinfo} from 'api/index'
+  import {
+    login,
+    appinfo,
+    combos_category,
+    getServices,
+    getCombos,
+    addtask,
+    wechat_agent_good,
+    wechat_agent_order,
+    updateuserinfo
+  } from 'api/index'
   import multi from 'base/multi/multi'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
@@ -152,38 +162,44 @@
           const ret = await wechat_agent_order(this.$root.user.user_id, this.proxy_price, this.proxy_good_id)
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
-            const reualt = ret.data.data.pay_ret
-            WeixinJSBridge.invoke(
-              'getBrandWCPayRequest', {
-                'appId': reualt.appId,     //公众号名称，由商户传入
-                'timeStamp': reualt.timeStamp,         //时间戳，自1970年以来的秒数
-                'nonceStr': reualt.nonceStr, //随机串
-                'package': reualt.package,
-                'signType': 'MD5',         //微信签名方式：
-                'paySign': reualt.paySign //微信签名
-              }, (res) => {
-                if (res.err_msg === 'get_brand_wcpay_request:ok') {
-                  this.$root.eventHub.$emit('titps', '开通代理成功~')
-                  this.$refs.proxy._hiddenPopup();
-                  this.$refs.interlace._hiddenLayer();
-                  setTimeout(async () => {
-                    const ret = await updateuserinfo(this.$root.user.user_id)
-                    if (ret.status === 200 && ret.data.code == 200) {
-                      this.$root.user = ret.data.data
-                      this.$root.eventHub.$emit('update')
-                      this.$router.replace({
-                        path: '/user'
-                      })
-                    }
-                  }, 300)
+            this._afterpay(ret.data.data.pay_ret, () => {
+              this.$root.eventHub.$emit('titps', '开通代理成功~')
+              this.$refs.proxy._hiddenPopup()
+              this.$refs.interlace._hiddenLayer()
+              setTimeout(async () => {
+                const ret = await updateuserinfo(this.$root.user.user_id)
+                if (ret.status === 200 && ret.data.code === 200) {
+                  this.$root.user = ret.data.data
+                  this.$root.eventHub.$emit('update')
+                  this.$router.replace({
+                    path: '/user'
+                  })
                 }
-              })
+              }, 300)
+            })
           }
         }
       },
+      _afterpay(reualt, callback) {
+        WeixinJSBridge.invoke(
+          'getBrandWCPayRequest', {
+            'appId': reualt.appId,     //公众号名称，由商户传入
+            'timeStamp': reualt.timeStamp,         //时间戳，自1970年以来的秒数
+            'nonceStr': reualt.nonceStr, //随机串
+            'package': reualt.package,
+            'signType': 'MD5',         //微信签名方式：
+            'paySign': reualt.paySign //微信签名
+          }, (res) => {
+            if (res.err_msg === 'get_brand_wcpay_request:ok') {
+              if (callback) {
+                callback()
+              }
+            }
+          })
+      },
       async _updateuserinfo(username) {
         const ret = await updateuserinfo(username)
-        if (ret.status === 200 && ret.data.code == 200) {
+        if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
         }
       },
@@ -193,7 +209,7 @@
         const end = url.indexOf('&state')
         if (start > 4 && end > -1) {
           this._login(url.slice(start, end))
-          history.replaceState(null, null, window.location.origin + '/#/index');
+          history.replaceState(null, null, window.location.origin + '/#/index')
         } else {
           const user = localStorage.getItem('user_id')
           if (user) {
@@ -222,6 +238,14 @@
         this.$root.eventHub.$emit('loading', true)
         const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link)
         this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
+          this._afterpay(ret.data.data.pay_ret, () => {
+            this.$root.eventHub.$emit('titps', '下单成功~')
+            this.$router.replace({
+              path: '/order-record'
+            })
+          })
+        }
       },
       async _getCombos(com_id, id) {
         this.$root.eventHub.$emit('loading', true)
