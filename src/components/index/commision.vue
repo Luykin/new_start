@@ -110,7 +110,7 @@
           type: 'image/jpeg'
         }
         this.$root.eventHub.$emit('loading', true)
-        QRCode.toDataURL(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx023b60bde059ebd7&redirect_uri=http%3a%2f%2fmelone.galeblock.com%2f%23%2findex?username=${this.$root.user.username}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
+        QRCode.toDataURL(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com%2f%23%2findex?username=${this.$root.user.user_id}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')
             console.error(err)

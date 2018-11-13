@@ -208,7 +208,7 @@
         const start = url.indexOf('code=') + 5
         const end = url.indexOf('&state')
         if (start > 4 && end > -1) {
-          this._login(url.slice(start, end))
+          this._login(url.slice(start, end), this.$route.query.user_id)
           history.replaceState(null, null, window.location.origin + '/#/index')
         } else {
           const user = localStorage.getItem('user_id')
