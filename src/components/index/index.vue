@@ -518,8 +518,7 @@
   .price-right {
     width: 0;
     white-space: nowrap;
-    max-width: 70%;
-    flex-grow: 1.5;
+    flex-grow: 1;
   }
 
   .price-right span {
