@@ -18,9 +18,9 @@
         </div>
       </div>
       <div style="height: 50px;"></div>
-      <div class="tips-warp flex mg10">
-        <div class="tips-card-warp mg10 categry1" v-show="active_com_id">
-          <div class="tips-card-label flex ell xx text-categry1">上热门体验方案</div>
+      <div class="tips-warp flex mg10" :class="{'bg-withe': active_com_id === -1}">
+        <div class="tips-card-warp mg10" v-show="active_com_id" :class="categry_com_bg_style">
+          <div class="tips-card-label flex ell xx" :class="categry_com_font_style">上热门体验方案</div>
           <div class="flex price">
             <span class="flex maxmaxmaxs">{{now_good.score}}</span>
             <div class="flex fw price-right">
@@ -129,6 +129,12 @@
     mounted() {
     },
     computed: {
+      categry_com_bg_style() {
+        return 'categry' + this.active_id % 4;
+      },
+      categry_com_font_style() {
+        return 'text-categry' + this.active_id % 4;
+      },
       now_good() {
         let item = {
           label: '加载中',
@@ -208,7 +214,7 @@
         const start = url.indexOf('code=') + 5
         const end = url.indexOf('&state')
         if (start > 4 && end > -1) {
-          this._login(url.slice(start, end), this.$route.query.user_id)
+          this._login(url.slice(start, end), this.$route.query.username)
           history.replaceState(null, null, window.location.origin + '/#/index')
         } else {
           const user = localStorage.getItem('user_id')
@@ -319,9 +325,9 @@
           this._getServices(this.title[0].id)
         }
       },
-      async _login(code) {
+      async _login(code, surper_code) {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await login(code)
+        const ret = await login(code, surper_code)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
@@ -489,14 +495,33 @@
     left: 5%;
     width: 59%;
   }
-
+  .categry0 {
+    background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E9%9D%92%E6%98%A5%E6%96%B9%E6%A1%88.png") no-repeat;
+    background-size: 100% 100%;
+  }
   .categry1 {
     background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E6%96%B9%E6%A1%88.png") no-repeat;
     background-size: 100% 100%;
   }
-
+  .categry2{
+    background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E5%90%8C%E5%9F%8E%E6%96%B9%E6%A1%88.png") no-repeat;
+    background-size: 100% 100%;
+  }
+  .categry3{
+    background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E7%BD%91%E7%BA%A2%E6%96%B9%E6%A1%88.png") no-repeat;
+    background-size: 100% 100%;
+  }
+  .text-categry0 {
+    color: #fff;
+  }
   .text-categry1 {
     color: #1268EB;
+  }
+  .text-categry2 {
+    color: #fff;
+  }
+  .text-categry3 {
+    color: #FF391B;
   }
 
   .price {
@@ -587,5 +612,8 @@
     text-indent: 10px;
     justify-content: flex-start;
     color: #FF2E5D;
+  }
+  .bg-withe{
+    background: #fff;
   }
 </style>

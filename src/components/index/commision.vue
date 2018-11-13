@@ -12,7 +12,7 @@
             <div class="flex js uhiw-bottom s">
               <div class="flex uhiwb-item ell" @click="_showqr()">
                 <i class="icon-erweima iconfont xx"></i>
-                生成推广二維码海报
+                生成推广二维码海报
               </div>
               <router-link tag='div' to='./details-commision' class="flex uhiwb-item ell">
                 <i class="icon-qianbao iconfont xx"></i>
@@ -110,7 +110,7 @@
           type: 'image/jpeg'
         }
         this.$root.eventHub.$emit('loading', true)
-        QRCode.toDataURL(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com%2f%23%2findex?username=${this.$root.user.user_id}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
+        QRCode.toDataURL(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com%2f%23%2findex?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')
             console.error(err)
