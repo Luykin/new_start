@@ -5,7 +5,7 @@
 			<p class="flex js nw-item ell x" :style="'font-weight: 900; color:'+ fontcolor">{{$root.user.nickname || ''}}
         <span class="ssss" style="color: rgba(255,255,255,.4)">{{$root.user.is_agent ? '(代理)' : '(非代理)'}}</span>
       </p>
-			<p class="flex js nw-item ell" :style="'color:' + fontcolor">余額： <span>{{$root.user.score || 0}}币</span></p>
+			<p class="flex js nw-item ell" :style="'color:' + fontcolor">余额： <span>{{$root.user.score || 0}}元</span></p>
       <router-link tag='div' to='./withdraw' class="flex user-btn">
         提现
       </router-link>

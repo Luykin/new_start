@@ -12,11 +12,11 @@
             <div class="flex js uhiw-bottom s">
               <div class="flex uhiwb-item ell" @click="_showqr()">
                 <i class="icon-erweima iconfont xx"></i>
-                生成推廣二維碼海報
+                生成推广二維码海报
               </div>
               <router-link tag='div' to='./details-commision' class="flex uhiwb-item ell">
                 <i class="icon-qianbao iconfont xx"></i>
-                我的傭金收益明細
+                我的佣金收益明细
               </router-link>
             </div>
           </div>
