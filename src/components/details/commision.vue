@@ -37,6 +37,10 @@
         <span class="flex s">二级(人)</span>
         <div class="flex x mg10 ell">{{team_level[1] ? team_level[1].num_people : '0'}}</div>
       </div>
+      <div class="team-level-item flex ell">
+        <span class="flex s">三级(人)</span>
+        <div class="flex x mg10 ell">{{team_level[2] ? team_level[2].num_people : '0'}}</div>
+      </div>
       <!--<div class="team-level-item flex ell">-->
         <!--<span class="flex s">三级(人)</span>-->
         <!--<div class="flex ll mg10">{{team_level[2] ? team_level[2].num_people : '0'}}</div>-->
@@ -46,18 +50,20 @@
       团队收益
     </div>
     <div class="transcat-header flex mg10">
-      <span class="th-item flex">团队</span>
-      <span class="th-item flex">今日下单</span>
-      <span class="th-item flex">累计下单</span>
-      <span class="th-item flex">今日收益</span>
-      <span class="th-item flex">累计收益</span>
+      <span class="th-item flex ell">团队</span>
+      <span class="th-item flex ell">今日下单</span>
+      <span class="th-item flex ell">累计下单</span>
+      <span class="th-item flex ell">今日收益</span>
+      <span class="th-item flex ell">累计收益</span>
+      <span class="th-item flex ell">代理金收益</span>
     </div>
     <div class="transcat-item flex" v-for="item in profit_details" v-if="profit_details.length">
-      <div class="tran-line flex">{{item.level == 1 ? '一' : item.level == 2 ? '二' : '三'}}级</div>
-      <div class="tran-line flex">{{item.today_count}}</div>
-      <div class="tran-line flex">{{item.total_count}}</div>
-      <div class="tran-line flex">{{item.today_income}}</div>
-      <div class="tran-line flex">{{item.total_income}}</div>
+      <div class="tran-line flex ell">{{item.level == 1 ? '一' : item.level == 2 ? '二' : '三'}}级</div>
+      <div class="tran-line flex ell">{{item.today_count}}</div>
+      <div class="tran-line flex ell">{{item.total_count}}</div>
+      <div class="tran-line flex ell">{{item.today_income}}</div>
+      <div class="tran-line flex ell">{{item.total_income}}</div>
+      <div class="tran-line flex ell">{{item.total_income}}</div>
     </div>
   </div>
 </template>
@@ -178,7 +184,7 @@
 
   .team-level-item {
     height: 90px;
-    width: 42.5%;
+    width: 26.5%;
     margin: 20px 0 20px 5%;
     background: #4D4947;
     color: #DBB767;
@@ -197,8 +203,12 @@
 
   .th-item {
     color: #333;
-    font-size: 13px;
+    font-size: 10px;
     flex-grow: 1;
+  }
+  .th-item:nth-child(1){
+    width: 50%;
+    flex-grow: 0.5;
   }
 
   .transcat-item {
@@ -216,6 +226,10 @@
     height: 100%;
     text-align: center;
     line-height: 20px;
+  }
+  .tran-line:nth-child(1){
+    width: 50%;
+    flex-grow: 0.5;
   }
   .header-warp{
     background: #4D4947;
