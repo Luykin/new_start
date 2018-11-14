@@ -67,7 +67,7 @@
         </div>
         <div class="from-item flex mg20">
           <div class="flex ell from-item-left">所需金额:</div>
-          <div class="flex from-item-right ell">{{num ? num : 0}}*{{(now_good.price || now_good.score)}}=
+          <div class="flex from-item-right ell" style="color: #ff561e;">{{num ? num : 0}}*{{parseFloat(now_good.price || now_good.score)}}=
             {{agencyPrice}}
           </div>
         </div>
@@ -81,7 +81,7 @@
           <span class="flex sss">2、拥有招收合伙人权限，收取的合伙人金获得50%分成。</span>
           <span class="flex sss">3、成为合伙人，拥有专属合伙人群。</span>
           <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90.png"/>
-          <span class="flex sss">1、支付{{proxy_price}}元合伙人费用即可解锁。</span>
+          <p class="flex sss">1、支付<span style="color: #ff2966;" class="llll">{{proxy_price}}元</span>合伙人费用即可解锁。</p>
           <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即成为合伙人</div>
         </div>
       </popup>
@@ -127,6 +127,7 @@
       this._init()
     },
     mounted() {
+      // this._showproxy()
     },
     computed: {
       categry_com_bg_style() {
@@ -581,7 +582,7 @@
     border-radius: 10px;
   }
 
-  .proxy-warp span {
+  .proxy-warp span,  .proxy-warp p{
     min-height: 24px;
     line-height: 20px;
     justify-content: flex-start;
