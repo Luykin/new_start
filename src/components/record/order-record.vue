@@ -15,7 +15,7 @@
         <div class="scroll">
           <div v-for="item in list" class="better-item flex">
             <div class="flex fw bi-center">
-              <span class="flex js ll">{{item.lable}}</span>
+              <span class="flex js ll">{{item.point}}{{item.lable}}</span>
               <span class="flex js ssss bi-name">{{item.addition.slice(0, 18)}}</span>
             </div>
             <div class="flex fw" style="justify-content: flex-end;">

@@ -15,24 +15,49 @@
         </div>
       </div>
       <!--<div class="user-other-item proxy-team mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">-->
-      <div class="flex js user-click-item mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">
+      <!--$refs.popup._showPopup();$refs.interlayer._showLayer()-->
+      <div class="flex js user-click-item mg20" @click="_show_team">
         <img src="https://cdn.xingkwh.com/%E5%90%88%E4%BC%99%E4%BA%BA%E7%BE%A4.png"/>
-        专业合伙人群
+        加入合伙人群
       </div>
-      <div class="flex js user-click-item" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">
+      <div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">
         <img src="https://cdn.xingkwh.com/%E6%88%91%E8%A6%81%E6%8A%95%E8%AF%89.png"/>
         我要投诉
       </div>
-      <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线')">
-        <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
-        生成分站
+      <div class="flex js user-click-item" @click="_showproxy" v-show="!$root.user.is_agent">
+        <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E5%95%86.png"/>
+        成为合伙人
       </div>
-      <!--</div>-->
+      <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
+        <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
+        生成我的分站
+      </div>
+      <popup ref="proxy">
+        <div class="flex proxy-warp fw">
+          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E8%A7%A3%E9%94%81001.png"/>
+          <span class="flex sss">1、星空抖音,快手业务全网最低价。</span>
+          <p class="flex sss">2、拥有招收合伙人权限，收取合伙人金50%的分成。</p>
+          <span class="flex sss">3、成为合伙人，拥有专属合伙人群。</span>
+          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>
+          <p class="flex sss">1、支付<span style="color: #ff2966; white-space: nowrap;"
+                                        class="llll">{{proxy_price}}元</span>合伙人费用即可解锁。</p>
+          <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即成为合伙人</div>
+        </div>
+      </popup>
       <popup ref="popup">
         <div class="weqr">
-          <span class="flex" style="height: 40px; margin-bottom: -10px; font-size: 15px; color: #222;">加入星空网红合伙人交流群</span>
+          <span class="flex"
+                style="height: 40px; margin-bottom: -10px; font-size: 15px; color: #222;">加入星空网红合伙人交流群</span>
           <img src="https://cdn.xingkwh.com/B32CCB63B90EAFB542F09AA2265EFC53.png"/>
           <span class="flex" style="height: 40px; margin-top: -10px">长按二维码加入交流群</span>
+        </div>
+        <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
+      </popup>
+      <popup ref="kefu">
+        <div class="weqr">
+          <span class="flex" style="height: 40px; margin-bottom: -10px; font-size: 15px; color: #222;">订单问题，添加客服</span>
+          <img src="https://cdn.xingkwh.com/BC63B97B2D56E69E8F0C5514580D5D65.png"/>
+          <span class="flex" style="height: 40px; margin-top: -10px">长按二维码添加客服</span>
         </div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
@@ -78,7 +103,12 @@
   </transition>
 </template>
 <script type="text/javascript">
-  // import { mapGetters } from 'vuex'
+  import {
+    addtask,
+    wechat_agent_good,
+    wechat_agent_order,
+    updateuserinfo
+  } from 'api/index'
   import userheader from 'components/userheader/userheader'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
@@ -98,18 +128,90 @@
           icon: 'https://cdn.xingkwh.com/%E4%B8%8B%E5%8D%95%E8%AE%B0%E5%BD%95.png',
           path: './order-record',
           name: '下单记录'
-        }]
+        }],
+        proxy_good_id: null,
+        proxy_price: 128
       }
     },
     created() {
     },
     mounted() {
+      if (this.$root.user.user_id) {
+        this._wechat_agent_good(this.$root.user.user_id)
+      }
     },
     computed: {},
     methods: {
+      _show_team() {
+        if (!this.$root.user.is_agent) {
+          this.$root.eventHub.$emit('titps', '您还未成为合伙人')
+          return false
+        }
+        this.$refs.popup._showPopup();
+        this.$refs.interlayer._showLayer();
+      },
       _closeresult() {
+        this.$refs.proxy._hiddenPopup()
+        this.$refs.kefu._hiddenPopup()
         this.$refs.popup._hiddenPopup()
         this.$refs.interlayer._hiddenLayer()
+      },
+      async _wechat_agent_good(id, callback) {
+        const ret = await wechat_agent_good(id)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.proxy_price = ret.data.data.score
+          this.proxy_good_id = ret.data.data.good_id
+          if (callback) {
+            callback()
+          }
+        }
+      },
+      _showproxy() {
+        this.$refs.proxy._showPopup()
+        this.$refs.interlayer._showLayer()
+      },
+      async _wxbuy() {
+        if (!this.proxy_good_id && this.proxy_good_id !== 0) {
+          return false
+        }
+        if (!window.WeixinJSBridge) {
+          console.log('未在微信内')
+        } else {
+          this.$root.eventHub.$emit('loading', true)
+          const ret = await wechat_agent_order(this.$root.user.user_id, this.proxy_price, this.proxy_good_id)
+          this.$root.eventHub.$emit('loading', null)
+          if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
+            this._afterpay(ret.data.data.pay_ret, () => {
+              this.$root.eventHub.$emit('titps', '开通合伙人成功~')
+              this.$refs.proxy._hiddenPopup()
+              this.$refs.interlayer._hiddenLayer()
+              setTimeout(async () => {
+                const ret = await updateuserinfo(this.$root.user.user_id)
+                if (ret.status === 200 && ret.data.code === 200) {
+                  this.$root.user = ret.data.data
+                  this.$root.eventHub.$emit('update')
+                }
+              }, 300)
+            })
+          }
+        }
+      },
+      _afterpay(reualt, callback) {
+        WeixinJSBridge.invoke(
+          'getBrandWCPayRequest', {
+            'appId': reualt.appId,     //公众号名称，由商户传入
+            'timeStamp': reualt.timeStamp,         //时间戳，自1970年以来的秒数
+            'nonceStr': reualt.nonceStr, //随机串
+            'package': reualt.package,
+            'signType': 'MD5',         //微信签名方式：
+            'paySign': reualt.paySign //微信签名
+          }, (res) => {
+            if (res.err_msg === 'get_brand_wcpay_request:ok') {
+              if (callback) {
+                callback()
+              }
+            }
+          })
       },
     },
     components: {
@@ -228,25 +330,29 @@
     background: url("https://cdn.xingkwh.com/%E6%88%91%E7%9A%84-%E4%BA%A4%E6%B5%81%E7%BE%A4.png") no-repeat;
     background-size: 100% 100%;
   }
-  .weqr{
+
+  .weqr {
     width: 70%;
     background: #fff;
     border-radius: 10px;
     margin: 0 auto;
     overflow: hidden;
   }
-  .weqr img{
+
+  .weqr img {
     width: 100%;
     height: auto;
   }
-  .user-click-item{
+
+  .user-click-item {
     height: 55px;
     border-bottom: 1px solid #F2F2F2;
     background: #fff;
     color: #555555;
     position: relative;
   }
-  .user-click-item:after{
+
+  .user-click-item:after {
     content: '>';
     position: absolute;
     right: 10px;
@@ -256,10 +362,41 @@
     transform: translate(0, -50%) scale(1, 1.5);
     font-size: 15px;
   }
-  .user-click-item img{
+
+  .user-click-item img {
     width: 22px;
     height: auto;
     margin: 0 10px;
     transform: translate(0, -10%);
+  }
+
+  .proxy-warp {
+    width: 78%;
+    padding: 4%;
+    margin: 0 auto;
+    height: auto;
+    min-height: 100px;
+    background: #fff;
+    border-radius: 10px;
+  }
+
+  .proxy-warp span, .proxy-warp p {
+    min-height: 24px;
+    line-height: 20px;
+    justify-content: flex-start;
+  }
+
+  .proxy-warp img {
+    width: 40%;
+    margin: 10px 10%;
+    height: auto;
+  }
+
+  .proxy-btn-buy {
+    width: 100%;
+    height: 40px;
+    border-radius: 6px;
+    background: #524E4B;
+    color: #DBB868;
   }
 </style>
