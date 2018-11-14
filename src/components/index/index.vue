@@ -20,9 +20,9 @@
       <div style="height: 50px;"></div>
       <div class="tips-warp flex mg10" :class="{'bg-withe': active_com_id === -1}">
         <div class="tips-card-warp mg10" v-show="active_com_id" :class="categry_com_bg_style">
-          <div class="tips-card-label flex ell xx" :class="categry_com_font_style">上热门体验方案</div>
+          <div class="tips-card-label flex ell xx" :class="categry_com_font_style">{{now_good.label}}</div>
           <div class="flex price">
-            <span class="flex maxmaxmaxs">{{now_good.score}}</span>
+            <span class="flex maxmaxmaxs">{{parseInt(now_good.score)}}</span>
             <div class="flex fw price-right">
               <span class="flex llll js">元/次</span>
               <span class="flex llll js">[{{now_good.tag}}]</span>
@@ -30,7 +30,7 @@
           </div>
           <div class="flex tips-goods fw js">
             <h1 class="flex js llll">包含:</h1>
-            <span v-for="item in now_good.services">{{item.max_num + item.label}}</span>
+            <span v-for="item in now_good.services">{{item.label}}</span>
           </div>
         </div>
         <h1 class="flex lll tips-title">小贴士</h1>
@@ -547,7 +547,7 @@
   .price-right {
     width: 0;
     white-space: nowrap;
-    flex-grow: 1;
+    flex-grow: 1.5;
   }
 
   .price-right span {

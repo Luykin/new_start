@@ -46,9 +46,10 @@
       <div class="explain-warp flex js lll mg10">
         说明
       </div>
-      <span class="flex s line-font">1.推广星空，代理金为199元，返100。</span>
-      <span class="flex s line-font">2.好友在你的邀请注册新用户并付费，即可自动加入你的好友下单成功后，你也可从一级好友那里获得5%的现金奖励。</span>
-      <span class="flex s line-font">3.一级团队好友的下级好友获得2%的现金奖励。</span>
+      <span class="flex s line-font">1.推广星空，代理金为128元，返60元。</span>
+      <span class="flex s line-font">2.好友在你的邀请注册新用户并付费，即可成为你的一级好友。你的一级好友下单成功后，你可从获得5%的现金奖励。</span>
+      <span class="flex s line-font">3.你的二级好友下单成功后，你可以获得2%的现金奖励。</span>
+      <span class="flex s line-font">3.你的三级好友下单成功后，你可以获得1%的现金奖励。</span>
       <div class="footer-none"></div>
       <popup ref="popup">
         <div class="myqr">

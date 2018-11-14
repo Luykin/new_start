@@ -18,6 +18,7 @@
       </div>
       <popup ref="popup">
         <div class="weqr">
+          <img src="https://cdn.xingkwh.com/B32CCB63B90EAFB542F09AA2265EFC53.png"/>
         </div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
@@ -215,9 +216,13 @@
   }
   .weqr{
     width: 70%;
-    padding-top: 70%;
     background: #fff;
     border-radius: 10px;
     margin: 0 auto;
+    overflow: hidden;
+  }
+  .weqr img{
+    width: 100%;
+    height: auto;
   }
 </style>
