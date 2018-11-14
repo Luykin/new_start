@@ -207,6 +207,9 @@
         const ret = await updateuserinfo(username)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
+          if (!ret.data.data.is_agent) {
+            this._wechat_agent_good(this.$root.user.user_id, this._showproxy)
+          }
         }
       },
       _init() {

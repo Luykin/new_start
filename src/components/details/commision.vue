@@ -63,7 +63,7 @@
       <div class="tran-line flex ell">{{item.total_count}}</div>
       <div class="tran-line flex ell">{{item.today_income}}</div>
       <div class="tran-line flex ell">{{item.total_income}}</div>
-      <div class="tran-line flex ell">{{item.total_income}}</div>
+      <div class="tran-line flex ell">{{item.agent_income}}</div>
     </div>
   </div>
 </template>
@@ -205,6 +205,7 @@
     color: #333;
     font-size: 10px;
     flex-grow: 1;
+    height: 100%;
   }
   .th-item:nth-child(1){
     width: 50%;
