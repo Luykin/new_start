@@ -54,16 +54,16 @@
       <span class="th-item flex ell">今日下单</span>
       <span class="th-item flex ell">累计下单</span>
       <span class="th-item flex ell">今日收益</span>
-      <span class="th-item flex ell">累计收益</span>
       <span class="th-item flex ell">合伙人金收益</span>
+      <span class="th-item flex ell">累计收益</span>
     </div>
     <div class="transcat-item flex" v-for="item in profit_details" v-if="profit_details.length">
       <div class="tran-line flex ell">{{item.level == 1 ? '一' : item.level == 2 ? '二' : '三'}}级</div>
       <div class="tran-line flex ell">{{item.today_count}}</div>
       <div class="tran-line flex ell">{{item.total_count}}</div>
       <div class="tran-line flex ell">{{item.today_income}}</div>
-      <div class="tran-line flex ell">{{item.total_income}}</div>
       <div class="tran-line flex ell">{{item.agent_income}}</div>
+      <div class="tran-line flex ell">{{item.total_income}}</div>
     </div>
   </div>
 </template>
