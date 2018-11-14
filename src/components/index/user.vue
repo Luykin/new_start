@@ -14,11 +14,25 @@
           </div>
         </div>
       </div>
-      <div class="user-other-item proxy-team mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">
+      <!--<div class="user-other-item proxy-team mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">-->
+      <div class="flex js user-click-item mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">
+        <img src="https://cdn.xingkwh.com/%E5%90%88%E4%BC%99%E4%BA%BA%E7%BE%A4.png"/>
+        专业合伙人群
       </div>
+      <div class="flex js user-click-item" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">
+        <img src="https://cdn.xingkwh.com/%E6%88%91%E8%A6%81%E6%8A%95%E8%AF%89.png"/>
+        我要投诉
+      </div>
+      <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线')">
+        <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
+        生成分站
+      </div>
+      <!--</div>-->
       <popup ref="popup">
         <div class="weqr">
+          <span class="flex" style="height: 40px; margin-bottom: -10px; font-size: 15px; color: #222;">加入星空网红合伙人交流群</span>
           <img src="https://cdn.xingkwh.com/B32CCB63B90EAFB542F09AA2265EFC53.png"/>
+          <span class="flex" style="height: 40px; margin-top: -10px">长按二维码加入交流群</span>
         </div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
@@ -224,5 +238,28 @@
   .weqr img{
     width: 100%;
     height: auto;
+  }
+  .user-click-item{
+    height: 55px;
+    border-bottom: 1px solid #F2F2F2;
+    background: #fff;
+    color: #555555;
+    position: relative;
+  }
+  .user-click-item:after{
+    content: '>';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    display: block;
+    color: #DFDFDF;
+    transform: translate(0, -50%) scale(1, 1.5);
+    font-size: 15px;
+  }
+  .user-click-item img{
+    width: 22px;
+    height: auto;
+    margin: 0 10px;
+    transform: translate(0, -10%);
   }
 </style>

@@ -76,12 +76,12 @@
       <div class="flex" style="height: 65px"></div>
       <popup ref="proxy">
         <div class="flex proxy-warp fw">
-          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E8%A7%A3%E9%94%81.png"/>
+          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E8%A7%A3%E9%94%81001.png"/>
           <span class="flex sss">1、星空抖音,快手业务全网最低价。</span>
-          <span class="flex sss">2、拥有招收合伙人权限，收取的合伙人金获得50%分成。</span>
+          <p class="flex sss">2、拥有招收合伙人权限，收取合伙人金50%的分成。</p>
           <span class="flex sss">3、成为合伙人，拥有专属合伙人群。</span>
-          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90.png"/>
-          <p class="flex sss">1、支付<span style="color: #ff2966;" class="llll">{{proxy_price}}元</span>合伙人费用即可解锁。</p>
+          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>
+          <p class="flex sss">1、支付<span style="color: #ff2966; white-space: nowrap;" class="llll">{{proxy_price}}元</span>合伙人费用即可解锁。</p>
           <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即成为合伙人</div>
         </div>
       </popup>
