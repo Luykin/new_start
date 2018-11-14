@@ -206,7 +206,7 @@
 
   .user-other-item {
     width: 88%;
-    padding-top: 18%;
+    padding-top: 16.5%;
     border-radius: 10px;
   }
 

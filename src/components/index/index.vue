@@ -78,11 +78,11 @@
         <div class="flex proxy-warp fw">
           <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E8%A7%A3%E9%94%81.png"/>
           <span class="flex sss">1、星空抖音,快手业务全网最低价。</span>
-          <span class="flex sss">2、拥有招收代理权限，收取的代理金获得50%分成。</span>
-          <span class="flex sss">3、成为代理，拥有专属代理群。</span>
+          <span class="flex sss">2、拥有招收合伙人权限，收取的合伙人金获得50%分成。</span>
+          <span class="flex sss">3、成为合伙人，拥有专属合伙人群。</span>
           <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90.png"/>
-          <span class="flex sss">1、支付{{proxy_price}}元代理费用即可解锁。</span>
-          <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即成为代理</div>
+          <span class="flex sss">1、支付{{proxy_price}}元合伙人费用即可解锁。</span>
+          <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即成为合伙人</div>
         </div>
       </popup>
       <interlayer ref="interlace" @close="$refs.proxy._hiddenPopup(); $refs.interlace._hiddenLayer()"></interlayer>
@@ -169,7 +169,7 @@
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
             this._afterpay(ret.data.data.pay_ret, () => {
-              this.$root.eventHub.$emit('titps', '开通代理成功~')
+              this.$root.eventHub.$emit('titps', '开通合伙人成功~')
               this.$refs.proxy._hiddenPopup()
               this.$refs.interlace._hiddenLayer()
               setTimeout(async () => {
@@ -251,7 +251,7 @@
           this._afterpay(ret.data.data.pay_ret, () => {
             this.$root.eventHub.$emit('titps', '下单成功~')
             this.$root.eventHub.$emit('update')
-            this.$router.replace({
+            this.$router.push({
               path: '/order-record'
             })
           })
@@ -481,6 +481,7 @@
     margin: 0 5px;
     text-align: center;
     text-indent: 0;
+    border-radius: 6px;
   }
 
   .tips-card-warp {

@@ -6,7 +6,7 @@
           <div class="user-header-inner-warp flex">
             <span class="titps">收益自动累加进余额</span>
             <div class="flex js uhiw-top">
-              <p class="flex s" style="margin-bottom: 10px">代理总收益</p>
+              <p class="flex s" style="margin-bottom: 10px">合伙人总收益</p>
               <span class="flex maxiiii">￥{{$root.user.sum_income || '0.00'}}</span>
             </div>
             <div class="flex js uhiw-bottom s">
@@ -46,10 +46,10 @@
       <div class="explain-warp flex js lll mg10">
         说明
       </div>
-      <span class="flex s line-font">1.推广星空，代理金为128元，返60元。</span>
-      <span class="flex s line-font">2.好友在你的邀请注册新用户并付费，即可成为你的一级好友。你的一级好友下单成功后，你可从获得5%的现金奖励。</span>
-      <span class="flex s line-font">3.你的二级好友下单成功后，你可以获得2%的现金奖励。</span>
-      <span class="flex s line-font">3.你的三级好友下单成功后，你可以获得1%的现金奖励。</span>
+      <span class="flex s line-font">1.推广星空，成为合伙人所需金额为128元，返60元。</span>
+      <span class="flex s line-font">2.好友在你的邀请注册新用户并付费，即可成为你的一级好友。你的一级好友下单成功后，你可从获得10%的现金奖励。</span>
+      <span class="flex s line-font">3.你的二级好友下单成功后，你可以获得7%的现金奖励。</span>
+      <span class="flex s line-font">4.你的三级好友下单成功后，你可以获得3%的现金奖励。</span>
       <div class="footer-none"></div>
       <popup ref="popup">
         <div class="myqr">

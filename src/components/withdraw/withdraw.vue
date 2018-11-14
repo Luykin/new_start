@@ -18,9 +18,9 @@
       <div class="explain-warp flex js lll mg10">
         提现说明
       </div>
-      <span class="flex s line-font">1.推广星空，代理金为199元，返100。</span>
-      <span class="flex s line-font">2.好友在你的邀请注册新用户并付费，即可自动加入你的好友下单成功后，你也可从一级好友那里获得5%的现金奖励。</span>
-      <span class="flex s line-font">3.一级团队好友的下级好友获得2%的现金奖励。</span>
+      <span class="flex s line-font">1.最低体现金额为1元。</span>
+      <span class="flex s line-font">2.提现时间为5分钟之内到账。</span>
+      <span class="flex s line-font">3.如出现5分钟之内未到账情况，请联系微信客服:zongjiexk016。</span>
     </div>
   </transition>
 </template>
