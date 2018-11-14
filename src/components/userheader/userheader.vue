@@ -84,11 +84,11 @@
     transition: all .5s;
   }
 
-  .feidaili {
-    color: rgba(0, 0, 0, .4);
+  .nw-item .feidaili {
+    color: rgba(255, 255, 255, .5);
   }
 
-  .daili {
+  .header-user .nw-item .daili {
     color: #DDBB6C;
   }
 </style>

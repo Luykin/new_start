@@ -26,7 +26,9 @@ const app = new Vue({
       avatar: null,
       nickname: '登录中',
       score: 0,
-      username: null
+      username: null,
+      is_agent: null,
+      user_id: null
     },
     errorCode: {
       '404': '资源不存在',
