@@ -56,7 +56,7 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        const ret = await withdraw(this.$root.user.username, this.money)
+        const ret = await withdraw(this.$root.user.user_id, this.money)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', '提现申请已提交')

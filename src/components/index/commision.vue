@@ -27,7 +27,7 @@
         <img src="https://cdn.xingkwh.com/%E5%9B%A2%E9%98%9F-%E4%BB%8A%E6%97%A5%E6%94%B6%E7%9B%8A.png" class="iconlll">
         <span class="flex s bc-title">今日收益</span>
         <div class="flex ci-num-warp-list">
-          <span class="flex cnwl-span ell" style="color: #B17B13">+{{$root.user.today_income || 0}}BTC幣</span>
+          <span class="flex cnwl-span ell" style="color: #B17B13">+{{$root.user.today_income || 0}}元</span>
           <span class="flex cnwl-span">+{{$root.user.today_new_people || 0}}人</span>
         </div>
         <div class="flex btn-commision" @click="_showqr()">推广</div>
