@@ -80,6 +80,11 @@ const routerconst = new Router({
     name: 'order-record',
     component: () =>
       import (`components/record/order-record`)
+  }, {
+    path: '/resource',
+    name: 'resource',
+    component: () =>
+      import (`components/details/resource`)
   }]
 })
 routerconst.beforeEach((to, from, next) => {

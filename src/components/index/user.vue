@@ -16,25 +16,31 @@
       </div>
       <!--<div class="user-other-item proxy-team mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">-->
       <!--$refs.popup._showPopup();$refs.interlayer._showLayer()-->
-      <div class="flex js user-click-item mg20" @click="_show_team">
+      <div class="flex js user-click-item mg20" @click="_showproxy" v-show="!$root.user.is_agent">
+        <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E5%95%86.png"/>
+        成为合伙人
+      </div>
+      <div class="flex js user-click-item" @click="_show_team">
         <img src="https://cdn.xingkwh.com/%E5%90%88%E4%BC%99%E4%BA%BA%E7%BE%A4.png"/>
         加入合伙人群
+      </div>
+      <div @click="_to_ckb" class="flex js user-click-item">
+        <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
+        <img src="https://cdn.xingkwh.com/%E5%AD%98%E8%B4%A7%E4%BB%B7%E6%A0%BC.png"/>
+        定价参考
+      </div>
+      <div @click="_to_resource" class="flex js user-click-item">
+        <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
+        <img src="https://cdn.xingkwh.com/%E4%B9%A6%E7%B1%8D01.png"/>
+        抖音上热门技术
+      </div>
+      <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
+        <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
+        生成我的分站
       </div>
       <div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">
         <img src="https://cdn.xingkwh.com/%E6%88%91%E8%A6%81%E6%8A%95%E8%AF%89.png"/>
         我要投诉
-      </div>
-      <div class="flex js user-click-item" @click="_showproxy" v-show="!$root.user.is_agent">
-        <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E5%95%86.png"/>
-        成为合伙人
-      </div>
-      <router-link tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png" class="flex js user-click-item">
-        <img src="https://cdn.xingkwh.com/%E5%AD%98%E8%B4%A7%E4%BB%B7%E6%A0%BC.png"/>
-        价格表
-      </router-link>
-      <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
-        <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
-        生成我的分站
       </div>
       <popup ref="proxy">
         <div class="flex proxy-warp fw">
@@ -155,6 +161,24 @@
         }
         this.$refs.popup._showPopup();
         this.$refs.interlayer._showLayer();
+      },
+      _to_resource() {
+        if (!this.$root.user.is_agent) {
+          this.$root.eventHub.$emit('titps', '您还未成为合伙人,无法查看。')
+          return false
+        }
+        this.$router.push({
+          path: '/resource'
+        })
+      },
+      _to_ckb() {
+        if (!this.$root.user.is_agent) {
+          this.$root.eventHub.$emit('titps', '您还未成为合伙人,无法查看。')
+          return false
+        }
+        this.$router.push({
+          path: '/user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png'
+        })
       },
       _to_commision() {
         this.$router.replace({
