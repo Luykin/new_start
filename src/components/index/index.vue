@@ -129,7 +129,6 @@
         proxy_price: 128,
         good_catch: {},
         proxy_good_id: null,
-        can_close: null,
         announcement: ''
       }
     },
@@ -174,16 +173,13 @@
         this._close_interlayer();
       },
       _close_interlayer() {
-        if (!this.can_close) {
-          return false
-        }
         this.$refs.proxy._hiddenPopup();
+        this.$refs.notice._hiddenPopup()
         this.$refs.interlace._hiddenLayer()
       },
       _closeresult() {
         this.$refs.notice._hiddenPopup()
         this.$refs.interlace._hiddenLayer()
-        this.can_close = true
       },
       async _wxbuy() {
         if (!this.proxy_good_id && this.proxy_good_id !== 0) {
