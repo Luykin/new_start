@@ -28,8 +28,8 @@
         <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E5%95%86.png"/>
         成为合伙人
       </div>
-      <router-link tag='div' to="./index/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png" class="flex js user-click-item">
-        <img src="https://cdn.xingkwh.com/1%E4%BB%B7%E6%A0%BC%E9%A2%84%E6%B5%8B.png"/>
+      <router-link tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png" class="flex js user-click-item">
+        <img src="https://cdn.xingkwh.com/%E5%AD%98%E8%B4%A7%E4%BB%B7%E6%A0%BC.png"/>
         价格表
       </router-link>
       <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
@@ -104,6 +104,7 @@
       </router-link> -->
       <!-- <img src="https://cdn.xingkwh.com/kefu2.png" class="kefu-img"> -->
       <div class="footer-none"></div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
