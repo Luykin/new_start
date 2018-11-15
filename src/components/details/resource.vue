@@ -1,10 +1,12 @@
 <template>
   <div class="resource">
     <img src="https://cdn.xingkwh.com/Artboard%205.png"/>
-    <div class="copy" :data-clipboard-text="url1" style="top: 38%;"></div>
-    <div class="copy" :data-clipboard-text="code1" style="top: 46%;"></div>
-    <div class="copy" :data-clipboard-text="url2" style="top: 75%;"></div>
-    <div class="copy" :data-clipboard-text="code2" style="top: 83%;"></div>
+    <div style="padding-top: 67%;" class="copy-warp">
+      <div class="copy" :data-clipboard-text="url1"></div>
+      <div class="copy" :data-clipboard-text="code1"></div>
+      <div class="copy" :data-clipboard-text="url2" style="margin-top: 35%"></div>
+      <div class="copy" :data-clipboard-text="code2"></div>
+    </div>
     <back></back>
   </div>
 </template>
@@ -45,27 +47,31 @@
 </script>
 
 <style scoped>
-  .resource {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    top: 0;
-    right: 0;
-    z-index: 99999;
-    background: #f1f1f1;
-    overflow-y: scroll;
-  }
+.resource {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  z-index: 99999;
+  background: #f1f1f1;
+  overflow-y: scroll;
+}
 
-  .resource img {
-    width: 100%;
-    height: auto;
-  }
-  .copy{
-    width: 100%;
-    height: 0;
-    padding-top: 13%;
-    position: absolute;
-    background: rgba(0,0,0,.4);
-    opacity: 0;
-  }
+.resource img {
+  width: 100%;
+  height: auto;
+}
+.copy{
+  width: 100%;
+  height: 0;
+  padding-top: 15%;
+}
+.copy-warp{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background: rgba(0,0,0,.2);
+  opacity: 0;
+}
 </style>
