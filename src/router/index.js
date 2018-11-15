@@ -29,7 +29,12 @@ const routerconst = new Router({
 		path: '/user',
 		name: 'user',
 		component: () =>
-			import (`components/index/user`)
+			import (`components/index/user`),
+    children:[{
+      path: 'course',
+      component: () =>
+        import (`components/details/course`),
+    }]
 	}, {
 		path: '/withdraw',
 		name: 'withdraw',

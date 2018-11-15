@@ -28,20 +28,25 @@
         <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E5%95%86.png"/>
         成为合伙人
       </div>
+      <router-link tag='div' to="./index/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png" class="flex js user-click-item">
+        <img src="https://cdn.xingkwh.com/1%E4%BB%B7%E6%A0%BC%E9%A2%84%E6%B5%8B.png"/>
+        价格表
+      </router-link>
       <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
         <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
         生成我的分站
       </div>
       <popup ref="proxy">
         <div class="flex proxy-warp fw">
-          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E8%A7%A3%E9%94%81001.png"/>
-          <span class="flex sss">1、星空抖音,快手业务全网最低价。</span>
-          <p class="flex sss">2、拥有招收合伙人权限，收取合伙人金50%的分成。</p>
-          <span class="flex sss">3、成为合伙人，拥有专属合伙人群。</span>
           <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>
-          <p class="flex sss">1、支付<span style="color: #ff2966; white-space: nowrap;"
-                                        class="llll">{{proxy_price}}元</span>合伙人费用即可解锁。</p>
-          <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即成为合伙人</div>
+          <span class="flex sss">1、抖音快手业务全网最低成本价。</span>
+          <p class="flex sss">2、获得第四代抖音热门技术视频教程。</p>
+          <span class="flex sss">3、加入星空抖音精英合伙人群。</span>
+          <span class="flex sss">4、自主招收合伙人，收取合伙人金50%分成。</span>
+          <span class="flex sss">5、搭建分站系统。</span>
+          <p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;" class="xx">{{proxy_price}}元</span></p>
+          <div class="proxy-btn-buy lll flex mg10" @click="_to_commision">去赚佣金</div>
+          <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>
         </div>
       </popup>
       <popup ref="popup">
@@ -149,6 +154,12 @@
         }
         this.$refs.popup._showPopup();
         this.$refs.interlayer._showLayer();
+      },
+      _to_commision() {
+        this.$router.replace({
+          path: '/commision'
+        })
+        this._closeresult();
       },
       _closeresult() {
         this.$refs.proxy._hiddenPopup()
@@ -393,7 +404,7 @@
   }
 
   .proxy-btn-buy {
-    width: 100%;
+    width: 40%;
     height: 40px;
     border-radius: 6px;
     background: #524E4B;

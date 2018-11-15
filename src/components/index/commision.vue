@@ -47,14 +47,26 @@
         说明
       </div>
       <span class="flex s line-font" style="color: #222;">合伙人代理金:</span>
-      <span class="flex s line-font">1.当他人成为你的一级合伙人并交纳128元代理金后，你将获得60元返佣。</span>
-      <span class="flex s line-font">2.从二级合伙人处获得20元返佣。</span>
-      <span class="flex s line-font">3.从三级合伙人处获得6.4元返佣。</span>
+      <span class="flex s line-font">1.当他人成为你的一级合伙人并交纳代理金后，你将获得20元返佣。</span>
+      <span class="flex s line-font">2.从二级合伙人处获得5元返佣。</span>
+      <span class="flex s line-font">3.从三级合伙人处获得3元返佣。</span>
       <div class="line"></div>
       <span class="flex s line-font" style="color: #222;">下单收益返佣:</span>
       <span class="flex s line-font">1.一级合伙人的每笔下单交易，可获得该交易10%的收益。</span>
       <span class="flex s line-font">2.二级合伙人的每笔下单交易，可获得该交易7%的收益。</span>
       <span class="flex s line-font">3.三级合伙人的每笔下单交易，可获得该交易3%的收益。</span>
+      <div class="line"></div>
+      <div class="explain-warp flex js lll mg10">
+        推广方法:
+      </div>
+      <!--<span class="flex s line-font" style="color: #222;">推广方法:</span>-->
+      <span class="flex s line-font">1.进入星空，点击团队，点击推广即可生成自己的二维码进行推广。</span>
+      <span class="flex s line-font">2.发朋友圈进行推广。</span>
+      <span class="flex s line-font">3.到各个微信、QQ群发二维码。</span>
+      <span class="flex s line-font">4.贴吧、社区、网站进行发布二维码。</span>
+      <span class="flex s line-font">5.再微信群里加人，购买加人软件分享自己的二维码。</span>
+      <span class="flex s line-font">6.群发每个微信、QQ好友，给个红包示好，让好友帮忙转发。</span>
+      <span class="flex s line-font">7.建立微信群让合伙人进群，一对一教学，直到学会。</span>
       <div class="footer-none"></div>
       <popup ref="popup">
         <div class="myqr">
@@ -261,11 +273,5 @@
     border-radius: 10px;
     margin: 0;
     transform: scale(.9, .9) translate(1%, 0);
-  }
-  .line{
-    width: 95%;
-    height: 0;
-    margin: 6px auto;
-    border-top: 1px dashed rgba(0,0,0,.1);
   }
 </style>

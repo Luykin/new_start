@@ -1,5 +1,5 @@
 <template>
-  <div class="popup" :class="{popupIn:popupIn, popupOut:popupOut, protocol:protocol}" v-if="show" ref='pop'>
+  <div class="popup" :class="{popupIn:popupIn, popupOut:popupOut, protocol:protocol}" v-show="show" ref='pop'>
     <slot></slot>
   </div>
 </template>
@@ -45,8 +45,7 @@ export default {
   height: auto;
   transform: translate3d(0, -50%, 0);
   flex-wrap: wrap;
-  /*box-shadow: 0 0 5px rgba(0, 0, 0, .1);*/
-  z-index: 99999;
+  z-index: 999999;
   opacity: 1;
 }
 
