@@ -1,11 +1,15 @@
 <template>
   <div class="resource">
     <img src="https://cdn.xingkwh.com/Artboard%205.png"/>
-    <div style="padding-top: 67%;" class="copy-warp">
-      <div class="copy" :data-clipboard-text="url1"></div>
-      <div class="copy" :data-clipboard-text="code1"></div>
-      <div class="copy" :data-clipboard-text="url2" style="margin-top: 35%"></div>
-      <div class="copy" :data-clipboard-text="code2"></div>
+    <div style="padding-top: 164%;" class="copy-warp">
+      <div class="uri-warp flex fw" style="top: 40%;">
+        <span class="copy flex" :data-clipboard-text="url1">{{url1}}</span>
+        <div class="copy uri-btn flex mg20" :data-clipboard-text="code1">{{code1}}</div>
+      </div>
+      <div class="uri-warp flex fw" style="top: 80%;">
+        <span class="copy flex" :data-clipboard-text="url2">{{url2}}</span>
+        <div class="copy uri-btn flex mg20" :data-clipboard-text="code2">{{code2}}</div>
+      </div>
     </div>
     <back></back>
   </div>
@@ -19,9 +23,9 @@
     name: 'resource',
     data() {
       return{
-        url1: 'https://pan.baidu.com/s/1jnKTx5I-If_jnIenfKLMfA',
+        url1: 'https://dwz.cn/jPLXovV0',
         code1: 'ofw9',
-        url2: 'https://pan.baidu.com/s/1j3H_5_rhX6ZgY2NCMbAhuQ',
+        url2: 'https://dwz.cn/8GGy1eQj',
         code2: 'r06a'
       }
     },
@@ -62,16 +66,36 @@
   width: 100%;
   height: auto;
 }
-.copy{
+/*.copy{
   width: 100%;
   height: 0;
   padding-top: 15%;
-}
+}*/
 .copy-warp{
   position: absolute;
   top: 0;
   width: 100%;
-  background: rgba(0,0,0,.2);
-  opacity: 0;
+  background: rgba(0,0,0,0);
+ /* opacity: 0;*/
+}
+.uri-warp{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 90%;
+  height: 18%;
+  background: #3f3165;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 15px;
+  user-select: text;
+}
+.uri-btn{
+  width: 50%;
+  height: 40px;
+  border-radius: 16px;
+  background: #fde15a;
+  color: #413f37;
+  font-weight: 600;
 }
 </style>
