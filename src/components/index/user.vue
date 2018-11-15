@@ -20,7 +20,7 @@
         <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E5%95%86.png"/>
         成为合伙人
       </div>
-      <div class="flex js user-click-item" @click="_show_team">
+      <div class="flex js user-click-item" @click="_show_team" :class="{'mg20': $root.user.is_agent}">
         <img src="https://cdn.xingkwh.com/%E5%90%88%E4%BC%99%E4%BA%BA%E7%BE%A4.png"/>
         加入合伙人群
       </div>

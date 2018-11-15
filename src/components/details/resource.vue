@@ -4,11 +4,11 @@
     <div style="padding-top: 164%;" class="copy-warp">
       <div class="uri-warp flex fw" style="top: 40%;">
         <span class="copy flex" :data-clipboard-text="url1">{{url1}}</span>
-        <div class="copy uri-btn flex mg20" :data-clipboard-text="code1">{{code1}}</div>
+        <div class="copy uri-btn flex mg20" :data-clipboard-text="code1">提取码：{{code1}}</div>
       </div>
       <div class="uri-warp flex fw" style="top: 80%;">
         <span class="copy flex" :data-clipboard-text="url2">{{url2}}</span>
-        <div class="copy uri-btn flex mg20" :data-clipboard-text="code2">{{code2}}</div>
+        <div class="copy uri-btn flex mg20" :data-clipboard-text="code2">提取码：{{code2}}</div>
       </div>
     </div>
     <back></back>
@@ -86,7 +86,7 @@
   height: 18%;
   background: #3f3165;
   color: #fff;
-  font-size: 20px;
+  font-size: 18px;
   border-radius: 15px;
   user-select: text;
 }
