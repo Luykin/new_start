@@ -87,7 +87,7 @@
           <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>
         </div>
       </popup>
-      <popup ref="notice">
+      <popup ref="notice" @popupClick="_closeresult">
         <div class="notice-warp">
           <img src="https://cdn.xingkwh.com/%E5%85%AC%E5%91%8A.png"/>
         </div>
@@ -664,5 +664,6 @@
   }
   .notice-warp img{
     width: 100%;
+    pointer-events: none;
   }
 </style>

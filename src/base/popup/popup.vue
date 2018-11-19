@@ -1,5 +1,5 @@
 <template>
-  <div class="popup" :class="{popupIn:popupIn, popupOut:popupOut, protocol:protocol}" v-show="show" ref='pop'>
+  <div class="popup" :class="{popupIn:popupIn, popupOut:popupOut, protocol:protocol}" v-show="show" ref='pop' @click.stop="$emit('popupClick')">
     <slot></slot>
   </div>
 </template>
