@@ -85,6 +85,16 @@ const routerconst = new Router({
     name: 'resource',
     component: () =>
       import (`components/details/resource`)
+  }, {
+    path: '/custom',
+    name: 'custom',
+    component: () =>
+      import (`components/details/custom`)
+  }, {
+    path: '/team-detail',
+    name: 'team-detail',
+    component: () =>
+      import (`components/details/team-detail`)
   }]
 })
 routerconst.beforeEach((to, from, next) => {

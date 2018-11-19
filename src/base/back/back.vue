@@ -22,8 +22,8 @@
 		color: #fff;
 		border-radius: 30px;
 		position: fixed;
-		bottom: 6%;
-		right: 6%;
+		bottom: 14%;
+		right: 3%;
 		z-index: 999999;
 		opacity: .84;
 	}

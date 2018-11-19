@@ -270,3 +270,21 @@ export function wechat_agent_order(user_id, score, good_id) {
   })
 }
 
+// 团队详情
+export function get_next_info(user_id, is_agent, num, page) {
+  const url = `${PREFIX_URL}/get_next_info`
+  let data = {
+    uaid: UAID,
+    user_id,
+    page,
+    num,
+    is_agent
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

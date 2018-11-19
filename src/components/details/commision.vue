@@ -28,6 +28,7 @@
     <div class="team-level-body flex mg10 fw">
       <div class="explain-warp flex js lll">
         团队人數
+        <div class="more flex" @click="$router.replace({path: '/team-detail'})">查看团队</div>
       </div>
       <div class="team-level-item flex ell">
         <span class="flex s">一级(人)</span>
@@ -46,7 +47,7 @@
         <!--<div class="flex ll mg10">{{team_level[2] ? team_level[2].num_people : '0'}}</div>-->
       <!--</div>-->
     </div>
-    <div class="explain-warp flex js lll mg10">
+    <div class="explain-warp flex js lll mg10 ell">
       团队收益
     </div>
     <div class="transcat-header flex mg10">
@@ -239,5 +240,23 @@
   }
   .mins{
     transform: scale(.9,.9);
+  }
+  .more{
+    justify-content: flex-end;
+    padding-right: 20px;
+    margin-right: 5px;
+    color: #999;
+    height: 100%;
+    position: relative;
+  }
+  .more:after {
+    content: '>';
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    display: block;
+    color: #DFDFDF;
+    transform: translate(0, -50%) scale(1, 1.5);
+    font-size: 15px;
   }
 </style>

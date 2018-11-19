@@ -38,6 +38,10 @@
         <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
         生成我的分站
       </div>
+      <div class="flex js user-click-item" @click="_to_kefu">
+        <img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>
+        我的客服
+      </div>
       <div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">
         <img src="https://cdn.xingkwh.com/%E6%88%91%E8%A6%81%E6%8A%95%E8%AF%89.png"/>
         我要投诉
@@ -180,6 +184,15 @@
           path: '/user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png'
         })
       },
+      _to_kefu() {
+        if (!this.$root.user.is_agent) {
+          this.$root.eventHub.$emit('titps', '您还未成为合伙人,无法查看。')
+          return false
+        }
+        this.$router.push({
+          path: '/custom'
+        })
+      },
       _to_commision() {
         this.$router.replace({
           path: '/commision'
@@ -311,11 +324,11 @@
   }
 
   .uhiw-top {
-    height: 60%;
+    height: 61%;
   }
 
   .uhiw-bottom {
-    height: 40%;
+    height: 39%;
     color: #fff;
   }
 
