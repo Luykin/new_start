@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="team-level-body flex mg10 fw">
-      <div class="explain-warp flex js lll">
+      <div class="explain-warp flex js lll ell">
         团队人數
         <div class="more flex" @click="$router.replace({path: '/team-detail'})">查看团队</div>
       </div>

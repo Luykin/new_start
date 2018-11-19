@@ -1,6 +1,7 @@
 <template>
-  <div class="custom">
+  <div class="custom flex fw">
     <iframe :src="iframe_url" class="iframe"></iframe>
+    链接客服中...
     <back></back>
   </div>
 </template>
@@ -30,10 +31,17 @@
     left: 0;
     right: 0;
     z-index: 99999;
-    background: #fff;
+    background: #f8f8f8;
+    color: #353535;
+    font-size: 16px;
     overflow: hidden;
   }
   .iframe{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     width: 100%;
     height: 100%;
     padding: 0;

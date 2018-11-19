@@ -38,10 +38,10 @@
         <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
         生成我的分站
       </div>
-      <div class="flex js user-click-item" @click="_to_kefu">
-        <img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>
-        我的客服
-      </div>
+      <!--<div class="flex js user-click-item" @click="_to_kefu">-->
+        <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>-->
+        <!--我的客服-->
+      <!--</div>-->
       <div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">
         <img src="https://cdn.xingkwh.com/%E6%88%91%E8%A6%81%E6%8A%95%E8%AF%89.png"/>
         我要投诉

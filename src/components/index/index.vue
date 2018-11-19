@@ -192,6 +192,7 @@
           const ret = await wechat_agent_order(this.$root.user.user_id, this.proxy_price, this.proxy_good_id)
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
+            // window.open(ret.data.data.pay_ret)
             this._afterpay(ret.data.data.pay_ret, () => {
               this.$root.eventHub.$emit('titps', '开通合伙人成功~')
               this.$refs.proxy._hiddenPopup()
