@@ -7,7 +7,7 @@
       </div>
       <div class="mg30"></div>
       <div class="flex ll recharge-title">请输入提现金额<p class="ss" style="color:#727589;">(今日剩余提现次数<span
-        style="color: #ffcd32;">{{$root.user.count ?  Math.abs(10 - $root.user.count) : 10}}</span> 次)</p></div>
+        style="color: #ffcd32;">{{$root.user.count ?  Math.abs(3 - $root.user.count) : 3}}</span> 次)</p></div>
       <div class="flex input-warp">
         <div class="recharge-img maxmaxmaxs">￥</div>
         <label>
