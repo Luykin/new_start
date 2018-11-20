@@ -72,7 +72,8 @@
           </div>
         </div>
       </div>
-      <div class="index-btn flex ll mg10" @click="_addTask">提交订单</div>
+      <div class="index-btn flex ll mg10" @click="_addTask" v-show="now_good.behavior === 1 || now_good.services">提交订单</div>
+      <div class="index-btn flex ll mg10" style="background: rgba(0,0,0,.3)" v-show="now_good.behavior === 0">商品维护中</div>
       <div class="flex" style="height: 65px"></div>
       <popup ref="proxy">
         <div class="flex proxy-warp fw">

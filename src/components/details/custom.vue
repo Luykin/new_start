@@ -1,7 +1,6 @@
 <template>
   <div class="custom flex fw">
     <iframe :src="iframe_url" class="iframe"></iframe>
-    链接客服中...
     <back></back>
   </div>
 </template>
@@ -14,7 +13,7 @@
     name: 'custom',
     computed: {
       iframe_url() {
-        return `https://qiyu.xingkwh.com/#/?userid=${this.$root.user.id}&name=${this.$root.user.nickname}&uaid=${UAID}&score=${this.$root.user.score}&appName=${APPNAME}&avatar=${this.$root.user.avatar}`
+        return `https://qiyu.xingkwh.com/#/?userid=F${this.$root.user.user_id}&name=${this.$root.user.nickname}&uaid=${UAID}&score=${this.$root.user.score}&appName=${APPNAME}&avatar=${this.$root.user.avatar}`
       }
     },
     components: {
