@@ -4,7 +4,7 @@
     <div class="multi-warp" :class="{'hidden': !show}">
       <div v-for="item in multi_list" class="flex multi-item ell" @click="$emit('chose', item)"
            :class="{'active-item': active_id === item.id}">
-        {{item.label}}
+        {{item.label}}{{item.behavior === 0 ? '(维护)' : ''}}
       </div>
     </div>
   </div>

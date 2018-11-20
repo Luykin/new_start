@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <div>
-      <div class="index-header flex">
+      <div class="index-header flex fw js">
         <div class="flex header-item ll" v-for="item in title"
              :class="{'active-header-item': item.id === active_service_id}"
              @click="active_com_id = null; active_service_id = item.id; _getServices(item.id)">
@@ -17,7 +17,7 @@
           <span>抖音套餐</span>
         </div>
       </div>
-      <div style="height: 50px;"></div>
+      <!--<div style="height: 50px;"></div>-->
       <div class="tips-warp flex mg10" :class="{'bg-withe': active_com_id === -1}">
         <div class="tips-card-warp mg10" v-show="active_com_id" :class="categry_com_bg_style">
           <div class="tips-card-label flex ell xx" :class="categry_com_font_style">{{now_good.label}}</div>
@@ -40,7 +40,7 @@
         <div class="from-item flex mg20">
           <div class="flex ell from-item-left">商品选择:</div>
           <div class="flex from-item-right xenia" @click.stop="multi_show = !multi_show">
-            {{now_good.label}}
+            {{now_good.label}}{{now_good.behavior === 0 ? '(维护)' : ''}}
             <multi :multi_list="good_list" :show="multi_show" :active_id="active_id" @chose="_multiChose"></multi>
           </div>
         </div>
@@ -57,9 +57,9 @@
         <div class="from-item flex mg20">
           <div class="flex ell from-item-left">商品数量:</div>
           <div class="flex from-item-right ell">
-            <span v-show="!now_good.min_num">1 (固定数量)</span>
+            <span v-if="!now_good.min_num || now_good.min_num === now_good.max_num">{{now_good.min_num || 1}} (固定数量)</span>
             <input type="text" name="作品链接" placeholder="请输入商品数量" class="index-input" v-model="num"
-                   @keyup="_rectifyMoney" v-show="now_good.min_num"/>
+                   @keyup="_rectifyMoney" v-else/>
           </div>
         </div>
         <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围：
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="index-btn flex ll mg10" @click="_addTask" v-show="now_good.behavior === 1 || now_good.services">提交订单</div>
-      <div class="index-btn flex ll mg10" style="background: rgba(0,0,0,.3)" v-show="now_good.behavior === 0">商品维护中</div>
+      <div class="index-btn flex ll mg10" @click="_maintain" style="background: rgba(0,0,0,.3)" v-show="now_good.behavior === 0">商品维护中</div>
       <div class="flex" style="height: 65px"></div>
       <popup ref="proxy">
         <div class="flex proxy-warp fw">
@@ -95,11 +95,13 @@
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
       <interlayer ref="interlace" @close="_close_interlayer"></interlayer>
+      <customer></customer>
       <router-view></router-view>
     </div>
   </transition>
 </template>
 <script type="text/javascript">
+  import customer from 'base/customer/customer'
   import {
     login,
     appinfo,
@@ -181,6 +183,9 @@
       _closeresult() {
         this.$refs.notice._hiddenPopup()
         this.$refs.interlace._hiddenLayer()
+      },
+      _maintain() {
+        this.$root.eventHub.$emit('titps', '此商品正在紧张维护中...');
       },
       async _wxbuy() {
         if (!this.proxy_good_id && this.proxy_good_id !== 0) {
@@ -311,6 +316,7 @@
         if (this.good_catch[id]) {
           this.good_list = this.good_catch[id]
           this.active_id = this.good_catch[id][0].id
+          this._setnum(this.good_catch[id][0])
           return false
         }
         this.$root.eventHub.$emit('loading', true)
@@ -320,6 +326,12 @@
           this.good_list = ret.data.data
           this.good_catch[id] = ret.data.data
           this.active_id = ret.data.data[0].id
+          this._setnum(ret.data.data[0])
+        }
+      },
+      _setnum(item) {
+        if (item.min_num === item.max_num) {
+          this.num = item.min_num
         }
       },
       async _wechat_agent_good(id, callback) {
@@ -375,6 +387,7 @@
       },
       _multiChose(e) {
         this.active_id = e.id
+        this._setnum(e)
       },
       _rectifyMoney() {
         if (isNaN(this.num) || this.num.indexOf('.') > -1 || this.num <= 0) {
@@ -385,24 +398,30 @@
     components: {
       multi,
       popup,
+      customer,
       interlayer
-    }
+    },
   }
 
 </script>
 <style type="text/css" scoped>
   .index-header {
-    position: fixed;
-    top: 0;
+    /*position: fixed;*/
+    /*top: 0;*/
     width: 100%;
-    height: 50px;
+    min-height: 50px;
+    padding: 5px 0;
     background: #fff;
-    box-shadow: 0 0 2px rgba(0, 0, 0, .1);
-    z-index: 999;
+    align-items: center;
+    align-content: center;
+    /*box-shadow: 0 0 2px rgba(0, 0, 0, .1);*/
+    /*z-index: 999;*/
   }
 
   .header-item {
     flex-grow: 1;
+    max-width: 33.333%;
+    margin: 8px 0;
   }
 
   .active-header-item {
@@ -484,6 +503,7 @@
     height: 100%;
     justify-content: flex-start;
     text-indent: 20px;
+    white-space: nowrap;
     position: relative;
     color: #666;
   }

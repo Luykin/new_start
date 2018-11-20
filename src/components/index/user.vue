@@ -38,10 +38,10 @@
         <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
         生成我的分站
       </div>
-      <!--<div class="flex js user-click-item" @click="_to_kefu">-->
-        <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>-->
-        <!--我的客服-->
-      <!--</div>-->
+      <div class="flex js user-click-item" @click="_to_kefu">
+        <img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>
+        我的客服
+      </div>
       <div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">
         <img src="https://cdn.xingkwh.com/%E6%88%91%E8%A6%81%E6%8A%95%E8%AF%89.png"/>
         我要投诉
@@ -115,6 +115,7 @@
       <!-- <img src="https://cdn.xingkwh.com/kefu2.png" class="kefu-img"> -->
       <div class="footer-none"></div>
       <router-view></router-view>
+      <customer></customer>
     </div>
   </transition>
 </template>
@@ -127,6 +128,7 @@
   } from 'api/index'
   import userheader from 'components/userheader/userheader'
   import popup from 'base/popup/popup'
+  import customer from 'base/customer/customer'
   import interlayer from 'base/interlayer/interlayer'
 
   export default {
@@ -266,6 +268,7 @@
     components: {
       interlayer,
       userheader,
+      customer,
       popup
     },
     watch: {
