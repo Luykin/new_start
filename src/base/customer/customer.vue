@@ -11,7 +11,7 @@
     methods: {
       _to_kefu() {
         if (!this.$root.user.is_agent) {
-          this.$root.eventHub.$emit('titps', '您还未成为合伙人,无法查看。')
+          this.$root.eventHub.$emit('titps', '您还未成为合伙人。')
           return false
         }
         this.$router.push({
