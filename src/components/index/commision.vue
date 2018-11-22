@@ -308,7 +308,7 @@
     width: 20px;
     height: 20px;
     border-radius: 100px;
-    background: #2F2B42;
+    background: #2A2E47;
   }
   .show-ququ:after{
     right: 0;
