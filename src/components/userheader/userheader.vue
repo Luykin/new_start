@@ -3,8 +3,7 @@
     <img :src="$root.user.avatar" class="iconx avater">
     <div class="flex namewarp fw llll">
       <p class="flex js nw-item ell x" :style="'font-weight: 900; color:'+ fontcolor + ';height: 25px'">{{$root.user.nickname || ''}}
-        <span class="ssss feidaili"
-              :class="{'daili': $root.user.is_agent}">{{$root.user.is_agent ? '(合伙人)' : '(非合伙人)'}}</span>
+        <span class="ssss feidaili" :class="{'daili': $root.user.is_agent}">{{$root.user.is_agent ? '(合伙人)' : '(非合伙人)'}}</span>
       </p>
       <p class="flex js nw-item ell sss" :style="'color:' + fontcolor">余额： <span>{{$root.user.score || 0}}元</span></p>
       <p class="flex js nw-item ell sss" :style="'color:' + fontcolor">ID： {{$root.user.id}}</p>

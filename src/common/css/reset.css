@@ -257,7 +257,7 @@ input:focus::-webkit-contacts-auto-fill-button {
 
 .cancelimg {
   display: block;
-  transform: translate(0px, 100%);
+  transform: translate(0px, 60%);
   margin: 0 auto;
 }
 

@@ -20,7 +20,9 @@
       <div class="user-header-dark">
         <div class="flex js uhiw-top">
           <div class="flex fw ut-name-warp">
-            <span class="flex js user-nickname ell">{{$root.user.nickname}}</span>
+            <p class="flex js user-nickname ell">{{$root.user.nickname}}
+              <span class="ssss feidaili" :class="{'daili': $root.user.is_agent}">{{$root.user.is_agent ? '(合伙人)' : '(非合伙人)'}}</span>
+            </p>
             <span class="flex js user-id ell">ID:{{$root.user.id}}</span>
           </div>
           <img :src="$root.user.avatar" class="iconxx avater">
@@ -526,8 +528,7 @@
     color: #fff;
   }
 
-
-  .dru-item{
+  .dru-item {
     width: 29%;
     margin: 2.165%;
     background: #4B4A7F;
@@ -535,9 +536,16 @@
     border-radius: 5px;
   }
 
-  .dark-router-user img{
+  .dark-router-user img {
     max-width: 50px;
     width: 30%;
     height: auto;
+  }
+  .feidaili {
+    text-indent: 5px;
+    color: rgba(255, 255, 255, .5);
+  }
+  .daili {
+    color: #ffe5b8;
   }
 </style>

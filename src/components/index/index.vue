@@ -95,7 +95,7 @@
       </popup>
       <popup ref="notice" @popupClick="_closeresult">
         <div class="notice-warp">
-          <img src="https://cdn.xingkwh.com/%E5%85%AC%E5%91%8A.png"/>
+          <img src="https://cdn.xingkwh.com/notice.png"/>
         </div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
@@ -716,11 +716,11 @@
   }
 
   .notice-warp {
-    padding: 3%;
-    width: 75%;
+    padding: 4%;
+    width: 72%;
     height: auto;
     min-height: 100px;
-    background: rgba(255, 255, 255, 1);
+    background: #3B365D;
     border-radius: 10px;
     /*border: 1px dashed rgba(0,0,0,.4);*/
     margin: 0 auto;

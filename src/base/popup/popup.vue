@@ -62,13 +62,13 @@ export default {
     top: -100%;
   }
   100% {
-    top: 50%;
+    top: 47%;
   }
 }
 
 @keyframes popupOut {
   0% {
-    top: 50%;
+    top: 47%;
   }
   100% {
     top: -100%;
