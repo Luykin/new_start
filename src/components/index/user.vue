@@ -436,7 +436,7 @@
     top: 50%;
     display: block;
     color: #DFDFDF;
-    transform: translate(0, -50%) scale(1, 1.5);
+    transform: translate(0, -50%) scale(1, 2);
     font-size: 15px;
   }
 

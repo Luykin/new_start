@@ -1,7 +1,7 @@
 <template>
     <div class="customer-inlet flex fw" @click="_to_kefu">
-      <img src="https://cdn.xingkwh.com/kefu_xk.png"/>
-      <span class="flex customer-inlet-text">在线客服</span>
+      <!--<img src="https://cdn.xingkwh.com/kefu_xk.png"/>-->
+      <!--<span class="flex customer-inlet-text">在线客服</span>-->
     </div>
 </template>
 
@@ -26,14 +26,16 @@
   .customer-inlet{
     width: 60px;
     height: 60px;
-    background: #7045F2;
-    background: linear-gradient(right, #7045F2, #9672F8);
-    background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));
+    /*background: #7045F2;*/
+    /*background: linear-gradient(right, #7045F2, #9672F8);*/
+    /*background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));*/
+    background: url("https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8Dimg@3x.png") no-repeat;
+    background-size: cover;
     color: #fff;
     border-radius: 100%;
     position: fixed;
     bottom: 11%;
-    right: 3%;
+    right: 5%;
     z-index: 999;
     opacity: .8;
     overflow: hidden;

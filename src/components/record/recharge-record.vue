@@ -38,8 +38,8 @@
               <span class="flex ssss bi-name flex-end">{{item.updateA}}</span>
             </div>
           </div>
-          <div v-show="!list.length" class="flex sss mg30" style="color: #727589;">
-            暂时没有找到相关数据哦~
+          <div v-show="!list.length" class="flex sss mg30">
+            <empyt></empyt>
           </div>
         </div>
       </betterscroll>
@@ -50,6 +50,7 @@
   import {withdrawlist, orders} from 'api/index'
   import {timeformat} from 'common/js/util'
   import back from 'base/back/back'
+  import empyt from 'base/empyt/empyt'
   import betterscroll from 'base/better-scroll/better-scroll'
 
   export default {
@@ -156,7 +157,8 @@
     },
     components: {
       betterscroll,
-      back
+      back,
+      empyt
     },
   }
 </script>

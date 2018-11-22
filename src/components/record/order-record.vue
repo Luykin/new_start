@@ -15,8 +15,8 @@
         <div class="scroll">
           <div v-for="item in list" class="better-item flex">
             <div class="flex fw bi-center">
-              <span class="flex js ll">{{item.point}}{{item.lable}}</span>
-              <span class="flex js ssss bi-name">{{item.addition.slice(0, 18)}}</span>
+              <p class="flex js ll">{{item.lable}}<span class="ss" style="text-indent: 5px; color: #727589">(数量{{item.point}})</span></p>
+              <span class="flex js ssss bi-name">{{item.addition.slice(0, 20)}}</span>
             </div>
             <div class="flex fw" style="justify-content: flex-end;">
               <span class="flex s bi-name flex-end">{{item.updateA}}</span>
@@ -24,8 +24,8 @@
                     style="color: #727589; padding: 6px 10px 5px; border-radius: 100px; flex-grow: 0; width: auto; border: 1px solid #3C3B5C">{{item.status === 2 ? '已完成' : '进行中'}}</span>
             </div>
           </div>
-          <div v-show="!list.length" class="flex sss mg30" style="color: #727589;">
-            暂时没有找到相关数据哦~
+          <div v-show="!list.length" class="flex sss mg30">
+            <empyt></empyt>
           </div>
         </div>
       </betterscroll>
@@ -36,6 +36,7 @@
   import {orders} from 'api/index'
   import {timeformat} from 'common/js/util'
   import back from 'base/back/back'
+  import empyt from 'base/empyt/empyt'
   import betterscroll from 'base/better-scroll/better-scroll'
 
   export default {
@@ -125,7 +126,8 @@
     },
     components: {
       betterscroll,
-      back
+      back,
+      empyt
     },
   }
 </script>

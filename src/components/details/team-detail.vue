@@ -17,12 +17,12 @@
             <div class="flex bi-center ell">
               <img :src="item.avatar"/>
               <span class="flex js llll">{{item.nickname}}</span>
-              <span class="flex js llll">{{item.updateA}}</span>
+              <span class="flex js llll" style="color: #727589">{{item.updateA}}</span>
               <span class="flex js llll">{{ativerecord === 1 ? '已支付' : '未支付'}}</span>
             </div>
           </div>
-          <div v-show="!list.length" class="flex sss mg30" style="color: #727589;">
-            暂时没有找到相关数据哦~
+          <div v-show="!list.length" class="flex sss mg30">
+            <empyt></empyt>
           </div>
         </div>
       </betterscroll>
@@ -33,6 +33,7 @@
   import {get_next_info} from 'api/index'
   import {timeformat} from 'common/js/util'
   import back from 'base/back/back'
+  import empyt from 'base/empyt/empyt'
   import betterscroll from 'base/better-scroll/better-scroll'
 
   export default {
@@ -122,7 +123,8 @@
     },
     components: {
       betterscroll,
-      back
+      back,
+      empyt
     },
   }
 </script>
@@ -134,7 +136,9 @@
     left: 0;
     right: 0;
     z-index: 99998;
-    background: #f5f5f5;
+    background: #31293D;
+    background: linear-gradient(45deg, #253250, #34283A);
+    background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));
     overflow-y: scroll;
   }
 
@@ -146,13 +150,26 @@
     right: 0;
     top: 0;
     z-index: 99999;
-    background: #524E4B;
+    background: #253250;
+    background: linear-gradient(45deg, #253250, #2A2E48);
+    background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#2A2E48));
   }
 
   .rh-item {
-    height: 100%;
-    flex-grow: 1;
-    color: #A8A6A4;
+    width: 40%;
+    height: 70%;
+    color: #BFBDE3;
+    border: 1px solid #393A59;
+  }
+
+  .rh-item:nth-child(1) {
+    border-top-left-radius: 1000px;
+    border-bottom-left-radius: 1000px;
+  }
+
+  .rh-item:nth-child(2) {
+    border-top-right-radius: 1000px;
+    border-bottom-right-radius: 1000px;
   }
 
   .rh-item span {
@@ -163,8 +180,9 @@
   }
 
   .ative-record {
-    color: #DBB868;
-    border-bottom: 2px solid #DBB868;
+    background: #3C3B5C;
+    color: #fff;
+    border: none;
   }
 
   .wrapper {
@@ -182,8 +200,8 @@
   .better-item {
     width: 100%;
     height: 70px;
-    background: #fff;
-    border-bottom: 1px solid #F2F2F2;
+    /*background: #fff;*/
+    border-bottom: 1px solid #3C3B5C;
   }
 
   .bi-img {
@@ -191,7 +209,7 @@
   }
 
   .bi-center {
-    color: #333;
+    color: #fff;
     flex-grow: 1;
     justify-content: flex-start;
     text-indent: 20px;
