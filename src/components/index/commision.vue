@@ -24,7 +24,7 @@
         <div class="flex mg20"></div>
       </div>
       <div class="dark-warp">
-        <div class="flex commision-item">
+        <div class="flex commision-item show-ququ">
           <img src="https://cdn.xingkwh.com/%E4%BB%8A%E6%97%A5%E6%94%B6%E7%9B%8Aicondrak@3x.png"
                class="iconlll">
           <span class="flex s bc-title">今日收益</span>
@@ -280,9 +280,9 @@
     font-size: 12px;
     height: 20px;
     line-height: 22px;
-    color: #fff;
+    color: #F6E2FF;
     padding: 0 5px;
-    border: 1px solid #fff;
+    /*border: 1px solid #fff;*/
     border-radius: 10px;
     margin: 0;
     transform: scale(.9, .9) translate(1%, 0);
@@ -297,5 +297,25 @@
     border-radius: 6px;
     overflow: hidden;
     color: #A2A2E8;
+  }
+  .show-ququ{
+    position: relative;
+  }
+  .show-ququ:after, .show-ququ:before{
+    position: absolute;
+    bottom: 0;
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    background: #2F2B42;
+  }
+  .show-ququ:after{
+    right: 0;
+    transform: translate(50%, 50%);
+  }
+  .show-ququ:before{
+    left: 0;
+    transform: translate(-50%, 50%);
   }
 </style>

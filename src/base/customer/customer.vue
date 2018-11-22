@@ -37,7 +37,7 @@
     bottom: 11%;
     right: 5%;
     z-index: 999;
-    opacity: .8;
+    opacity: .9;
     overflow: hidden;
   }
   .customer-inlet img {
