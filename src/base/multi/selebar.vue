@@ -7,7 +7,7 @@
       <div v-for="item in multi_list" class="flex multi-item ell fw ss" @click="$emit('chose', item)"
            :class="{'active-item': active_id === item.id, 'behavior-item': item.behavior === 0}">
         <img :src="item.icon"/>
-        {{item.label}}{{item.behavior === 0 ? '(维护)' : ''}}
+        {{item.label}}
       </div>
     </div>
   </div>
