@@ -113,7 +113,9 @@
 	left: 0;
 	right: 0;
 	z-index: 99998;
-	background: #fff;
+  background: #31293D;
+  background: linear-gradient(45deg, #253250, #34283A);
+  background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));
 }
 .transcat-header{
 	position: fixed;

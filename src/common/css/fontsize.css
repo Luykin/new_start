@@ -109,12 +109,21 @@
   height: 55px;
 }
 
+.iconxx{
+  width: 60px;
+  height: 60px;
+}
+
 .mg5 {
   margin: 5px auto 0;
 }
 
 .mg10 {
   margin: 10px auto 0;
+}
+
+.mg15 {
+  margin: 15px auto 0;
 }
 
 .mg20 {

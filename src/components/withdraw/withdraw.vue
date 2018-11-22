@@ -6,7 +6,7 @@
         <userheader></userheader>
       </div>
       <div class="mg30"></div>
-      <div class="flex ll recharge-title">请输入提现金额<p class="ss" style="color:#727589;">(今日剩余提现次数<span
+      <div class="flex ll recharge-title">请输入提现金额<p class="ss" style="color:#C8C5FF;">(今日剩余提现次数<span
         style="color: #ffcd32;">{{$root.user.count ?  Math.abs(3 - $root.user.count) : 3}}</span> 次)</p></div>
       <div class="flex input-warp">
         <div class="recharge-img maxmaxmaxs">￥</div>
@@ -18,7 +18,7 @@
       <div class="explain-warp flex js lll mg10">
         提现说明
       </div>
-      <span class="flex s line-font">1.最低体现金额为1元。</span>
+      <span class="flex s line-font">1.最低提现金额为1元。</span>
       <span class="flex s line-font">2.提现时间为5分钟之内到账。</span>
       <span class="flex s line-font">3.如出现5分钟之内未到账情况，请联系微信客服:zongjiexk016。</span>
     </div>
@@ -95,8 +95,11 @@
 </script>
 <style scoped>
   .header {
-    height: 100px;
-    background: #fff;
+    width: 96%;
+    height: 110px;
+    margin: 10px auto;
+    border-radius: 6px;
+    overflow: hidden;
   }
 
   .body {
@@ -106,11 +109,14 @@
     left: 0;
     right: 0;
     z-index: 99999;
-    background: #fff;
+    background: #31293D;
+    background: linear-gradient(45deg, #253250, #34283A);
+    background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));
     overflow-y: scroll;
   }
 
   .recharge-img {
+    color: #fff;
     width: 40px;
     height: auto;
   }
@@ -120,6 +126,7 @@
     height: 40px;
     margin: 0 auto;
     justify-content: flex-start;
+    color: #fff;
   }
 
   .input-warp {
@@ -134,17 +141,22 @@
     width: 90%;
     margin: 20px auto;
     height: 50px;
-    background: #524E4B;
     color: #fff;
+    background: #7045F2;
+    background: linear-gradient(right, #7045F2, #9672F8);
+    background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));
     border-radius: 10px;
   }
 
   .my-input {
-    color: #727589;
+    color: #fff;
     font-size: 50px;
     border: none;
     height: 75%;
     text-indent: 20px;
     background: rgba(0, 0, 0, 0);
+  }
+  .line-font{
+    color: #A2A2E8;
   }
 </style>

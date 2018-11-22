@@ -1,49 +1,75 @@
 <template>
   <transition name="list">
     <div>
-      <div class="user-header">
-        <div class="user-header-inner-warp flex">
-          <div class="flex js uhiw-top">
-            <userheader></userheader>
-          </div>
-          <div class="flex js uhiw-bottom s">
-            <router-link tag='div' :to='item.path' class="flex fw" v-for="item in user_route" :key='path'>
-              <img :src="item.icon" class="iconsss">
-              <span class="flex mg10">{{item.name}}</span>
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <!--<div class="user-header">-->
+      <!--<div class="user-header-inner-warp flex">-->
+      <!--<div class="flex js uhiw-top">-->
+      <!--<userheader></userheader>-->
+      <!--</div>-->
+      <!--<div class="flex js uhiw-bottom s">-->
+      <!--<router-link tag='div' :to='item.path' class="flex fw" v-for="item in user_route" :key='path'>-->
+      <!--<img :src="item.icon" class="iconsss">-->
+      <!--<span class="flex mg10">{{item.name}}</span>-->
+      <!--</router-link>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
       <!--<div class="user-other-item proxy-team mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">-->
       <!--$refs.popup._showPopup();$refs.interlayer._showLayer()-->
+      <!--黑色改版user样式-->
+      <div class="user-header-dark">
+        <div class="flex js uhiw-top">
+          <div class="flex fw ut-name-warp">
+            <span class="flex js user-nickname ell">{{$root.user.nickname}}</span>
+            <span class="flex js user-id ell">ID:{{$root.user.id}}</span>
+          </div>
+          <img :src="$root.user.avatar" class="iconxx avater">
+        </div>
+        <div class="flex js uhiw-bottom">
+          <span class="flex js user-nickname ell xxxx">余额 : {{$root.user.score}}</span>
+          <!--<div class="uhiw-btn flex llll">提现</div>-->
+          <router-link tag='div' to='./withdraw' class="uhiw-btn flex llll">
+            提现
+          </router-link>
+        </div>
+      </div>
+      <div class="dark-router-user flex">
+        <router-link tag='div' :to='item.path' class="flex fw dru-item" v-for="item in user_route" :key='path'>
+          <img :src="item.icon">
+          <span class="flex mg10">{{item.name}}</span>
+        </router-link>
+      </div>
       <div class="flex js user-click-item mg20" @click="_showproxy" v-show="!$root.user.is_agent">
-        <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E5%95%86.png"/>
+        <img src="https://cdn.xingkwh.com/%E6%88%90%E4%B8%BA%E5%90%88%E4%BC%99%E4%BA%BA@3x.png"/>
         成为合伙人
       </div>
       <div class="flex js user-click-item" @click="_show_team" :class="{'mg20': $root.user.is_agent}">
-        <img src="https://cdn.xingkwh.com/%E5%90%88%E4%BC%99%E4%BA%BA%E7%BE%A4.png"/>
+        <img src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%8A%A0%E5%85%A5%E7%BE%A4icon@3x.png"/>
         加入合伙人群
       </div>
       <div @click="_to_ckb" class="flex js user-click-item">
         <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
-        <img src="https://cdn.xingkwh.com/%E5%AD%98%E8%B4%A7%E4%BB%B7%E6%A0%BC.png"/>
+        <img
+          src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%AE%9A%E4%BB%B7%E5%8F%82%E8%80%83icon@3x.png"/>
         定价参考
       </div>
       <div @click="_to_resource" class="flex js user-click-item">
         <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
-        <img src="https://cdn.xingkwh.com/%E4%B9%A6%E7%B1%8D01.png"/>
+        <img
+          src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E6%8A%96%E9%9F%B3%E4%B8%8A%E7%83%AD%E9%97%A8icon@3x.png"/>
         抖音上热门技术
       </div>
       <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
-        <img src="https://cdn.xingkwh.com/%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99.png"/>
+        <img
+          src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99icon@3x.png"/>
         生成我的分站
       </div>
-      <div class="flex js user-click-item" @click="_to_kefu">
-        <img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>
-        我的客服
-      </div>
+      <!--<div class="flex js user-click-item" @click="_to_kefu">-->
+      <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>-->
+      <!--我的客服-->
+      <!--</div>-->
       <div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">
-        <img src="https://cdn.xingkwh.com/%E6%88%91%E8%A6%81%E6%8A%95%E8%AF%89.png"/>
+        <img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D%E6%8A%95%E8%AF%89icon@3x.png"/>
         我要投诉
       </div>
       <popup ref="proxy">
@@ -54,7 +80,8 @@
           <span class="flex sss">3、加入星空抖音精英合伙人群。</span>
           <span class="flex sss">4、自主招收合伙人，收取合伙人金50%分成。</span>
           <span class="flex sss">5、搭建分站系统。</span>
-          <p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;" class="xx">{{proxy_price}}元</span></p>
+          <p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;"
+                                                                           class="xx">{{proxy_price}}元</span></p>
           <div class="proxy-btn-buy lll flex mg10" @click="_to_commision">去赚佣金</div>
           <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>
         </div>
@@ -135,15 +162,15 @@
     data() {
       return {
         user_route: [{
-          icon: 'https://cdn.xingkwh.com/%E8%B4%AD%E4%B9%B0%E8%AE%B0%E5%BD%95.png',
+          icon: 'https://cdn.xingkwh.com/%E8%B4%AD%E4%B9%B0%E8%AE%B0%E5%BD%95@3x.png',
           path: './recharge-record?ativerecord=1',
           name: '购买记录'
         }, {
-          icon: 'https://cdn.xingkwh.com/%E6%8F%90%E7%8E%B0%E8%AE%B0%E5%BD%95.png',
+          icon: 'https://cdn.xingkwh.com/%E6%8F%90%E7%8E%B0%E8%AE%B0%E5%BD%95@3x.png',
           path: './recharge-record?ativerecord=2',
           name: '提现记录'
         }, {
-          icon: 'https://cdn.xingkwh.com/%E4%B8%8B%E5%8D%95%E8%AE%B0%E5%BD%95.png',
+          icon: 'https://cdn.xingkwh.com/%E4%B8%8B%E5%8D%95%E8%AE%B0%E5%BD%95@3x.png',
           path: './order-record',
           name: '下单记录'
         }],
@@ -165,8 +192,8 @@
           this.$root.eventHub.$emit('titps', '您还未成为合伙人')
           return false
         }
-        this.$refs.popup._showPopup();
-        this.$refs.interlayer._showLayer();
+        this.$refs.popup._showPopup()
+        this.$refs.interlayer._showLayer()
       },
       _to_resource() {
         if (!this.$root.user.is_agent) {
@@ -199,7 +226,7 @@
         this.$router.replace({
           path: '/commision'
         })
-        this._closeresult();
+        this._closeresult()
       },
       _closeresult() {
         this.$refs.proxy._hiddenPopup()
@@ -398,16 +425,14 @@
 
   .user-click-item {
     height: 55px;
-    border-bottom: 1px solid #F2F2F2;
-    background: #fff;
-    color: #555555;
+    color: #fff;
     position: relative;
   }
 
   .user-click-item:after {
     content: '>';
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 50%;
     display: block;
     color: #DFDFDF;
@@ -418,7 +443,7 @@
   .user-click-item img {
     width: 22px;
     height: auto;
-    margin: 0 10px;
+    margin: 0 10px 0 20px;
     transform: translate(0, -10%);
   }
 
@@ -450,5 +475,69 @@
     border-radius: 6px;
     background: #524E4B;
     color: #DBB868;
+  }
+
+  .user-header-dark {
+    width: 96%;
+    height: 150px;
+    border-radius: 8px;
+    margin: 10px auto;
+    color: #fff;
+    background: url("https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83bgback@3x.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .ut-name-warp {
+    max-width: 70%;
+  }
+
+  .user-nickname {
+    font-size: 22px;
+    text-indent: 20px;
+    margin-bottom: 8px;
+  }
+
+  .user-id {
+    font-size: 14px;
+    text-indent: 20px;
+  }
+
+  .avater {
+    flex-shrink: 0;
+    margin: 0px 5%;
+    border-radius: 100%;
+  }
+
+  .uhiw-btn {
+    color: #fff;
+    width: 40%;
+    margin: 0 5%;
+    border-radius: 6px;
+    border: 1px solid #fff;
+    height: 55%;
+  }
+
+  .dark-router-user {
+    width: 96%;
+    height: 108px;
+    margin: 10px auto 0;
+    border-radius: 6px;
+    background: #3C3B5C;
+    color: #fff;
+  }
+
+
+  .dru-item{
+    width: 29%;
+    margin: 2.165%;
+    background: #4B4A7F;
+    height: 80%;
+    border-radius: 5px;
+  }
+
+  .dark-router-user img{
+    max-width: 50px;
+    width: 30%;
+    height: auto;
   }
 </style>

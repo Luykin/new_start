@@ -52,13 +52,13 @@
   height: 100%;
   border-radius: 2px;
   margin: 0 3px;
-  background: #ff2966;
+  background: #253250;
   -webkit-animation: load 1s ease infinite;
 }
 @keyframes load{
   0%,100%{
     transform: scale3d(1,1,1);
-    background: #ff2966;
+    background: #253250;
   }
   50%{
     transform: scale3d(1,2.5,1);

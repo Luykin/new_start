@@ -5,8 +5,12 @@
       <div class="user-header mg10">
         <div class="user-header-inner-warp flex">
           <div class="flex uhiw-top">
-            <img :src="$root.user.avatar" class="iconx avater">
-            <span class="flex mg10 s" style="color: #A46E2D">{{$root.user.nickname || ''}}</span>
+            <div class="flex fw ut-name-warp">
+              <span class="flex js user-nickname ell">{{$root.user.nickname}}</span>
+              <span class="flex js user-id ell">ID:{{$root.user.id}}</span>
+            </div>
+            <img :src="$root.user.avatar" class="iconxx avater">
+            <!--<span class="flex mg10 s" style="color: #A46E2D">{{$root.user.nickname || ''}}</span>-->
           </div>
           <div class="flex js uhiw-bottom ssss">
             <div class="flex uhiw-bitem fw">
@@ -30,21 +34,21 @@
         团队人數
         <div class="more flex" @click="$router.replace({path: '/team-detail'})">查看团队</div>
       </div>
-      <div class="team-level-item flex ell">
+      <div class="team-level-item flex ell" style="background: #3C3B5C">
         <span class="flex s">一级(人)</span>
         <div class="flex x mg10 ell">{{team_level[0] ? team_level[0].num_people : '0'}}</div>
       </div>
-      <div class="team-level-item flex ell">
+      <div class="team-level-item flex ell" style="background: #4B4A7F">
         <span class="flex s">二级(人)</span>
         <div class="flex x mg10 ell">{{team_level[1] ? team_level[1].num_people : '0'}}</div>
       </div>
-      <div class="team-level-item flex ell">
+      <div class="team-level-item flex ell" style="background: #525291">
         <span class="flex s">三级(人)</span>
         <div class="flex x mg10 ell">{{team_level[2] ? team_level[2].num_people : '0'}}</div>
       </div>
       <!--<div class="team-level-item flex ell">-->
-        <!--<span class="flex s">三级(人)</span>-->
-        <!--<div class="flex ll mg10">{{team_level[2] ? team_level[2].num_people : '0'}}</div>-->
+      <!--<span class="flex s">三级(人)</span>-->
+      <!--<div class="flex ll mg10">{{team_level[2] ? team_level[2].num_people : '0'}}</div>-->
       <!--</div>-->
     </div>
     <div class="explain-warp flex js lll mg10 ell">
@@ -124,12 +128,14 @@
     left: 0;
     right: 0;
     z-index: 99999;
-    background: #fff;
+    background: #31293D;
+    background: linear-gradient(45deg, #253250, #34283A);
+    background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));
     overflow-y: scroll;
   }
 
   .user-header {
-    background: url('https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%94%B6%E7%9B%8A%E6%98%8E%E7%BB%86-%E6%94%B6%E7%9B%8A%E6%A1%86%E8%83%8C%E6%99%AF.png') no-repeat;
+    background: url('https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83bgback@3x.png') no-repeat;
     background-size: 100% 100%;
     width: 92%;
     padding-top: 40%;
@@ -150,7 +156,6 @@
 
   .uhiw-top {
     height: 60%;
-    flex-wrap: wrap;
   }
 
   .uhiw-bottom {
@@ -173,13 +178,13 @@
   }
 
   .ubiw-name {
-    color: #EAD7A5;
+    color: #A8D0FF;
     margin-bottom: 5px;
   }
 
   .team-level-body {
     height: 180px;
-    background: #fff;
+    /*background: #fff;*/
     justify-content: flex-start;
   }
 
@@ -187,28 +192,30 @@
     height: 90px;
     width: 26.5%;
     margin: 20px 0 20px 5%;
-    background: #4D4947;
-    color: #DBB767;
+    /*background: #4D4947;*/
+    color: #fff;
     flex-wrap: wrap;
-    border-radius: 8px;
+    /*border-radius: 8px;*/
   }
 
   .team-level-item span {
-    color: #fff;
+    color: #8988CD;
   }
 
   .transcat-header {
     height: 50px;
-    background: #f2f2f2;
+    background: #3C3B5C;
   }
 
   .th-item {
-    color: #333;
+    color: #B9B7DD;
     font-size: 10px;
     flex-grow: 1;
     height: 100%;
+    margin: 0;
   }
-  .th-item:nth-child(1){
+
+  .th-item:nth-child(1) {
     width: 50%;
     flex-grow: 0.5;
   }
@@ -216,9 +223,9 @@
   .transcat-item {
     height: 60px;
     width: 100%;
-    border-bottom: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid #3C3B5C;
     font-size: 13px;
-    color: #777;
+    color: #fff;
     justify-content: flex-start;
   }
 
@@ -229,34 +236,54 @@
     text-align: center;
     line-height: 20px;
   }
-  .tran-line:nth-child(1){
+
+  .tran-line:nth-child(1) {
     width: 50%;
     flex-grow: 0.5;
   }
-  .header-warp{
-    background: #4D4947;
+
+  .header-warp {
+    /*background: #4D4947;*/
     padding-bottom: 10px;
     overflow: hidden;
   }
-  .mins{
-    transform: scale(.9,.9);
+
+  .mins {
+    transform: scale(.9, .9);
   }
-  .more{
+
+  .more {
     justify-content: flex-end;
     padding-right: 20px;
     margin-right: 5px;
-    color: #999;
+    color: #BFBDE3;
     height: 100%;
     position: relative;
   }
+
   .more:after {
     content: '>';
     position: absolute;
     right: 5px;
     top: 50%;
     display: block;
-    color: #DFDFDF;
+    color: #BFBDE3;
     transform: translate(0, -50%) scale(1, 1.5);
     font-size: 15px;
+  }
+
+  .user-nickname {
+    font-size: 22px;
+    text-indent: 20px;
+    margin-bottom: 8px;
+  }
+
+  .user-id {
+    font-size: 14px;
+    text-indent: 20px;
+  }
+
+  .ut-name-warp {
+    max-width: 70%;
   }
 </style>

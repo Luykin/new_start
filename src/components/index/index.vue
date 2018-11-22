@@ -1,24 +1,24 @@
 <template>
   <transition name="list">
     <div>
-      <div class="index-header flex fw js">
-        <div class="flex header-item ll" v-for="item in title"
+      <div class="index-header flex js">
+        <div class="flex header-item s fw" v-for="item in title"
              :class="{'active-header-item': item.id === active_service_id}"
              @click="active_com_id = null; active_service_id = item.id; _getServices(item.id)">
+          <img :src="get_icon(item.category)"/>
           <span>{{item.label}}</span>
         </div>
-        <!--<div class="flex header-item ll" v-for="item in com_title"-->
-        <!--:class="{'active-header-item': item.id === active_com_id}"-->
-        <!--@click="active_service_id = null; active_com_id = item.id; _getCombos(item.id)">-->
-        <!--<span>{{item.label}}</span>-->
-        <!--</div>-->
-        <div class="flex header-item ll" :class="{'active-header-item': active_com_id === -1}"
+        <div class="flex header-item s fw" :class="{'active-header-item': active_com_id === -1}"
              @click="active_service_id = null; active_com_id = -1; _combos_category()">
+          <img :src="get_icon_com(3)"/>
           <span>抖音套餐</span>
         </div>
       </div>
-      <!--<div style="height: 50px;"></div>-->
-      <div class="tips-warp flex mg10" :class="{'bg-withe': active_com_id === -1}">
+      <div class="index-ele-warp flex fw">
+        <div class="tips-warp flex mg10 tips-warp-new ele-width">
+          <p v-html="now_good.tips || now_good.des" class="tips-pen"></p>
+        </div>
+       <div class="index-line"></div>
         <div class="tips-card-warp mg10" v-show="active_com_id" :class="categry_com_bg_style">
           <div class="tips-card-label flex ell xx" :class="categry_com_font_style">{{now_good.label}}</div>
           <div class="flex price">
@@ -33,47 +33,51 @@
             <span v-for="item in now_good.services">{{item.label}}</span>
           </div>
         </div>
-        <h1 class="flex lll tips-title">小贴士</h1>
-        <p v-html="now_good.tips || now_good.des" class="tips-pen"></p>
-      </div>
-      <div class="from-warp flex mg10 fw">
-        <div class="from-item flex mg20">
-          <div class="flex ell from-item-left">商品选择:</div>
-          <div class="flex from-item-right xenia" @click.stop="multi_show = !multi_show">
-            {{now_good.label}}{{now_good.behavior === 0 ? '(维护)' : ''}}
-            <multi :multi_list="good_list" :show="multi_show" :active_id="active_id" @chose="_multiChose"></multi>
+        <div class="from-warp flex mg10 fw ele-width">
+          <div class="from-item flex mg10">
+            <div class="flex ell from-item-left">商品选择:</div>
+            <div class="flex from-item-right xenia index-right-aw"
+                 @click="multi_show = !multi_show;$refs.interlace._showLayer()">
+              {{now_good.label}}{{now_good.behavior === 0 ? '(维护)' : ''}}
+              <!--<multi :multi_list="good_list" :show="multi_show" :active_id="active_id" @chose="_multiChose"></multi>-->
+            </div>
           </div>
-        </div>
-        <div class="from-item flex mg20">
-          <div class="flex ell from-item-left">作品链接:</div>
-          <div class="flex from-item-right">
-            <input type="text" name="作品链接" placeholder="请输入作品链接" class="index-input" v-model="link"/>
-            <router-link tag='div'
-                         :to="'./index/course?url=' + now_good.tutorials_mobile"
-                         class="flex course-btn ell">查看教程
+          <div class="from-item flex mg15">
+            <div class="flex ell from-item-left">作品链接:</div>
+            <div class="flex from-item-right">
+              <input type="text" name="作品链接" placeholder="请输入作品链接" class="index-input" v-model="link"/>
+            </div>
+            <router-link tag='div' :to="'./index/course?url=' + now_good.tutorials_mobile" class="flex course-btn ell">
+              查看教程
             </router-link>
           </div>
-        </div>
-        <div class="from-item flex mg20">
-          <div class="flex ell from-item-left">商品数量:</div>
-          <div class="flex from-item-right ell">
-            <span v-if="!now_good.min_num || now_good.min_num === now_good.max_num">{{now_good.min_num || 1}} (固定数量)</span>
-            <input type="text" name="作品链接" placeholder="请输入商品数量" class="index-input" v-model="num"
-                   @keyup="_rectifyMoney" v-else/>
+          <div class="from-item flex mg15">
+            <div class="flex ell from-item-left">商品数量:</div>
+            <div class="flex from-item-right ell">
+              <span
+                v-if="!now_good.min_num || now_good.min_num === now_good.max_num">{{now_good.min_num || 1}} (固定数量)</span>
+              <input type="text" name="作品链接" placeholder="请输入商品数量" class="index-input" v-model="num"
+                     @keyup="_rectifyMoney" v-else/>
+            </div>
+          </div>
+          <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围：
+            {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}
+          </div>
+          <div class="from-item flex mg15">
+            <div class="flex ell from-item-left">所需金额:</div>
+            <div class="flex from-item-right ell" style="color: #fff;">{{num ? num : 0}}*{{parseFloat(now_good.price||
+              now_good.score)}}={{agencyPrice}}
+            </div>
           </div>
         </div>
-        <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围：
-          {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}
+        <div class="index-btn flex ll mg10 ele-width" @click="_addTask"
+             v-show="now_good.behavior === 1 || now_good.services">
+          提交订单
         </div>
-        <div class="from-item flex mg20">
-          <div class="flex ell from-item-left">所需金额:</div>
-          <div class="flex from-item-right ell" style="color: #ff561e;">{{num ? num : 0}}*{{parseFloat(now_good.price || now_good.score)}}=
-            {{agencyPrice}}
-          </div>
+        <div class="index-btn flex ll mg10 ele-width" @click="_maintain" style="background: rgba(0,0,0,.3)"
+             v-show="now_good.behavior === 0">商品维护中
         </div>
       </div>
-      <div class="index-btn flex ll mg10" @click="_addTask" v-show="now_good.behavior === 1 || now_good.services">提交订单</div>
-      <div class="index-btn flex ll mg10" @click="_maintain" style="background: rgba(0,0,0,.3)" v-show="now_good.behavior === 0">商品维护中</div>
       <div class="flex" style="height: 65px"></div>
       <popup ref="proxy">
         <div class="flex proxy-warp fw">
@@ -83,7 +87,8 @@
           <span class="flex sss">3、加入星空抖音精英合伙人群。</span>
           <span class="flex sss">4、自主招收合伙人，收取合伙人金50%分成。</span>
           <span class="flex sss">5、搭建分站系统。</span>
-          <p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;" class="xx">{{proxy_price}}元</span></p>
+          <p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;"
+                                                                           class="xx">{{proxy_price}}元</span></p>
           <div class="proxy-btn-buy lll flex mg10" @click="_to_commision">去赚佣金</div>
           <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>
         </div>
@@ -97,6 +102,7 @@
       <interlayer ref="interlace" @close="_close_interlayer"></interlayer>
       <customer></customer>
       <router-view></router-view>
+      <selebar :multi_list="good_list" :show="multi_show" :active_id="active_id" @chose="_multiChose"></selebar>
     </div>
   </transition>
 </template>
@@ -113,9 +119,11 @@
     wechat_agent_order,
     updateuserinfo
   } from 'api/index'
-  import multi from 'base/multi/multi'
+  // import multi from 'base/multi/multi'
+  import selebar from 'base/multi/selebar'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
+  import {get_service_icon, get_com_icon} from 'api/icon_config'
 
   export default {
     data() {
@@ -136,16 +144,27 @@
       }
     },
     created() {
+      // console.log(get_service_icon(2))
       this._init()
     },
     mounted() {
     },
     computed: {
+      get_icon() {
+        return (category) => {
+          return get_service_icon(category)
+        }
+      },
+      get_icon_com() {
+        return (category) => {
+          return get_com_icon(category)
+        }
+      },
       categry_com_bg_style() {
-        return 'categry' + this.active_id % 4;
+        return 'categry' + this.active_id % 4
       },
       categry_com_font_style() {
-        return 'text-categry' + this.active_id % 4;
+        return 'text-categry' + this.active_id % 4
       },
       now_good() {
         let item = {
@@ -173,10 +192,11 @@
         this.$router.replace({
           path: '/commision'
         })
-        this._close_interlayer();
+        this._close_interlayer()
       },
       _close_interlayer() {
-        this.$refs.proxy._hiddenPopup();
+        this.multi_show = false
+        this.$refs.proxy._hiddenPopup()
         this.$refs.notice._hiddenPopup()
         this.$refs.interlace._hiddenLayer()
       },
@@ -185,7 +205,7 @@
         this.$refs.interlace._hiddenLayer()
       },
       _maintain() {
-        this.$root.eventHub.$emit('titps', '此商品正在紧张维护中...');
+        this.$root.eventHub.$emit('titps', '此商品正在紧张维护中...')
       },
       async _wxbuy() {
         if (!this.proxy_good_id && this.proxy_good_id !== 0) {
@@ -386,8 +406,13 @@
         this.$refs.interlace._showLayer()
       },
       _multiChose(e) {
-        this.active_id = e.id
-        this._setnum(e)
+        if (e.behavior) {
+          this._close_interlayer()
+          this.active_id = e.id
+          this._setnum(e)
+        } else {
+          this._maintain()
+        }
       },
       _rectifyMoney() {
         if (isNaN(this.num) || this.num.indexOf('.') > -1 || this.num <= 0) {
@@ -396,7 +421,7 @@
       },
     },
     components: {
-      multi,
+      selebar,
       popup,
       customer,
       interlayer
@@ -406,21 +431,17 @@
 </script>
 <style type="text/css" scoped>
   .index-header {
-    /*position: fixed;*/
-    /*top: 0;*/
     width: 100%;
     min-height: 50px;
     padding: 5px 0;
-    background: #fff;
     align-items: center;
     align-content: center;
-    /*box-shadow: 0 0 2px rgba(0, 0, 0, .1);*/
-    /*z-index: 999;*/
+    background: url("https://cdn.xingkwh.com/%E6%B5%81%E6%98%9F@3x.png") no-repeat;
+    background-size: 100% auto;
   }
 
   .header-item {
     flex-grow: 1;
-    max-width: 33.333%;
     margin: 8px 0;
   }
 
@@ -428,30 +449,34 @@
     color: #000;
   }
 
-  .active-header-item span {
-    position: relative;
+  .header-item span {
+    color: #6970A1;
   }
 
-  .active-header-item span:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    height: 4px;
-    width: 100%;
-    background: linear-gradient(right, #FF1212, #FFCF41);
-    background: -webkit-gradient(linear, right top, left top, from(#FF1212), to(#FFCF41));
-    opacity: .8;
-    border-radius: 10px;
-    transform: translate(-50%, 0);
+  .active-header-item span {
+    color: #fff;
   }
+
+  /*.active-header-item span:after {*/
+  /*content: '';*/
+  /*position: absolute;*/
+  /*bottom: 0;*/
+  /*left: 50%;*/
+  /*height: 4px;*/
+  /*width: 100%;*/
+  /*background: linear-gradient(right, #FF1212, #FFCF41);*/
+  /*background: -webkit-gradient(linear, right top, left top, from(#FF1212), to(#FFCF41));*/
+  /*opacity: .8;*/
+  /*border-radius: 10px;*/
+  /*transform: translate(-50%, 0);*/
+  /*}*/
 
   .tips-warp {
     width: 90%;
     min-height: 60px;
     background: #FFEEE8;
     color: #FF551F;
-    border-radius: 8px;
+    border-radius: 6px;
     align-items: flex-start;
     flex-wrap: wrap;
   }
@@ -459,7 +484,7 @@
   .from-warp {
     width: 90%;
     min-height: 100px;
-    background: #fff;
+    /*background: #fff;*/
     border-radius: 8px;
     padding-bottom: 20px;
     align-items: flex-start;
@@ -478,24 +503,26 @@
   .index-btn {
     width: 90%;
     height: 45px;
-    border-radius: 8px;
+    border-radius: 4px;
     color: #fff;
-    background: linear-gradient(right, #FF561E, #FF2966);
-    background: -webkit-gradient(linear, right top, left top, from(#FF561E), to(#FF2966));
+    background: linear-gradient(right, #7045F2, #9672F8);
+    background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));
   }
 
   .from-item {
-    width: 88%;
-    height: 38px;
-    border: 1px solid rgba(0, 0, 0, .1);
-    border-radius: 3px;
+    width: 100%;
+    height: 45px;
+    border-radius: 6px;
     justify-content: flex-start;
+    overflow: hidden;
   }
 
   .from-item-left {
     height: 100%;
     width: 32%;
     flex-shrink: 0;
+    color: #BFBDE3;
+    background: #505078;
   }
 
   .from-item-right {
@@ -505,37 +532,46 @@
     text-indent: 20px;
     white-space: nowrap;
     position: relative;
-    color: #666;
+    color: #fff;
+    border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
+    background: #505078;
   }
 
   .xenia {
-    color: #353535;
-    background: url("https://cdn.xingkwh.com/%E5%95%86%E5%93%81%E9%80%89%E6%8B%A9@2x.png") no-repeat;
-    background-size: 15px auto;
-    background-position: 94% center;
+    color: #fff;
+    /*background: url("https://cdn.xingkwh.com/%E5%95%86%E5%93%81%E9%80%89%E6%8B%A9@2x.png") no-repeat;*/
+    /*background-size: 15px auto;*/
+    /*background-position: 94% center;*/
   }
 
   .index-input {
     text-indent: 20px;
-    color: #353535;
+    color: #fff;
+    background: none;
+  }
+
+  .index-input::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, .7);
   }
 
   .course-btn {
-    background: #FF2E5D;
-    color: #fff;
+    box-sizing: border-box;
+    color: #BFBDE3;
     font-size: 12px;
-    width: 60px;
-    height: 80%;
+    width: 80px;
+    height: 100%;
     flex-shrink: 0;
     margin: 0 5px;
     text-align: center;
     text-indent: 0;
     border-radius: 6px;
+    border: 1px solid #BFBDE3;
   }
 
   .tips-card-warp {
-    width: 90%;
-    padding-top: 63%;
+    width: 94%;
+    padding-top: 55%;
     border-radius: 10px;
     background: linear-gradient(right, #FF561E, #FF2966);
     position: relative;
@@ -548,31 +584,39 @@
     left: 5%;
     width: 59%;
   }
+
   .categry0 {
     background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E9%9D%92%E6%98%A5%E6%96%B9%E6%A1%88.png") no-repeat;
     background-size: 100% 100%;
   }
+
   .categry1 {
     background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E6%96%B9%E6%A1%88.png") no-repeat;
     background-size: 100% 100%;
   }
-  .categry2{
+
+  .categry2 {
     background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E5%90%8C%E5%9F%8E%E6%96%B9%E6%A1%88.png") no-repeat;
     background-size: 100% 100%;
   }
-  .categry3{
+
+  .categry3 {
     background: url("https://cdn.xingkwh.com/%E4%B8%8A%E7%83%AD%E9%97%A8%E7%BD%91%E7%BA%A2%E6%96%B9%E6%A1%88.png") no-repeat;
     background-size: 100% 100%;
   }
+
   .text-categry0 {
     color: #fff;
   }
+
   .text-categry1 {
     color: #1268EB;
   }
+
   .text-categry2 {
     color: #fff;
   }
+
   .text-categry3 {
     color: #FF391B;
   }
@@ -630,7 +674,7 @@
     border-radius: 10px;
   }
 
-  .proxy-warp span,  .proxy-warp p{
+  .proxy-warp span, .proxy-warp p {
     min-height: 24px;
     line-height: 20px;
     justify-content: flex-start;
@@ -664,17 +708,19 @@
     font-size: 13px;
     text-indent: 10px;
     justify-content: flex-start;
-    color: #FF2E5D;
+    color: #FFE15A;
   }
-  .bg-withe{
+
+  .bg-withe {
     background: #fff;
   }
-  .notice-warp{
+
+  .notice-warp {
     padding: 3%;
     width: 75%;
     height: auto;
     min-height: 100px;
-    background: rgba(255,255,255,1);
+    background: rgba(255, 255, 255, 1);
     border-radius: 10px;
     /*border: 1px dashed rgba(0,0,0,.4);*/
     margin: 0 auto;
@@ -684,8 +730,60 @@
     color: #000;
     line-height: 20px;
   }
-  .notice-warp img{
+
+  .notice-warp img {
     width: 100%;
     pointer-events: none;
+  }
+
+  /*颜色改版*/
+  .index-ele-warp {
+    width: 95%;
+    margin: auto;
+    padding: 10px 0 20px 0;
+    background: #3D3D5E;
+    background: linear-gradient(154deg, rgba(58, 57, 90, 1) 0%, rgba(66, 66, 98, 1) 100%);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .index-ele-warp .ele-width {
+    width: 94%;
+  }
+
+  .tips-warp-new {
+    padding-top: 10px;
+    color: #A2A2E8;
+    background: #525191 url("https://cdn.xingkwh.com/%E5%B0%8F%E8%B4%B4%E5%A3%ABbg@3x.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .header-item img {
+    width: 48%;
+    max-width: 50px;
+    margin: 4px 50% 8px;
+    height: auto;
+    filter: contrast(30%) brightness(85%);
+  }
+
+  .active-header-item img {
+    filter: contrast(100%) brightness(100%);
+  }
+
+  .index-right-aw:after {
+    content: '>';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    display: block;
+    color: #DFDFDF;
+    transform: translate(0, -50%) scale(1, 2);
+    font-size: 15px;
+  }
+  .index-line{
+    width: 90%;
+    height: 0;
+    margin-top: 15px;
+    border-top: 1px dashed #626296;
   }
 </style>

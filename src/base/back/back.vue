@@ -16,9 +16,9 @@
 	.btn-back{
 		width: 86px;
 		height: 38px;
-		background: #ff3535;
-    background: linear-gradient(right, #FF561E, #FF2966);
-    background: -webkit-gradient(linear, right top, left top, from(#FF561E), to(#FF2966));
+		background: #7045F2;
+    background: linear-gradient(right, #7045F2, #9672F8);
+    background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));
 		color: #fff;
 		border-radius: 30px;
 		position: fixed;

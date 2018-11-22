@@ -39,7 +39,7 @@
   .header-user {
     height: 100%;
     justify-content: flex-start;
-    background: url("https://cdn.xingkwh.com/%E6%88%91%E7%9A%84-%E5%A4%B4%E5%83%8F%E8%83%8C%E6%99%AF.png") no-repeat;
+    background: url("https://cdn.xingkwh.com/%E5%B0%8F%E8%B4%B4%E5%A3%ABbg@3x.png") no-repeat;
     background-size: cover;
   }
 
@@ -76,7 +76,7 @@
   }
 
   .nw-item span {
-    color: #DDBB6C;
+    color: rgb(255, 205, 50);
     text-indent: 6px;
   }
 
@@ -90,6 +90,6 @@
   }
 
   .header-user .nw-item .daili {
-    color: #DDBB6C;
+    color: rgb(255, 205, 50);
   }
 </style>

@@ -20,7 +20,8 @@
             </div>
             <div class="flex fw" style="justify-content: flex-end;">
               <span class="flex s bi-name flex-end">{{item.updateA}}</span>
-              <span class="flex s bi-name flex-end" style="color: #fff; background: #BBB; padding: 6px 10px 5px; border-radius: 100px; flex-grow: 0; width: auto;">{{item.status === 2 ? '已完成' : '进行中'}}</span>
+              <span class="flex s bi-name flex-end"
+                    style="color: #727589; padding: 6px 10px 5px; border-radius: 100px; flex-grow: 0; width: auto; border: 1px solid #3C3B5C">{{item.status === 2 ? '已完成' : '进行中'}}</span>
             </div>
           </div>
           <div v-show="!list.length" class="flex sss mg30" style="color: #727589;">
@@ -32,10 +33,11 @@
   </transition>
 </template>
 <script type="text/javascript">
-  import { orders } from 'api/index'
-  import { timeformat } from 'common/js/util'
+  import {orders} from 'api/index'
+  import {timeformat} from 'common/js/util'
   import back from 'base/back/back'
   import betterscroll from 'base/better-scroll/better-scroll'
+
   export default {
     data() {
       return {
@@ -43,15 +45,15 @@
         page: 0,
         num: 10,
         totle: 0,
-        list:[]
+        list: []
       }
     },
     created() {
-      try{
+      try {
         if (this.$route.query.ativerecord) {
           this.ativerecord = parseInt(this.$route.query.ativerecord)
         }
-      }catch(err){
+      } catch (err) {
         console.log(err)
       }
     },
@@ -71,7 +73,7 @@
       _inint() {
         this.$refs.wrapper._initScroll()
       },
-      _choseitem(num){
+      _choseitem(num) {
         if (this.ativerecord === parseInt(num)) {
           return false
         }
@@ -79,7 +81,7 @@
         this._pulldown()
       },
       _formatdata(list) {
-        if(list.length) {
+        if (list.length) {
           list.forEach((item) => {
             item.updateA = timeformat(item.create || new Date().valueOf())
           })
@@ -92,7 +94,7 @@
         this.$root.eventHub.$emit('loading', true)
         const ret = await orders(this.$root.user.user_id, this.num, this.page, status)
         this.$root.eventHub.$emit('loading', null)
-        if(ret.status === 200 && ret.data.code === 200) {
+        if (ret.status === 200 && ret.data.code === 200) {
           if (ret.data.data.count) {
             this.list = [...this.list, ...this._formatdata(ret.data.data.tasks)]
             this.totle = ret.data.data.count
@@ -109,7 +111,7 @@
           this._orders(2)
         }
       },
-      _scrollToEnd(){
+      _scrollToEnd() {
         if (this.list.length < this.totle) {
           // console.log('触底加载')
           this.page += 1
@@ -128,17 +130,20 @@
   }
 </script>
 <style scoped>
-  .body{
+  .body {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 99998;
-    background: #f5f5f5;
+    background: #31293D;
+    background: linear-gradient(45deg, #253250, #34283A);
+    background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));
     overflow-y: scroll;
   }
-  .record-header{
+
+  .record-header {
     width: 100%;
     height: 60px;
     position: fixed;
@@ -146,53 +151,77 @@
     right: 0;
     top: 0;
     z-index: 99999;
-    background: #524E4B;
+    background: #253250;
+    background: linear-gradient(45deg, #253250, #2A2E48);
+    background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#2A2E48));
   }
-  .rh-item{
-    height: 100%;
-    flex-grow: 1;
-    color: #A8A6A4;
+
+  .rh-item {
+    width: 40%;
+    height: 70%;
+    color: #BFBDE3;
+    border: 1px solid #393A59;
   }
-  .rh-item span{
+
+  .rh-item:nth-child(1) {
+    border-top-left-radius: 1000px;
+    border-bottom-left-radius: 1000px;
+  }
+
+  .rh-item:nth-child(2) {
+    border-top-right-radius: 1000px;
+    border-bottom-right-radius: 1000px;
+  }
+
+  .rh-item span {
     box-sizing: border-box;
     width: 25%;
     height: 100%;
     white-space: nowrap;
   }
-  .ative-record{
-    color: #DBB868;
-    border-bottom: 2px solid #DBB868;
+
+  .ative-record {
+    background: #3C3B5C;
+    color: #fff;
+    border: none;
   }
+
   .wrapper {
     width: 100%;
     position: absolute;
     top: 60px;
     bottom: 0;
   }
-  .scroll{
+
+  .scroll {
     width: 100%;
     height: auto;
   }
-  .better-item{
+
+  .better-item {
     width: 100%;
     height: 70px;
-    background: #fff;
-    border-bottom: 1px solid #F2F2F2;
+    /*background: #fff;*/
+    border-bottom: 1px solid #3C3B5C;
   }
-  .bi-img{
+
+  .bi-img {
     margin: 0 4%;
   }
-  .bi-center{
-    color: #333;
+
+  .bi-center {
+    color: #fff;
     flex-grow: 1;
     justify-content: flex-start;
     text-indent: 20px;
   }
-  .bi-name{
+
+  .bi-name {
     color: #727589;
     margin-top: 5px;
   }
-  .flex-end{
+
+  .flex-end {
     justify-content: flex-end;
     margin-right: 10%;
   }
