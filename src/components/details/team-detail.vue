@@ -16,7 +16,7 @@
           <div v-for="item in list" class="better-item flex">
             <div class="flex bi-center ell">
               <img :src="item.avatar"/>
-              <span class="flex js llll">{{item.nickname}}</span>
+              <span class="flex js llll">{{item.nickname.slice(0,5)}}</span>
               <span class="flex js llll" style="color: #727589">{{item.updateA}}</span>
               <span class="flex js llll">{{ativerecord === 1 ? '已支付' : '未支付'}}</span>
             </div>
