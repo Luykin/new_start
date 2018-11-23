@@ -144,7 +144,7 @@
       <!-- <img src="https://cdn.xingkwh.com/kefu2.png" class="kefu-img"> -->
       <div class="footer-none"></div>
       <router-view></router-view>
-      <customer></customer>
+      <!--<customer></customer>-->
     </div>
   </transition>
 </template>
@@ -157,7 +157,7 @@
   } from 'api/index'
   import userheader from 'components/userheader/userheader'
   import popup from 'base/popup/popup'
-  import customer from 'base/customer/customer'
+  // import customer from 'base/customer/customer'
   import interlayer from 'base/interlayer/interlayer'
 
   export default {
@@ -297,7 +297,6 @@
     components: {
       interlayer,
       userheader,
-      customer,
       popup
     },
     watch: {

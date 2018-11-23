@@ -267,3 +267,15 @@ input:focus::-webkit-contacts-auto-fill-button {
   margin: 6px auto;
   border-top: 1px dashed rgba(0, 0, 0, .1);
 }
+#YSF-BTN-HOLDER{
+  bottom: 10% !important;
+  right: 5% !important;
+  z-index: 999 !important;
+}
+#YSF-CUSTOM-ENTRY-0{
+  box-shadow: none !important;
+}
+#YSF-BTN-HOLDER #YSF-CUSTOM-ENTRY-0 img{
+  width: 60px;
+  height: auto;
+}

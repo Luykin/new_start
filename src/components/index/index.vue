@@ -100,14 +100,15 @@
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
       <interlayer ref="interlace" @close="_close_interlayer"></interlayer>
-      <customer></customer>
+      <!--<customer></customer>-->
       <router-view></router-view>
       <selebar :multi_list="good_list" :show="multi_show" :active_id="active_id" @chose="_multiChose"></selebar>
     </div>
   </transition>
 </template>
+
 <script type="text/javascript">
-  import customer from 'base/customer/customer'
+  // import customer from 'base/customer/customer'
   import {
     login,
     appinfo,
@@ -423,7 +424,6 @@
     components: {
       selebar,
       popup,
-      customer,
       interlayer
     },
   }
@@ -763,10 +763,12 @@
     max-width: 50px;
     margin: 4px 50% 8px;
     height: auto;
-    filter: contrast(30%) brightness(85%);
+    -webkit-filter: contrast(40%) brightness(85%);
+    filter: contrast(40%) brightness(85%);
   }
 
   .active-header-item img {
+    -webkit-filter: contrast(100%) brightness(100%);
     filter: contrast(100%) brightness(100%);
   }
 

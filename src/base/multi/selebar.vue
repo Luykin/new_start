@@ -84,10 +84,12 @@
     color: #fff;
   }
   .active-item img{
-    filter: contrast(200%) brightness(110%);
+    -webkit-filter: contrast(150%) brightness(110%);
+    filter: contrast(150%) brightness(110%);
     box-shadow: 0 0 10px rgba(0,0,0,.1);
   }
   .behavior-item{
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     /*filter: contrast(100%) brightness(100%);*/
   }
