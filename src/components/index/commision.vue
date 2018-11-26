@@ -92,15 +92,18 @@
   import popup from 'base/popup/popup'
   // import customer from 'base/customer/customer'
   import interlayer from 'base/interlayer/interlayer'
+  import {NOWCONFIG} from 'api/app_config'
   import QRCode from 'qrcode'
 
   export default {
     data() {
       return {
-        myqrurl: null
+        myqrurl: null,
+        NOWCONFIG: null
       }
     },
     created() {
+      this.NOWCONFIG = NOWCONFIG
     },
     mounted() {
     },
@@ -136,7 +139,7 @@
           type: 'image/jpeg'
         }
         this.$root.eventHub.$emit('loading', true)
-        QRCode.toDataURL(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com%2f%23%2findex?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
+        QRCode.toDataURL(`${NOWCONFIG.spread}?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')
             console.error(err)

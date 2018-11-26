@@ -18,7 +18,7 @@
         <div class="tips-warp flex mg10 tips-warp-new ele-width">
           <p v-html="now_good.tips || now_good.des" class="tips-pen"></p>
         </div>
-       <div class="index-line"></div>
+        <div class="index-line"></div>
         <div class="tips-card-warp mg10" v-show="active_com_id" :class="categry_com_bg_style">
           <div class="tips-card-label flex ell xx" :class="categry_com_font_style">{{now_good.label}}</div>
           <div class="flex price">
@@ -125,6 +125,7 @@
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
   import {get_service_icon, get_com_icon} from 'api/icon_config'
+  import {UAID, APPNAME} from 'api/config'
 
   export default {
     data() {
@@ -145,10 +146,31 @@
       }
     },
     created() {
-      // console.log(get_service_icon(2))
-      this._init()
+      // this._init()
     },
     mounted() {
+      const that = this
+      ysf.on({
+        'onload': function () {
+          that._init((data) => {
+            console.log(data)
+            ysf.config({
+              uid: `WF${data.user_id}`,
+              data:JSON.stringify([
+                {"key":"real_name", "value": data.nickname},
+                {"key":"mobile_phone", "hidden":true},
+                {"key":"email", "hidden":true},
+                {"key":"avatar", "value": data.avatar },
+                {"index": 0, "key":"userId", "label": "用户ID","value": `WF${data.user_id}`},
+                {"index": 1, "key":"score", "label": "剩余积分","value": data.score},
+                {"index": 2, "key":"appName", "label": "应用名称","value": APPNAME},
+                {"index": 3, "key":"uaid", "label": "应用唯一ID","value": UAID},
+              ])
+            })
+          })
+          console.log('七鱼加载完毕')
+        }
+      })
     },
     computed: {
       get_icon() {
@@ -219,6 +241,7 @@
           const ret = await wechat_agent_order(this.$root.user.user_id, this.proxy_price, this.proxy_good_id)
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
+            console.log(ret.data)
             // window.open(ret.data.data.pay_ret)
             this._afterpay(ret.data.data.pay_ret, () => {
               this.$root.eventHub.$emit('titps', '开通合伙人成功~')
@@ -255,7 +278,7 @@
             }
           })
       },
-      async _updateuserinfo(username) {
+      async _updateuserinfo(username, callback) {
         const ret = await updateuserinfo(username)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
@@ -263,18 +286,21 @@
             this._wechat_agent_good(this.$root.user.user_id)
           }
         }
+        if (callback) {
+          callback(this.$root.user)
+        }
       },
-      _init() {
+      _init(callback) {
         const url = window.location.href
         const start = url.indexOf('code=') + 5
         const end = url.indexOf('&state')
         if (start > 4 && end > -1) {
-          this._login(url.slice(start, end), this.$route.query.username)
+          this._login(url.slice(start, end), this.$route.query.username, callback)
           history.replaceState(null, null, window.location.origin + '/#/index')
         } else {
-          const user = localStorage.getItem('user_id')
+          const user = localStorage.getItem(`${UAID}user_id`)
           if (user) {
-            this._updateuserinfo(user)
+            this._updateuserinfo(user, callback)
           } else {
           }
         }
@@ -351,7 +377,7 @@
         }
       },
       _setnum(item) {
-        if (item.min_num === item.max_num) {
+        if ('min_num' in item && item.min_num === item.max_num) {
           this.num = item.min_num
         }
       },
@@ -390,16 +416,19 @@
           this.$refs.interlace._showLayer()
         }
       },
-      async _login(code, surper_code) {
+      async _login(code, surper_code, callback) {
         this.$root.eventHub.$emit('loading', true)
         const ret = await login(code, surper_code)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
-          localStorage.setItem('user_id', ret.data.data.user_id)
+          localStorage.setItem(`${UAID}user_id`, ret.data.data.user_id)
           if (!ret.data.data.is_agent) {
             this._wechat_agent_good(this.$root.user.user_id)
           }
+        }
+        if (callback) {
+          callback(this.$root.user)
         }
       },
       _showproxy() {
@@ -782,7 +811,8 @@
     transform: translate(0, -50%) scale(1, 2);
     font-size: 15px;
   }
-  .index-line{
+
+  .index-line {
     width: 90%;
     height: 0;
     margin-top: 15px;

@@ -70,10 +70,10 @@
       <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>-->
       <!--我的客服-->
       <!--</div>-->
-      <div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">
-        <img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D%E6%8A%95%E8%AF%89icon@3x.png"/>
-        我要投诉
-      </div>
+      <!--<div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">-->
+      <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D%E6%8A%95%E8%AF%89icon@3x.png"/>-->
+      <!--我要投诉-->
+      <!--</div>-->
       <popup ref="proxy">
         <div class="flex proxy-warp fw">
           <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>
@@ -90,10 +90,10 @@
       </popup>
       <popup ref="popup">
         <div class="weqr">
-          <span class="flex"
-                style="height: 40px; margin-bottom: -10px; font-size: 15px; color: #222;">加入星空网红合伙人交流群</span>
-          <img src="https://cdn.xingkwh.com/B32CCB63B90EAFB542F09AA2265EFC53.png"/>
-          <span class="flex" style="height: 40px; margin-top: -10px">长按二维码加入交流群</span>
+          <!--<span class="flex"-->
+                <!--style="height: 40px; margin-bottom: -10px; font-size: 15px; color: #222;">加入星空网红合伙人交流群</span>-->
+          <img :src="NOWCONFIG.customer_url" v-if="NOWCONFIG"/>
+          <!--<span class="flex" style="height: 40px; margin-top: -10px">长按二维码加入交流群</span>-->
         </div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
@@ -159,6 +159,7 @@
   import popup from 'base/popup/popup'
   // import customer from 'base/customer/customer'
   import interlayer from 'base/interlayer/interlayer'
+  import {NOWCONFIG} from 'api/app_config'
 
   export default {
     data() {
@@ -177,10 +178,12 @@
           name: '下单记录'
         }],
         proxy_good_id: null,
-        proxy_price: 128
+        proxy_price: 128,
+        NOWCONFIG: null
       }
     },
     created() {
+      this.NOWCONFIG = NOWCONFIG
     },
     mounted() {
       if (this.$root.user.user_id) {
@@ -540,10 +543,12 @@
     width: 30%;
     height: auto;
   }
+
   .feidaili {
     text-indent: 5px;
     color: rgba(255, 255, 255, .5);
   }
+
   .daili {
     color: #ffe5b8;
   }
