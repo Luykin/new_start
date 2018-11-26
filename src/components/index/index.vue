@@ -93,6 +93,10 @@
           <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>
         </div>
       </popup>
+      <popup ref="notice_back">
+        <div v-html="announcement" v-if="announcement" class="app-notice-warp"></div>
+        <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="$refs.interlace._hiddenLayer();$refs.notice_back._hiddenPopup()" class="cancelimg">
+      </popup>
       <popup ref="notice" @popupClick="_closeresult">
         <div class="notice-warp">
           <img src="https://cdn.xingkwh.com/notice.png"/>
@@ -221,11 +225,13 @@
         this.multi_show = false
         this.$refs.proxy._hiddenPopup()
         this.$refs.notice._hiddenPopup()
+        this.$refs.notice_back._hiddenPopup()
         this.$refs.interlace._hiddenLayer()
       },
       _closeresult() {
+        this.$refs.notice_back._showPopup()
         this.$refs.notice._hiddenPopup()
-        this.$refs.interlace._hiddenLayer()
+        // this.$refs.interlace._hiddenLayer()
       },
       _maintain() {
         this.$root.eventHub.$emit('titps', '此商品正在紧张维护中...')
@@ -817,5 +823,15 @@
     height: 0;
     margin-top: 15px;
     border-top: 1px dashed #626296;
+  }
+
+  .app-notice-warp{
+    width: 80%;
+    height: auto;
+    padding: 10px;
+    margin: 0 auto;
+    border-radius: 8px;
+    background: #626296;
+    color: #a2a2e8;
   }
 </style>
