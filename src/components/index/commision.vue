@@ -103,9 +103,9 @@
       }
     },
     created() {
-      this.NOWCONFIG = NOWCONFIG
     },
     mounted() {
+      this.NOWCONFIG = NOWCONFIG
     },
     computed: {},
     methods: {
@@ -139,6 +139,7 @@
           type: 'image/jpeg'
         }
         this.$root.eventHub.$emit('loading', true)
+        console.log(NOWCONFIG.spread)
         QRCode.toDataURL(`${NOWCONFIG.spread}?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')

@@ -146,7 +146,8 @@
         proxy_price: 128,
         good_catch: {},
         proxy_good_id: null,
-        announcement: ''
+        announcement: '',
+        step: 0,
       }
     },
     created() {
@@ -222,6 +223,13 @@
         this._close_interlayer()
       },
       _close_interlayer() {
+        if (this.step === 0) {
+          console.log('显示公告')
+          this.$refs.notice_back._showPopup()
+          this.$refs.notice._hiddenPopup()
+          this.step += 1
+          return false
+        }
         this.multi_show = false
         this.$refs.proxy._hiddenPopup()
         this.$refs.notice._hiddenPopup()
@@ -229,9 +237,11 @@
         this.$refs.interlace._hiddenLayer()
       },
       _closeresult() {
+        if (this.step === 0) {
+          this.step += 1
+        }
         this.$refs.notice_back._showPopup()
         this.$refs.notice._hiddenPopup()
-        // this.$refs.interlace._hiddenLayer()
       },
       _maintain() {
         this.$root.eventHub.$emit('titps', '此商品正在紧张维护中...')
@@ -302,7 +312,7 @@
         const end = url.indexOf('&state')
         if (start > 4 && end > -1) {
           this._login(url.slice(start, end), this.$route.query.username, callback)
-          history.replaceState(null, null, window.location.origin + '/#/index')
+          history.replaceState(null, null, window.location.origin + `/${UAID}`)
         } else {
           const user = localStorage.getItem(`${UAID}user_id`)
           if (user) {
@@ -833,5 +843,6 @@
     border-radius: 8px;
     background: #626296;
     color: #a2a2e8;
+    line-height: 25px;
   }
 </style>
