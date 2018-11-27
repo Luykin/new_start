@@ -35,7 +35,7 @@ export default {
 <style type="text/css" scoped>
 .layer {
   position: fixed;
-  z-index: 1500;
+  z-index: 991500;
   left: 0;
   right: 0;
   top: 0;

@@ -288,3 +288,19 @@ export function get_next_info(user_id, is_agent, num, page) {
     return Promise.resolve(res.response.status)
   })
 }
+
+export function refund(user_id, id) {
+  const url = `${PREFIX_URL}/wechat/refund/task/order`
+  let data = {
+    user_id,
+    id,
+    uaid: UAID
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

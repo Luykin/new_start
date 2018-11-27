@@ -15,13 +15,14 @@
         <div class="scroll">
           <div v-for="item in list" class="better-item flex">
             <div class="flex fw bi-center">
-              <p class="flex js ll ell">{{item.lable}}<span class="ss" style="text-indent: 5px; color: #727589">(数量{{item.point}})</span></p>
+              <p class="flex js ll ell">{{item.lable}}<span class="ss" style="text-indent: 5px; color: #727589">(数量{{item.point}})</span>
+              </p>
               <span class="flex js ssss bi-name">{{item.addition.slice(0, 20)}}</span>
             </div>
             <div class="flex fw" style="justify-content: flex-end;">
               <span class="flex s bi-name flex-end">{{item.updateA}}</span>
-              <span class="flex s bi-name flex-end"
-                    style="color: #727589; padding: 6px 10px 5px; border-radius: 100px; flex-grow: 0; width: auto; border: 1px solid #3C3B5C">{{item.status === 2 ? '已完成' : '进行中'}}</span>
+              <span class="flex s bi-name flex-end bi-btn-s"
+                    @click="_refundShow(item)" :class="_btnStatus(item.status)">{{_status(item.status)}}</span>
             </div>
           </div>
           <div v-show="!list.length" class="flex sss mg30">
@@ -29,15 +30,50 @@
           </div>
         </div>
       </betterscroll>
+      <popup ref="refund">
+        <div class="refund-body flex fw">
+          <h1 class="flex">取消订单申请</h1>
+          <p class="flex ell">{{refund_item.lable}}(数量{{refund_item.point}})</p>
+          <p class="flex">该订单正在排队中，是否确认取消该订单？</p>
+          <p class="flex">取消申请通过后钱款({{refund_item.price}}元)会原路退回。</p>
+          <div class="flex refund-btn" @click="$refs.interlace._hiddenLayer();$refs.refund._hiddenPopup()">取消</div>
+          <div class="flex refund-btn" @click="_refund">确定</div>
+        </div>
+      </popup>
+      <interlayer ref="interlace"></interlayer>
     </div>
   </transition>
 </template>
 <script type="text/javascript">
-  import {orders} from 'api/index'
+  import {orders, refund} from 'api/index'
   import {timeformat} from 'common/js/util'
   import back from 'base/back/back'
   import empyt from 'base/empyt/empyt'
+  import popup from 'base/popup/popup'
+  import interlayer from 'base/interlayer/interlayer'
   import betterscroll from 'base/better-scroll/better-scroll'
+
+  const KAMENG_STATUS_LIST = {
+    '-11': '准备中',
+    '-10': '未支付',
+    '-9': '取消订单',
+    '-8': '准备中',
+    '-7': '准备中',
+    '-6': '取消订单',
+    '-5': '准备中',
+    '-4': '已关闭',
+    '-3': '准备中',
+    '-2': '准备中',
+    '-1': '准备中',
+    '0': '准备中',
+    '1': '进行中',
+    '2': '已完成',
+    '3': '进行中',
+    '4': '已退款',
+    '5': '已退款',
+    '6': '申请退款中',
+  }
+  const REFUND_STATUS = [-2, -6, -9]
 
   export default {
     data() {
@@ -46,7 +82,12 @@
         page: 0,
         num: 10,
         totle: 0,
-        list: []
+        list: [],
+        refund_item: {
+          point: 0,
+          lable: 0,
+          price: 0
+        }
       }
     },
     created() {
@@ -69,6 +110,24 @@
       // ...mapGetters([
       // 	'user'
       // 	])
+      _btnStatus() {
+        return (status) => {
+          if (REFUND_STATUS.indexOf(status) > -1) {
+            return 'can-click'
+          } else {
+            return ''
+          }
+        }
+      },
+      _status() {
+        return (status) => {
+          if (status in KAMENG_STATUS_LIST) {
+            return KAMENG_STATUS_LIST[status]
+          } else {
+            return '准备中'
+          }
+        }
+      }
     },
     methods: {
       _inint() {
@@ -80,6 +139,25 @@
         }
         this.ativerecord = parseInt(num)
         this._pulldown()
+      },
+      _refundShow(item) {
+        if (REFUND_STATUS.indexOf(item.status) < 0) {
+          return false
+        }
+        this.refund_item = item
+        this.$refs.interlace._showLayer()
+        this.$refs.refund._showPopup()
+      },
+      async _refund(item) {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await refund(this.$root.user.user_id, this.refund_item.id)
+        this.$root.eventHub.$emit('loading', null)
+        this.$refs.interlace._hiddenLayer()
+        this.$refs.refund._hiddenPopup()
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.eventHub.$emit('titps', '取消订单申请已提交,请耐心等待。')
+          this._pulldown()
+        }
       },
       _formatdata(list) {
         if (list.length) {
@@ -126,8 +204,10 @@
     },
     components: {
       betterscroll,
+      popup,
       back,
-      empyt
+      empyt,
+      interlayer
     },
   }
 </script>
@@ -226,5 +306,44 @@
   .flex-end {
     justify-content: flex-end;
     margin-right: 10%;
+  }
+
+  .refund-body {
+    width: 85%;
+    height: auto;
+    padding: 10px;
+    margin: 0 auto;
+    background: #3b365d;
+    color: #a2a2e8;
+    border-radius: 8px;
+    line-height: 25px;
+  }
+
+  .refund-body h1 {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .refund-btn {
+    width: 40%;
+    height: 35px;
+    border-radius: 8px;
+    border: 1px solid #a2a2e8;
+    margin: 15px 3%;
+  }
+
+  .bi-btn-s {
+    color: #727589;
+    padding: 6px 10px 5px;
+    border-radius: 100px;
+    flex-grow: 0;
+    width: auto;
+    border: 1px solid #3C3B5C
+  }
+
+  .can-click {
+    color: #cba2ff;
+    border: 1px solid #cba2ff;
   }
 </style>

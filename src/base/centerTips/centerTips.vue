@@ -60,7 +60,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 9999999;
+  z-index: 99999999999;
 /*  background: #444;*/
   opacity: .9;
 }

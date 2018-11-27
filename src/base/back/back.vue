@@ -22,9 +22,9 @@
 		color: #fff;
 		border-radius: 30px;
 		position: fixed;
-		bottom: 14%;
-		right: 3%;
-		z-index: 999999;
+		bottom: 10%;
+		right: 6%;
+		z-index: 991000;
 		opacity: .84;
 	}
 </style>
