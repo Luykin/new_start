@@ -15,7 +15,7 @@
         <div class="scroll">
           <div v-for="item in list" class="better-item flex">
             <div class="flex fw bi-center">
-              <p class="flex js ll">{{item.lable}}<span class="ss" style="text-indent: 5px; color: #727589">(数量{{item.point}})</span></p>
+              <p class="flex js ll ell">{{item.lable}}<span class="ss" style="text-indent: 5px; color: #727589">(数量{{item.point}})</span></p>
               <span class="flex js ssss bi-name">{{item.addition.slice(0, 20)}}</span>
             </div>
             <div class="flex fw" style="justify-content: flex-end;">

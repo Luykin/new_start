@@ -158,7 +158,7 @@
       ysf.on({
         'onload': function () {
           that._init((data) => {
-            console.log(data)
+            // console.log(data)
             ysf.config({
               uid: `WF${data.user_id}`,
               data:JSON.stringify([
@@ -311,13 +311,16 @@
         const start = url.indexOf('code=') + 5
         const end = url.indexOf('&state')
         if (start > 4 && end > -1) {
+          console.log('微信登录')
           this._login(url.slice(start, end), this.$route.query.username, callback)
           history.replaceState(null, null, window.location.origin + `/${UAID}`)
         } else {
-          const user = localStorage.getItem(`${UAID}user_id`)
+          console.log('浏览器储存登录')
+          const user = localStorage.getItem(`${UAID}user_id`) || localStorage.getItem('user_id')
           if (user) {
             this._updateuserinfo(user, callback)
           } else {
+            console.log(user, '无法加载用户信息')
           }
         }
         this._appinfo()
@@ -841,8 +844,8 @@
     padding: 10px;
     margin: 0 auto;
     border-radius: 8px;
-    background: #626296;
+    background: #3b365d;
     color: #a2a2e8;
-    line-height: 25px;
+    line-height: 23px;
   }
 </style>
