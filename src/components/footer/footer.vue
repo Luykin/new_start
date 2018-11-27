@@ -27,6 +27,11 @@
           path: '/user'
         }]
       }
+      //   ,{
+      //   name: '秘籍',
+      //   icon: 'https://cdn.xingkwh.com/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA-%E9%A6%96%E9%A1%B5%E9%80%89%E4%B8%AD@3x.png',
+      //   path: '/secret'
+      // }
     },
     computed: {},
     created() {

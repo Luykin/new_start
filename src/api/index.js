@@ -304,3 +304,35 @@ export function refund(user_id, id) {
     return Promise.resolve(res.response.status)
   })
 }
+
+export function secret_list(num, page) {
+  const url = `${PREFIX_URL}/wechat/soft/article/list`
+  let data = {
+    num,
+    page,
+    uaid: UAID
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+export function secret_details(id, user_id) {
+  const url = `${PREFIX_URL}/wechat/soft/article/details`
+  let data = {
+    id,
+    user_id,
+    uaid: UAID
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

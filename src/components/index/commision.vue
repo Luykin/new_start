@@ -32,7 +32,10 @@
             <span class="flex cnwl-span ell" style="color: #FED083">+{{$root.user.today_income || 0}}元</span>
             <span class="flex cnwl-span">+{{$root.user.today_new_people || 0}}人</span>
           </div>
-          <div class="flex btn-commision ori" @click="_showqr()">推广</div>
+          <!--<div class="flex btn-commision ori" @click="_showqr()">推广</div>-->
+          <router-link tag='div' to='./spread' class="flex btn-commision ori">
+            推广
+          </router-link>
         </div>
         <div class="flex commision-item">
           <img src="https://cdn.xingkwh.com/%E6%88%91%E7%9A%84%E5%9B%A2%E9%98%9Ficondrak@3x.png"

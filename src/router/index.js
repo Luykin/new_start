@@ -95,6 +95,16 @@ const routerconst = new Router({
     name: 'team-detail',
     component: () =>
       import (`components/details/team-detail`)
+  }, {
+    path: '/spread',
+    name: 'spread',
+    component: () =>
+      import (`components/details/spread`)
+  }, {
+    path: '/secret',
+    name: 'secret',
+    component: () =>
+      import (`components/index/secret`)
   }]
 })
 routerconst.beforeEach((to, from, next) => {
