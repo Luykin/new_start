@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <div class="body">
-      <back></back>
+      <back ref="back"></back>
       <div class="record-header flex">
         <div class="flex rh-item" :class="{'ative-record':  ativerecord === 1}" @click="_choseitem(1)">
           <span class="flex">购买记录</span>
@@ -183,7 +183,7 @@
     left: 0;
     right: 0;
     top: 0;
-    z-index: 99999;
+    z-index: 9999;
     background: #253250;
     background: linear-gradient(45deg, #253250, #2A2E48);
     background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#2A2E48));

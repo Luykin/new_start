@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <div class="body">
-      <back></back>
+      <back ref="back"></back>
       <div class="record-header flex">
         <div class="flex rh-item" :class="{'ative-record':  ativerecord === 1}" @click="_choseitem(1)">
           <span class="flex">进行中</span>
@@ -32,11 +32,11 @@
       </betterscroll>
       <popup ref="refund">
         <div class="refund-body flex fw">
-          <h1 class="flex">取消订单申请</h1>
-          <p class="flex ell">{{refund_item.lable}}(数量{{refund_item.point}})</p>
-          <p class="flex">该订单正在排队中，是否确认取消该订单？</p>
-          <p class="flex">取消申请通过后钱款({{refund_item.price}}元)会原路退回。</p>
-          <div class="flex refund-btn" @click="$refs.interlace._hiddenLayer();$refs.refund._hiddenPopup()">取消</div>
+          <h1 class="flex">取消订单</h1>
+          <p class="flex ell ss">{{refund_item.lable}}(数量{{refund_item.point}})</p>
+          <p class="flex xxxx" style="color: #F5A623; font-weight: 600;">订单金额: {{refund_item.price}}</p>
+          <p class="flex ell ss" style="background: #452F6D; border-radius: 100px; width: auto; padding: 0 10px; line-height: 28px; margin: 10px 0;">注：申请取消订单，订单金额将1~2工作日原路退回支付卡</p>
+          <div class="flex refund-btn" @click="$refs.interlace._hiddenLayer();$refs.refund._hiddenPopup();$refs.back._show()">取消</div>
           <div class="flex refund-btn" @click="_refund">确定</div>
         </div>
       </popup>
@@ -147,6 +147,7 @@
         this.refund_item = item
         this.$refs.interlace._showLayer()
         this.$refs.refund._showPopup()
+        this.$refs.back._hiden()
       },
       async _refund(item) {
         this.$root.eventHub.$emit('loading', true)
@@ -154,6 +155,7 @@
         this.$root.eventHub.$emit('loading', null)
         this.$refs.interlace._hiddenLayer()
         this.$refs.refund._hiddenPopup()
+        this.$refs.back._show()
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', '取消订单申请已提交,请耐心等待。')
           this._pulldown()
@@ -232,7 +234,7 @@
     left: 0;
     right: 0;
     top: 0;
-    z-index: 99999;
+    z-index: 9999;
     background: #253250;
     background: linear-gradient(45deg, #253250, #2A2E48);
     background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#2A2E48));
@@ -313,23 +315,24 @@
     height: auto;
     padding: 10px;
     margin: 0 auto;
-    background: #3b365d;
-    color: #a2a2e8;
+    background: #4C3C78;
+    color: #D5A5FF;
     border-radius: 8px;
-    line-height: 25px;
+    line-height: 35px;
   }
 
   .refund-body h1 {
     font-weight: 600;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
 
   .refund-btn {
-    width: 40%;
-    height: 35px;
+    width: 38%;
+    height: 38px;
     border-radius: 8px;
-    border: 1px solid #a2a2e8;
+    border: 1px solid #D5A5FF;
+    background: #50397A;
     margin: 15px 3%;
   }
 

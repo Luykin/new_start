@@ -313,7 +313,7 @@
         if (start > 4 && end > -1) {
           console.log('微信登录')
           this._login(url.slice(start, end), this.$route.query.username, callback)
-          history.replaceState(null, null, window.location.origin + `/${UAID}`)
+          history.replaceState(null, null, window.location.origin + `/${UAID}/#/`)
         } else {
           console.log('浏览器储存登录')
           const user = localStorage.getItem(`${UAID}user_id`) || localStorage.getItem('user_id')

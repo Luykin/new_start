@@ -1,14 +1,25 @@
 <template>
-	<div class="btn-back flex" @click="_back">
+	<div class="btn-back flex" @click="_back" v-show="show">
 		返回
 	</div>
 </template>
 <script type="text/javascript">
 	export default {
+	  data() {
+	    return{
+	      show: true
+      }
+    },
 		methods: {
 			_back() {
 				this.$router.back(-1)
-			}
+			},
+      _show() {
+			  this.show = true
+      },
+      _hiden(){
+			  this.show = null
+      }
 		}
 	}
 </script>
@@ -24,7 +35,7 @@
 		position: fixed;
 		bottom: 10%;
 		right: 6%;
-		z-index: 991000;
+		z-index: 999990;
 		opacity: .84;
 	}
 </style>
