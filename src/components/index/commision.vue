@@ -10,10 +10,14 @@
               <span class="flex maxiiii">￥{{$root.user.sum_income || '0.00'}}</span>
             </div>
             <div class="flex js uhiw-bottom s">
-              <div class="flex uhiwb-item ell" @click="_showqr()">
+              <!--<div class="flex uhiwb-item ell" @click="_showqr()">-->
+                <!--<i class="icon-erweima iconfont xx"></i>-->
+                <!--生成推广二维码海报-->
+              <!--</div>-->
+              <router-link tag='div' to='./spread' class="flex uhiwb-item ell">
                 <i class="icon-erweima iconfont xx"></i>
                 生成推广二维码海报
-              </div>
+              </router-link>
               <router-link tag='div' to='./details-commision' class="flex uhiwb-item ell">
                 <i class="icon-qianbao iconfont xx"></i>
                 我的佣金收益明细
