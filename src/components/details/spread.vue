@@ -15,7 +15,7 @@
       <h1 class="flex">推荐文案</h1>
       <p class="flex">{{share[share_index]}}</p>
       <div class="share-btn flex" @click="_pushShare">换一个</div>
-      <div class="share-btn flex red-btn copy" :data-clipboard-text="share[share_index]" id="copy">复制</div>
+      <div class="share-btn flex red-btn copy" :data-clipboard-text="share[share_index]" id="copy" @click="">复制</div>
     </div>
     <interlayer ref="interlayer" @close="_close_interlayer"></interlayer>
     <back ref="back"></back>
@@ -44,11 +44,11 @@
       }
     },
     created() {
-      this._initCopy()
     },
     mounted() {
       this.NOWCONFIG = NOWCONFIG
       setTimeout(() => {
+        this._initCopy()
         this._showqr()
       }, 200)
     },
@@ -89,7 +89,6 @@
       },
       _initCopy() {
         const clipboard = new ClipboardJS('.copy')
-        console.log(clipboard)
         const that = this
         clipboard.on('success', function (e) {
           that.$root.eventHub.$emit('titps', '已复制到剪贴板')

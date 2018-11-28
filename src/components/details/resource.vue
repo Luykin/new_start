@@ -4,12 +4,12 @@
       <img src="https://cdn.xingkwh.com/Artboard%205.png"/>
       <div style="padding-top: 164%;" class="copy-warp">
         <div class="uri-warp flex fw" style="top: 40%;">
-          <span class="copy flex" :data-clipboard-text="url1">{{url1}}</span>
-          <div class="copy uri-btn flex mg20" :data-clipboard-text="code1">提取码：{{code1}}</div>
+          <span class="copy flex" :data-clipboard-text="url1" @click="">{{url1}}</span>
+          <div class="copy uri-btn flex mg20" :data-clipboard-text="code1" @click="">提取码：{{code1}}</div>
         </div>
         <div class="uri-warp flex fw" style="top: 80%;">
-          <span class="copy flex" :data-clipboard-text="url2">{{url2}}</span>
-          <div class="copy uri-btn flex mg20" :data-clipboard-text="code2">提取码：{{code2}}</div>
+          <span class="copy flex" :data-clipboard-text="url2" @click="">{{url2}}</span>
+          <div class="copy uri-btn flex mg20" :data-clipboard-text="code2" @click="">提取码：{{code2}}</div>
         </div>
       </div>
       <back></back>
