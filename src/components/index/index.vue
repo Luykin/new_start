@@ -63,6 +63,10 @@
           <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围：
             {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}
           </div>
+          <div class="from-item flex mg15 max-from-item" v-show="now_good.id === 82">
+            <div class="flex ell from-item-left">评论内容:</div>
+            <textarea placeholder="请输入评论内容" v-model="comment"></textarea>
+          </div>
           <div class="from-item flex mg15">
             <div class="flex ell from-item-left">所需金额:</div>
             <div class="flex from-item-right ell" style="color: #fff;">{{num ? num : 0}}*{{parseFloat(now_good.price||
@@ -148,6 +152,7 @@
         proxy_good_id: null,
         announcement: '',
         step: 0,
+        comment: ''
       }
     },
     created() {
@@ -342,7 +347,7 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link)
+        const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link, this.comment.replace(/\n/g,"#"))
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
           this._afterpay(ret.data.data.pay_ret, () => {
@@ -599,7 +604,7 @@
     background: none;
   }
 
-  .index-input::-webkit-input-placeholder {
+  .index-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
     color: rgba(255, 255, 255, .7);
   }
 
@@ -847,5 +852,29 @@
     background: #3b365d;
     color: #a2a2e8;
     line-height: 23px;
+  }
+
+  .max-from-item{
+    height: 130px;
+    background: #505078;
+    position: relative;
+  }
+  .max-from-item textarea {
+    width: 90%;
+    height: 84%;
+    text-indent: 38%;
+    line-height: 25px;
+    padding: 8% 3% 8% 7%;
+    outline: none;
+    border: none;
+    background: #505078;
+    color: #fff;
+  }
+  .max-from-item .from-item-left{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 45px;
+    background: rgba(0,0,0,0);
   }
 </style>

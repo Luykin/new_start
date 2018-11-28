@@ -65,6 +65,12 @@ export function getuser() {
   }
   return app.user
 }
+export function getEventHub() {
+  if (!app) {
+    return false
+  }
+  return app.eventHub
+}
 export function loading(loading) {
   if (!app) {
     return false

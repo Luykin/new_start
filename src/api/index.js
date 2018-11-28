@@ -90,7 +90,7 @@ export function login(wx_login_code, super_code) {
 }
 
 // 统一购买服务，包含套餐
-export function addtask(family, user_id, point, service_id, price, addition) {
+export function addtask(family, user_id, point, service_id, price, addition, comment) {
   const url = `${PREFIX_URL}/wechat/add/task`
   let data = {
     family,
@@ -101,6 +101,11 @@ export function addtask(family, user_id, point, service_id, price, addition) {
     addition,
     pay_type: 'wx',
     uaid: UAID
+  }
+  if (comment) {
+    Object.assign(data, {
+      comment
+    })
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
@@ -333,6 +338,6 @@ export function secret_details(id, user_id) {
   }, data))).then(function (res) {
     return Promise.resolve(res)
   }).catch(res => {
-    return Promise.resolve(res.response.status)
+    return Promise.resolve({data: {code: res.response.status}})
   })
 }
