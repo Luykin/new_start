@@ -36,14 +36,12 @@
       const that = this
       clipboard.on('success', function (e) {
         that.$root.eventHub.$emit('titps', '已复制到剪贴板')
-        console.info('Action:', e.action)
-        console.info('Text:', e.text)
-        console.info('Trigger:', e.trigger)
+        console.log(e)
         e.clearSelection()
       })
       clipboard.on('error', function (e) {
-        console.error('Action:', e.action)
-        console.error('Trigger:', e.trigger)
+        // console.error('Action:', e.action)
+        // console.error('Trigger:', e.trigger)
       })
     },
     components: {

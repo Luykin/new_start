@@ -53,4 +53,10 @@
     z-index: 99999;
     background: #f1f1f1;
   }
+  .course-body img{
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+  }
 </style>

@@ -147,7 +147,7 @@
         good_list: [],
         link: '',
         num: '',
-        proxy_price: 128,
+        proxy_price: 48,
         good_catch: {},
         proxy_good_id: null,
         announcement: '',

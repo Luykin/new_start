@@ -178,7 +178,7 @@
           name: '下单记录'
         }],
         proxy_good_id: null,
-        proxy_price: 128,
+        proxy_price: 48,
         NOWCONFIG: null
       }
     },
