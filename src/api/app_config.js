@@ -11,7 +11,7 @@ const appConfig = {
     'dev_spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/60101%2f%23%2findex'
   },
   '60102': {
-    'customer_url': 'https://cdn.xingkwh.com/60102.jpg',
+    'customer_url': 'https://cdn.xingkwh.com/B32CCB63B90EAFB542F09AA2265EFC53.png',
     'spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/60102%2f%23%2findex',
     'dev_spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/60101%2f%23%2findex'
   }

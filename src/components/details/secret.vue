@@ -72,7 +72,7 @@
     width: 92%;
     height: auto;
     padding: 4%;
-    line-height: 24px;
+    line-height: 32px;
     color: #fff;
   }
 </style>
