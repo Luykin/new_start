@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-var env = exports.env = 'qzone'
+var env = exports.env = 'dev'
 var PREFIX_URL = exports.PREFIX_URL = 'https://' + env + '.melonblock.com/fans'
 // var UAID = exports.UAID = 360002
 var UAID = exports.UAID = 60100

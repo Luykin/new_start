@@ -346,6 +346,10 @@
           this.$root.eventHub.$emit('titps', '请填写数量在范围之内')
           return false
         }
+        if (this.now_good.id === 82 && (!this.comment || this.comment.length > 105)) {
+          this.$root.eventHub.$emit('titps', '请填写1~100个评论字数')
+          return false
+        }
         this.$root.eventHub.$emit('loading', true)
         const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link, this.comment.replace(/\n/g,"#"))
         this.$root.eventHub.$emit('loading', null)
@@ -469,7 +473,11 @@
         }
       },
       _rectifyMoney() {
-        if (isNaN(this.num) || this.num.indexOf('.') > -1 || this.num <= 0) {
+        try {
+          if (isNaN(this.num) || this.num.indexOf('.') > -1 || this.num <= 0) {
+            this.num = ''
+          }
+        } catch (e) {
           this.num = ''
         }
       },
@@ -602,6 +610,7 @@
     text-indent: 20px;
     color: #fff;
     background: none;
+    user-select: text !important;
   }
 
   .index-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
@@ -869,6 +878,7 @@
     border: none;
     background: #505078;
     color: #fff;
+    overflow-y: scroll;
   }
   .max-from-item .from-item-left{
     position: absolute;

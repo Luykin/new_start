@@ -19,7 +19,8 @@
       </div>
       <interlayer ref="interlayer" @close="_close_interlayer"></interlayer>
       <back ref="back"></back>
-      <img src="https://cdn.xingkwh.com/copy--1.png" class="hiden-copy" :class="{'show-copy': first_show}" @click="_close_interlayer">
+      <img src="https://cdn.xingkwh.com/copy--1.png" class="hiden-copy" :class="{'show-copy': first_show}"
+           @click="_close_interlayer">
     </div>
   </transition>
 </template>
@@ -147,7 +148,7 @@
   }
 
   .body {
-    position: fixed;
+    position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
@@ -164,6 +165,10 @@
     width: 300px;
     height: 537px;
     margin: 40px auto;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
   }
 
   .open-share {
@@ -227,7 +232,7 @@
     transform: translate(-50%, -50%) scale(1, 1);
   }
 
-  .hiden-copy{
+  .hiden-copy {
     position: fixed;
     left: 50%;
     top: 50%;
@@ -238,7 +243,7 @@
     transition: all .5s;
   }
 
-  .show-copy{
+  .show-copy {
     transform: translate(-50%, -50%) scale(1, 1);
   }
 </style>
