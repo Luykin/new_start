@@ -5,8 +5,8 @@ html {
   min-height: 100%;
   overflow-x: hidden;
   background: #31293D;
-  background: linear-gradient(45deg, #253250, #34283A);
-  background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));
+  /*background: linear-gradient(45deg, #253250, #34283A);*/
+  /*background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));*/
 }
 
 body {
@@ -267,15 +267,31 @@ input:focus::-webkit-contacts-auto-fill-button {
   margin: 6px auto;
   border-top: 1px dashed rgba(0, 0, 0, .1);
 }
-#YSF-BTN-HOLDER{
+
+#YSF-BTN-HOLDER {
   bottom: 10% !important;
   right: 5% !important;
   z-index: 999 !important;
 }
-#YSF-CUSTOM-ENTRY-0{
+
+#YSF-CUSTOM-ENTRY-0 {
   box-shadow: none !important;
 }
-#YSF-BTN-HOLDER #YSF-CUSTOM-ENTRY-0 img{
+
+#YSF-BTN-HOLDER #YSF-CUSTOM-ENTRY-0 img {
   width: 60px;
   height: auto;
 }
+
+/*.share-img-body {*/
+  /*position: fixed;*/
+  /*z-index: 999999999;*/
+  /*left: 0;*/
+  /*right: 0;*/
+  /*top: 0;*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*opacity: .1;*/
+  /*pointer-events: none;*/
+  /*user-select: text;*/
+/*}*/

@@ -1,4 +1,5 @@
 <template>
+  <transition name="list">
   <div class="body">
     <back></back>
     <div class="header-warp">
@@ -71,6 +72,7 @@
       <div class="tran-line flex ell">{{item.total_income}}</div>
     </div>
   </div>
+  </transition>
 </template>
 <script type="text/javascript">
   import {teams, updateuserinfo} from 'api/index'

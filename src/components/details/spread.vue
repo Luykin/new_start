@@ -89,6 +89,11 @@
           console.log('画图')
           // console.log(imgbg, imgqr)
           this.myqrurl = canvas.toDataURL('image/png')
+          // console.log(document.body)
+          // let imgDom = new Image();
+          // imgDom.src = this.myqrurl;
+          // imgDom.setAttribute('class', 'share-img-body')
+          // document.body.appendChild(imgDom);
           this.$root.eventHub.$emit('loading', null)
         } catch (err) {
           this.$root.eventHub.$emit('loading', null)

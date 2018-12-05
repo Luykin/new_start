@@ -63,7 +63,7 @@
           <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围：
             {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}
           </div>
-          <div class="from-item flex mg15 max-from-item" v-show="now_good.id === 82">
+          <div class="from-item flex mg15 max-from-item" v-show="now_good.category === 143">
             <div class="flex ell from-item-left">评论内容:</div>
             <textarea placeholder="请输入评论内容" v-model="comment"></textarea>
           </div>
@@ -346,7 +346,7 @@
           this.$root.eventHub.$emit('titps', '请填写数量在范围之内')
           return false
         }
-        if (this.now_good.id === 82 && (!this.comment || this.comment.length > 105)) {
+        if (this.now_good.category === 143 && (!this.comment || this.comment.length > 105)) {
           this.$root.eventHub.$emit('titps', '请填写1~100个评论字数')
           return false
         }

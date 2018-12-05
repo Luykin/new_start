@@ -21,51 +21,65 @@
         <div class="flex js uhiw-top">
           <div class="flex fw ut-name-warp">
             <p class="flex js user-nickname ell">{{$root.user.nickname}}
-              <span class="ssss feidaili" :class="{'daili': $root.user.is_agent}">{{$root.user.is_agent ? '(合伙人)' : '(非合伙人)'}}</span>
+              <span class="ssss feidaili" :class="{'daili': $root.user.is_agent}" v-show="NOWCONFIG && NOWCONFIG.system === 1">{{$root.user.is_agent ? '(合伙人)' : '(非合伙人)'}}</span>
             </p>
             <span class="flex js user-id ell">ID:{{$root.user.id}}</span>
           </div>
           <img :src="$root.user.avatar" class="iconxx avater">
         </div>
         <div class="flex js uhiw-bottom">
-          <span class="flex js user-nickname ell xxxx">余额 : {{$root.user.score}}</span>
+          <span class="flex js user-nickname ell xxxx" v-show="NOWCONFIG && NOWCONFIG.system === 1">余额 : {{$root.user.score}}</span>
           <!--<div class="uhiw-btn flex llll">提现</div>-->
-          <router-link tag='div' to='./withdraw' class="uhiw-btn flex llll">
+          <router-link tag='div' to='./withdraw' class="uhiw-btn flex llll" v-show="NOWCONFIG && NOWCONFIG.system === 1">
             提现
           </router-link>
         </div>
       </div>
-      <div class="dark-router-user flex">
+      <div class="dark-router-user flex" v-show="NOWCONFIG && NOWCONFIG.system === 1">
         <router-link tag='div' :to='item.path' class="flex fw dru-item" v-for="item in user_route" :key='path'>
           <img :src="item.icon">
           <span class="flex mg10">{{item.name}}</span>
         </router-link>
       </div>
-      <div class="flex js user-click-item mg20" @click="_showproxy" v-show="!$root.user.is_agent">
-        <img src="https://cdn.xingkwh.com/%E6%88%90%E4%B8%BA%E5%90%88%E4%BC%99%E4%BA%BA@3x.png"/>
-        成为合伙人
+      <div v-if="NOWCONFIG && NOWCONFIG.system === 1">
+        <div class="flex js user-click-item mg20" @click="_showproxy" v-show="!$root.user.is_agent">
+          <img src="https://cdn.xingkwh.com/%E6%88%90%E4%B8%BA%E5%90%88%E4%BC%99%E4%BA%BA@3x.png"/>
+          成为合伙人
+        </div>
+        <div class="flex js user-click-item" @click="_show_team" :class="{'mg20': $root.user.is_agent}">
+          <img src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%8A%A0%E5%85%A5%E7%BE%A4icon@3x.png"/>
+          加入合伙人群
+        </div>
+        <div @click="_to_ckb" class="flex js user-click-item">
+          <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
+          <img
+            src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%AE%9A%E4%BB%B7%E5%8F%82%E8%80%83icon@3x.png"/>
+          定价参考
+        </div>
+        <div @click="_to_resource" class="flex js user-click-item">
+          <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
+          <img
+            src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E6%8A%96%E9%9F%B3%E4%B8%8A%E7%83%AD%E9%97%A8icon@3x.png"/>
+          抖音上热门技术
+        </div>
+        <router-link tag='div' to='./entrance' class="flex js user-click-item">
+          <img
+            src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83%20%E5%B9%B3%E5%8F%B0%E5%85%A5%E5%8F%A3@3x.png"/>
+          平台入口
+        </router-link>
+        <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
+          <img
+            src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99icon@3x.png"/>
+          生成我的分站
+        </div>
       </div>
-      <div class="flex js user-click-item" @click="_show_team" :class="{'mg20': $root.user.is_agent}">
-        <img src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%8A%A0%E5%85%A5%E7%BE%A4icon@3x.png"/>
-        加入合伙人群
+      <div v-else>
+        <router-link tag='div' to='./order-record' class="flex js user-click-item">
+          <img src="https://cdn.xingkwh.com/%E4%B8%8B%E5%8D%95%E8%AE%B0%E5%BD%95@3x.png"/>
+          下单记录
+        </router-link>
       </div>
-      <div @click="_to_ckb" class="flex js user-click-item">
-        <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
-        <img
-          src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%AE%9A%E4%BB%B7%E5%8F%82%E8%80%83icon@3x.png"/>
-        定价参考
-      </div>
-      <div @click="_to_resource" class="flex js user-click-item">
-        <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
-        <img
-          src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E6%8A%96%E9%9F%B3%E4%B8%8A%E7%83%AD%E9%97%A8icon@3x.png"/>
-        抖音上热门技术
-      </div>
-      <div class="flex js user-click-item" @click="$root.eventHub.$emit('titps', '即将上线,尽请期待')">
-        <img
-          src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E7%94%9F%E6%88%90%E5%88%86%E7%AB%99icon@3x.png"/>
-        生成我的分站
-      </div>
+      <div v-if="UAID" class="flex edition">版本号: v-{{UAID}}</div>
       <!--<div class="flex js user-click-item" @click="_to_kefu">-->
       <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>-->
       <!--我的客服-->
@@ -160,6 +174,7 @@
   // import customer from 'base/customer/customer'
   import interlayer from 'base/interlayer/interlayer'
   import {NOWCONFIG} from 'api/app_config'
+  import {UAID} from 'api/config'
 
   export default {
     data() {
@@ -179,11 +194,13 @@
         }],
         proxy_good_id: null,
         proxy_price: 48,
-        NOWCONFIG: null
+        NOWCONFIG: null,
+        UAID: null
       }
     },
     created() {
       this.NOWCONFIG = NOWCONFIG
+      this.UAID = UAID
     },
     mounted() {
       if (this.$root.user.user_id) {
@@ -551,5 +568,11 @@
 
   .daili {
     color: #ffe5b8;
+  }
+  .edition{
+    color: rgba(255,255,255,.35);
+    font-size: 10px;
+    height: 30px;
+    margin-top: 20px;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
-    <footer class="flex">
-      <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path'>
+    <footer class="flex" v-if="config">
+      <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path' v-show="item.system.indexOf(config.system) > -1">
         <!--<i class="iconfont x" :class="item.icon"></i>-->
         <img :src="item.icon">
         <span class="flex mg5 ssss">{{item.name}}</span>
@@ -10,30 +10,38 @@
   </transition>
 </template>
 <script type="text/javascript">
+  import {NOWCONFIG} from 'api/app_config'
   export default {
     data() {
       return {
+        config: null,
         footer_config: [{
           name: '首页',
           icon: 'https://cdn.xingkwh.com/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA-%E9%A6%96%E9%A1%B5%E9%80%89%E4%B8%AD@3x.png',
-          path: '/index'
+          path: '/index',
+          system: [1, 2]
         },{
           name: '秘籍',
           icon: 'https://cdn.xingkwh.com/secret.png',
-          path: '/secret'
+          path: '/secret',
+          system: [1]
         }, {
           name: '团队',
           icon: 'https://cdn.xingkwh.com/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA-%E5%9B%A2%E9%98%9F%E9%80%89%E4%B8%AD@3x.png',
-          path: '/commision'
+          path: '/commision',
+          system: [1]
         }, {
           name: '我的',
           icon: 'https://cdn.xingkwh.com/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA-%E6%88%91%E7%9A%84%E9%80%89%E4%B8%AD@3x.png',
-          path: '/user'
+          path: '/user',
+          system: [1, 2]
         }]
       }
     },
     computed: {},
     created() {
+      this.config = NOWCONFIG
+      // console.log([1].indexOf(this.config.system) > -1)
     }
   }
 
