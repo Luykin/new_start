@@ -63,9 +63,17 @@
           <div v-show="now_good.min_num < now_good.max_num" class="flex note">注：下单数量范围：
             {{now_good.min_num}}~{{now_good.max_num}}{{now_good.units}}
           </div>
-          <div class="from-item flex mg15 max-from-item" v-show="now_good.category === 143">
+          <div class="from-item flex mg15 max-from-item fw" v-show="now_good.category === 143">
             <div class="flex ell from-item-left">评论内容:</div>
-            <textarea placeholder="请输入评论内容" v-model="comment"></textarea>
+            <div class="comment-list-warp flex fw">
+              <div v-for="(item,index) in comment_list" class="flex comment-item" @click="click_comment = index"
+                   :class="{'active-comment': click_comment === index}">
+                {{item}}
+                <i class="iconfont icon-shanchuyixuanqunchengyuanchacha" @click="comment_list.splice(index, 1)"></i>
+              </div>
+              <div class="add-comment flex" :class="{'no-comment':!comment_list.length}"><input placeholder="添加评论" v-model="now_comment" @keyup="comment_keyup">
+              </div>
+            </div>
           </div>
           <div class="from-item flex mg15">
             <div class="flex ell from-item-left">所需金额:</div>
@@ -99,7 +107,8 @@
       </popup>
       <popup ref="notice_back">
         <div v-html="announcement" v-if="announcement" class="app-notice-warp"></div>
-        <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="$refs.interlace._hiddenLayer();$refs.notice_back._hiddenPopup()" class="cancelimg">
+        <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png"
+             @click="$refs.interlace._hiddenLayer();$refs.notice_back._hiddenPopup()" class="cancelimg">
       </popup>
       <popup ref="notice" @popupClick="_closeresult">
         <div class="notice-warp">
@@ -151,8 +160,10 @@
         good_catch: {},
         proxy_good_id: null,
         announcement: '',
+        now_comment: '',
+        click_comment: '',
         step: 0,
-        comment: ''
+        comment_list: []
       }
     },
     created() {
@@ -166,15 +177,15 @@
             // console.log(data)
             ysf.config({
               uid: `WF${data.user_id}`,
-              data:JSON.stringify([
-                {"key":"real_name", "value": data.nickname},
-                {"key":"mobile_phone", "hidden":true},
-                {"key":"email", "hidden":true},
-                {"key":"avatar", "value": data.avatar },
-                {"index": 0, "key":"userId", "label": "用户ID","value": `WF${data.user_id}`},
-                {"index": 1, "key":"score", "label": "剩余积分","value": data.score},
-                {"index": 2, "key":"appName", "label": "应用名称","value": APPNAME},
-                {"index": 3, "key":"uaid", "label": "应用唯一ID","value": UAID},
+              data: JSON.stringify([
+                {'key': 'real_name', 'value': data.nickname},
+                {'key': 'mobile_phone', 'hidden': true},
+                {'key': 'email', 'hidden': true},
+                {'key': 'avatar', 'value': data.avatar},
+                {'index': 0, 'key': 'userId', 'label': '用户ID', 'value': `WF${data.user_id}`},
+                {'index': 1, 'key': 'score', 'label': '剩余积分', 'value': data.score},
+                {'index': 2, 'key': 'appName', 'label': '应用名称', 'value': APPNAME},
+                {'index': 3, 'key': 'uaid', 'label': '应用唯一ID', 'value': UAID},
               ])
             })
           })
@@ -183,6 +194,12 @@
       })
     },
     computed: {
+      // comment_list() {
+      //   return this.comment.split(/\n/g)
+      // },
+      comment() {
+        return this.comment_list.join('#')
+      },
       get_icon() {
         return (category) => {
           return get_service_icon(category)
@@ -221,6 +238,12 @@
       }
     },
     methods: {
+      comment_keyup(key) {
+        if (key.keyCode === 13) {
+          this.comment_list.push(this.now_comment)
+          this.now_comment = ''
+        }
+      },
       _to_commision() {
         this.$router.replace({
           path: '/commision'
@@ -332,6 +355,7 @@
       },
       async _addTask() {
         if (!this.$root.user.id) {
+          console.log(user, '无法加载用户信息')
           return false
         }
         if (!this.$root.user.is_agent) {
@@ -351,7 +375,7 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link, this.comment.replace(/\n/g,"#"))
+        const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link, this.comment)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
           this._afterpay(ret.data.data.pay_ret, () => {
@@ -852,7 +876,7 @@
     border-top: 1px dashed #626296;
   }
 
-  .app-notice-warp{
+  .app-notice-warp {
     width: 80%;
     height: auto;
     padding: 10px;
@@ -863,28 +887,94 @@
     line-height: 23px;
   }
 
-  .max-from-item{
+  .max-from-item {
     height: 130px;
     background: #505078;
     position: relative;
-  }
-  .max-from-item textarea {
-    width: 90%;
-    height: 84%;
-    text-indent: 38%;
-    line-height: 25px;
-    padding: 8% 3% 8% 7%;
-    outline: none;
-    border: none;
-    background: #505078;
-    color: #fff;
+    align-content: flex-start;
+    align-items: flex-start;
     overflow-y: scroll;
   }
-  .max-from-item .from-item-left{
+
+  /*.max-from-item textarea {*/
+  /*position: absolute;*/
+  /*width: 100%;*/
+  /*top: 0;*/
+  /*bottom: 0;*/
+  /*outline: none;*/
+  /*border: none;*/
+  /*!*background: red;*!*/
+  /*opacity: 0;*/
+  /*}*/
+  /*.max-from-item textarea:focus{*/
+  /*z-index: -99;*/
+  /*}*/
+
+  .max-from-item .from-item-left {
     position: absolute;
     left: 0;
     top: 0;
     height: 45px;
-    background: rgba(0,0,0,0);
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .comment-item {
+    width: auto;
+    min-width: 50px;
+    height: 26px;
+    margin: 5px;
+    padding: 0 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, .3);
+    color: #fff;
+    position: relative;
+  }
+
+  .comment-item:nth-child(1) {
+    margin: 5px 5px 5px 32%;
+  }
+
+  .add-comment {
+    width: 90px;
+    height: 26px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, .3);
+    overflow: hidden;
+    background: none;
+  }
+
+  .add-comment input {
+    width: 85%;
+    color: #f8f8f8;
+    background: none;
+    text-align: center;
+  }
+
+  .comment-list-warp {
+    width: 92%;
+    margin: 0 auto;
+    padding: 5px 0;
+    justify-content: flex-start;
+    /*overflow-y: scroll;*/
+  }
+
+  .active-comment {
+    color: rgba(255,255,92,.4);
+    border: 1px solid rgba(255,255,92,.4);
+  }
+  .comment-item .iconfont {
+    display: none;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    font-weight: 900;
+  }
+  .active-comment .iconfont {
+    display: block;
+    color: #e6cb51;
+  }
+  .no-comment{
+    margin-left: 32%;
   }
 </style>
