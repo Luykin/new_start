@@ -71,7 +71,7 @@
                 {{item}}
                 <i class="iconfont icon-shanchuyixuanqunchengyuanchacha" @click="comment_list.splice(index, 1)"></i>
               </div>
-              <div class="add-comment flex" :class="{'no-comment':!comment_list.length}"><input placeholder="添加评论" v-model="now_comment" @keyup="comment_keyup">
+              <div class="add-comment flex" :class="{'no-comment':!comment_list.length}"><input placeholder="添加评论" v-model="now_comment" @keyup="comment_keyup" @blur="comment_blur">
               </div>
             </div>
           </div>
@@ -239,7 +239,13 @@
     },
     methods: {
       comment_keyup(key) {
-        if (key.keyCode === 13) {
+        if (key.keyCode === 13 && this.now_comment) {
+          this.comment_list.push(this.now_comment)
+          this.now_comment = ''
+        }
+      },
+      comment_blur() {
+        if (this.now_comment) {
           this.comment_list.push(this.now_comment)
           this.now_comment = ''
         }

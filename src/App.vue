@@ -24,7 +24,8 @@
       return {
         centerTips: '',
         preloadingshow: [],
-        loading: null
+        loading: null,
+        timer: null
       }
     },
     created() {
@@ -33,7 +34,18 @@
         this.$refs.centerTips._open()
       })
       this.$root.eventHub.$on('loading', (loading) => {
-        this.loading = loading
+        if (this.timer && loading) {
+          return false
+        }
+        if (loading) {
+          this.timer = setTimeout(() => {
+            this.loading = loading
+          }, 200)
+        } else {
+          clearTimeout(this.timer)
+          this.timer = null
+          this.loading = loading
+        }
       })
     },
     mounted() {
