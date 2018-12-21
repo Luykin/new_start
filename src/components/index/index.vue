@@ -93,17 +93,22 @@
       <div class="flex" style="height: 65px"></div>
       <popup ref="proxy">
         <div class="flex proxy-warp fw">
-          <img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>
-          <span class="flex sss">1、抖音快手业务全网最低成本价。</span>
-          <p class="flex sss">2、获得第四代抖音热门技术视频教程。</p>
-          <span class="flex sss">3、加入星空抖音精英合伙人群。</span>
-          <span class="flex sss">4、自主招收合伙人，收取合伙人金50%分成。</span>
-          <span class="flex sss">5、搭建分站系统。</span>
-          <p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;"
-                                                                           class="xx">{{proxy_price}}元</span></p>
-          <div class="proxy-btn-buy lll flex mg10" @click="_to_commision">去赚佣金</div>
-          <div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>
+          <!--<img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>-->
+          <!--<span class="flex sss">1、抖音快手业务全网最低成本价。</span>-->
+          <!--<p class="flex sss">2、获得第四代抖音热门技术视频教程。</p>-->
+          <!--<span class="flex sss">3、加入星空抖音精英合伙人群。</span>-->
+          <!--<span class="flex sss">4、自主招收合伙人，收取合伙人金50%分成。</span>-->
+          <!--<span class="flex sss">5、搭建分站系统。</span>-->
+          <!--<p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;"-->
+                                                                           <!--class="xx">{{proxy_price}}元</span></p>-->
+          <!--<div class="proxy-btn-buy lll flex mg10" @click="_to_commision">去赚佣金</div>-->
+          <!--<div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>-->
+          <img src="https://cdn.xingkwh.com/%E8%BF%98%E4%B8%8D%E6%98%AF%E5%90%88%E4%BC%99%E4%BA%BA%E5%BC%B9%E7%AA%97@3x.png"/>
+          <div class="proxy-pay" @click="_wxbuy"></div>
+          <div class="proxy-commision" @click="_to_commision"></div>
         </div>
+        <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png"
+             @click="_close_interlayer" class="cancelimg">
       </popup>
       <popup ref="notice_back">
         <div v-html="announcement" v-if="announcement" class="app-notice-warp"></div>
@@ -137,7 +142,6 @@
     wechat_agent_order,
     updateuserinfo
   } from 'api/index'
-  // import multi from 'base/multi/multi'
   import selebar from 'base/multi/selebar'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
@@ -757,14 +761,13 @@
   }
 
   .proxy-warp {
-    width: 78%;
-    padding: 4%;
-    margin: 0 auto;
+    width: 82%;
+    margin: 0 auto -12%;
     height: auto;
     min-height: 100px;
-    background: #fff;
-    border-radius: 10px;
+    position: relative;
   }
+
 
   .proxy-warp span, .proxy-warp p {
     min-height: 24px;
@@ -773,11 +776,23 @@
   }
 
   .proxy-warp img {
-    width: 40%;
+    width: 100%;
     margin: 10px 10%;
     height: auto;
   }
 
+  .proxy-pay{
+    width: 100%;
+    height: 10%;
+    position: absolute;
+    bottom: 20%;
+  }
+  .proxy-commision{
+    width: 100%;
+    position: absolute;
+    bottom: 15%;
+    height: 5%;
+  }
   .proxy-btn-buy {
     width: 40%;
     height: 40px;

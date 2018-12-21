@@ -46,12 +46,6 @@ class DeleteqiniuPlugin {
             if (item.key) {
               deleteOperations.push(_qiniu2.default.rs.deleteOp(bucket, item.key))
             }
-            // console.log(item.putTime);
-            // console.log(item.hash);
-            // console.log(item.fsize);
-            // console.log(item.mimeType);
-            // console.log(item.endUser);
-            // console.log(item.type);
           });
           if (deleteOperations.length > 0) {
             bucketManager.batch(deleteOperations, function(err, respBody, respInfo) {

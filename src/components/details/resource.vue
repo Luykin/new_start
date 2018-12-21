@@ -40,8 +40,6 @@
         e.clearSelection()
       })
       clipboard.on('error', function (e) {
-        // console.error('Action:', e.action)
-        // console.error('Trigger:', e.trigger)
       })
     },
     components: {

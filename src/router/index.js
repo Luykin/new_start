@@ -116,8 +116,12 @@ const routerconst = new Router({
     name: 'entrance',
     component: () =>
       import (`components/details/entrance`)
+  }, {
+    path: '/reward',
+    name: 'reward',
+    component: () =>
+      import (`components/details/reward`)
   }]
-  // entrance
 })
 routerconst.beforeEach((to, from, next) => {
 	loading(true)
