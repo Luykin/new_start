@@ -1,22 +1,6 @@
 <template>
   <transition name="list">
     <div>
-      <!--<div class="user-header">-->
-      <!--<div class="user-header-inner-warp flex">-->
-      <!--<div class="flex js uhiw-top">-->
-      <!--<userheader></userheader>-->
-      <!--</div>-->
-      <!--<div class="flex js uhiw-bottom s">-->
-      <!--<router-link tag='div' :to='item.path' class="flex fw" v-for="item in user_route" :key='path'>-->
-      <!--<img :src="item.icon" class="iconsss">-->
-      <!--<span class="flex mg10">{{item.name}}</span>-->
-      <!--</router-link>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="user-other-item proxy-team mg20" @click="$refs.popup._showPopup();$refs.interlayer._showLayer()">-->
-      <!--$refs.popup._showPopup();$refs.interlayer._showLayer()-->
-      <!--黑色改版user样式-->
       <div class="user-header-dark">
         <div class="flex js uhiw-top">
           <div class="flex fw ut-name-warp">
@@ -42,11 +26,11 @@
         </router-link>
       </div>
       <div v-if="NOWCONFIG && NOWCONFIG.system === 1">
-        <div class="flex js user-click-item mg20" @click="_showproxy" v-show="!$root.user.is_agent">
+        <div class="flex js user-click-item mg20" @click="_showVip" v-show="!$root.user.is_agent">
           <img src="https://cdn.xingkwh.com/%E6%88%90%E4%B8%BA%E5%90%88%E4%BC%99%E4%BA%BA@3x.png"/>
           成为合伙人
         </div>
-        <div class="flex js user-click-item" @click="_show_team" :class="{'mg20': $root.user.is_agent}">
+        <div class="flex js user-click-item" @click="_showTeam" :class="{'mg20': $root.user.is_agent}">
           <img src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%8A%A0%E5%85%A5%E7%BE%A4icon@3x.png"/>
           加入合伙人群
         </div>
@@ -55,12 +39,12 @@
             src="https://cdn.xingkwh.com/%E8%B5%9A%E8%B5%8F%E9%87%91iocn.png"/>
           赚取赏金 (新)
         </div>
-        <div @click="_to_ckb" class="flex js user-click-item">
+        <div @click="_toCkb" class="flex js user-click-item">
           <img
             src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E5%AE%9A%E4%BB%B7%E5%8F%82%E8%80%83icon@3x.png"/>
           定价参考
         </div>
-        <div @click="_to_resource" class="flex js user-click-item">
+        <div @click="_toResource" class="flex js user-click-item">
           <!--tag='div' to="./user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png"-->
           <img
             src="https://cdn.xingkwh.com/%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83-%E6%8A%96%E9%9F%B3%E4%B8%8A%E7%83%AD%E9%97%A8icon@3x.png"/>
@@ -84,39 +68,9 @@
         </router-link>
       </div>
       <div v-if="UAID" class="flex edition">版本号: v-{{UAID}}</div>
-      <!--<div class="flex js user-click-item" @click="_to_kefu">-->
-      <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D.png"/>-->
-      <!--我的客服-->
-      <!--</div>-->
-      <!--<div class="flex js user-click-item" @click="$refs.kefu._showPopup();$refs.interlayer._showLayer()">-->
-      <!--<img src="https://cdn.xingkwh.com/%E5%AE%A2%E6%9C%8D%E6%8A%95%E8%AF%89icon@3x.png"/>-->
-      <!--我要投诉-->
-      <!--</div>-->
-      <popup ref="proxy">
-        <div class="flex proxy-warp fw">
-          <!--<img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>-->
-          <!--<span class="flex sss">1、抖音快手业务全网最低成本价。</span>-->
-          <!--<p class="flex sss">2、获得第四代抖音热门技术视频教程。</p>-->
-          <!--<span class="flex sss">3、加入星空抖音精英合伙人群。</span>-->
-          <!--<span class="flex sss">4、自主招收合伙人，收取合伙人金50%分成。</span>-->
-          <!--<span class="flex sss">5、搭建分站系统。</span>-->
-          <!--<p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;"-->
-                                                                           <!--class="xx">{{proxy_price}}元</span></p>-->
-          <!--<div class="proxy-btn-buy lll flex mg10" @click="_to_commision">去赚佣金</div>-->
-          <!--<div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>-->
-          <img src="https://cdn.xingkwh.com/%E6%88%90%E4%B8%BA%E5%90%88%E4%BC%99%E4%BA%BA%E5%BC%B9%E7%AA%97@3x.png"/>
-          <div class="proxy-pay" @click="_wxbuy"></div>
-          <div class="proxy-commision" @click="_to_commision"></div>
-        </div>
-        <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png"
-             @click="_closeresult" class="cancelimg">
-      </popup>
       <popup ref="popup">
         <div class="weqr">
-          <!--<span class="flex"-->
-                <!--style="height: 40px; margin-bottom: -10px; font-size: 15px; color: #222;">加入星空网红合伙人交流群</span>-->
           <img :src="NOWCONFIG.customer_url" v-if="NOWCONFIG"/>
-          <!--<span class="flex" style="height: 40px; margin-top: -10px">长按二维码加入交流群</span>-->
         </div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
@@ -129,45 +83,9 @@
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
       <interlayer ref="interlayer" @close="_closeresult"></interlayer>
-      <!--<div class="order-btn-list-warp flex mg10">-->
-      <!--<router-link tag='div' to='./recharge-record?ativerecord=1' class="oblw-item flex">-->
-      <!--<i class="iconfont icon-chongzhijilu maxmaxmax"></i>-->
-      <!--<span class="flex oblw-title s mg10">充值记录</span>-->
-      <!--</router-link>-->
-      <!--<router-link tag='div' to='./recharge-record?ativerecord=2' class="oblw-item flex">-->
-      <!--<i class="iconfont icon-tixianjilu maxmax"></i>-->
-      <!--<span class="flex oblw-title s" style="margin-top: 15px;">提现记录</span>-->
-      <!--</router-link>-->
-      <!--<router-link tag='div' to='./transaction-record' class="oblw-item flex">-->
-      <!--<i class="iconfont icon-jiaoyijilu maxmaxmaxs" style="transform: translate(0, -5px);"></i>-->
-      <!--<span class="flex oblw-title s" style="margin-top: 5px;">交易记录</span>-->
-      <!--</router-link>-->
-      <!--</div>-->
-      <!--<div class="flex mg10"></div>-->
-      <!--<router-link tag='div' to='./strategy' class="user-list-item flex">-->
-      <!--<i class="iconfont icon-xinshoubangzhu uli-icon xx"></i>-->
-      <!--<span class="uli-title flex">新手攻略</span>-->
-      <!--<img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">-->
-      <!--</router-link>-->
-      <!--<router-link tag='div' to='./introduce' class="user-list-item flex">-->
-      <!--<i class="iconfont icon-jieshao uli-icon xx"></i>-->
-      <!--<span class="uli-title flex">平台介绍</span>-->
-      <!--<img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">-->
-      <!--</router-link>-->
-      <!--<router-link tag='div' to='./skill' class="user-list-item flex">-->
-      <!--<i class="iconfont icon-yongjin uli-icon xx"></i>-->
-      <!--<span class="uli-title flex">传播技巧</span>-->
-      <!--<img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">-->
-      <!--</router-link>-->
-      <!-- <router-link tag='div' to='./inlet' class="user-list-item flex">
-        <i class="iconfont icon-rukou uli-icon xx"></i>
-        <span class="uli-title flex">平台入口</span>
-        <img src="https://cdn.xingkwh.com/righticon.png" class="icon-img">
-      </router-link> -->
-      <!-- <img src="https://cdn.xingkwh.com/kefu2.png" class="kefu-img"> -->
+      <vip ref="vip" :vipBg="'https://cdn.xingkwh.com/%E6%88%90%E4%B8%BA%E5%90%88%E4%BC%99%E4%BA%BA%E5%BC%B9%E7%AA%97@3x.png'" :payBootom="18" :comBootom="12"></vip>
       <div class="footer-none"></div>
       <router-view></router-view>
-      <!--<customer></customer>-->
     </div>
   </transition>
 </template>
@@ -175,15 +93,14 @@
   import {
     addtask,
     wechat_agent_good,
-    wechat_agent_order,
-    updateuserinfo
+    wechat_agent_order
   } from 'api/index'
   import userheader from 'components/userheader/userheader'
   import popup from 'base/popup/popup'
-  // import customer from 'base/customer/customer'
   import interlayer from 'base/interlayer/interlayer'
   import {NOWCONFIG} from 'api/app_config'
   import {UAID} from 'api/config'
+  import vip from 'components/vip/vip'
 
   export default {
     data() {
@@ -210,15 +127,21 @@
     created() {
       this.NOWCONFIG = NOWCONFIG
       this.UAID = UAID
+      if (!this.$root.user.user_id) {
+        this.$router.replace({
+          path: '/index'
+        })
+        return false
+      }
     },
     mounted() {
-      if (this.$root.user.user_id) {
-        this._wechat_agent_good(this.$root.user.user_id)
+      if (!this.$root.user.is_agent) {
+        this.$refs.vip._wechat_agent_good(this.$root.user.user_id);
       }
     },
     computed: {},
     methods: {
-      _show_team() {
+      _showTeam() {
         if (!this.$root.user.is_agent) {
           this.$root.eventHub.$emit('titps', '您还未成为合伙人')
           return false
@@ -226,7 +149,7 @@
         this.$refs.popup._showPopup()
         this.$refs.interlayer._showLayer()
       },
-      _to_resource() {
+      _toResource() {
         if (!this.$root.user.is_agent) {
           this.$root.eventHub.$emit('titps', '您还未成为合伙人,无法查看。')
           return false
@@ -235,7 +158,7 @@
           path: '/resource'
         })
       },
-      _to_ckb() {
+      _toCkb() {
         if (!this.$root.user.is_agent) {
           this.$root.eventHub.$emit('titps', '您还未成为合伙人,无法查看。')
           return false
@@ -244,94 +167,29 @@
           path: '/user/course?url=https://cdn.xingkwh.com/%E4%BB%B7%E6%A0%BC%E8%A1%A8.png'
         })
       },
-      _to_kefu() {
-        if (!this.$root.user.is_agent) {
-          this.$root.eventHub.$emit('titps', '您还未成为合伙人,无法查看。')
-          return false
-        }
-        this.$router.push({
-          path: '/custom'
-        })
-      },
-      _to_commision() {
-        this.$router.replace({
-          path: '/commision'
-        })
-        this._closeresult()
-      },
       toReward() {
         this.$router.replace({
           path: '/reward'
         })
       },
       _closeresult() {
-        this.$refs.proxy._hiddenPopup()
-        this.$refs.kefu._hiddenPopup()
-        this.$refs.popup._hiddenPopup()
-        this.$refs.interlayer._hiddenLayer()
-      },
-      async _wechat_agent_good(id, callback) {
-        const ret = await wechat_agent_good(id)
-        if (ret.status === 200 && ret.data.code === 200) {
-          this.proxy_price = ret.data.data.score
-          this.proxy_good_id = ret.data.data.good_id
-          if (callback) {
-            callback()
-          }
+        try {
+          this.$refs.kefu._hiddenPopup()
+          this.$refs.popup._hiddenPopup()
+          this.$refs.interlayer._hiddenLayer()
+        } catch (e) {
+          console.log(e)
         }
       },
-      _showproxy() {
-        this.$refs.proxy._showPopup()
-        this.$refs.interlayer._showLayer()
-      },
-      async _wxbuy() {
-        if (!this.proxy_good_id && this.proxy_good_id !== 0) {
-          return false
-        }
-        if (!window.WeixinJSBridge) {
-          console.log('未在微信内')
-        } else {
-          this.$root.eventHub.$emit('loading', true)
-          const ret = await wechat_agent_order(this.$root.user.user_id, this.proxy_price, this.proxy_good_id)
-          this.$root.eventHub.$emit('loading', null)
-          if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
-            this._afterpay(ret.data.data.pay_ret, () => {
-              this.$root.eventHub.$emit('titps', '开通合伙人成功~')
-              this.$refs.proxy._hiddenPopup()
-              this.$refs.interlayer._hiddenLayer()
-              setTimeout(async () => {
-                const ret = await updateuserinfo(this.$root.user.user_id)
-                if (ret.status === 200 && ret.data.code === 200) {
-                  this.$root.user = ret.data.data
-                  this.$root.eventHub.$emit('update')
-                }
-              }, 300)
-            })
-          }
-        }
-      },
-      _afterpay(reualt, callback) {
-        WeixinJSBridge.invoke(
-          'getBrandWCPayRequest', {
-            'appId': reualt.appId,     //公众号名称，由商户传入
-            'timeStamp': reualt.timeStamp,         //时间戳，自1970年以来的秒数
-            'nonceStr': reualt.nonceStr, //随机串
-            'package': reualt.package,
-            'signType': 'MD5',         //微信签名方式：
-            'paySign': reualt.paySign //微信签名
-          }, (res) => {
-            if (res.err_msg === 'get_brand_wcpay_request:ok') {
-              if (callback) {
-                callback()
-              }
-            }
-          })
+      _showVip() {
+        this.$refs.vip._show();
       },
     },
     components: {
       interlayer,
       userheader,
-      popup
+      popup,
+      vip
     },
     watch: {
       '$route'(to, from) {
@@ -480,47 +338,6 @@
     height: auto;
     margin: 0 10px 0 20px;
     transform: translate(0, -10%);
-  }
-
-  .proxy-warp {
-    width: 82%;
-    margin: 0 auto -12%;
-    height: auto;
-    min-height: 100px;
-    position: relative;
-  }
-
-  .proxy-warp span, .proxy-warp p {
-    min-height: 24px;
-    line-height: 20px;
-    justify-content: flex-start;
-  }
-
-  .proxy-warp img {
-    width: 100%;
-    margin: 10px 10%;
-    height: auto;
-  }
-
-  .proxy-pay{
-    width: 100%;
-    height: 10%;
-    position: absolute;
-    bottom: 20%;
-  }
-  .proxy-commision{
-    width: 100%;
-    position: absolute;
-    bottom: 15%;
-    height: 5%;
-  }
-
-  .proxy-btn-buy {
-    width: 40%;
-    height: 40px;
-    border-radius: 6px;
-    background: #524E4B;
-    color: #DBB868;
   }
 
   .user-header-dark {

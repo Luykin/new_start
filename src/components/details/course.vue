@@ -15,7 +15,7 @@
     name: 'course',
     data() {
       return {
-        url: 'http://p70pqu6ys.bkt.clouddn.com/30001_dy_url.png'
+        url: 'http://cdn.cours.xingkwh.com/30001_dy_url.png'
       }
     },
     created() {

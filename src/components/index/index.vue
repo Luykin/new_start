@@ -91,25 +91,7 @@
         </div>
       </div>
       <div class="flex" style="height: 65px"></div>
-      <popup ref="proxy">
-        <div class="flex proxy-warp fw">
-          <!--<img src="https://cdn.xingkwh.com/%E4%BB%A3%E7%90%86%E6%9D%83%E9%99%90002.png"/>-->
-          <!--<span class="flex sss">1、抖音快手业务全网最低成本价。</span>-->
-          <!--<p class="flex sss">2、获得第四代抖音热门技术视频教程。</p>-->
-          <!--<span class="flex sss">3、加入星空抖音精英合伙人群。</span>-->
-          <!--<span class="flex sss">4、自主招收合伙人，收取合伙人金50%分成。</span>-->
-          <!--<span class="flex sss">5、搭建分站系统。</span>-->
-          <!--<p class="flex sss mg10" style="justify-content: center">支付<span style="color: #ff2966; white-space: nowrap;"-->
-                                                                           <!--class="xx">{{proxy_price}}元</span></p>-->
-          <!--<div class="proxy-btn-buy lll flex mg10" @click="_to_commision">去赚佣金</div>-->
-          <!--<div class="proxy-btn-buy lll flex mg10" @click="_wxbuy">立即支付</div>-->
-          <img src="https://cdn.xingkwh.com/%E8%BF%98%E4%B8%8D%E6%98%AF%E5%90%88%E4%BC%99%E4%BA%BA%E5%BC%B9%E7%AA%97@3x.png"/>
-          <div class="proxy-pay" @click="_wxbuy"></div>
-          <div class="proxy-commision" @click="_to_commision"></div>
-        </div>
-        <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png"
-             @click="_close_interlayer" class="cancelimg">
-      </popup>
+      <vip ref="vip"></vip>
       <popup ref="notice_back">
         <div v-html="announcement" v-if="announcement" class="app-notice-warp"></div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png"
@@ -121,8 +103,7 @@
         </div>
         <img src="http://pd70b9zd0.bkt.clouddn.com/caclev.png" @click="_closeresult" class="cancelimg">
       </popup>
-      <interlayer ref="interlace" @close="_close_interlayer"></interlayer>
-      <!--<customer></customer>-->
+      <interlayer ref="interlace" @close="_closeInterlayer"></interlayer>
       <router-view></router-view>
       <selebar :multi_list="good_list" :show="multi_show" :active_id="active_id" @chose="_multiChose"></selebar>
     </div>
@@ -130,7 +111,6 @@
 </template>
 
 <script type="text/javascript">
-  // import customer from 'base/customer/customer'
   import {
     login,
     appinfo,
@@ -147,6 +127,7 @@
   import interlayer from 'base/interlayer/interlayer'
   import {get_service_icon, get_com_icon} from 'api/icon_config'
   import {UAID, APPNAME} from 'api/config'
+  import vip from 'components/vip/vip'
 
   export default {
     data() {
@@ -160,9 +141,7 @@
         good_list: [],
         link: '',
         num: '',
-        proxy_price: 48,
         good_catch: {},
-        proxy_good_id: null,
         announcement: '',
         now_comment: '',
         click_comment: '',
@@ -254,13 +233,7 @@
           this.now_comment = ''
         }
       },
-      _to_commision() {
-        this.$router.replace({
-          path: '/commision'
-        })
-        this._close_interlayer()
-      },
-      _close_interlayer() {
+      _closeInterlayer() {
         if (this.step === 0) {
           console.log('显示公告')
           this.$refs.notice_back._showPopup()
@@ -269,7 +242,6 @@
           return false
         }
         this.multi_show = false
-        this.$refs.proxy._hiddenPopup()
         this.$refs.notice._hiddenPopup()
         this.$refs.notice_back._hiddenPopup()
         this.$refs.interlace._hiddenLayer()
@@ -283,37 +255,6 @@
       },
       _maintain() {
         this.$root.eventHub.$emit('titps', '此商品正在紧张维护中...')
-      },
-      async _wxbuy() {
-        if (!this.proxy_good_id && this.proxy_good_id !== 0) {
-          return false
-        }
-        if (!window.WeixinJSBridge) {
-          console.log('未在微信内')
-        } else {
-          this.$root.eventHub.$emit('loading', true)
-          const ret = await wechat_agent_order(this.$root.user.user_id, this.proxy_price, this.proxy_good_id)
-          this.$root.eventHub.$emit('loading', null)
-          if (ret.status === 200 && ret.data.code === 200 && ret.data.data.order_code) {
-            console.log(ret.data)
-            // window.open(ret.data.data.pay_ret)
-            this._afterpay(ret.data.data.pay_ret, () => {
-              this.$root.eventHub.$emit('titps', '开通合伙人成功~')
-              this.$refs.proxy._hiddenPopup()
-              this.$refs.interlace._hiddenLayer()
-              setTimeout(async () => {
-                const ret = await updateuserinfo(this.$root.user.user_id)
-                if (ret.status === 200 && ret.data.code === 200) {
-                  this.$root.user = ret.data.data
-                  this.$root.eventHub.$emit('update')
-                  this.$router.replace({
-                    path: '/user'
-                  })
-                }
-              }, 300)
-            })
-          }
-        }
       },
       _afterpay(reualt, callback) {
         WeixinJSBridge.invoke(
@@ -337,7 +278,7 @@
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
           if (!ret.data.data.is_agent) {
-            this._wechat_agent_good(this.$root.user.user_id)
+            this.$refs.vip._wechat_agent_good(this.$root.user.user_id);
           }
         }
         if (callback) {
@@ -369,7 +310,7 @@
           return false
         }
         if (!this.$root.user.is_agent) {
-          this._showproxy()
+          this.$refs.vip._show();
           return false
         }
         if (!this.link || this.link.indexOf('http') < 0) {
@@ -443,16 +384,6 @@
           this.num = item.min_num
         }
       },
-      async _wechat_agent_good(id, callback) {
-        const ret = await wechat_agent_good(id)
-        if (ret.status === 200 && ret.data.code === 200) {
-          this.proxy_price = ret.data.data.score
-          this.proxy_good_id = ret.data.data.good_id
-          if (callback) {
-            callback()
-          }
-        }
-      },
       async _combos_category(id = -1) {
         this.num = 1
         if (this.good_catch[id]) {
@@ -486,20 +417,16 @@
           this.$root.user = ret.data.data
           localStorage.setItem(`${UAID}user_id`, ret.data.data.user_id)
           if (!ret.data.data.is_agent) {
-            this._wechat_agent_good(this.$root.user.user_id)
+            this.$refs.vip._wechat_agent_good(this.$root.user.user_id);
           }
         }
         if (callback) {
           callback(this.$root.user)
         }
       },
-      _showproxy() {
-        this.$refs.proxy._showPopup()
-        this.$refs.interlace._showLayer()
-      },
       _multiChose(e) {
         if (e.behavior) {
-          this._close_interlayer()
+          this._closeInterlayer()
           this.active_id = e.id
           this._setnum(e)
         } else {
@@ -519,7 +446,8 @@
     components: {
       selebar,
       popup,
-      interlayer
+      interlayer,
+      vip
     },
   }
 
@@ -760,39 +688,32 @@
     margin: 5px 5px 0 0;
   }
 
-  .proxy-warp {
-    width: 82%;
-    margin: 0 auto -12%;
-    height: auto;
-    min-height: 100px;
-    position: relative;
-  }
+  /*.proxy-warp {*/
+    /*width: 82%;*/
+    /*margin: 0 auto -12%;*/
+    /*height: auto;*/
+    /*min-height: 100px;*/
+    /*position: relative;*/
+  /*}*/
 
+  /*.proxy-warp img {*/
+    /*width: 100%;*/
+    /*margin: 10px 10%;*/
+    /*height: auto;*/
+  /*}*/
 
-  .proxy-warp span, .proxy-warp p {
-    min-height: 24px;
-    line-height: 20px;
-    justify-content: flex-start;
-  }
-
-  .proxy-warp img {
-    width: 100%;
-    margin: 10px 10%;
-    height: auto;
-  }
-
-  .proxy-pay{
-    width: 100%;
-    height: 10%;
-    position: absolute;
-    bottom: 20%;
-  }
-  .proxy-commision{
-    width: 100%;
-    position: absolute;
-    bottom: 15%;
-    height: 5%;
-  }
+  /*.proxy-pay{*/
+    /*width: 100%;*/
+    /*height: 10%;*/
+    /*position: absolute;*/
+    /*bottom: 20%;*/
+  /*}*/
+  /*.proxy-commision{*/
+    /*width: 100%;*/
+    /*position: absolute;*/
+    /*bottom: 15%;*/
+    /*height: 5%;*/
+  /*}*/
   .proxy-btn-buy {
     width: 40%;
     height: 40px;

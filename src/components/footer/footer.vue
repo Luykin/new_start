@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <footer class="flex" v-if="config">
-      <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path' v-show="item.system.indexOf(config.system) > -1">
+      <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path' v-if="Object.keys(item).length && item.system.indexOf(config.system) > -1">
         <!--<i class="iconfont x" :class="item.icon"></i>-->
         <img :src="item.icon">
         <span class="flex mg5 ssss">{{item.name}}</span>
@@ -25,6 +25,11 @@
           icon: 'https://cdn.xingkwh.com/secret.png',
           path: '/secret',
           system: [1]
+        },{
+          // name: '听课',
+          // icon: 'https://cdn.xingkwh.com/secret.png',
+          // path: '/audio',
+          // system: [1]
         }, {
           name: '团队',
           icon: 'https://cdn.xingkwh.com/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA-%E5%9B%A2%E9%98%9F%E9%80%89%E4%B8%AD@3x.png',

@@ -56,7 +56,12 @@ const routerconst = new Router({
 		name: 'details-commision',
 		component: () =>
 			import (`components/details/commision`)
-	}, {
+	},{
+    path: '/audio',
+    name: 'audio',
+    component: () =>
+      import (`components/index/audio`)
+  }, {
 		path: '/strategy',
 		name: 'strategy',
 		component: () =>
@@ -123,6 +128,7 @@ const routerconst = new Router({
       import (`components/details/reward`)
   }]
 })
+
 routerconst.beforeEach((to, from, next) => {
 	loading(true)
 	if ((to.path === '/' || to.path === '/index') || getuser()) {
@@ -141,4 +147,5 @@ routerconst.beforeEach((to, from, next) => {
 routerconst.afterEach((to, from) => {
 	loading(null)
 })
+
 export default routerconst
