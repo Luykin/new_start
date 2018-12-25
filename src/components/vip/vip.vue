@@ -56,7 +56,10 @@
       },
       async _wxbuy() {
         if (!this.proxy_good_id && this.proxy_good_id !== 0) {
-          console.log('商品出错')
+          if (!this.$root.user.user_id) {
+            return false
+          }
+          this._wechat_agent_good(this.$root.user.user_id)
           return false
         }
         if (!window.WeixinJSBridge) {

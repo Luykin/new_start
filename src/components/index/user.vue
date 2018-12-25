@@ -127,12 +127,12 @@
     created() {
       this.NOWCONFIG = NOWCONFIG
       this.UAID = UAID
-      if (!this.$root.user.user_id) {
-        this.$router.replace({
-          path: '/index'
-        })
-        return false
-      }
+      // if (!this.$root.user.user_id) {
+      //   this.$router.replace({
+      //     path: '/index'
+      //   })
+      //   return false
+      // }
     },
     mounted() {
       if (!this.$root.user.is_agent) {
