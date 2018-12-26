@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <div>
-      <betterscroll class="all-warp" ref='wrapper' @pulldown="_pulldown" @scrollToEnd="_scrollToEnd">
+      <betterscroll class="all-warp" ref='wrapper' @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" :data="list">
         <div>
           <div class="header flex fw">
             <swiper :options="swiperOption" ref="mySwiper" class="swiper-box" v-if="banner && banner.length">
@@ -137,7 +137,7 @@
 
 <style scoped>
 
-  .novel-all-warp {
+  .all-warp {
     position: fixed;
     top: 0;
     bottom: 60px;

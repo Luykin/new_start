@@ -4,7 +4,7 @@
       <img src="https://cdn.xingkwh.com/%E9%9F%B3%E9%A2%91%E5%85%B3%E9%97%AD@3x.png" class="close-img"/>
     </div>
     <div class="man-warp flex fw">
-      <div v-if="currentSong">{{currentSong.title}}</div>
+      <div v-if="currentSong" class="flex">{{currentSong.title}}</div>
       <div class="planned" @click="_progressClick($event)">
             <span class="planned-bg" ref="planned">
               <span class="has-played" style="width:0%" ref="played">
@@ -16,14 +16,15 @@
           </span>
       </div>
     </div>
-    <div class="start-btn flex" @click="_changePlayStatus">
+    <div class="start-btn flex" @click="_changePlayStatus" ref="startBtn">
       <img src="https://cdn.xingkwh.com/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE@3x.png" class="start-img"
-           v-show="!playing" :class="{'disable-btn': readyOk}"/>
+           v-show="!playing"/>
       <img src="https://cdn.xingkwh.com/%E9%9F%B3%E9%A2%91%E6%9A%82%E5%81%9C@3x.png" class="start-img"
-           v-show="playing" :class="{'disable-btn': readyOk}"/>
+           v-show="playing"/>
     </div>
     <audio :src="currentUrl" ref="audio" @canplay="_ready" @error="_error" @timeupdate="_updateTime"
-           @ended="_next"></audio>
+           @ended="_next" crossOrigin="anonymous">
+    </audio>
   </div>
 </template>
 
@@ -49,26 +50,26 @@
         currentSong: null,
         playing: null,
         duration: 0,
-        plannedW: -1
+        plannedW: -1,
+        once: 0
       }
     },
     name: 'player',
     mounted() {
-      // this._init()
+      wx.ready(() => {
+        this.$refs.audio.play()
+      });
     },
     methods: {
       weixinPlay(fn) {
         if (!this.isWx()) {
+          console.log('非微信浏览器打开')
           fn()
           return false
         }
-        if (window.WeixinJSBridge) {
-          WeixinJSBridge.invoke('getNetworkType', {}, fn)   // 这句话是在微信中可以自动播放的核心
-        } else {
-          document.addEventListener('WeixinJSBridgeReady', function () {
-            WeixinJSBridge.invoke('getNetworkType', {}, fn)
-          })
-        }
+        wx.ready(() => {
+          fn()
+        });
       },
       isWx() {
         return /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) && navigator.userAgent.indexOf('MicroMessenger') > -1
@@ -83,33 +84,32 @@
         // this.palyerMiddelW = parseInt(this.$refs.palyerMiddel.clientWidth)
       },
       _ready() {
-        this.weixinPlay(() => {
-          this.readyOk = true
-          this.duration = this.$refs.audio.duration
-          this.$refs.audio.play()
-          this.playing = true
-        })
-      },
-      _error() {
         this.readyOk = true
+        this.duration = this.$refs.audio.duration
+        // this.$refs.startBtn.click();
+      },
+      _error(e) {
+        console.log(e)
+        if (!this.once) {
+          this.once++
+          return
+        }
+        this.$root.eventHub.$emit('titps', '音频获取失败~')
+        this.readyOk = null
       },
       _updateTime(e) {
-        // console.log(e)
         this.currentTime = e.target.currentTime
       },
       _next() {
       },
       _stop() {
         this.$refs.audio.pause()
-        this.currentUrl = ''
+        this.currentUrl = null
         this.duration = 0
         this.$emit('normalIndex')
         this.currentSong = null
       },
       _changePlayStatus() {
-        if (!this.readyOk) {
-          return
-        }
         const audio = this.$refs.audio
         if (this.playing) {
           audio.pause()
@@ -147,7 +147,9 @@
           return
         }
         if (newIndex > -1) {
+          this.readyOk = null
           this.currentTime = 0
+          this.playing = false
           this.currentUrl = this.playList[newIndex].voice_url
           this.currentSong = this.playList[newIndex]
         }
@@ -243,6 +245,6 @@
   }
 
   .disable-btn {
-    filter: grayscale(100%);
+    filter: invert(30%);
   }
 </style>

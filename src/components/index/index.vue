@@ -51,6 +51,12 @@
               查看教程
             </router-link>
           </div>
+          <div class="from-item flex mg15" v-show="now_good.category === 146">
+            <div class="flex ell from-item-left">评论主题:</div>
+            <div class="flex from-item-right ell">
+              <input type="text" name="评论主题" placeholder="请输入评论主题" class="index-input" v-model="comment_title"/>
+            </div>
+          </div>
           <div class="from-item flex mg15">
             <div class="flex ell from-item-left">商品数量:</div>
             <div class="flex from-item-right ell">
@@ -71,7 +77,10 @@
                 {{item}}
                 <i class="iconfont icon-shanchuyixuanqunchengyuanchacha" @click="comment_list.splice(index, 1)"></i>
               </div>
-              <div class="add-comment flex" :class="{'no-comment':!comment_list.length}"><input placeholder="添加评论" v-model="now_comment" @keyup="comment_keyup" @blur="comment_blur">
+              <div class="add-comment flex" :class="{'no-comment':!comment_list.length}"><input placeholder="添加评论"
+                                                                                                v-model="now_comment"
+                                                                                                @keyup="comment_keyup"
+                                                                                                @blur="comment_blur">
               </div>
             </div>
           </div>
@@ -120,13 +129,15 @@
     addtask,
     wechat_agent_good,
     wechat_agent_order,
-    updateuserinfo
+    updateuserinfo,
+    jsapi_code
   } from 'api/index'
   import selebar from 'base/multi/selebar'
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
   import {get_service_icon, get_com_icon} from 'api/icon_config'
   import {UAID, CHANNEL, APPNAME} from 'api/config'
+  import {getUrlConfig, NOWCONFIG} from 'api/app_config'
   import vip from 'components/vip/vip'
 
   export default {
@@ -146,11 +157,20 @@
         now_comment: '',
         click_comment: '',
         step: 0,
-        comment_list: []
+        comment_list: [],
+        comment_title: ''
       }
     },
     created() {
-      // this._init()
+      wx.config({
+        // 配置信息, 即使不正确也能使用 wx.ready
+        debug: false,
+        appId: '',
+        timestamp: 1,
+        nonceStr: '',
+        signature: '',
+        jsApiList: []
+      });
     },
     mounted() {
       const that = this
@@ -278,7 +298,7 @@
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
           if (!ret.data.data.is_agent) {
-            this.$refs.vip._wechat_agent_good(this.$root.user.user_id);
+            this.$refs.vip._wechat_agent_good(this.$root.user.user_id)
           }
         }
         if (callback) {
@@ -292,17 +312,48 @@
         if (start > 4 && end > -1) {
           console.log('微信登录')
           this._login(url.slice(start, end), this.$route.query.username, callback)
-          history.replaceState(null, null, window.location.origin + `/${UAID}/#/`)
+          const locationUrl = window.location.origin + `/${getUrlConfig()}/#/`
+          console.log(locationUrl);
+          history.replaceState(null, null, locationUrl)
         } else {
           console.log('浏览器储存登录')
           const user = localStorage.getItem(`${UAID}${CHANNEL}user_id`) || localStorage.getItem('user_id')
           if (user) {
             this._updateuserinfo(user, callback)
           } else {
-            console.log(user, '无法加载用户信息')
+            console.log(user, '无法加载用户信息');
+            console.log(NOWCONFIG.spread);
+            window.location.href = `${NOWCONFIG.spread}&response_type=code&scope=snsapi_userinfo#wechat_redirect`;
           }
         }
         this._appinfo()
+        // this._jsapiConfig()
+      },
+      async _jsapiConfig() {
+        // console.log(window.location.origin)
+        const ret = await jsapi_code(window.location.origin)
+        console.log(ret.data.data)
+        if (ret.status === 200 && ret.data.code === 200) {
+          wx.config({
+            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: ret.data.data.app_id, // 必填，公众号的唯一标识
+            timestamp: ret.data.data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: ret.data.data.noncestr, // 必填，生成签名的随机串
+            signature: ret.data.data.sign,// 必填，签名
+            jsApiList: ['updateAppMessageShareData'] // 必填，需要使用的JS接口列表
+          });
+        }
+        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+          wx.updateAppMessageShareData({
+            title: '星空星空', // 分享标题
+            desc: '123456789', // 分享描述
+            link: window.location.origin, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: 'https://cdn.xingkwh.com/14.jpg', // 分享图标
+            success: function () {
+              // 设置成功
+            }
+          })
+        });
       },
       async _addTask() {
         if (!this.$root.user.id) {
@@ -310,7 +361,7 @@
           return false
         }
         if (!this.$root.user.is_agent) {
-          this.$refs.vip._show();
+          this.$refs.vip._show()
           return false
         }
         if (!this.link || this.link.indexOf('http') < 0) {
@@ -324,6 +375,13 @@
         if (this.now_good.category === 143 && (!this.comment || this.comment.length > 105)) {
           this.$root.eventHub.$emit('titps', '请填写1~100个评论字数')
           return false
+        }
+        if (this.now_good.category === 146 && !this.comment_title) {
+          this.$root.eventHub.$emit('titps', '请填写评论主题')
+          return false
+        }
+        if (this.now_good.category === 146) {
+          this.comment_list = [this.comment_title]
         }
         this.$root.eventHub.$emit('loading', true)
         const ret = await addtask(this.active_com_id ? 2 : 1, this.$root.user.user_id, this.num, this.now_good.id, this.agencyPrice, this.link, this.comment)
@@ -417,7 +475,7 @@
           this.$root.user = ret.data.data
           localStorage.setItem(`${UAID}${CHANNEL}user_id`, ret.data.data.user_id)
           if (!ret.data.data.is_agent) {
-            this.$refs.vip._wechat_agent_good(this.$root.user.user_id);
+            this.$refs.vip._wechat_agent_good(this.$root.user.user_id)
           }
         }
         if (callback) {
@@ -431,6 +489,9 @@
           this._setnum(e)
         } else {
           this._maintain()
+        }
+        if (this.comment_list.length) {
+          this.comment_list = []
         }
       },
       _rectifyMoney() {
@@ -689,30 +750,30 @@
   }
 
   /*.proxy-warp {*/
-    /*width: 82%;*/
-    /*margin: 0 auto -12%;*/
-    /*height: auto;*/
-    /*min-height: 100px;*/
-    /*position: relative;*/
+  /*width: 82%;*/
+  /*margin: 0 auto -12%;*/
+  /*height: auto;*/
+  /*min-height: 100px;*/
+  /*position: relative;*/
   /*}*/
 
   /*.proxy-warp img {*/
-    /*width: 100%;*/
-    /*margin: 10px 10%;*/
-    /*height: auto;*/
+  /*width: 100%;*/
+  /*margin: 10px 10%;*/
+  /*height: auto;*/
   /*}*/
 
   /*.proxy-pay{*/
-    /*width: 100%;*/
-    /*height: 10%;*/
-    /*position: absolute;*/
-    /*bottom: 20%;*/
+  /*width: 100%;*/
+  /*height: 10%;*/
+  /*position: absolute;*/
+  /*bottom: 20%;*/
   /*}*/
   /*.proxy-commision{*/
-    /*width: 100%;*/
-    /*position: absolute;*/
-    /*bottom: 15%;*/
-    /*height: 5%;*/
+  /*width: 100%;*/
+  /*position: absolute;*/
+  /*bottom: 15%;*/
+  /*height: 5%;*/
   /*}*/
   .proxy-btn-buy {
     width: 40%;
@@ -902,9 +963,10 @@
   }
 
   .active-comment {
-    color: rgba(255,255,92,.4);
-    border: 1px solid rgba(255,255,92,.4);
+    color: rgba(255, 255, 92, .4);
+    border: 1px solid rgba(255, 255, 92, .4);
   }
+
   .comment-item .iconfont {
     display: none;
     position: absolute;
@@ -912,11 +974,13 @@
     top: -5px;
     font-weight: 900;
   }
+
   .active-comment .iconfont {
     display: block;
     color: #e6cb51;
   }
-  .no-comment{
+
+  .no-comment {
     margin-left: 32%;
   }
 </style>

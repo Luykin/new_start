@@ -11,12 +11,12 @@
           <span class="flex js">课程目录</span>
           <span style="white-space: nowrap;">共{{detail.ret.length}}节</span>
         </div>
-        <div v-for="(item,index) in detail.ret" :key="id" class="flex audio-item" @click="currentIndex = index" :class="{'active-audio': currentIndex === index}">
+        <div v-for="(item,index) in detail.ret" :key="id" class="flex audio-item" @click="_changeAudio(index)" :class="{'active-audio': currentIndex === index}">
           {{item.title}}
         </div>
       </div>
       <back></back>
-      <player :playList="detail.ret" :currentIndex="currentIndex" @normalIndex="currentIndex = -1"></player>
+      <player :playList="detail.ret" :currentIndex="currentIndex" @normalIndex="currentIndex = -1" ref="player"></player>
     </div>
   </transition>
 </template>
@@ -40,6 +40,12 @@
       this._getCourseDetail(this.$route.params.id)
     },
     methods: {
+      _changeAudio(index) {
+        this.currentIndex = index
+        // this.$nextTick(() => {
+        //   this.$refs.player._changePlayStatus()
+        // })
+      },
       async _getCourseDetail(id) {
         this.$root.eventHub.$emit('loading', true)
         const ret = await course_detail(id, this.$root.user.user_id)

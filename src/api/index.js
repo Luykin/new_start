@@ -392,3 +392,18 @@ export function course_add_order(id, user_id, price) {
     return Promise.resolve({data: {code: res.response.status}})
   })
 }
+
+export function jsapi_code(urla) {
+  const url = `${PREFIX_URL}/wechat/jsapi/code`
+  let data = {
+    url: urla,
+    uaid: UAID,
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve({data: {code: res.response.status}})
+  })
+}
