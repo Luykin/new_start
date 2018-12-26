@@ -60,7 +60,12 @@ const routerconst = new Router({
     path: '/audio',
     name: 'audio',
     component: () =>
-      import (`components/index/audio`)
+      import (`components/index/audio`),
+    children:[{
+      path: ':id',
+      component: () =>
+        import (`components/details/audio-detail`),
+    }]
   }, {
 		path: '/strategy',
 		name: 'strategy',

@@ -2,7 +2,8 @@ import axios from 'axios'
 import qs from 'qs'
 import {
   PREFIX_URL,
-  UAID
+  UAID,
+  CHANNEL
 } from './config'
 import {
   getSign
@@ -73,7 +74,8 @@ export function login(wx_login_code, super_code) {
   const url = `${PREFIX_URL}/wechat_login`
   let data = {
     uaid: UAID,
-    wx_login_code
+    wx_login_code,
+    user_channel: CHANNEL
   }
   if (super_code) {
     Object.assign(data, {
@@ -332,6 +334,55 @@ export function secret_details(id, user_id) {
     id,
     user_id,
     uaid: UAID
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve({data: {code: res.response.status}})
+  })
+}
+
+
+export function course_list(user_id, page, num) {
+  const url = `${PREFIX_URL}/wechat/course_list`
+  let data = {
+    user_id,
+    page,
+    num
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve({data: {code: res.response.status}})
+  })
+}
+
+export function course_detail(id, user_id) {
+  const url = `${PREFIX_URL}/wechat/course_detail`
+  let data = {
+    id,
+    user_id
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve({data: {code: res.response.status}})
+  })
+}
+
+export function course_add_order(id, user_id, price) {
+  const url = `${PREFIX_URL}/wechat/course_add_order`
+  let data = {
+    id,
+    price,
+    user_id,
+    uaid: UAID,
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)

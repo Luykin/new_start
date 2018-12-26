@@ -26,10 +26,10 @@
           path: '/secret',
           system: [1]
         },{
-          // name: '听课',
-          // icon: 'https://cdn.xingkwh.com/secret.png',
-          // path: '/audio',
-          // system: [1]
+          name: '听课',
+          icon: 'https://cdn.xingkwh.com/%E5%90%AC%E8%AF%BE-%E9%80%89%E4%B8%AD@3x.png',
+          path: '/audio',
+          system: [1]
         }, {
           name: '团队',
           icon: 'https://cdn.xingkwh.com/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA-%E5%9B%A2%E9%98%9F%E9%80%89%E4%B8%AD@3x.png',
@@ -72,7 +72,7 @@
   }
 
   .footer-item img {
-    width: 28%;
+    width: 34%;
     max-width: 32px;
     margin-bottom: -5px;
     height: auto;

@@ -126,7 +126,7 @@
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
   import {get_service_icon, get_com_icon} from 'api/icon_config'
-  import {UAID, APPNAME} from 'api/config'
+  import {UAID, CHANNEL, APPNAME} from 'api/config'
   import vip from 'components/vip/vip'
 
   export default {
@@ -295,7 +295,7 @@
           history.replaceState(null, null, window.location.origin + `/${UAID}/#/`)
         } else {
           console.log('浏览器储存登录')
-          const user = localStorage.getItem(`${UAID}user_id`) || localStorage.getItem('user_id')
+          const user = localStorage.getItem(`${UAID}${CHANNEL}user_id`) || localStorage.getItem('user_id')
           if (user) {
             this._updateuserinfo(user, callback)
           } else {
@@ -415,7 +415,7 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
-          localStorage.setItem(`${UAID}user_id`, ret.data.data.user_id)
+          localStorage.setItem(`${UAID}${CHANNEL}user_id`, ret.data.data.user_id)
           if (!ret.data.data.is_agent) {
             this.$refs.vip._wechat_agent_good(this.$root.user.user_id);
           }

@@ -32,7 +32,7 @@
   import interlayer from 'base/interlayer/interlayer'
   import QRCode from 'qrcode'
   import {NOWCONFIG} from 'api/app_config'
-  import {env} from 'api/config'
+  import {env, UAID} from 'api/config'
 
   export default {
     name: 'spread',
@@ -84,16 +84,16 @@
           let canvas = document.querySelector('.spread')
           let imgbg = document.querySelector('.spreadimg')
           let imgqr = document.querySelector('.spreadqr')
-          canvas.getContext('2d').drawImage(imgbg, 0, 0, 600, 1074)
-          canvas.getContext('2d').drawImage(imgqr, 195, 460, 210, 210)
-          console.log('画图')
-          // console.log(imgbg, imgqr)
+          let context = canvas.getContext('2d');  //获取对应的2D对象(画笔)
+          context.drawImage(imgbg, 0, 0, 600, 1074)
+          context.drawImage(imgqr, 195, 460, 210, 210)
+          context.fillStyle = '#fff';
+          context.strokeStyle = '#fff'; //设置笔触的颜色
+          context.textAlign = 'right';
+          context.font = "bold 28px '字体','字体','微软雅黑','宋体'"; //设置字体
+          context.fillText(`v-${UAID}` ,580 ,38); //设置文本内容
           this.myqrurl = canvas.toDataURL('image/png')
           // console.log(document.body)
-          // let imgDom = new Image();
-          // imgDom.src = this.myqrurl;
-          // imgDom.setAttribute('class', 'share-img-body')
-          // document.body.appendChild(imgDom);
           this.$root.eventHub.$emit('loading', null)
         } catch (err) {
           this.$root.eventHub.$emit('loading', null)
@@ -125,6 +125,7 @@
           type: 'image/jpeg'
         }
         this.$root.eventHub.$emit('loading', true)
+        // console.log(this.NOWCONFIG.spread)
         QRCode.toDataURL(`${this.env === 'dev' ? this.NOWCONFIG.dev_spread : this.NOWCONFIG.spread}?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')

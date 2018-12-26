@@ -1,5 +1,5 @@
-import {UAID} from './config'
-const appConfig = {
+import {getIdentification} from './config'
+let appConfig = {
   '60100': {
     'customer_url': 'https://cdn.xingkwh.com/B32CCB63B90EAFB542F09AA2265EFC53.png',
     'spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com%2f%23%2findex',
@@ -47,7 +47,21 @@ const appConfig = {
     'spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/60109%2f%23%2findex',
     'dev_spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fdevstars.xingkwh.com%2f%23%2findex',
     'system': 1
-  }
+  },
+}
+appConfig['去水印大师'] = {
+    'customer_url': 'https://cdn.xingkwh.com/mmexport1544496667772.jpg',
+    'spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/60110%2f%23%2findex',
+    'dev_spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fdevstars.xingkwh.com%2f%23%2findex',
+    'system': 1
 }
 
-export const NOWCONFIG = appConfig[UAID]
+appConfig['视频去水印大师'] = {
+  'customer_url': 'https://cdn.xingkwh.com/mmexport1544496667772.jpg',
+  'spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/60111%2f%23%2findex',
+  'dev_spread': 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fdevstars.xingkwh.com%2f%23%2findex',
+  'system': 1
+}
+
+
+export const NOWCONFIG = appConfig[getIdentification()]
