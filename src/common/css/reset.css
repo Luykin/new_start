@@ -4,9 +4,9 @@ html {
   font-family: 微软雅黑;
   min-height: 100%;
   overflow-x: hidden;
-  background: #31293D;
-  background: linear-gradient(45deg, #253250, #34283A);
-  background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));
+  /*background: #31293D;*/
+  /*background: linear-gradient(45deg, #253250, #34283A);*/
+  /*background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));*/
 }
 
 body {
@@ -14,7 +14,6 @@ body {
   padding: 0;
   min-height: 100%;
   line-height: 1;
-  color: #555555;
   overflow: hidden;
 }
 
@@ -83,19 +82,6 @@ var {
   font-style: normal;
 }
 
-.clearfix {
-  *zoom: 1;
-}
-
-.clearfix:after {
-  display: block;
-  overflow: hidden;
-  clear: both;
-  height: 0;
-  visibility: hidden;
-  content: ".";
-}
-
 a:link,
 a:visited {
   color: #000;
@@ -135,163 +121,7 @@ input:focus::-webkit-contacts-auto-fill-button {
 .js {
   justify-content: flex-start;
 }
-
-.tooltip {
-  position: relative;
-}
-
-.tooltip-right {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-}
-
-.afterh {
-}
-
-.afterh:after {
-  display: block;
-  content: '';
-  width: 0;
-  height: 0;
-}
-
 .footer-none {
   height: 65px;
   opacity: 0;
 }
-
-.list-enter-active, .list-leave-active {
-  transition: opacity .8s;
-  opacity: 1;
-}
-
-.list-enter, .list-leave-to {
-  transition: opacity 0s;
-  opacity: 0;
-}
-
-.explain-warp {
-  height: 40px;
-  text-indent: 24px;
-  position: relative;
-  color: #fff;
-  /*border-left: 3px solid #333333;*/
-}
-
-.explain-warp:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 14px;
-  width: 4px;
-  height: 18px;
-  transform: translate(0, -58%);
-  background: #FFE15A;
-}
-
-.hidek {
-  opacity: 0;
-  position: fixed;
-  z-index: -99;
-  top: 1000px;
-  left: 0;
-}
-
-.tool-line {
-  width: 80%;
-  height: 100%;
-  background: linear-gradient(to right, #fff, #fff 5.5px, transparent 5.5px, transparent);
-  background-size: 11px 100%;
-  transform: translate3d(12.5%, 0, 0);
-  position: relative;
-}
-
-.tool-line:before {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 100%;
-  background: #fff;
-  transform: translate(-50%, -50%);
-}
-
-.tool-line:after {
-  content: '';
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 16px;
-  height: 6px;
-  background: url('https://cdn.xingkwh.com/%E7%AE%AD%E5%A4%B4.png') no-repeat;
-  background-size: 100% 100%;
-  transform: translate(100%, -40%);
-}
-
-.tool-num {
-  width: 24%;
-  height: 25px;
-  text-indent: 10px;
-  position: absolute;
-  transform: translate(-100%, -100%);
-  transition: all 1s;
-}
-
-.tool-circle {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 1px solid red;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  box-shadow: 0 0 8px 0px red inset;
-}
-
-.cancelimg {
-  display: block;
-  transform: translate(0px, 60%);
-  margin: 0 auto;
-}
-
-.line {
-  width: 95%;
-  height: 0;
-  margin: 6px auto;
-  border-top: 1px dashed rgba(0, 0, 0, .1);
-}
-
-#YSF-BTN-HOLDER {
-  bottom: 10% !important;
-  right: 5% !important;
-  z-index: 999 !important;
-}
-
-#YSF-CUSTOM-ENTRY-0 {
-  box-shadow: none !important;
-}
-
-#YSF-BTN-HOLDER #YSF-CUSTOM-ENTRY-0 img {
-  width: 60px;
-  height: auto;
-}
-
-/*.share-img-body {*/
-  /*position: fixed;*/
-  /*z-index: 999999999;*/
-  /*left: 0;*/
-  /*right: 0;*/
-  /*top: 0;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*opacity: .1;*/
-  /*pointer-events: none;*/
-  /*user-select: text;*/
-/*}*/

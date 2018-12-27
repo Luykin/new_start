@@ -133,17 +133,3 @@
 .mg30 {
   margin: 30px auto 0;
 }
-
-.font-img {
-  display: block;
-  width: 90%;
-  height: auto;
-  margin: 20px auto;
-}
-
-.line-font {
-  width: 92%;
-  margin: 0 auto;
-  justify-content: flex-start;
-  line-height: 25px;
-}
