@@ -1,5 +1,5 @@
 <template>
-	<div class="btn-back flex" @click="_back" v-show="show">
+	<div class="btn-back flex line-back" @click="_back" v-show="show">
 		返回
 	</div>
 </template>
@@ -27,9 +27,9 @@
 	.btn-back{
 		width: 86px;
 		height: 38px;
-		background: #7045F2;
-    background: linear-gradient(right, #7045F2, #9672F8);
-    background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));
+		/*background: #7045F2;*/
+    /*background: linear-gradient(right, #7045F2, #9672F8);*/
+    /*background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));*/
 		color: #fff;
 		border-radius: 30px;
 		position: fixed;

@@ -10,8 +10,18 @@ const routerconst = new Router({
 		path: '/index',
 		name: 'index',
 		component: () =>
-			import (`components/index/index`)
-	}]
+			import (`components/index/index`),
+    children:[{
+      path: ':id',
+      component: () =>
+        import (`components/detail/task-detail`),
+    }]
+	},{
+	  path: '/release',
+    name: 'release',
+    component: () =>
+      import (`components/index/release`)
+  }]
 })
 
 // routerconst.beforeEach((to, from, next) => {

@@ -64,8 +64,8 @@
 
 </script>
 <style>
-  /*@import url(assets/icon/iconfont.css);*/
   @import url(common/css/reset.css);
+  @import url(common/css/task.css);
   @import url(common/css/fontsize.css);
 </style>
 <style scoped>

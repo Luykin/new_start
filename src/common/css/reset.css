@@ -4,9 +4,8 @@ html {
   font-family: 微软雅黑;
   min-height: 100%;
   overflow-x: hidden;
-  /*background: #31293D;*/
-  /*background: linear-gradient(45deg, #253250, #34283A);*/
-  /*background: -webkit-gradient(linear, right top, left bottom, from(#253250), to(#34283A));*/
+  background: #F5F4F8 url("../../assets/img/background.png") no-repeat;
+  background-size: 100% auto;
 }
 
 body {
@@ -121,7 +120,27 @@ input:focus::-webkit-contacts-auto-fill-button {
 .js {
   justify-content: flex-start;
 }
+
+.list-enter-active, .list-leave-active {
+  transition: opacity .8s;
+  opacity: 1;
+}
+
+.list-enter, .list-leave-to {
+  transition: opacity 0s;
+  opacity: 0;
+}
+
 .footer-none {
   height: 65px;
   opacity: 0;
+}
+
+#YSF-CUSTOM-ENTRY-0 {
+  box-shadow: none !important;
+}
+
+#YSF-BTN-HOLDER #YSF-CUSTOM-ENTRY-0 img {
+  width: 60px;
+  height: auto;
 }

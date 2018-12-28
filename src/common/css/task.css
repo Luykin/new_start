@@ -1,0 +1,51 @@
+.line-back {
+  background: #A23CE9;
+  background: linear-gradient(right, #6D32FB, #F74CCA);
+  background: -webkit-gradient(linear, right top, left top, from(#6D32FB), to(#F74CCA));
+}
+
+.detail-body{
+  width: 100%;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  background: #F5F4F8 url("../../assets/img/background.png") no-repeat;
+  background-size: 100% auto;
+}
+
+.task-title {
+  height: 30px;
+  width: 90.3%;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-indent: 15px;
+  position: relative;
+  margin: 0 auto;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.task-title:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 5px;
+  height: 16px;
+  border-radius: 100px;
+  background: #fff;
+}
+
+.task-btn{
+  width: 96%;
+  height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 10px;
+  margin: 10px auto;
+}

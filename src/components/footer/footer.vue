@@ -1,6 +1,6 @@
 <template>
   <transition name="list">
-    <footer class="flex" v-if="config">
+    <footer class="flex">
       <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path' v-if="Object.keys(item).length">
         <img :src="item.icon">
         <span class="flex mg5 ssss">{{item.name}}</span>
@@ -12,7 +12,6 @@
   export default {
     data() {
       return {
-        config: null,
         footer_config: [{
           name: '首页',
           icon: 'https://cdn.xingkwh.com/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA-%E9%A6%96%E9%A1%B5%E9%80%89%E4%B8%AD@3x.png',
@@ -51,9 +50,9 @@
     width: 100%;
     height: 55px;
     border-top: 1px solid rgba(0, 0, 0, .1);
-    z-index: 999;
-    background: #3F3F60;
-    color: #8E8E93;
+    z-index: 998;
+    background: #fff;
+    color: #999;
     box-shadow: 0 0 2px rgba(0, 0, 0, .1);
   }
 

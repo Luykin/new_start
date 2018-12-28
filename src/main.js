@@ -28,7 +28,8 @@ const app = new Vue({
       score: 0,
       username: null,
       user_id: null
-    }
+    },
+    serverCache: []
   }
 })
 
