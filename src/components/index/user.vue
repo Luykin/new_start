@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <div class="header">
-      <userheader></userheader>
+  <transition name="list">
+    <div>
+      <div class="header">
+        <userheader></userheader>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
   import userheader from 'components/userheader/userheader'
+
   export default {
     name: 'user',
     created() {
@@ -20,9 +23,9 @@
 </script>
 
 <style scoped>
-.header{
-  width: 90%;
-  height: 200px;
-  margin: 10px auto;
-}
+  .header {
+    width: 90%;
+    height: 200px;
+    margin: 10px auto;
+  }
 </style>

@@ -1,7 +1,7 @@
 .line-back {
   background: #A23CE9;
-  background: linear-gradient(right, #6D32FB, #F74CCA);
-  background: -webkit-gradient(linear, right top, left top, from(#6D32FB), to(#F74CCA));
+  background: linear-gradient(-45deg, #6D32FB, #F74CCA);
+  background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
 }
 
 .detail-body{

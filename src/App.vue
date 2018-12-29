@@ -14,7 +14,7 @@
 </template>
 <script>
   // import MHeader from 'components/header/header'
-  import foot from 'components/footer/footer'
+  import foot from 'components/footer/new-footer'
   import centerTips from 'base/centerTips/centerTips'
   import loading from 'base/loading/loading'
   import preloading from 'components/preloading/preloading'

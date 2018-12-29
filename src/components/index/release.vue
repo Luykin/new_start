@@ -43,11 +43,13 @@
         </div>
       </div>
       <div class="task-btn flex line-back">立即发布</div>
+      <back></back>
     </div>
   </transition>
 </template>
 
 <script>
+  import back from 'base/back/back'
   export default {
     data() {
       return {
@@ -75,7 +77,10 @@
         }
       },
     },
-    name: 'release'
+    name: 'release',
+    components: {
+      back
+    }
   }
 </script>
 

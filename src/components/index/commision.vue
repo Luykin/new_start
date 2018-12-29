@@ -1,5 +1,7 @@
 <template>
+  <transition name="list">
     <div>commision</div>
+  </transition>
 </template>
 
 <script>
