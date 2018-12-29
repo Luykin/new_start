@@ -1,41 +1,59 @@
 <template>
-	<div class="btn-back flex line-back" @click="_back" v-show="show">
-		返回
-	</div>
+  <!--<div class="btn-back flex" @click="_back" v-show="show"></div>-->
+  <div class="flex back-warp js">
+    <div class="flex back-btn js" @click="_back">
+      <img src="../../assets/img/back.png"/>
+      返回
+    </div>
+  </div>
 </template>
 <script type="text/javascript">
-	export default {
-	  data() {
-	    return{
-	      show: true
+  export default {
+    data() {
+      return{
+        show: true
       }
     },
-		methods: {
-			_back() {
-				this.$router.back(-1)
-			},
+    methods: {
+      _back() {
+        this.$router.back(-1)
+      },
       _show() {
-			  this.show = true
+        this.show = true
       },
       _hiden(){
-			  this.show = null
+        this.show = null
       }
-		}
-	}
+    }
+  }
 </script>
 <style scoped>
-	.btn-back{
-		width: 86px;
-		height: 38px;
-		/*background: #7045F2;*/
-    /*background: linear-gradient(right, #7045F2, #9672F8);*/
-    /*background: -webkit-gradient(linear, right top, left top, from(#7045F2), to(#9672F8));*/
-		color: #fff;
-		border-radius: 30px;
-		position: fixed;
-		bottom: 10%;
-		right: 6%;
-		z-index: 999990;
-		opacity: .84;
-	}
+  .back-warp{
+    width: 100%;
+    height: 40px;
+    /*background: #000;*/
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .back-btn{
+    width: 25%;
+    height: 100%;
+  }
+  .back-btn img{
+    width: 20px;
+    height: auto;
+    margin: 0 5px 0 10px;
+  }
+  /*.btn-back{*/
+    /*width: 86px;*/
+    /*height: 38px;*/
+    /*color: #fff;*/
+    /*border-radius: 30px;*/
+    /*position: fixed;*/
+    /*bottom: 6%;*/
+    /*right: 6%;*/
+    /*z-index: 999990;*/
+    /*opacity: .8;*/
+  /*}*/
 </style>

@@ -26,6 +26,7 @@ const app = new Vue({
       avatar: null,
       nickname: '登录中',
       score: 0,
+      price: 0,
       username: null,
       user_id: null
     },

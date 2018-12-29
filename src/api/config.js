@@ -3,10 +3,10 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-var env = exports.env = 'qzone'
-var PREFIX_URL = exports.PREFIX_URL = 'https://' + env + '.melonblock.com/fans'
-var UAID = exports.UAID = 360030
-var CHANNEL = exports.CHANNEL = '新60109'
+var env = exports.env = 'dev'
+var PREFIX_URL = exports.PREFIX_URL = 'https://' + env + '.btc.melonblock.com/fabulous'
+var UAID = exports.UAID = 360400
+var CHANNEL = exports.CHANNEL = '10000'
 var APPNAME = exports.APPNAME = '微信任务平台网页版'
 var QINIU_PREFIX = exports.QINIU_PREFIX = '-wx_task' + env + CHANNEL // 七牛云储存前缀，防误删
 var SUCCESS_CODE = exports.SUCCESS_CODE = 200

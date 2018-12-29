@@ -31,6 +31,7 @@
 <script>
   import userheader from 'components/userheader/userheader'
   import betterscroll from 'base/better-scroll/better-scroll'
+  import {pub_task, login} from 'api/index'
 
   export default {
     name: 'user',
@@ -43,6 +44,24 @@
     methods: {
       _inint() {
         this.$refs.wrapper._initScroll()
+        this._getPubTask()
+        this._login()
+      },
+      async _getPubTask() {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await pub_task(1)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+         this.$root.serverCache = ret.data.data.ret
+        }
+      },
+      async _login() {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await login('abcdefg123')
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.user = ret.data.data
+        }
       },
       _pulldown() {
         // this.num = 10

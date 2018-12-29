@@ -1,7 +1,14 @@
 <template>
   <transition name="list">
-    <div class="detail-body">
-      <div class="service-warp flex"></div>
+    <div class="detail-body" v-if="activeService">
+      <back></back>
+      <div class="service-warp flex">
+        <div v-for="item in $root.serverCache" class="flex service-item fw"
+             :class="{'active-service' : activeService.id === item.id}" @click="activeService = item">
+          <img :src="item.icon"/>
+          <span class="flex">{{item.title}}</span>
+        </div>
+      </div>
       <div class="release-body flex fw">
         <div class="flex max-task-input-warp task-input-warp">
           <div class="tiw-mid">
@@ -13,6 +20,13 @@
           </div>
         </div>
         <div class="flex task-input-warp">
+          <div class="tiw-left flex">悬赏标题</div>
+          <div class="tiw-mid">
+            <input type="text" name="悬赏标题" placeholder="请输入标题(不超过40个字符)" class="index-input" v-model="reward_title" @keyup="_rectifyRewardTitle"/>
+          </div>
+          <div class="tiw-right"></div>
+        </div>
+        <div class="flex task-input-warp">
           <div class="tiw-left flex">悬赏数量</div>
           <div class="tiw-mid">
             <input type="number" name="悬赏数量" placeholder="设定任务数量" class="index-input" v-model="reward_amount"/>
@@ -22,8 +36,8 @@
         <div class="flex task-input-warp">
           <div class="tiw-left flex">每单金额</div>
           <div class="tiw-mid">
-            <input type="text" name="每单金额" placeholder="设定悬赏每单金额" class="index-input" v-model="single_price"
-                   @keyup="_rectifySinglePrice"/>
+            <input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input" v-model="single_price"
+                   @keyup="_rectifySinglePrice" @blur="_rectifyMinPrice"/>
           </div>
           <div class="tiw-right">元</div>
         </div>
@@ -42,38 +56,94 @@
           本次预付款总金额<span class="sum-money">{{advance}}</span>元
         </div>
       </div>
-      <div class="task-btn flex line-back">立即发布</div>
-      <back></back>
+      <div class="task-btn flex line-back" @click="_payAndPubTask">立即发布</div>
     </div>
   </transition>
 </template>
 
 <script>
+  // pay_and_pub_task(id, title, task_url, num, single_price, price, score, username) {
   import back from 'base/back/back'
+  import { pay_and_pub_task } from 'api/index'
   export default {
     data() {
       return {
         works_link: '',
+        reward_title: '',
         reward_amount: '',
         single_price: '',
+        // activeServiceId: null,
+        activeService: null,
       }
+    },
+    created() {
+      // this.activeServiceId = this.$root.serverCache[0].id
+      this.activeService = this.$root.serverCache[0]
     },
     computed: {
       aggregate_amount() {
-        return this.single_price && this.reward_amount ? this.single_price * this.reward_amount : 0
+        return Math.ceil((this.single_price && this.reward_amount ? this.single_price * this.reward_amount : 0) * 100)/100
       },
       advance() {
-        return this.aggregate_amount + this.aggregate_amount * 0.15
+        return Math.ceil((this.aggregate_amount + this.aggregate_amount * 0.15) * 100) / 100
       }
     },
     methods: {
+      _payAndPubTask() {
+        if (!this.reward_title) {
+          this.$root.eventHub.$emit('titps', `请设置任务标题哦~`)
+          return false
+        }
+        if (!this.works_link) {
+          this.$root.eventHub.$emit('titps', `请粘贴您的作品链接~`)
+          return false
+        }
+        if (!this.single_price) {
+          this.$root.eventHub.$emit('titps', `请设置任务单价哦~`)
+          return false
+        }
+        if (!this.reward_amount || this.reward_amount <= 0) {
+          this.$root.eventHub.$emit('titps', `请设置任务数量哦~`)
+          return false
+        }
+
+      },
       _rectifySinglePrice() {
         try {
           if (isNaN(this.single_price) || this.single_price < 0) {
             this.single_price = ''
           }
+          if (this.single_price.indexOf('.') > -1) {
+            const end = this.single_price.indexOf('.')
+            this.single_price = this.single_price.slice(0, end + 3)
+          }
         } catch (e) {
           this.single_price = ''
+        }
+      },
+      _rectifyRewardTitle() {
+        try {
+          if (this.reward_title.length > 40) {
+            this.reward_title = this.reward_title.slice(0, 30)
+          }
+        } catch (e) {
+          console.log(e)
+        }
+      },
+      _rectifyMinPrice() {
+        try {
+          if (!this.single_price) {
+            return false
+          }
+          if (isNaN(this.single_price) || this.single_price < this.activeService.min_price) {
+            this.$root.eventHub.$emit('titps', `设置金额必须大于${this.activeService.min_price}元哟~`)
+            this.single_price = ''
+            return false
+          }
+          return true
+        } catch (e) {
+          this.single_price = ''
+          return false
         }
       },
     },
@@ -100,7 +170,19 @@
 
   .service-warp {
     width: 100%;
-    height: 150px;
+    height: 120px;
+    margin-top: -15px;
+  }
+
+  .service-item {
+    color: #fff;
+  }
+
+  .service-item img {
+    width: 55px;
+    height: 55px;
+    border-radius: 1000px;
+    margin: 20px auto 10px;
   }
 
   .task-input-warp {
@@ -202,5 +284,23 @@
 
   .red {
     color: #FF312D;
+  }
+
+  .active-service {
+    color: #ffe3ff;
+    font-weight: 600;
+    position: relative;
+  }
+
+  .active-service:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translate(-50%, 0);
+    width: 20%;
+    height: 2px;
+    background: #ffd1c5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
   }
 </style>

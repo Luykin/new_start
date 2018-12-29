@@ -46,6 +46,9 @@
     name: 'new-footer',
     methods: {
       _toRelease() {
+        if (!this.$root.serverCache.length) {
+          return false
+        }
         this.$router.push({
           path: './release'
         })

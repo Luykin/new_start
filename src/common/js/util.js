@@ -1,6 +1,6 @@
 import md5 from 'js-md5'
 import CryptoJS from 'crypto-js'
-const PRIVATE_KEY = 'FansMelonBlock2017'
+const PRIVATE_KEY = 'MelonBlock2018FABULOUS'
 
 export function encryptByDES(message, key) {
   const keyHex = CryptoJS.enc.Utf8.parse(key)

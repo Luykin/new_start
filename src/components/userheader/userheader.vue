@@ -1,10 +1,10 @@
 <template>
   <div class="user-header-warp">
     <div class="top flex">
-      <img src="../../assets/img/headerbg.png" class="header-avater"/>
+      <img :src="$root.user.avatar" class="header-avater"/>
       <div class="user-name flex fw">
-        <span class="ell name">张是男是dddddddas女</span>
-        <span class="flex js ell">id: 123adsa</span>
+        <span class="ell name">{{$root.user.nickname}}</span>
+        <span class="flex js ell">id: {{$root.user.username}}</span>
       </div>
       <div class="flex btn-warp">
         <div class="flex btn top-btn line-back">充值</div>
@@ -12,12 +12,12 @@
     </div>
     <div class="bottom flex">
       <div class="flex fw border-scored">
-        <span class="flex number">100000</span>
-        <span class="flex num-title">账户余额(元)</span>
+        <span class="flex number">{{$root.user.price}}</span>
+        <span class="flex num-title">收益余额(元)</span>
       </div>
       <div class="flex fw">
-        <span class="flex number">1000</span>
-        <span class="flex num-title">账户余额(元)</span>
+        <span class="flex number">{{$root.user.score}}</span>
+        <span class="flex num-title">充值余额(元)</span>
       </div>
       <div class="flex fw btn-warp">
         <div class="flex btn bottom-btn">提现</div>
@@ -121,6 +121,7 @@
   }
 
   .name {
+    width: 100%;
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 10px;
