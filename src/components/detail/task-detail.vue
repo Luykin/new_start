@@ -4,34 +4,124 @@
       <betterscroll class="wrapper" ref='wrapper'>
         <div>
           <div class="height10"></div>
-          <div class="task-header">
+          <back></back>
+          <div class="task-header" v-if="detail_info">
             <div class="top flex fw">
-              <div class="tht-title ell">悬赏标题:的撒大所大</div>
-              <div class="tht-user ell">123456: 123456</div>
+              <div class="tht-title ell">{{detail_info.title}}</div>
+              <div class="tht-user ell">悬赏发布人: {{detail_info.nickname}}</div>
             </div>
             <div class="bottom flex fw">
               <div class="count-down flex">
                 <div class="cd-left flex">抖音评论任务</div>
                 任务时间:
-                <span class="time">00:59:12</span>
+                <span class="time">{{cut_time}}</span>
               </div>
+              <div class="tdb-left flex">{{detail_info.num}}/<span style="color: #fff">{{detail_info.use_num}}</span>
+              </div>
+              <div class="tdb-right flex">{{detail_info.single_price}}<span style="font-size: 15px">元</span></div>
             </div>
           </div>
-          <div class="task-info flex">
-            <div class=""></div>
+          <div class="task-info flex fw" v-if="detail_info">
+            <div class="task-color-title flex">任务信息</div>
+            <div class="copy-warp flex">
+              <div class="copy-info">{{this.task_url}}</div>
+              <div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')" v-show="!detail_info.is_take_task">点击复制</div>
+              <div class="copy-btn flex line-back copy" v-show="detail_info.is_take_task" :data-clipboard-text="task_url" @click="">点击复制</div>
+            </div>
+          </div>
+          <div class="task-info flex fw" v-if="detail_info">
+            <img :src="detail_info.image_url" class="task-image"/>
           </div>
         </div>
       </betterscroll>
+      <div class="task-btn flex line-back task-detail-btn">提交任务</div>
     </div>
   </transition>
 </template>
 
 <script>
   import betterscroll from 'base/better-scroll/better-scroll'
+  import {task_detail} from 'api/index'
+  import ClipboardJS from 'clipboard'
+  import back from 'base/back/back'
 
   export default {
     name: 'task-detail',
+    data() {
+      return {
+        detail_info: null,
+        cut_time: '',
+        timer: null
+      }
+    },
+    computed: {
+      task_url() {
+        if (!this.detail_info) {
+          return '加载中...'
+        }
+        if (!this.detail_info.is_take_task) {
+          return '您还未报名该项目'
+        }
+        return this.detail_info.task_url
+      }
+    },
+    created() {
+      // console.log(this.$route.params.id)
+      this._getDetail(this.$route.params.id)
+      const clipboard = new ClipboardJS('.copy')
+      const that = this
+      clipboard.on('success', function (e) {
+        that.$root.eventHub.$emit('titps', '已复制到剪贴板')
+        // console.log(e)
+        e.clearSelection()
+      })
+      clipboard.on('error', function (e) {
+      })
+    },
+    mounted() {
+      this.$refs.wrapper._initScroll()
+    },
+    methods: {
+      async _getDetail(id) {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await task_detail(id, this.$root.user.username)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          console.log(ret.data.data)
+          this.detail_info = ret.data.data
+          this._cutDown(this.detail_info.complete_time)
+        }
+      },
+      _cutDown(time) {
+        console.log(time)
+        if (!time) {
+          this.cut_time = '您还未接受改任务'
+          return false
+        }
+        this.timer = setInterval(() => {
+          // console.log(Date.parse(new Date()), time)
+          // console.log(time - Date.parse(new Date()))
+          this.cut_time = this._msecTransform(time - Date.parse(new Date()))
+        }, 1000)
+      },
+      _msecTransform(msec) {
+        if (msec < 0) {
+          return '任务已过期'
+        }
+        if (msec / 3600000 > 1) {
+          const hour = Math.floor(msec / 3600000)
+          const minute = Math.floor((msec % 3600000) / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `${hour > 9 ? hour : '0' + hour}:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        } else {
+          const minute = Math.floor(msec / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `00:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        }
+      },
+    },
     components: {
+      back,
       betterscroll
     }
   }
@@ -42,12 +132,12 @@
     width: 100%;
     position: absolute;
     top: 0;
-    bottom: 65px;
+    bottom: 85px;
     overflow: hidden;
   }
 
   .task-header {
-    width: 96%;
+    width: 92%;
     height: 240px;
     margin: 10px auto;
     position: relative;
@@ -80,6 +170,7 @@
     height: 67%;
     align-content: flex-start;
     align-items: flex-start;
+    position: relative;
   }
 
   .tht-title {
@@ -114,6 +205,7 @@
     background: #E3DEFF;
     color: #6B41E1;
     font-size: 12px;
+    margin-right: 10px;
   }
 
   .time {
@@ -123,12 +215,73 @@
     text-indent: 10px;
   }
 
-  .task-info{
-    width: 96%;
-    height: auto;
-    min-height: 100px;
-    border-radius: 10px;
-    background: #fff;
+  .tdb-left {
+    position: absolute;
+    left: 4%;
+    top: 55%;
+    width: 38%;
+    height: 30%;
+    border-radius: 8px;
+    color: #CECAFF;
+    font-size: 20px;
+    font-weight: 600;
+    /*background: rgba(0,0,0,.7);*/
+  }
+
+  .tdb-right {
+    position: absolute;
+    left: 47%;
+    top: 55%;
+    width: 38%;
+    height: 30%;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    /*background: rgba(0,0,0,.7);*/
+  }
+
+  .copy-warp {
+    width: 90%;
+    height: 40px;
     margin: 10px auto;
+  }
+
+  .copy-info {
+    width: 65%;
+    height: 100%;
+    line-height: 40px;
+    text-indent: 20px;
+    border-radius: 8px;
+    background: #F8F8F8;
+    color: #333;
+    margin-right: 20px;
+    font-size: 10px;
+    user-select: text;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+
+  .copy-btn {
+    width: 20%;
+    height: 30px;
+    border-radius: 10px;
+    color: #fff;
+    white-space: nowrap;
+    flex-grow: 1;
+    max-width: 90px;
+  }
+
+  .task-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .task-detail-btn {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translate(-50%, 0);
   }
 </style>

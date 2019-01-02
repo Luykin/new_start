@@ -2,7 +2,8 @@
   <footer class="flex">
     <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path'
                  :class="{'disable': item.disable}">
-      <img :src="item.icon">
+      <img :src="item.icon" class="footer-icon canUsed">
+      <img :src="item.disabled" class="footer-icon disabled">
       <span class="flex mg5 ssss">{{item.name}}</span>
     </router-link>
     <div class="width-limit">
@@ -21,24 +22,29 @@
         active: null,
         footer_config: [{
           name: '推荐',
-          icon: '',
+          icon: require('../../assets/img/footer3.png'),
+          disabled: require('../../assets/img/disable3.png'),
           path: '/index'
         }, {
           name: '大厅',
-          icon: '',
-          path: '/index'
+          icon: require('../../assets/img/footer1.png'),
+          disabled: require('../../assets/img/disable1.png'),
+          path: '/hall'
         }, {
           name: '',
-          icon: '',
+          icon: null,
           path: '',
+          disabled: null,
           disable: true
         }, {
           name: '推广',
-          icon: '',
+          icon: require('../../assets/img/footer2.png'),
+          disabled: require('../../assets/img/disable2.png'),
           path: '/commision'
         }, {
           name: '我的',
-          icon: '',
+          icon: require('../../assets/img/footer4.png'),
+          disabled: require('../../assets/img/disable4.png'),
           path: '/user'
         }]
       }
@@ -52,7 +58,7 @@
         this.$router.push({
           path: './release'
         })
-        this._showPushBotton();
+        this._showPushBotton()
       },
       _showPushBotton() {
         this.active = !this.active
@@ -119,7 +125,7 @@
     transform: translate(0, -2px);
   }
 
-  .add-task-btn{
+  .add-task-btn {
     width: 40%;
     padding-top: 30%;
     position: absolute;
@@ -132,12 +138,35 @@
     background-size: 100% 100%;
   }
 
-
-  .show-add-task-btn{
+  .show-add-task-btn {
     transform: translate(-50%, -100%) scale(1, 1);
   }
 
-  .active{
+  .active {
     transform: translate(-50%, -35%) rotate(45deg);
+  }
+
+  .footer-icon {
+    max-width: 28px;
+    width: 29%;
+    margin: 1px auto;
+    height: auto;
+    /*filter: grayscale(100%);*/
+  }
+
+  .canUsed {
+    display: none;
+  }
+
+  .router-link-active .canUsed {
+    display: block;
+  }
+
+  .disabled {
+    display: block;
+  }
+
+  .router-link-active .disabled {
+    display: none;
   }
 </style>

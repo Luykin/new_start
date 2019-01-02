@@ -1,23 +1,23 @@
 <template>
   <transition name="list">
     <div>
-      <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper'>
+      <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div>
           <div class="height10"></div>
           <div class="header">
             <userheader></userheader>
           </div>
           <div class="flex task-title">推荐任务</div>
-          <div class="index-task-item flex" v-for="i in 10">
-            <div class="categry-task flex">抖音评论</div>
+          <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id" @click="_getDetail(item.id)">
+            <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">{{item.min_title}}</div>
             <div class="flex index-task-item-inner">
-              <img src="../../assets/img/headerbg.png" class="task-item-avatar"/>
+              <img :src="item.avatar" class="task-item-avatar"/>
               <div class="flex fw ell js">
-                <span class="task-item-title ell">求赞做任务,一块钱一次,电玩找哇哦的撒多</span>
-                <span class="task-num ell">80人已经做了</span>
+                <span class="task-item-title ell">{{item.title}}</span>
+                <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
               </div>
-              <div class="flex task-item-money">
-                赏金2.5元
+              <div class="flex task-item-money js">
+                赏金{{item.single_price}}元
               </div>
             </div>
           </div>
@@ -31,9 +31,16 @@
 <script>
   import userheader from 'components/userheader/userheader'
   import betterscroll from 'base/better-scroll/better-scroll'
-  import {pub_task, login} from 'api/index'
+  import {pub_task, login, home_page, task_detail} from 'api/index'
 
   export default {
+    data() {
+      return{
+        page: 0,
+        num: 10,
+        list: []
+      }
+    },
     name: 'user',
     created() {
 
@@ -44,6 +51,7 @@
     methods: {
       _inint() {
         this.$refs.wrapper._initScroll()
+        this._getHomeInfo()
         this._getPubTask()
         this._login()
       },
@@ -52,7 +60,7 @@
         const ret = await pub_task(1)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-         this.$root.serverCache = ret.data.data.ret
+          this.$root.serverCache = ret.data.data.ret
         }
       },
       async _login() {
@@ -62,6 +70,33 @@
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
         }
+      },
+      async _getHomeInfo() {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await home_page(this.page, this.num)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          if (!this.list.length) {
+            this.list = [...ret.data.data.top_ret, ...ret.data.data.ret]
+          } else {
+            this.list = [...this.list, ...ret.data.data.ret]
+          }
+        }
+      },
+      async _getDetail(id) {
+        // console.log(id)
+        if (!this.$root.user.username) {
+          return false
+        }
+        // this.$root.eventHub.$emit('loading', true)
+        // const ret = await task_detail(id, this.$root.user.username)
+        // this.$root.eventHub.$emit('loading', null)
+        // if (ret.status === 200 && ret.data.code === 200) {
+        //   // console.log(ret.data.data)
+        // }
+        this.$router.push({
+          path: `./index/${id}`
+        })
       },
       _pulldown() {
         // this.num = 10
@@ -131,9 +166,9 @@
   }
 
   .task-item-avatar {
-    width: 47px;
-    height: 47px;
-    margin: 0 20px;
+    width: 46px;
+    height: 46px;
+    margin: 0 16px;
     border-radius: 1000px;
   }
 
@@ -157,8 +192,9 @@
     flex-grow: 1;
     flex-shrink: 0;
     white-space: nowrap;
-    font-size: 13px;
+    font-size: 10px;
     color: #FF3939;
+    text-indent: 6px;
     font-weight: 600;
     position: relative;
   }

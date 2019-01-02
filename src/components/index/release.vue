@@ -12,7 +12,7 @@
       <div class="release-body flex fw">
         <div class="flex max-task-input-warp task-input-warp">
           <div class="tiw-mid">
-            <input type="number" name="作品链接" placeholder="请粘贴作品链接" class="index-input" v-model="works_link"/>
+            <input type="text" name="作品链接" placeholder="请粘贴作品链接" class="index-input" v-model="works_link"/>
           </div>
           <div class="line-back course-btn flex fw">
             <span class="flex cb-item">获取</span>
@@ -89,7 +89,11 @@
       }
     },
     methods: {
-      _payAndPubTask() {
+      async _payAndPubTask() {
+        if (!this.$root.user.username) {
+          this.$root.eventHub.$emit('titps', `请从二维码重新进入~`)
+          return false
+        }
         if (!this.reward_title) {
           this.$root.eventHub.$emit('titps', `请设置任务标题哦~`)
           return false
@@ -106,7 +110,29 @@
           this.$root.eventHub.$emit('titps', `请设置任务数量哦~`)
           return false
         }
-
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await pay_and_pub_task(this.activeService.id, this.reward_title, this.works_link, this.reward_amount, this.single_price, this.aggregate_amount, this.advance, this.$root.user.username)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.eventHub.$emit('titps', `发布成功~`)
+          this.$router.push({
+            path: './success',
+            query: {
+              reward_title: this.reward_title,
+              works_link: this.works_link,
+              reward_amount: this.reward_amount,
+              single_price: this.single_price
+            }
+          })
+          this.reward_title = ''
+          this.works_link = ''
+          this.reward_amount = ''
+          this.single_price = ''
+        }
+        if (ret === 422) {
+          this.$root.eventHub.$emit('titps', `金额校验不通过!`)
+          return false
+        }
       },
       _rectifySinglePrice() {
         try {
@@ -135,7 +161,8 @@
           if (!this.single_price) {
             return false
           }
-          if (isNaN(this.single_price) || this.single_price < this.activeService.min_price) {
+          if (isNaN(this.single_price) || this.single_price < parseFloat(this.activeService.min_price)) {
+            // console.log(this.single_price < this.activeService.min_price, this.single_price, this.activeService.min_price)
             this.$root.eventHub.$emit('titps', `设置金额必须大于${this.activeService.min_price}元哟~`)
             this.single_price = ''
             return false

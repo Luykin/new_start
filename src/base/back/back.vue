@@ -9,6 +9,12 @@
 </template>
 <script type="text/javascript">
   export default {
+    props: {
+      path: {
+        type: [String, Boolean],
+        default: null
+      }
+    },
     data() {
       return{
         show: true
@@ -16,6 +22,12 @@
     },
     methods: {
       _back() {
+        if (this.path) {
+          this.$router.replace({
+            path: this.path
+          })
+          return false
+        }
         this.$router.back(-1)
       },
       _show() {

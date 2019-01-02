@@ -7,7 +7,8 @@
         <span class="flex js ell">id: {{$root.user.username}}</span>
       </div>
       <div class="flex btn-warp">
-        <div class="flex btn top-btn line-back">充值</div>
+        <router-link tag='div' to='./good' class="flex btn top-btn line-back">充值</router-link>
+        <!--<div class="flex btn top-btn line-back">充值</div>-->
       </div>
     </div>
     <div class="bottom flex">
@@ -20,7 +21,7 @@
         <span class="flex num-title">充值余额(元)</span>
       </div>
       <div class="flex fw btn-warp">
-        <div class="flex btn bottom-btn">提现</div>
+        <router-link tag='div' to='./withdrawal' class="flex btn bottom-btn">提现</router-link>
       </div>
     </div>
   </div>
