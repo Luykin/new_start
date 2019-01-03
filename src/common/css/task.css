@@ -4,7 +4,7 @@
   background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
 }
 
-.detail-body{
+.detail-body {
   width: 100%;
   position: fixed;
   z-index: 999;
@@ -44,7 +44,7 @@
   background: #fff;
 }
 
-.task-color-title:after{
+.task-color-title:after {
   content: '';
   position: absolute;
   left: 0;
@@ -58,14 +58,15 @@
   background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
 }
 
-.task-btn{
-  width: 96%;
+.task-btn {
+  width: 92%;
   height: 48px;
   font-size: 15px;
   font-weight: 600;
   color: #fff;
   border-radius: 10px;
   margin: 10px auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 }
 
 .task-info {
@@ -78,4 +79,36 @@
   align-content: flex-start;
   align-items: flex-start;
   padding: 10px 0;
+}
+
+.normal-title {
+  width: 96%;
+  color: #555;
+  height: 40px;
+  margin: 0 auto;
+  justify-content: flex-start;
+}
+
+.cachet {
+  width: 92%;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.cachet-item {
+  width: 27%;
+  min-width: 85px;
+  max-width: 110px;
+  height: 43px;
+  border-radius: 1000px;
+  background: #7634CB;
+  color: #C7A0F8;
+  margin: 0 4% 0 0;
+  font-weight: 600;
+  box-shadow: 0 0 4px rgba(0,0,0,.1);
+}
+
+.active-cachet-item {
+  background: #fff;
+  color: #6B41E1;
 }

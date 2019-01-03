@@ -15,6 +15,12 @@ const routerconst = new Router({
       path: ':id',
       component: () =>
         import (`components/detail/task-detail`),
+      children: [{
+        path: '/submitJob',
+        name: 'submitJob',
+        component: () =>
+          import(`components/detail/submitJob`)
+      }]
     }]
 	},{
 	  path: '/release',
@@ -55,10 +61,48 @@ const routerconst = new Router({
     path: '/hall',
     name: 'hall',
     component: () =>
-      import(`components/index/hall`)
+      import(`components/index/hall`),
+    children:[{
+      path: ':id',
+      component: () =>
+        import (`components/detail/task-detail`),
+      children: [{
+        path: '/submitJob',
+        name: 'submitJob',
+        component: () =>
+          import(`components/detail/submitJob`)
+      }]
+    }]
+  }, {
+    path: '/recharge',
+    name: 'recharge',
+    component: () =>
+      import(`components/record/recharge`)
+  }, {
+    path: '/myTask',
+    name: 'myTask',
+    component: () =>
+      import(`components/record/myTask`)
+  }, {
+    path: '/report',
+    name: 'report',
+    component: () =>
+      import(`components/record/report`)
+  }, {
+    path: '/phone',
+    name: 'phone',
+    component: () =>
+      import(`components/detail/phone`)
+  }, {
+    path: '/submit-success',
+    name: 'submit-success',
+    component: () =>
+      import(`components/detail/submit-success`)
   }]
 })
-
+// submitJob
+// recharge
+// submit-success
 // routerconst.beforeEach((to, from, next) => {
 // 	loading(true)
 // 	if ((to.path === '/' || to.path === '/index') || getuser()) {

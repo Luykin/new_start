@@ -319,15 +319,15 @@
     position: relative;
   }
 
-  .active-service:after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -10px;
-    transform: translate(-50%, 0);
-    width: 20%;
-    height: 2px;
-    background: #ffd1c5;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  }
+  /*.active-service:after {*/
+    /*content: '';*/
+    /*position: absolute;*/
+    /*left: 50%;*/
+    /*bottom: -10px;*/
+    /*transform: translate(-50%, 0);*/
+    /*width: 20%;*/
+    /*height: 2px;*/
+    /*background: #ffd1c5;*/
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, .1);*/
+  /*}*/
 </style>

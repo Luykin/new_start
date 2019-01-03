@@ -154,3 +154,106 @@ export function release_management(username, page, num) {
     return Promise.resolve(res.response.status)
   })
 }
+
+// 商品列表
+export function goods() {
+  const url = `${PREFIX_URL}/goods`
+  let data = {
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 报名
+export function sign_up(id, username) {
+  const url = `${PREFIX_URL}/sign_up`
+  let data = {
+    id,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 七牛云token
+export function up_token() {
+  const url = `${PREFIX_URL}/up_token`
+  let data = {
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+
+// 提交任务或者申请仲裁
+export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image, appeal_user_explain) {
+  const url = `${PREFIX_URL}/sub_or_arb`
+  let data = {
+    id,
+    username,
+    sub_type,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  if (task_image) {
+    Object.assign(data, {
+      task_image
+    })
+  }
+  if (appeal_user_image) {
+    Object.assign(data, {
+      appeal_user_image,
+      appeal_user_explain
+    })
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 任务大厅
+export function task_hall(service_group_id, page, num) {
+  const url = `${PREFIX_URL}/task_hall`
+  let data = {
+    uaid: UAID,
+    timestamp: getTime(),
+    page,
+    num,
+  }
+  if (service_group_id) {
+    Object.assign(data, {
+      service_group_id
+    })
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

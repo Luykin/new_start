@@ -3,6 +3,10 @@
     <div class="detail-body">
       <back></back>
       <userheader></userheader>
+      <div class="task-info">
+        <div class="normal-title flex">今日剩余提现次数5次</div>
+        <div class="task-btn flex line-back">提现</div>
+      </div>
     </div>
   </transition>
 </template>

@@ -8,8 +8,11 @@
             <userheader></userheader>
           </div>
           <div class="flex task-title">推荐任务</div>
-          <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id" @click="_getDetail(item.id)">
-            <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">{{item.min_title}}</div>
+          <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id"
+               @click="_getDetail(item.id)">
+            <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">
+              {{item.min_title}}
+            </div>
             <div class="flex index-task-item-inner">
               <img :src="item.avatar" class="task-item-avatar"/>
               <div class="flex fw ell js">
@@ -35,10 +38,11 @@
 
   export default {
     data() {
-      return{
+      return {
         page: 0,
         num: 10,
-        list: []
+        list: [],
+        total: 0,
       }
     },
     name: 'user',
@@ -65,7 +69,7 @@
       },
       async _login() {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await login('abcdefg123')
+        const ret = await login('nnn')
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
@@ -81,34 +85,28 @@
           } else {
             this.list = [...this.list, ...ret.data.data.ret]
           }
+          this.total = this.data.data.count
         }
       },
       async _getDetail(id) {
-        // console.log(id)
         if (!this.$root.user.username) {
           return false
         }
-        // this.$root.eventHub.$emit('loading', true)
-        // const ret = await task_detail(id, this.$root.user.username)
-        // this.$root.eventHub.$emit('loading', null)
-        // if (ret.status === 200 && ret.data.code === 200) {
-        //   // console.log(ret.data.data)
-        // }
         this.$router.push({
           path: `./index/${id}`
         })
       },
       _pulldown() {
-        // this.num = 10
-        // this.page = 0
-        // this.list = []
-        // this._secret_list()
+        this.num = 10
+        this.page = 0
+        this.list = []
+        this._getHomeInfo()
       },
       _scrollToEnd() {
-        // if (this.list.length < this.totle) {
-        //   this.page += 1
-        //   this._secret_list()
-        // }
+        if (this.list.length < this.totle) {
+          this.page += 1
+          this._getHomeInfo()
+        }
       }
     },
     components: {

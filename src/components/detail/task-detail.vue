@@ -24,7 +24,7 @@
           <div class="task-info flex fw" v-if="detail_info">
             <div class="task-color-title flex">任务信息</div>
             <div class="copy-warp flex">
-              <div class="copy-info">{{this.task_url}}</div>
+              <div class="copy-info" :class="{'blink': blink}">{{this.task_url}}</div>
               <div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')" v-show="!detail_info.is_take_task">点击复制</div>
               <div class="copy-btn flex line-back copy" v-show="detail_info.is_take_task" :data-clipboard-text="task_url" @click="">点击复制</div>
             </div>
@@ -34,14 +34,18 @@
           </div>
         </div>
       </betterscroll>
-      <div class="task-btn flex line-back task-detail-btn">提交任务</div>
+      <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 0">未在规定时间内完成</div>
+      <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 1">暂时无法报名</div>
+      <div class="task-btn flex line-back task-detail-btn" v-if="btn_status === 2" @click="_toSubmitJob">提交任务</div>
+      <div class="task-btn flex line-back task-detail-btn" v-if="btn_status === 3" @click="_signUp">立即报名</div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
 
 <script>
   import betterscroll from 'base/better-scroll/better-scroll'
-  import {task_detail} from 'api/index'
+  import {task_detail, sign_up} from 'api/index'
   import ClipboardJS from 'clipboard'
   import back from 'base/back/back'
 
@@ -51,7 +55,9 @@
       return {
         detail_info: null,
         cut_time: '',
-        timer: null
+        timer: null,
+        disable_btn: null,
+        blink: null
       }
     },
     computed: {
@@ -63,7 +69,16 @@
           return '您还未报名该项目'
         }
         return this.detail_info.task_url
-      }
+      },
+      btn_status() {
+        if (this.disable_btn) {
+          return 0
+        }
+        if (!this.detail_info || !this.detail_info.can_sign_up) {
+          return 1
+        }
+        return this.detail_info.is_take_task ? 2 : 3
+      },
     },
     created() {
       // console.log(this.$route.params.id)
@@ -82,30 +97,78 @@
       this.$refs.wrapper._initScroll()
     },
     methods: {
-      async _getDetail(id) {
+      async _signUp() {
+        try {
+          // console.log(this.detail_info.id)
+          if (!this.detail_info || !this.detail_info.id) {
+            location.reload()
+          }
+          this.blink = null
+          this.$root.eventHub.$emit('loading', true)
+          const ret = await sign_up(this.detail_info.id, this.$root.user.username)
+          this.$root.eventHub.$emit('loading', null)
+          if (ret.status === 200 && ret.data.code === 200) {
+            this.blink = true
+            let time = setTimeout(() => {
+              this.blink = null
+              clearTimeout(time)
+            }, 2500)
+            this._getDetail(this.detail_info.id, () => {
+              this.$root.eventHub.$emit('titps', '成功报名,快去复制链接完成任务吧~')
+            })
+            // this.$router.replace({
+            //   path: '/success'
+            // })
+            return
+          }
+          if (ret === 443) {
+            this.$root.eventHub.$emit('titps', '不能报名自己的任务')
+            return
+          }
+          this.$root.eventHub.$emit('titps', '任务已暂停报名')
+        } catch (e) {
+          console.log(e)
+        }
+      },
+      _toSubmitJob() {
+        this.$router.push({
+          path: '/submitJob',
+          query: {
+            id: this.detail_info.id,
+            title: this.detail_info.title,
+            min_title: this.detail_info.min_title
+          }
+        })
+      },
+      async _getDetail(id, callback) {
         this.$root.eventHub.$emit('loading', true)
         const ret = await task_detail(id, this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-          console.log(ret.data.data)
+          // console.log(ret.data.data)
           this.detail_info = ret.data.data
           this._cutDown(this.detail_info.complete_time)
+          if (callback) {
+            callback()
+          }
         }
       },
       _cutDown(time) {
-        console.log(time)
+        // console.log(time)
         if (!time) {
           this.cut_time = '您还未接受改任务'
           return false
         }
         this.timer = setInterval(() => {
-          // console.log(Date.parse(new Date()), time)
-          // console.log(time - Date.parse(new Date()))
           this.cut_time = this._msecTransform(time - Date.parse(new Date()))
         }, 1000)
+        this.cut_time = this._msecTransform(time - Date.parse(new Date()))
       },
       _msecTransform(msec) {
         if (msec < 0) {
+          clearInterval(this.timer)
+          this.timer = null
+          this.disable_btn = true
           return '任务已过期'
         }
         if (msec / 3600000 > 1) {
@@ -260,6 +323,7 @@
     user-select: text;
     overflow-x: scroll;
     white-space: nowrap;
+    transition: all .5s;
   }
 
   .copy-btn {
@@ -283,5 +347,14 @@
     bottom: 15px;
     left: 50%;
     transform: translate(-50%, 0);
+  }
+
+  .disable-btn{
+    background: #dfdfdf;
+    color: rgba(0, 0, 0, .3);
+  }
+
+  .blink{
+    color: #ff3939;
   }
 </style>
