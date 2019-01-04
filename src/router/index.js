@@ -1,5 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {
+  getuser,
+  loading
+} from '../main.js'
 Vue.use(Router)
 
 const routerconst = new Router({
@@ -46,7 +50,13 @@ const routerconst = new Router({
     path: '/manage',
     name: 'manage',
     component: () =>
-      import(`components/detail/manage`)
+      import(`components/detail/manage`),
+    children: [{
+      path: '/manage-detail',
+      name: 'manage-detail',
+      component: () =>
+        import(`components/detail/manage-detail`)
+    }]
   }, {
     path: '/good',
     name: 'good',
@@ -100,26 +110,19 @@ const routerconst = new Router({
       import(`components/detail/submit-success`)
   }]
 })
-// submitJob
-// recharge
-// submit-success
-// routerconst.beforeEach((to, from, next) => {
-// 	loading(true)
-// 	if ((to.path === '/' || to.path === '/index') || getuser()) {
-//     if (to.path.indexOf('secret/')> -1 && !getuser().is_agent) {
-//       getEventHub().$emit('titps', '您还未成为合伙人')
-//       loading(null)
-//     } else {
-//       next()
-//     }
-// 	} else {
-// 		next({
-// 			path: '/index'
-// 		})
-// 	}
-// })
-// routerconst.afterEach((to, from) => {
-// 	loading(null)
-// })
+//manage-detail
+routerconst.beforeEach((to, from, next) => {
+	loading(true)
+	if ((to.path === '/' || to.path === '/index') || getuser()) {
+      next()
+	} else {
+		next({
+			path: '/index'
+		})
+	}
+})
+routerconst.afterEach((to, from) => {
+	loading(null)
+})
 
 export default routerconst

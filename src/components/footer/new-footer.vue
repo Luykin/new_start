@@ -52,7 +52,7 @@
     name: 'new-footer',
     methods: {
       _toRelease() {
-        if (!this.$root.serverCache.length) {
+        if (!this.$root.serverCache.ret.length) {
           return false
         }
         this.$router.push({

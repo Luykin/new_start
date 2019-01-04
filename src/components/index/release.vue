@@ -3,9 +3,10 @@
     <div class="detail-body" v-if="activeService">
       <back></back>
       <div class="service-warp flex">
-        <div v-for="item in $root.serverCache" class="flex service-item fw"
+        <div v-for="item in $root.serverCache.ret" class="flex service-item fw"
              :class="{'active-service' : activeService.id === item.id}" @click="activeService = item">
-          <img :src="item.icon"/>
+          <img :src="item.n_icon" class="normal"/>
+          <img :src="item.icon" class="active"/>
           <span class="flex">{{item.title}}</span>
         </div>
       </div>
@@ -52,7 +53,7 @@
           <div class="tiw-right light-color">24小时</div>
         </div>
         <div class="total-sum-warp flex">
-          <div class="cover-charge">发任务平台收取<span class="red">15%</span>服务费</div>
+          <div class="cover-charge">发任务平台收取<span class="red">{{$root.serverCache.service_ratio * 100}}%</span>服务费</div>
           本次预付款总金额<span class="sum-money">{{advance}}</span>元
         </div>
       </div>
@@ -78,14 +79,14 @@
     },
     created() {
       // this.activeServiceId = this.$root.serverCache[0].id
-      this.activeService = this.$root.serverCache[0]
+      this.activeService = this.$root.serverCache.ret[0]
     },
     computed: {
       aggregate_amount() {
         return Math.ceil((this.single_price && this.reward_amount ? this.single_price * this.reward_amount : 0) * 100)/100
       },
       advance() {
-        return Math.ceil((this.aggregate_amount + this.aggregate_amount * 0.15) * 100) / 100
+        return this.aggregate_amount + Math.ceil((this.aggregate_amount * this.$root.serverCache.service_ratio) * 100) / 100
       }
     },
     methods: {
@@ -115,9 +116,10 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', `发布成功~`)
-          this.$router.push({
+          this.$router.replace({
             path: './success',
             query: {
+              id: ret.data.data.id,
               reward_title: this.reward_title,
               works_link: this.works_link,
               reward_amount: this.reward_amount,
@@ -131,6 +133,10 @@
         }
         if (ret === 422) {
           this.$root.eventHub.$emit('titps', `金额校验不通过!`)
+          return false
+        }
+        if (ret === 433) {
+          this.$root.eventHub.$emit('titps', `您的余额不足哦~`)
           return false
         }
       },
@@ -330,4 +336,15 @@
     /*background: #ffd1c5;*/
     /*box-shadow: 0 0 10px rgba(0, 0, 0, .1);*/
   /*}*/
+  .active{
+    display: none;
+  }
+
+  .active-service .active{
+    display: block;
+  }
+
+  .active-service .normal{
+    display: none;
+  }
 </style>

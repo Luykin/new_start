@@ -24,6 +24,7 @@
               </div>
             </div>
           </div>
+          <empyt v-show="!list.length"></empyt>
         </div>
       </betterscroll>
       <router-view></router-view>
@@ -34,6 +35,7 @@
 <script>
   import userheader from 'components/userheader/userheader'
   import betterscroll from 'base/better-scroll/better-scroll'
+  import empyt from 'base/empyt/empyt'
   import {pub_task, login, home_page, task_detail} from 'api/index'
 
   export default {
@@ -64,7 +66,7 @@
         const ret = await pub_task(1)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-          this.$root.serverCache = ret.data.data.ret
+          this.$root.serverCache = ret.data.data
         }
       },
       async _login() {
@@ -85,7 +87,7 @@
           } else {
             this.list = [...this.list, ...ret.data.data.ret]
           }
-          this.total = this.data.data.count
+          this.total = ret.data.data.count
         }
       },
       async _getDetail(id) {
@@ -110,6 +112,7 @@
       }
     },
     components: {
+      empyt,
       userheader,
       betterscroll
     }

@@ -257,3 +257,23 @@ export function task_hall(service_group_id, page, num) {
     return Promise.resolve(res.response.status)
   })
 }
+
+// 单个任务的列表-----
+export function task_audit(id, username, page, num) {
+  const url = `${PREFIX_URL}/task_audit`
+  let data = {
+    id,
+    page,
+    num,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

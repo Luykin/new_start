@@ -30,25 +30,28 @@ const app = new Vue({
       username: null,
       user_id: null
     },
-    serverCache: []
+    serverCache: {
+      service_ratio: 0.2,
+      ret: []
+    }
   }
 })
 
-// export function getuser() {
-//   if (!app) {
-//     return false
-//   }
-//   return app.user
-// }
-// export function getEventHub() {
-//   if (!app) {
-//     return false
-//   }
-//   return app.eventHub
-// }
-// export function loading(loading) {
-//   if (!app) {
-//     return false
-//   }
-//   app.eventHub.$emit('loading', loading)
-// }
+export function getuser() {
+  if (!app) {
+    return false
+  }
+  return app.user
+}
+export function getEventHub() {
+  if (!app) {
+    return false
+  }
+  return app.eventHub
+}
+export function loading(loading) {
+  if (!app) {
+    return false
+  }
+  app.eventHub.$emit('loading', loading)
+}

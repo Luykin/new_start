@@ -23,7 +23,7 @@
             <div class="sii-right flex js">{{$route.query.single_price || ''}}</div>
           </div>
         </div>
-        <div class="task-btn flex line-back">查看发布任务情况</div>
+        <div class="task-btn flex line-back" @click="_getDetail($route.query.id)">查看发布任务情况</div>
       </div>
     </div>
   </transition>
@@ -36,6 +36,14 @@
     name: 'success',
     created() {
       // console.log(this.$route.query)
+    },
+    methods: {
+      _getDetail(id) {
+        console.log(id)
+        this.$router.replace({
+          path: `./index/${id}`
+        })
+      },
     },
     components: {
       back

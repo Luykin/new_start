@@ -24,6 +24,7 @@
               </div>
             </div>
           </div>
+          <empyt v-show="!list.length" :padding="90"></empyt>
         </div>
       </betterscroll>
       <router-view></router-view>
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+  import empyt from 'base/empyt/empyt'
   import {task_hall} from 'api/index'
   import betterscroll from 'base/better-scroll/better-scroll'
 
@@ -91,6 +93,7 @@
       }
     },
     components: {
+      empyt,
       betterscroll
     }
   }
