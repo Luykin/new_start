@@ -79,6 +79,7 @@
   align-content: flex-start;
   align-items: flex-start;
   padding: 10px 0;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
 
 .normal-title {
@@ -111,4 +112,31 @@
 .active-cachet-item {
   background: #fff;
   color: #6B41E1;
+}
+
+.task-item-money {
+  width: 25%;
+  max-width: 75px;
+  height: 100%;
+  margin-right: 3%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 10px;
+  color: #FF3939;
+  text-indent: 6px;
+  font-weight: 600;
+  position: relative;
+}
+
+.task-item-money:after {
+  width: 20px;
+  height: 20px;
+  content: '';
+  background: url("../../assets/img/money.png");
+  background-size: 100% 100%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(-100%, -50%);
 }

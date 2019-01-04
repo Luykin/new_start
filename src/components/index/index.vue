@@ -78,6 +78,7 @@
         }
       },
       async _getHomeInfo() {
+        // console.log('???')
         this.$root.eventHub.$emit('loading', true)
         const ret = await home_page(this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
@@ -87,7 +88,7 @@
           } else {
             this.list = [...this.list, ...ret.data.data.ret]
           }
-          this.total = ret.data.data.count
+          this.total = parseInt(ret.data.data.count)
         }
       },
       async _getDetail(id) {
@@ -105,7 +106,8 @@
         this._getHomeInfo()
       },
       _scrollToEnd() {
-        if (this.list.length < this.totle) {
+        // console.log(this.list.length < this.totle, typeof this.list.length, this.list.length , typeof this.total, this.total)
+        if (this.list.length < this.total) {
           this.page += 1
           this._getHomeInfo()
         }
@@ -183,32 +185,5 @@
   .task-num {
     font-size: 12px;
     color: #9096AB;
-  }
-
-  .task-item-money {
-    width: 25%;
-    max-width: 75px;
-    height: 100%;
-    margin-right: 3%;
-    flex-grow: 1;
-    flex-shrink: 0;
-    white-space: nowrap;
-    font-size: 10px;
-    color: #FF3939;
-    text-indent: 6px;
-    font-weight: 600;
-    position: relative;
-  }
-
-  .task-item-money:after {
-    width: 20px;
-    height: 20px;
-    content: '';
-    background: url("../../assets/img/money.png");
-    background-size: 100% 100%;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(-100%, -50%);
   }
 </style>

@@ -139,3 +139,8 @@ export function compare(property) {
     return value1 - value2
   }
 }
+
+export function formatNum(f, digit) {
+  var m = Math.pow(10, digit);
+  return Math.ceil(Number(f * m).toFixed(4)) / m;
+}

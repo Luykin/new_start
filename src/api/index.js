@@ -277,3 +277,102 @@ export function task_audit(id, username, page, num) {
     return Promise.resolve(res.response.status)
   })
 }
+
+// 我的任务
+export function my_task(task_type, username, page, num) {
+  const url = `${PREFIX_URL}/my_task`
+  let data = {
+    task_type,
+    page,
+    num,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 举报维权列表
+export function rights_protection(rp_type, username, page, num) {
+  const url = `${PREFIX_URL}/rights_protection`
+  let data = {
+    rp_type,
+    page,
+    num,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 提交辩诉
+export function sub_of_plea(id, username, plea_user_image, plea_user_explain) {
+  const url = `${PREFIX_URL}/sub_of_plea`
+  let data = {
+    id,
+    plea_user_image,
+    plea_user_explain,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+
+// 订单列表
+export function orders(username, page, num) {
+  const url = `${PREFIX_URL}/orders`
+  let data = {
+    username,
+    uaid: UAID,
+    page,
+    num,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 提现列表
+export function withdraw_list(username, page, num) {
+  const url = `${PREFIX_URL}/withdraw_list`
+  let data = {
+    username,
+    uaid: UAID,
+    page,
+    num,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

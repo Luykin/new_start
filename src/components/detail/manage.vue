@@ -91,7 +91,7 @@
         // this._secret_list()
       },
       _scrollToEnd() {
-        // if (this.list.length < this.totle) {
+        // if (this.list.length < this.total) {
         //   this.page += 1
         //   this._secret_list()
         // }

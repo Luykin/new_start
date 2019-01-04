@@ -23,7 +23,8 @@
         <div class="flex task-input-warp">
           <div class="tiw-left flex">悬赏标题</div>
           <div class="tiw-mid">
-            <input type="text" name="悬赏标题" placeholder="请输入标题(不超过40个字符)" class="index-input" v-model="reward_title" @keyup="_rectifyRewardTitle"/>
+            <input type="text" name="悬赏标题" placeholder="请输入标题(不超过40个字符)" class="index-input" v-model="reward_title"
+                   @keyup="_rectifyRewardTitle"/>
           </div>
           <div class="tiw-right"></div>
         </div>
@@ -37,7 +38,8 @@
         <div class="flex task-input-warp">
           <div class="tiw-left flex">每单金额</div>
           <div class="tiw-mid">
-            <input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input" v-model="single_price"
+            <input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input"
+                   v-model="single_price"
                    @keyup="_rectifySinglePrice" @blur="_rectifyMinPrice"/>
           </div>
           <div class="tiw-right">元</div>
@@ -65,7 +67,9 @@
 <script>
   // pay_and_pub_task(id, title, task_url, num, single_price, price, score, username) {
   import back from 'base/back/back'
-  import { pay_and_pub_task } from 'api/index'
+  import {pay_and_pub_task} from 'api/index'
+  import {formatNum} from 'common/js/util'
+
   export default {
     data() {
       return {
@@ -83,10 +87,13 @@
     },
     computed: {
       aggregate_amount() {
-        return Math.ceil((this.single_price && this.reward_amount ? this.single_price * this.reward_amount : 0) * 100)/100
+        if (!this.single_price || !this.reward_amount) {
+          return 0
+        }
+        return formatNum(this.single_price * this.reward_amount, 2)
       },
       advance() {
-        return this.aggregate_amount + Math.ceil((this.aggregate_amount * this.$root.serverCache.service_ratio) * 100) / 100
+        return formatNum(this.aggregate_amount +(this.aggregate_amount * this.$root.serverCache.service_ratio), 2)
       }
     },
     methods: {
@@ -326,25 +333,25 @@
   }
 
   /*.active-service:after {*/
-    /*content: '';*/
-    /*position: absolute;*/
-    /*left: 50%;*/
-    /*bottom: -10px;*/
-    /*transform: translate(-50%, 0);*/
-    /*width: 20%;*/
-    /*height: 2px;*/
-    /*background: #ffd1c5;*/
-    /*box-shadow: 0 0 10px rgba(0, 0, 0, .1);*/
+  /*content: '';*/
+  /*position: absolute;*/
+  /*left: 50%;*/
+  /*bottom: -10px;*/
+  /*transform: translate(-50%, 0);*/
+  /*width: 20%;*/
+  /*height: 2px;*/
+  /*background: #ffd1c5;*/
+  /*box-shadow: 0 0 10px rgba(0, 0, 0, .1);*/
   /*}*/
-  .active{
+  .active {
     display: none;
   }
 
-  .active-service .active{
+  .active-service .active {
     display: block;
   }
 
-  .active-service .normal{
+  .active-service .normal {
     display: none;
   }
 </style>
