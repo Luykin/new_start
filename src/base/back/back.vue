@@ -13,7 +13,11 @@
       path: {
         type: [String, Boolean],
         default: null
-      }
+      },
+      parse: {
+        type: [String, Boolean],
+        default: null
+      },
     },
     data() {
       return{
@@ -25,6 +29,13 @@
         if (this.path) {
           this.$router.replace({
             path: this.path
+          })
+          return false
+        }
+        if (this.parse) {
+          this.$router.replace({
+            name: this.parse.name,
+            params: this.parse.params,
           })
           return false
         }

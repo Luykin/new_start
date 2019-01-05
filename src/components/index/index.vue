@@ -36,7 +36,8 @@
   import userheader from 'components/userheader/userheader'
   import betterscroll from 'base/better-scroll/better-scroll'
   import empyt from 'base/empyt/empyt'
-  import {pub_task, login, home_page, task_detail} from 'api/index'
+  import {pub_task, login, home_page, task_detail, update_user_info} from 'api/index'
+  import {UAID, CHANNEL, APPNAME} from 'api/config'
 
   export default {
     data() {
@@ -49,7 +50,12 @@
     },
     name: 'user',
     created() {
-
+      this.$root.eventHub.$on('updateList', () => {
+        this._pulldown()
+      })
+      this.$root.eventHub.$on('updateUserInfo', () => {
+        this._updateuserinfo(this.$root.username)
+      })
     },
     mounted() {
       this._inint()
@@ -59,7 +65,40 @@
         this.$refs.wrapper._initScroll()
         this._getHomeInfo()
         this._getPubTask()
-        this._login()
+        // this._login()
+        this._wxLogin(null)
+        // updateUserInfo
+      },
+      _wxLogin(callback) {
+        const url = window.location.href
+        const start = url.indexOf('code=') + 5
+        const end = url.indexOf('&state')
+        if (start > 4 && end > -1) {
+          console.log('微信登录')
+          this._login(url.slice(start, end), this.$route.query.username, callback)
+          const locationUrl = window.location.origin + `/dgz/#/`
+          console.log(locationUrl);
+          history.replaceState(null, null, locationUrl)
+        } else {
+          console.log('浏览器储存登录')
+          const user = localStorage.getItem(`${UAID}${CHANNEL}user_id`) || localStorage.getItem('user_id')
+          if (user) {
+            this._updateuserinfo(user, callback)
+          } else {
+            // console.log(user, '无法加载用户信息');
+            // console.log(NOWCONFIG.spread);
+            // window.location.href = `${NOWCONFIG.spread}&response_type=code&scope=snsapi_userinfo#wechat_redirect`;
+          }
+        }
+      },
+      async _updateuserinfo(username, callback) {
+        const ret = await update_user_info(username)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.user = ret.data.data
+        }
+        if (callback) {
+          callback(this.$root.user)
+        }
       },
       async _getPubTask() {
         this.$root.eventHub.$emit('loading', true)
@@ -69,21 +108,26 @@
           this.$root.serverCache = ret.data.data
         }
       },
-      async _login() {
+      async _login(code, surper_code, callback) {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await login('nnn')
+        const ret = await login(code, surper_code)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
+          localStorage.setItem(`${UAID}${CHANNEL}user_id`, ret.data.data.username)
+        }
+        if (callback) {
+          callback(this.$root.user)
         }
       },
-      async _getHomeInfo() {
-        // console.log('???')
-        this.$root.eventHub.$emit('loading', true)
+      async _getHomeInfo(must) {
+        if (!must) {
+          this.$root.eventHub.$emit('loading', true)
+        }
         const ret = await home_page(this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-          if (!this.list.length) {
+          if (must || !this.list.length) {
             this.list = [...ret.data.data.top_ret, ...ret.data.data.ret]
           } else {
             this.list = [...this.list, ...ret.data.data.ret]
@@ -102,8 +146,8 @@
       _pulldown() {
         this.num = 10
         this.page = 0
-        this.list = []
-        this._getHomeInfo()
+        // this.list = []
+        this._getHomeInfo(true)
       },
       _scrollToEnd() {
         // console.log(this.list.length < this.totle, typeof this.list.length, this.list.length , typeof this.total, this.total)
@@ -185,5 +229,11 @@
   .task-num {
     font-size: 12px;
     color: #9096AB;
+  }
+  .all-pre-img{
+    width: 0;
+    height: 0;
+    opacity: 0;
+    z-index: -1;
   }
 </style>

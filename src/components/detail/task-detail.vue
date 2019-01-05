@@ -92,6 +92,10 @@
       })
       clipboard.on('error', function (e) {
       })
+      // updateMyTask
+      this.$root.eventHub.$on('updateMyTask', () => {
+        this._getDetail(this.detail_info.id)
+      })
     },
     mounted() {
       this.$refs.wrapper._initScroll()
@@ -99,7 +103,6 @@
     methods: {
       async _signUp() {
         try {
-          // console.log(this.detail_info.id)
           if (!this.detail_info || !this.detail_info.id) {
             location.reload()
           }
@@ -116,9 +119,6 @@
             this._getDetail(this.detail_info.id, () => {
               this.$root.eventHub.$emit('titps', '成功报名,快去复制链接完成任务吧~')
             })
-            // this.$router.replace({
-            //   path: '/success'
-            // })
             return
           }
           if (ret === 443) {
@@ -131,13 +131,11 @@
         }
       },
       _toSubmitJob() {
+        let ret = JSON.parse(JSON.stringify(this.detail_info))
+        ret.id = ret.rtr_id
         this.$router.push({
-          path: '/submitJob',
-          query: {
-            id: this.detail_info.id,
-            title: this.detail_info.title,
-            min_title: this.detail_info.min_title
-          }
+          name: 'submitJob',
+          params: ret
         })
       },
       async _getDetail(id, callback) {
@@ -145,8 +143,9 @@
         const ret = await task_detail(id, this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-          // console.log(ret.data.data)
           this.detail_info = ret.data.data
+          clearInterval(this.timer)
+          this.timer = null
           this._cutDown(this.detail_info.complete_time)
           if (callback) {
             callback()
@@ -220,7 +219,7 @@
     /*background: rgba(112, 21, 253, .5);*/
     /*background: linear-gradient(to bottom, rgba(112, 21, 253, .6) 0, rgba(112, 21, 253, .6) 33%, rgba(255, 255, 255, .45) 33.01%, rgba(255, 255, 255, .45) 100%);*/
     /*filter: drop-shadow(0 0 50px rgba(255, 255, 255, 1));*/
-    background: url("../../assets/img/reward.png") no-repeat;
+    background: url("https://cdn.xingkwh.com/reward.png") no-repeat;
     background-size: 100% 100%;
     opacity: .9;
   }

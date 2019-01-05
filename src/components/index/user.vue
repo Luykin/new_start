@@ -14,7 +14,10 @@
       <div class="task-info padding-none">
         <router-link tag='div' :to='item.path' class="user_nav flex" v-for="item in user_nav" :key='path' v-if="!item.disable">
           <img :src="item.icon"/>
-          {{item.name}}
+          <div class="user_name">
+            {{item.name}}
+            <div class="flex red-icon-read" v-if="item.path === '/report' && $root.user.need_deal_num">{{$root.user.need_deal_num}}</div>
+          </div>
         </router-link>
       </div>
     </div>
@@ -48,11 +51,11 @@
         user_nav: [{
           name: '举报维权',
           path: '/report',
-          icon: null
+          icon: require('../../assets/img/usericon3.png'),
         },{
           name: '绑定手机号',
           path: '/phone',
-          icon: null
+          icon: null,
         },{
           name: '平台入口',
           path: '/phone',
@@ -115,7 +118,30 @@
     color: #C1C1C1;
   }
 
+  .user_nav img {
+    width: 26px;
+    height: auto;
+    margin: 0 10px;
+  }
+
   .padding-none{
     padding: 0;
+  }
+
+  .red-icon-read {
+    position: absolute;
+    right: 0;
+    top: 0;
+    /*min-width: 23px;*/
+    width: 23px;
+    height: 23px;
+    border-radius: 100px;
+    background: red;
+    color: #fff;
+    transform: translate(100%, -60%) scale(.8, .8);
+  }
+
+  .user_name{
+    position: relative;
   }
 </style>

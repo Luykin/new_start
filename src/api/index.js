@@ -58,13 +58,35 @@ export function pub_task(service_group_id) {
 }
 
 // 登录
-export function login(wx_login_code) {
+export function login(wx_login_code, super_code) {
   const url = `${PREFIX_URL}/login`
   let data = {
     uaid: UAID,
     wx_login_code,
     timestamp: getTime(),
     user_channel: CHANNEL
+  }
+  if (super_code) {
+    Object.assign(data, {
+      super_code
+    })
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 用户更新
+export function update_user_info(username) {
+  const url = `${PREFIX_URL}/update_user_info`
+  let data = {
+    uaid: UAID,
+    username,
+    timestamp: getTime()
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
@@ -206,7 +228,7 @@ export function up_token() {
 
 
 // 提交任务或者申请仲裁
-export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image, appeal_user_explain) {
+export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image, appeal_user_explain, task_nickname) {
   const url = `${PREFIX_URL}/sub_or_arb`
   let data = {
     id,
@@ -224,6 +246,11 @@ export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image
     Object.assign(data, {
       appeal_user_image,
       appeal_user_explain
+    })
+  }
+  if (task_nickname) {
+    Object.assign(data, {
+      task_nickname
     })
   }
   return axios.post(url, qs.stringify(Object.assign({
@@ -259,15 +286,41 @@ export function task_hall(service_group_id, page, num) {
 }
 
 // 单个任务的列表-----
-export function task_audit(id, username, page, num) {
+export function task_audit(id, username, types, page, num) {
   const url = `${PREFIX_URL}/task_audit`
   let data = {
     id,
+    types,
     page,
     num,
     username,
     uaid: UAID,
     timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 通过不通过
+export function pass_or_fail_task(id, task_id, username, click_type, task_message) {
+  const url = `${PREFIX_URL}/pass_or_fail_task`
+  let data = {
+    id,
+    task_id,
+    username,
+    click_type,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  if (task_message) {
+    Object.assign(data, {
+      task_message
+    })
   }
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
@@ -366,6 +419,96 @@ export function withdraw_list(username, page, num) {
     uaid: UAID,
     page,
     num,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 下单
+export function order(id, username, price, score) {
+  const url = `${PREFIX_URL}/order`
+  let data = {
+    id,
+    price,
+    score,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 提现商品列表
+export function withdraw_good() {
+  const url = `${PREFIX_URL}/withdraw_good`
+  let data = {
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 提现
+export function withdraw(id, username, price) {
+  const url = `${PREFIX_URL}/withdraw`
+  let data = {
+    id,
+    username,
+    price,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+export function bind_phone(code, phone, username) {
+  const url = `${PREFIX_URL}/bind_phone`
+  let data = {
+    code,
+    phone,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 发生验证码
+export function send_verify(phone) {
+  const url = `${PREFIX_URL}/send_verify`
+  let data = {
+    phone,
+    uaid: UAID,
     timestamp: getTime(),
   }
   return axios.post(url, qs.stringify(Object.assign({

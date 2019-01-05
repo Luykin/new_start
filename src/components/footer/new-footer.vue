@@ -122,7 +122,7 @@
     color: #fff;
     font-weight: 300;
     font-size: 55px;
-    transform: translate(0, -2px);
+    /*transform: translate(0, -2px);*/
   }
 
   .add-task-btn {
@@ -134,7 +134,7 @@
     transform: translate(-50%, -100%) scale(0, 0);
     transition: all .3s;
     transform-origin: bottom center;
-    background: url("../../assets/img/newTask.png") no-repeat;
+    background: url("https://cdn.xingkwh.com/newTask.png") no-repeat;
     background-size: 100% 100%;
   }
 

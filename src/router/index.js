@@ -55,8 +55,27 @@ const routerconst = new Router({
       path: '/manage-detail',
       name: 'manage-detail',
       component: () =>
-        import(`components/detail/manage-detail`)
+        import(`components/detail/manage-detail`),
+      children: [{
+          path: '/audit-list',
+          name: 'audit-list',
+          component: () =>
+            import(`components/detail/audit-list`),
+        children: [{
+          path: '/submitJob',
+          name: 'al-submitJob',
+          component: () =>
+            import(`components/detail/submitJob`)
+        }]
+      }]
     }]
+  //   , {
+  //   path: '/audit-list',
+  //   name: 'audit-list',
+  //   component: () =>
+  //     import(`components/detail/audit-list`)
+  // }
+
   }, {
     path: '/good',
     name: 'good',
@@ -92,7 +111,13 @@ const routerconst = new Router({
     path: '/myTask',
     name: 'myTask',
     component: () =>
-      import(`components/record/myTask`)
+      import(`components/record/myTask`),
+    children: [{
+      path: '/submitMyJob',
+      name: 'submitMyJob',
+      component: () =>
+        import(`components/detail/submitJob`)
+    }]
   }, {
     path: '/report',
     name: 'report',
@@ -110,6 +135,7 @@ const routerconst = new Router({
       import(`components/detail/submit-success`)
   }]
 })
+//audit-list
 //manage-detail
 routerconst.beforeEach((to, from, next) => {
 	loading(true)

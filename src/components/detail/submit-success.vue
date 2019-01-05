@@ -42,7 +42,7 @@
   .success {
     width: 100%;
     height: 125px;
-    background: url("../../assets/img/ok2.png") no-repeat;
+    background: url("https://cdn.xingkwh.com/ok2.png") no-repeat;
     background-size: 100% auto;
   }
 

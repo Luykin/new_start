@@ -27,8 +27,10 @@ const app = new Vue({
       nickname: '登录中',
       score: 0,
       price: 0,
+      need_deal_num: 0,
       username: null,
-      user_id: null
+      user_id: null,
+      phone: null
     },
     serverCache: {
       service_ratio: 0.2,

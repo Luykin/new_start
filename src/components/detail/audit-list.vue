@@ -1,0 +1,187 @@
+<template>
+  <transition name="list">
+    <div class="detail-body">
+      <back :parse="parse"></back>
+      <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
+        <div>
+          <div class="task-info flex" v-for="item in list" v-if="list.length" :key="item.id" @click="_toSubmitJob(item)">
+            <img :src="item.avatar"/>
+            <div class="flex audit-body fw ell">
+              <span class="flex js ab-name">ID: {{item.id}} 提交人:{{item.nickname}}</span>
+              <span class="flex js ab-time">时间:{{item.time}}</span>
+            </div>
+            <div class="flex audit-other fw">
+              <div class="min-title flex">{{item.min_title}}</div>
+              <div class="flex ao-status">{{_statusText(item.status)}}
+              </div>
+            </div>
+          </div>
+          <empyt v-show="!list.length" :padding="90"></empyt>
+        </div>
+      </betterscroll>
+      <router-view></router-view>
+    </div>
+  </transition>
+</template>
+
+<script>
+  import back from 'base/back/back'
+  import empyt from 'base/empyt/empyt'
+  import {task_audit} from 'api/index'
+  import {timeformat} from 'common/js/util'
+  import betterscroll from 'base/better-scroll/better-scroll'
+
+  export default {
+    name: 'audit-list',
+    data() {
+      return {
+        page: 0,
+        num: 10,
+        total: 0,
+        list: [],
+        parse: null,
+        task_id: null
+      }
+    },
+    created() {
+      this.$root.eventHub.$on('audit', () => {
+        this._pulldown()
+      })
+      this.parse = {
+        name: 'manage-detail',
+        params: this.$route.params
+      }
+      this._getTaskAudit()
+    },
+    mounted() {
+      this.$refs.wrapper._initScroll()
+    },
+    computed: {
+      _statusText() {
+        return (status) => {
+          return status === 0 ? '进行中' : status === 1 ? '等待审核': status === 2 ? '审核通过' : status === 3 ? '审核不通过' : '仲裁'
+        }
+      }
+      // item.status === 1 ? '等待审核': item.status === 2 ? '审核通过' : item.status === 3 ?
+      // '审核不通过' : '仲裁'
+    },
+    methods: {
+      async _getTaskAudit() {
+        this.$root.eventHub.$emit('loading', true)
+        // task_audit(id, username, types, page, num) {
+        const ret = await task_audit(this.$route.params.id, this.$root.user.username, this.$route.params.types, this.page, this.num)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.list = [...this.list, ...this._format(ret.data.data.ret)]
+          this.total = ret.data.data.count
+          this.task_id = ret.data.data.task_id
+        }
+      },
+      _toSubmitJob(item) {
+        console.log(item.status)
+        if (!item.status) {
+          this.$root.eventHub.$emit('titps', `本条任务正在进行中~`)
+          return false
+        }
+        this.$router.push({
+          name: 'al-submitJob',
+          params: Object.assign(item, {
+            audit: true,
+            task_id: this.task_id
+          })
+        })
+      },
+      _format(list) {
+        if (!list || !list.length) {
+          return []
+        }
+        list.forEach((res) => {
+          // console.log(res.complete_time)
+          if (res.user_audit_time || res.complete_time) {
+            res.time = timeformat(res.user_audit_time || res.complete_time)
+          }
+        })
+        return list
+      },
+      _pulldown() {
+        this.num = 10
+        this.page = 0
+        this.list = []
+        this._getTaskAudit()
+      },
+      _scrollToEnd() {
+        // console.log(this.list.length < this.totle, typeof this.list.length, this.list.length , typeof this.total, this.total)
+        if (this.list.length < this.total) {
+          this.page += 1
+          this._getTaskAudit()
+        }
+      }
+    },
+    components: {
+      back,
+      empyt,
+      betterscroll
+    }
+  }
+</script>
+
+<style scoped>
+  .wrapper {
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  .task-info {
+    height: 60px;
+    min-height: 60px;
+  }
+
+  .task-info img {
+    width: 55px;
+    height: auto;
+    margin: 0 10px;
+  }
+
+  .ab-name {
+    color: #444;
+  }
+
+  .ab-time {
+    color: #9096AB;
+    font-size: 10px;
+    margin-top: 5px;
+  }
+
+  .audit-body {
+    height: 100%;
+    /*flex-grow: 2;*/
+  }
+
+  .audit-other {
+    width: auto;
+    flex-grow: 1;
+    /*flex-shrink: 0;*/
+    min-width: 90px;
+    height: 100%;
+  }
+
+  .min-title {
+    width: auto;
+    background: #E3DEFF;
+    color: #6B41E1;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    transform: scale(.9, .9);
+    margin-bottom: 10px;
+  }
+
+  .ao-status {
+    font-weight: 600;
+    color: #FF8215;
+    font-size: 13px;
+  }
+</style>

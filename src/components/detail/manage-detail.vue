@@ -7,7 +7,7 @@
           <span class="flex js task-id-warp">[任务ID: {{$route.params.id}}]</span>
           <span
             class="status">{{$route.params.status === 1 ? '[发布中]' : $route.params.status === 2 ? '[已取消]' : '[已完成]'}}</span>
-          <span class="title">{{$route.params.title.slice(0,15)}}</span>
+          <span class="title">{{$route.params.title}}</span>
           <div class="min-title">{{$route.params.min_title}}</div>
         </div>
         <div class="money-show flex">
@@ -32,17 +32,17 @@
           </div>
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage1.png"/>
-            {{$route.params.browse_num}}
+            {{$route.params.current_num}}
             <span class="dm-title">进行中</span>
           </div>
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage4.png"/>
-            {{$route.params.browse_num}}
+            {{$route.params.use_num}}
             <span class="dm-title">已经通过</span>
           </div>
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage3.png"/>
-            {{$route.params.browse_num}}
+            {{$route.params.refuse_num}}
             <span class="dm-title">失败次数</span>
           </div>
         </div>
@@ -52,7 +52,7 @@
             <img src="../../assets/img/minicon4.png"/>
             置顶推荐
           </div>
-          <div class="mih-bottom-btn flex line-back">
+          <div class="mih-bottom-btn flex line-back" @click="_toAuditList($route.params)">
             <img src="../../assets/img/minicon3.png"/>
             审核任务
             <div class="flex red-icon-read" v-show="$route.params.task_audit_num">{{$route.params.task_audit_num}}</div>
@@ -66,8 +66,9 @@
             求助好友
           </div>
         </div>
-        <div class="task-btn flex">任务记录</div>
+        <div class="task-btn flex" @click="_toAllAuditList($route.params)">任务记录</div>
       </div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -90,6 +91,27 @@
       // console.log(this.$route.params)
     },
     mounted() {
+
+    },
+    methods: {
+      _toAllAuditList(info) {
+        this.$router.push({
+          name: 'audit-list',
+          params: Object.assign(info, {
+            types: 2,
+            info: this.$route.params
+          })
+        })
+      },
+      _toAuditList(info) {
+        this.$router.push({
+          name: 'audit-list',
+          params: Object.assign(info, {
+            types: 1,
+            info: this.$route.params
+          })
+        })
+      },
     },
     components: {
       back

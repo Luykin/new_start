@@ -53,17 +53,22 @@
     },
     created() {
       this._getTaskHall()
+      this.$root.eventHub.$on('updateList', () => {
+        this._pulldown()
+      })
     },
     mounted() {
       this.$refs.wrapper._initScroll()
     },
     methods: {
-      async _getTaskHall() {
-        this.$root.eventHub.$emit('loading', true)
+      async _getTaskHall(must) {
+        if (!must) {
+          this.$root.eventHub.$emit('loading', true)
+        }
         const ret = await task_hall(null, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-          if (!this.list.length) {
+          if (must || !this.list.length) {
             this.list = [...ret.data.data.top_ret, ...ret.data.data.ret]
           } else {
             this.list = [...this.list, ...ret.data.data.ret]
@@ -82,8 +87,8 @@
       _pulldown() {
         this.num = 10
         this.page = 0
-        this.list = []
-        this._getTaskHall()
+        // this.list = []
+        this._getTaskHall(true)
       },
       _scrollToEnd() {
         if (this.list.length < this.total) {
@@ -167,7 +172,7 @@
     flex-grow: 1;
     flex-shrink: 0;
     white-space: nowrap;
-    font-size: 10px;
+    font-size: 12px;
     color: #FF3939;
     text-indent: 6px;
     font-weight: 600;

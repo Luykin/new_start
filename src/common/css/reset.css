@@ -3,12 +3,14 @@ html {
   user-select: none;
   font-family: 微软雅黑;
   min-height: 100%;
+  width: 100%;
   overflow-x: hidden;
-  background: #F5F4F8 url("../../assets/img/background.png") no-repeat;
+  background: #F5F4F8 url("https://cdn.xingkwh.com/background.png") no-repeat;
   background-size: 100% auto;
 }
 
 body {
+  width: 100%;
   margin: 0;
   padding: 0;
   min-height: 100%;
@@ -17,6 +19,7 @@ body {
 }
 
 #app {
+  width: 100%;
   min-height: 100%;
 }
 

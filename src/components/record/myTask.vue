@@ -9,7 +9,7 @@
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div>
-          <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id">
+          <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id" @click=" _getDetail(item.task_id)">
             <div class="my-task-top flex js">
               <img :src="item.avatar"/>
               <div class="flex my-task-top-title ell fw">
@@ -28,6 +28,7 @@
           <empyt v-show="!list.length" :padding="90"></empyt>
         </div>
       </betterscroll>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -78,12 +79,27 @@
     },
     created() {
       this._getMyTask()
+      this.$root.eventHub.$on('updateMyTask', () => {
+        this._pulldown()
+      })
     },
     mounted() {
       this.$refs.wrapper._initScroll()
       this._setTime()
     },
     methods: {
+      _getDetail(id) {
+        // console.log(id)
+        this.$router.replace({
+          path: `./index/${id}`
+        })
+      },
+      _toSubmitJob(item) {
+        this.$router.push({
+          name: 'submitMyJob',
+          params: item
+        })
+      },
       _setTime() {
         setInterval(() => {
           this.nowTime = Date.parse(new Date())
