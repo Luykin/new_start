@@ -4,7 +4,7 @@
       <img :src="$root.user.avatar" class="header-avater"/>
       <div class="user-name flex fw">
         <span class="ell name">{{$root.user.nickname}}</span>
-        <span class="flex js ell">id: {{$root.user.username}}</span>
+        <span class="flex js ell">ID: {{$root.user.username}}</span>
       </div>
       <div class="flex btn-warp">
         <router-link tag='div' to='./good' class="flex btn top-btn line-back">充值</router-link>

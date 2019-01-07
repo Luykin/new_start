@@ -55,7 +55,7 @@
       })
       this.$root.eventHub.$on('updateUserInfo', () => {
         let time = setTimeout(() => {
-          this._updateuserinfo(this.$root.username)
+          this._updateuserinfo(this.$root.user.username)
           clearTimeout(time);
           time = null;
         }, 500)

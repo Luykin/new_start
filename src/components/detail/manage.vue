@@ -23,11 +23,11 @@
               <span class="mih-name flex">浏览次数</span>
             </div>
             <div class="mih-bottom flex">
-              <div class="mih-bottom-btn flex line-red-color">
+              <div class="mih-bottom-btn flex line-red-color" @click.stop="_topShow(item)">
                 <img src="../../assets/img/minicon4.png"/>
                 置顶推荐
               </div>
-              <div class="mih-bottom-btn flex line-back">
+              <div class="mih-bottom-btn flex line-back" @click.stop="_toAuditList(item)">
                 <img src="../../assets/img/minicon3.png"/>
                 审核任务
                 <div class="flex red-icon-read" v-show="item.task_audit_num">{{item.task_audit_num}}</div>
@@ -40,6 +40,7 @@
           <empyt v-show="!list.length" :padding="90"></empyt>
         </div>
       </betterscroll>
+      <stick ref="stick"></stick>
       <router-view></router-view>
     </div>
   </transition>
@@ -50,6 +51,7 @@
   import back from 'base/back/back'
   import betterscroll from 'base/better-scroll/better-scroll'
   import {release_management} from 'api/index'
+  import stick from 'components/stick/stick'
 
   export default {
     name: 'manage',
@@ -65,9 +67,21 @@
       this._init()
     },
     methods: {
+      _topShow(item) {
+        this.$refs.stick._show(item)
+      },
       _init() {
         this.$refs.wrapper._initScroll()
         this._getManageList()
+      },
+      _toAuditList(info) {
+        console.log('审核任务')
+        this.$router.push({
+          name: 'audit-list',
+          params: Object.assign(info, {
+            types: 1,
+          })
+        })
       },
       async _getManageList() {
         this.$root.eventHub.$emit('loading', true)
@@ -100,6 +114,7 @@
     components: {
       empyt,
       back,
+      stick,
       betterscroll
     }
   }
@@ -167,7 +182,7 @@
     color: #FF3939;
   }
 
-  .mih-bottom{
+  .mih-bottom {
     width: 93%;
     height: 50px;
     margin-top: -5px;
@@ -175,11 +190,11 @@
     position: relative;
   }
 
-  .mih-bottom-btn{
+  .mih-bottom-btn {
     width: 28%;
     height: 30px;
     border-radius: 6px;
-    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     color: #fff;
     font-weight: 600;
     font-size: 13px;
@@ -187,13 +202,13 @@
     position: relative;
   }
 
-  .mih-bottom-btn img{
+  .mih-bottom-btn img {
     width: 13px;
     height: auto;
     margin-right: 5px;
   }
 
-  .red-icon-read{
+  .red-icon-read {
     position: absolute;
     right: 0;
     top: 0;
@@ -206,13 +221,13 @@
     transform: translate(30%, -30%) scale(.8, .8);
   }
 
-  .line-red-color{
+  .line-red-color {
     background: #FFA96B;
     background: linear-gradient(-45deg, #FF3939, #FFA96B);
     background: -webkit-gradient(linear, right bottom, left top, from(#FF3939), to(#FFA96B));
   }
 
-  .mih-min-btn{
+  .mih-min-btn {
     width: 26px;
     height: 26px;
     position: absolute;
@@ -225,7 +240,7 @@
     font-weight: 600;
   }
 
-  .right-aw{
+  .right-aw {
     transform: scale(1, 1.6);
   }
 </style>

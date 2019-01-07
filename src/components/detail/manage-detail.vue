@@ -48,7 +48,7 @@
         </div>
         <div class="line"></div>
         <div class="mih-bottom flex fw">
-          <div class="mih-bottom-btn flex line-red-color">
+          <div class="mih-bottom-btn flex line-red-color" @click="_topShow(manageInfo)">
             <img src="../../assets/img/minicon4.png"/>
             置顶推荐
           </div>
@@ -69,12 +69,14 @@
         <div class="task-btn flex" @click="_toAllAuditList(manageInfo)">所有任务情况</div>
       </div>
       <router-view></router-view>
+      <stick ref="stick"></stick>
     </div>
   </transition>
 </template>
 
 <script>
   import back from 'base/back/back'
+  import stick from 'components/stick/stick'
 
   export default {
     // props: {
@@ -100,6 +102,9 @@
 
     },
     methods: {
+      _topShow(item) {
+        this.$refs.stick._show(item)
+      },
       _toAllAuditList(info) {
         this.$router.push({
           name: 'audit-list',
@@ -114,13 +119,13 @@
           name: 'audit-list',
           params: Object.assign(info, {
             types: 1,
-            // info: this.$route.params
           })
         })
       },
     },
     components: {
-      back
+      back,
+      stick
     }
   }
 </script>

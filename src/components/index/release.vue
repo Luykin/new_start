@@ -147,6 +147,9 @@
         }
         if (ret === 433) {
           this.$root.eventHub.$emit('titps', `您的余额不足哦~`)
+          this.$router.push({
+            path: './good'
+          })
           return false
         }
       },

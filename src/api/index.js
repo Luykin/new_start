@@ -485,6 +485,26 @@ export function withdraw(id, username, price) {
   })
 }
 
+// 置顶
+export function set_top_task(id, username, top_score) {
+  const url = `${PREFIX_URL}/set_top_task`
+  let data = {
+    id,
+    username,
+    top_score,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+
 export function bind_phone(code, phone, username) {
   const url = `${PREFIX_URL}/bind_phone`
   let data = {

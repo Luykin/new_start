@@ -55,7 +55,7 @@
         },{
           name: '绑定手机号',
           path: '/phone',
-          icon: require('../../assets/img/usericon3.png'),
+          icon: require('../../assets/img/usericon1.png'),
         },{
           name: '平台入口',
           path: '/phone',
