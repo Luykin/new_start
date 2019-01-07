@@ -39,7 +39,7 @@
           </div>
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage4.png"/>
-            {{manageInfo.use_num}}
+            {{manageInfo.pass_num}}
             <span class="dm-title">已经通过</span>
           </div>
           <div class="data-manage-item flex fw">

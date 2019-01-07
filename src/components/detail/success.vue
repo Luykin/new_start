@@ -8,7 +8,7 @@
           <span class="flex">您的任务已发布,任务信息如下</span>
           <div class="flex success-info-item">
             <div class="sii-left flex js">任务标题</div>
-            <div class="sii-right flex js">{{$route.query.reward_title|| ''}}</div>
+            <div class="sii-right flex js ell">{{$route.query.reward_title|| ''}}</div>
           </div>
           <div class="flex success-info-item">
             <div class="sii-left flex js">作品链接</div>
@@ -16,11 +16,11 @@
           </div>
           <div class="flex success-info-item">
             <div class="sii-left flex js">任务数量</div>
-            <div class="sii-right flex js">{{$route.query.reward_amount|| ''}}</div>
+            <div class="sii-right flex js ell">{{$route.query.reward_amount|| ''}}</div>
           </div>
           <div class="flex success-info-item">
             <div class="sii-left flex js">任务单价</div>
-            <div class="sii-right flex js">{{$route.query.single_price || ''}}</div>
+            <div class="sii-right flex js ell">{{$route.query.single_price || ''}}</div>
           </div>
         </div>
         <div class="task-btn flex line-back" @click="_getDetail($route.query.id)">查看发布任务情况</div>

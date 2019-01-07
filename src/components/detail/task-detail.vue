@@ -30,6 +30,12 @@
             </div>
           </div>
           <div class="task-info flex fw" v-if="detail_info">
+            <div class="task-color-title flex">任务描述</div>
+            <div class="dis-task-info flex">
+              {{detail_info.title}}
+            </div>
+          </div>
+          <div class="task-info flex fw" v-if="detail_info">
             <img :src="detail_info.image_url" class="task-image"/>
           </div>
         </div>
@@ -68,7 +74,7 @@
         if (!this.detail_info) {
           return '加载中...'
         }
-        if (!this.detail_info.is_take_task) {
+        if (!this.detail_info.task_url) {
           return '您还未报名该项目'
         }
         return this.detail_info.task_url
@@ -258,6 +264,7 @@
     width: 90%;
     margin: 0 auto 10px;
     font-size: 16px;
+    line-height: 20px;
     font-weight: 600;
     color: #fff;
   }
@@ -337,7 +344,7 @@
     background: #F8F8F8;
     color: #333;
     margin-right: 20px;
-    font-size: 10px;
+    font-size: 13px;
     user-select: text;
     overflow-x: scroll;
     white-space: nowrap;
@@ -374,5 +381,20 @@
 
   .blink{
     color: #ff3939;
+  }
+
+  .dis-task-info{
+    background: #f8f8f8;
+    color: #444;
+    padding: 8px 4%;
+    width: 80%;
+    height: auto;
+    margin: 10px auto;
+    line-height: 20px;
+    font-size: 13px;
+    border-radius: 10px;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
   }
 </style>

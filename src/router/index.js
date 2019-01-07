@@ -42,7 +42,13 @@ const routerconst = new Router({
     path: '/commision',
     name: 'commision',
     component: () =>
-      import (`components/index/commision`)
+      import (`components/index/commision`),
+    children: [{
+      path: '/detail',
+      name: 'detail-commision',
+      component: () =>
+        import(`components/detail/commision`)
+    }]
   }, {
     path: '/success',
     name: 'success',
@@ -118,12 +124,12 @@ const routerconst = new Router({
       path: ':id',
       component: () =>
         import (`components/detail/task-detail`),
-        // children: [{
-        //   path: '/submitJob',
-        //   name: 'mySubmitJob',
-        //   component: () =>
-        //     import(`components/detail/submitJob`)
-        // }]
+      // children: [{
+      //   path: '/submitJob',
+      //   name: 'mySubmitJob',
+      //   component: () =>
+      //     import(`components/detail/submitJob`)
+      // }]
       // path: '/submitMyJob',
       // name: 'submitMyJob',
       // component: () =>
@@ -149,12 +155,16 @@ const routerconst = new Router({
 //audit-list
 //manage-detail
 let refreshList = ['/index', '/hall']
+let updateUserInfoList = ['/user']
 routerconst.beforeEach((to, from, next) => {
   loading(true)
   if ((to.path === '/' || to.path === '/index') || getuser()) {
     next()
     if (refreshList.indexOf(to.path) > -1 && getEventHub()) {
       getEventHub().$emit(`refresh${to.path}`)
+    }
+    if (updateUserInfoList.indexOf(to.path) > -1 && getEventHub()) {
+      getEventHub().$emit(`updateUserInfo`)
     }
   } else {
     next({

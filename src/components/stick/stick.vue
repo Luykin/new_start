@@ -23,7 +23,7 @@
   export default {
     name: 'stick',
     data() {
-      return{
+      return {
         info: null
       }
     },
@@ -67,8 +67,17 @@
           this.$root.eventHub.$emit('updateList')
           this.$root.eventHub.$emit('updateManage')
           this.$root.eventHub.$emit('titps', `本条任务已被置顶~`)
+          return false
         } else {
-          this.$root.eventHub.$emit('titps', `置顶失败~`)
+          if (ret === 433) {
+            this.$root.eventHub.$emit('titps', `您的余额不足哦~`)
+            this.$router.push({
+              path: './good'
+            })
+            return false
+          } else {
+            this.$root.eventHub.$emit('titps', `置顶失败~`)
+          }
         }
       },
       // set_top_task(id, username, top_score) {

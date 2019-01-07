@@ -557,3 +557,21 @@ export function cancel_publication(id, username) {
     return Promise.resolve(res.response.status)
   })
 }
+
+
+// 查看团队
+export function see_team(username) {
+  const url = `${PREFIX_URL}/see_team`
+  let data = {
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

@@ -45,7 +45,7 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this._afterpay(ret.data.data.pay_ret, () => {
-            this.$root.eventHub.$emit('titps', `充值成功~`)
+            this.$root.eventHub.$emit('titps', `充值成功,如未到账,请刷新页面~`)
             this.$root.eventHub.$emit('updateUserInfo')
             this.$router.replace({
               path: '/user'

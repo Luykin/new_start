@@ -16,7 +16,11 @@
             <div class="flex index-task-item-inner">
               <img :src="item.avatar" class="task-item-avatar"/>
               <div class="flex fw ell js">
-                <span class="task-item-title ell">{{item.title}}</span>
+                <!--<div class="min-title top-title" v-show="manageInfo.is_top">已置顶 : {{time}}</div>-->
+                <div class="task-item-title ell flex js">
+                  <div v-show="item.is_top" class="top-title">置顶</div>
+                  {{item.title}}
+                </div>
                 <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
               </div>
               <div class="flex task-item-money js">
@@ -46,6 +50,7 @@
         num: 10,
         list: [],
         total: 0,
+        updateTimer: null
       }
     },
     name: 'user',
@@ -54,16 +59,21 @@
         this._pulldown()
       })
       this.$root.eventHub.$on('updateUserInfo', () => {
-        let time = setTimeout(() => {
-          this._updateuserinfo(this.$root.user.username)
-          clearTimeout(time);
-          time = null;
-        }, 500)
+        this.$nextTick(() => {
+          if (this.updateTimer) {
+            console.log('频繁更新')
+            clearTimeout(this.updateTimer)
+          }
+          this.updateTimer = setTimeout(() => {
+            this._updateuserinfo(this.$root.user.username)
+            clearTimeout(this.updateTimer)
+            this.updateTimer = null
+          }, 3000)
+        })
       })
       this.$root.eventHub.$on('refresh/index', () => {
         this.$nextTick(() => {
           try {
-            // console.log('刷新')
             this.$refs.wrapper.refresh()
           } catch (e) {
             console.log(e)
@@ -145,11 +155,25 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           if (must || !this.list.length) {
-            this.list = [...ret.data.data.top_ret, ...ret.data.data.ret]
+            this.list = [...this.formatTop(ret.data.data.top_ret), ...ret.data.data.ret]
           } else {
             this.list = [...this.list, ...ret.data.data.ret]
           }
           this.total = parseInt(ret.data.data.count)
+        }
+      },
+      formatTop(list) {
+        try {
+          if (!list.length) {
+            return []
+          }
+          list.forEach((item) => {
+            item.is_top = true
+          })
+          return list
+        } catch (e) {
+          console.log(e)
+          return list
         }
       },
       async _getDetail(id) {
@@ -253,5 +277,16 @@
     height: 0;
     opacity: 0;
     z-index: -1;
+  }
+
+  .top-title {
+    width: auto;
+    flex-grow: 0;
+    border-radius: 5px;
+    font-size: 10px;
+    transform: scale(.85, .85);
+    padding: 5px;
+    background: #ff3939;
+    color: #fff;
   }
 </style>

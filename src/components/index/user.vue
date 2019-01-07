@@ -20,6 +20,7 @@
           </div>
         </router-link>
       </div>
+      <div class="footer-none"></div>
     </div>
   </transition>
 </template>

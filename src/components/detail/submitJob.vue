@@ -29,7 +29,7 @@
           <img src="../../assets/img/manage4.png"/>
           您的任务已审核通过，赏金已进入您的收益。
         </div>
-        <div class="flex task-input-warp" v-if="!detail_info.audit && !detail_info.status">
+        <div class="flex task-input-warp" v-if="!detail_info.audit && (!detail_info.status || detail_info.status === 3)">
           <div class="tiw-left flex">抖音号</div>
           <div class="tiw-mid">
             <input type="text" name="抖音号" placeholder="请输入你的抖音号" class="index-input" v-model="dy_name"/>
