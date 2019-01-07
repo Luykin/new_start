@@ -65,7 +65,7 @@
               this._pulldown()
               clearTimeout(this.pullDownTimer)
               this.pullDownTimer = null
-            }, time || 5000)
+            }, time || 8000)
           })
       })
       this.$root.eventHub.$on('updateUserInfo', (time) => {

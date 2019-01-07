@@ -57,7 +57,7 @@
           path: '/report',
           icon: require('../../assets/img/usericon3.png'),
         },{
-          name: '绑定手机号',
+          name: Boolean(this.$root.user.phone) ? `更换绑定(${this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3)})` : '绑定手机号',
           path: '/phone',
           icon: require('../../assets/img/usericon1.png'),
         },{
