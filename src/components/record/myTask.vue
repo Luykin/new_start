@@ -91,7 +91,7 @@
       _getDetail(id) {
         // console.log(id)
         this.$router.push({
-          path: `./index/${id}`
+          path: `./myTask/${id}`
         })
       },
       // _toSubmitJob(item) {

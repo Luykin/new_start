@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="task-info flex fw" v-if="detail_info">
-            <img :src="detail_info.image_url" class="task-image"/>
+            <img :src="detail_info.image_url" class="task-image" @load="$refs.wrapper.refresh()"/>
           </div>
         </div>
       </betterscroll>
@@ -120,15 +120,7 @@
       // updateMyTask
       this.$root.eventHub.$on('updateMyTask', () => {
         // let status = this.detail_info.status
-        this._getDetail(this.detail_info.id, () => {
-          // if (status !== this.detail_info.status) {
-          //   let timer = setTimeout(() => {
-          //     this._getDetail(this.detail_info.id)
-          //     clearTimeout(timer)
-          //     timer = null
-          //   }, 800)
-          // }
-        })
+        this._getDetail(this.detail_info.id)
       })
     },
     mounted() {
@@ -167,10 +159,18 @@
       _toSubmitJob() {
         let ret = JSON.parse(JSON.stringify(this.detail_info))
         ret.id = ret.rtr_id
-        this.$router.push({
-          name: 'submitJob',
-          params: ret
-        })
+        // console.log(this.$route.path.indexOf('/myTask'))
+        if (this.$route.path.indexOf('/myTask') > -1) {
+          this.$router.push({
+            name: 'mySubmitJob',
+            params: ret
+          })
+        } else {
+          this.$router.push({
+            name: 'submitJob',
+            params: ret
+          })
+        }
       },
       async _getDetail(id, callback) {
         this.$root.eventHub.$emit('loading', true)
@@ -178,6 +178,8 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.detail_info = ret.data.data
+          console.log(this.detail_info)
+          console.log(this.btn_status)
           clearInterval(this.timer)
           this.timer = null
           this._cutDown(this.detail_info.complete_time)

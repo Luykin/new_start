@@ -262,6 +262,7 @@
         const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
+          // 失败
           if (this.detail_info.status && this.detail_info.status === 3) {
             this.$root.eventHub.$emit('updateMyTask')
             this.$root.eventHub.$emit('titps', `修改成功~`)
