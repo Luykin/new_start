@@ -5,9 +5,9 @@
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div>
           <div class="task-info flex fw" v-for="item in list" @click="_toManageDetail(item)">
-            <div class="manage-item-header flex">
+            <div class="manage-item-header flex ell">
               <span class="status">{{item.status === 1 ? '[发布中]' : item.status === 2 ? '[已取消]' : '[已完成]'}}</span>
-              <span class="title">{{item.title.slice(0,15)}}</span>
+              <span class="title">{{item.title.slice(0,12)}}</span>
               <div class="min-title">{{item.min_title}}</div>
             </div>
             <div class="mih-body flex fw">
@@ -85,16 +85,16 @@
         })
       },
       _pulldown() {
-        // this.num = 10
-        // this.page = 0
-        // this.list = []
-        // this._secret_list()
+        this.num = 10
+        this.page = 0
+        this.list = []
+        this._getManageList()
       },
       _scrollToEnd() {
-        // if (this.list.length < this.total) {
-        //   this.page += 1
-        //   this._secret_list()
-        // }
+        if (this.list.length < this.total) {
+          this.page += 1
+          this._getManageList()
+        }
       }
     },
     components: {

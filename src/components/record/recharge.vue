@@ -89,7 +89,7 @@
         }
       },
       async _getOrder() {
-        this.$root.eventHub.$emit('loading', true)
+        // this.$root.eventHub.$emit('loading', true)
         const ret = await orders(this.$root.user.username, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
@@ -98,7 +98,7 @@
         }
       },
       async _getWithdrawList() {
-        this.$root.eventHub.$emit('loading', true)
+        // this.$root.eventHub.$emit('loading', true)
         const ret = await withdraw_list(this.$root.user.username, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
@@ -118,6 +118,7 @@
         return list
       },
       _getInfo() {
+        this.$root.eventHub.$emit('loading', true)
         if (this.activeId === 1) {
           this._getOrder()
         } else {
@@ -169,17 +170,18 @@
   }
 
   .order-item img {
-    width: 48px;
+    width: 40px;
     height: auto;
   }
 
   .order-price {
     justify-content: flex-end;
     color: #B53FE2;
-    margin-bottom: 5px;
+    margin-bottom: 7px;
   }
 
   .order-time {
+    color: #666;
     justify-content: flex-end;
   }
 

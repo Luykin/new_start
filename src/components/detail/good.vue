@@ -44,7 +44,6 @@
         const ret = await order(this.activeGood.id, this.$root.user.username,this.activeGood.price, this.activeGood.score)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-          // this.$root.eventHub.$emit('titps', `充值成功~`)
           this._afterpay(ret.data.data.pay_ret, () => {
             this.$root.eventHub.$emit('titps', `充值成功~`)
             this.$root.eventHub.$emit('updateUserInfo')

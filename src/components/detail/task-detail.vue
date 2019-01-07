@@ -36,6 +36,9 @@
       </betterscroll>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 0">未在规定时间内完成</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 1">暂时无法报名</div>
+      <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 300">任务已提交</div>
+      <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 200">任务已完成</div>
+      <div class="task-btn flex task-detail-btn line-back" v-if="btn_status === 100" @click="_toSubmitJob">重新提交</div>
       <div class="task-btn flex line-back task-detail-btn" v-if="btn_status === 2" @click="_toSubmitJob">提交任务</div>
       <div class="task-btn flex line-back task-detail-btn" v-if="btn_status === 3" @click="_signUp">立即报名</div>
       <router-view></router-view>
@@ -71,13 +74,29 @@
         return this.detail_info.task_url
       },
       btn_status() {
-        if (this.disable_btn) {
-          return 0
+        try {
+          if (!this.detail_info) {
+            return 1
+          }
+          if (this.disable_btn && !this.detail_info.status) {
+            return 0
+          }
+          if ((!this.detail_info || !this.detail_info.can_sign_up) && !this.detail_info.status) {
+            return 1
+          }
+          if (this.detail_info.status && this.detail_info.status === 3) {
+            return 100
+          }
+          if (this.detail_info.status && this.detail_info.status === 2) {
+            return 200
+          }
+          if (this.detail_info.status && this.detail_info.status !== 0) {
+            return 300
+          }
+          return this.detail_info.is_take_task ? 2 : 3
+        } catch (e) {
+          console.log(e)
         }
-        if (!this.detail_info || !this.detail_info.can_sign_up) {
-          return 1
-        }
-        return this.detail_info.is_take_task ? 2 : 3
       },
     },
     created() {
@@ -349,8 +368,8 @@
   }
 
   .disable-btn{
-    background: #dfdfdf;
-    color: rgba(0, 0, 0, .3);
+    background: #bbb;
+    color: #fff;
   }
 
   .blink{

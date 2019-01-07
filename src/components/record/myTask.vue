@@ -90,16 +90,16 @@
     methods: {
       _getDetail(id) {
         // console.log(id)
-        this.$router.replace({
+        this.$router.push({
           path: `./index/${id}`
         })
       },
-      _toSubmitJob(item) {
-        this.$router.push({
-          name: 'submitMyJob',
-          params: item
-        })
-      },
+      // _toSubmitJob(item) {
+      //   this.$router.push({
+      //     name: 'submitMyJob',
+      //     params: item
+      //   })
+      // },
       _setTime() {
         setInterval(() => {
           this.nowTime = Date.parse(new Date())

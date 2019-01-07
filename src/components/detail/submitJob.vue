@@ -14,7 +14,7 @@
              :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% auto;`"></div>
         <div class="upload-warp"
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% auto;`"
-             v-if="detail_info.task_image && detail_info.status !== 3"></div>
+             v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"></div>
         <div class="upload-warp" @click="_choseImg" v-else>
           <div class="upload-inner flex">
             <div class="process-warp flex fw" v-show="process && process < 100">
@@ -32,7 +32,7 @@
         <div class="flex task-input-warp" v-if="!detail_info.audit && !detail_info.status">
           <div class="tiw-left flex">抖音号</div>
           <div class="tiw-mid">
-            <input type="number" name="抖音号" placeholder="请输入抖音号" class="index-input" v-model="dy_name"/>
+            <input type="text" name="抖音号" placeholder="请输入你的抖音号" class="index-input" v-model="dy_name"/>
           </div>
           <div class="tiw-right"></div>
         </div>
@@ -55,7 +55,7 @@
         </div>
       </popup>
       <popup ref="popup">
-        <div class="popup-report">
+        <div class="popup-report flex fw js">
           <h1 class="flex pop-title">举报维权</h1>
           <span class="describe">请上传您真实任务完成截图，对您仲裁结果成功率更高哦！</span>
           <div class="upload-warp" @click="_choseImgZC">
@@ -68,6 +68,9 @@
                       @success="_successZC"></upload>
               <img ref="previewImgZC"/>
             </div>
+          </div>
+          <div class="upload-warp">
+            <span class="reSay-waro ell">等待对方回复</span>
           </div>
           <div class="pop-text-text flex">
             <textarea v-model="textarea" placeholder="辩诉说明" maxlength="120"></textarea>
@@ -544,5 +547,13 @@
     justify-content: flex-start;
     white-space: nowrap;
     text-indent: 20px;
+  }
+  .reSay-waro{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999;
+    font-size: 12px;
   }
 </style>

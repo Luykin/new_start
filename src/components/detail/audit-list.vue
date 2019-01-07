@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <div class="detail-body">
-      <back :parse="parse"></back>
+      <back></back>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div>
           <div class="task-info flex" v-for="item in list" v-if="list.length" :key="item.id" @click="_toSubmitJob(item)">
@@ -39,7 +39,7 @@
         num: 10,
         total: 0,
         list: [],
-        parse: null,
+        // parse: null,
         task_id: null
       }
     },
@@ -47,10 +47,10 @@
       this.$root.eventHub.$on('audit', () => {
         this._pulldown()
       })
-      this.parse = {
-        name: 'manage-detail',
-        params: this.$route.params
-      }
+      // this.parse = {
+      //   name: 'manage-detail',
+      //   params: this.$route.params
+      // }
       this._getTaskAudit()
     },
     mounted() {
@@ -78,7 +78,7 @@
         }
       },
       _toSubmitJob(item) {
-        console.log(item.status)
+        // console.log(item.status)
         if (!item.status) {
           this.$root.eventHub.$emit('titps', `本条任务正在进行中~`)
           return false

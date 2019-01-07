@@ -11,7 +11,7 @@
         <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id">
           <div class="report-header flex fw">
             <div class="flex rh-top js">
-              <img :src="item.appeal_user_image" class="avatar"/>
+              <img :src="item.avatar" class="avatar"/>
               <div class="flex fw rh-title-warp">
                 <span class="flex js">{{item.title.slice(0, 14)}}</span>
                 <span class="flex js id-text">举报人ID: {{item.appeal_user_username}}</span>
@@ -288,8 +288,9 @@
 
   .report-header .avatar {
     width: 50px;
-    height: auto;
+    height: 50px;
     margin-right: 10px;
+    border-radius: 100%;
     /*margin: 0 10px;*/
   }
 

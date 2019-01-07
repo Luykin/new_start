@@ -54,7 +54,21 @@
         this._pulldown()
       })
       this.$root.eventHub.$on('updateUserInfo', () => {
-        this._updateuserinfo(this.$root.username)
+        let time = setTimeout(() => {
+          this._updateuserinfo(this.$root.username)
+          clearTimeout(time);
+          time = null;
+        }, 500)
+      })
+      this.$root.eventHub.$on('refresh/index', () => {
+        this.$nextTick(() => {
+          try {
+            // console.log('刷新')
+            this.$refs.wrapper.refresh()
+          } catch (e) {
+            console.log(e)
+          }
+        })
       })
     },
     mounted() {
@@ -77,7 +91,7 @@
           console.log('微信登录')
           this._login(url.slice(start, end), this.$route.query.username, callback)
           const locationUrl = window.location.origin + `/dgz/#/`
-          console.log(locationUrl);
+          console.log(locationUrl)
           history.replaceState(null, null, locationUrl)
         } else {
           console.log('浏览器储存登录')
@@ -92,6 +106,9 @@
         }
       },
       async _updateuserinfo(username, callback) {
+        if (!username) {
+          console.log('_updateuserinfo: 不存在username')
+        }
         const ret = await update_user_info(username)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
@@ -230,7 +247,8 @@
     font-size: 12px;
     color: #9096AB;
   }
-  .all-pre-img{
+
+  .all-pre-img {
     width: 0;
     height: 0;
     opacity: 0;

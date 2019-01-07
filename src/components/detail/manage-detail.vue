@@ -2,47 +2,47 @@
   <transition name="list">
     <div class="detail-body">
       <back></back>
-      <div class="task-info flex fw">
-        <div class="manage-item-header flex fw">
-          <span class="flex js task-id-warp">[任务ID: {{$route.params.id}}]</span>
+      <div class="task-info flex fw" v-if="manageInfo">
+        <div class="manage-item-header flex fw ell">
+          <span class="flex js task-id-warp">[任务ID: {{manageInfo.id}}]</span>
           <span
-            class="status">{{$route.params.status === 1 ? '[发布中]' : $route.params.status === 2 ? '[已取消]' : '[已完成]'}}</span>
-          <span class="title">{{$route.params.title}}</span>
-          <div class="min-title">{{$route.params.min_title}}</div>
+            class="status">{{manageInfo.status === 1 ? '[发布中]' : manageInfo.status === 2 ? '[已取消]' : '[已完成]'}}</span>
+          <span class="title">{{manageInfo.title}}</span>
+          <div class="min-title">{{manageInfo.min_title}}</div>
         </div>
         <div class="money-show flex">
           <img src="../../assets/img/manage6.png"/>
           <div class="money-info flex fw">
-            <span class="money ell flex">{{$route.params.price}}元</span>
+            <span class="money ell flex">{{manageInfo.price}}元</span>
             <span>赏金总额</span>
           </div>
         </div>
         <div class="money-show flex">
           <img src="../../assets/img/manage5.png"/>
           <div class="money-info flex fw">
-            <span class="money ell flex">{{$route.params.single_price}}元</span>
+            <span class="money ell flex">{{manageInfo.single_price}}元</span>
             <span>单次赏金</span>
           </div>
         </div>
         <div class="data-manage flex">
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage2.png"/>
-            {{$route.params.browse_num}}
+            {{manageInfo.browse_num}}
             <span class="dm-title">浏览次数</span>
           </div>
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage1.png"/>
-            {{$route.params.current_num}}
+            {{manageInfo.current_num}}
             <span class="dm-title">进行中</span>
           </div>
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage4.png"/>
-            {{$route.params.use_num}}
+            {{manageInfo.use_num}}
             <span class="dm-title">已经通过</span>
           </div>
           <div class="data-manage-item flex fw">
             <img src="../../assets/img/manage3.png"/>
-            {{$route.params.refuse_num}}
+            {{manageInfo.refuse_num}}
             <span class="dm-title">失败次数</span>
           </div>
         </div>
@@ -52,10 +52,10 @@
             <img src="../../assets/img/minicon4.png"/>
             置顶推荐
           </div>
-          <div class="mih-bottom-btn flex line-back" @click="_toAuditList($route.params)">
+          <div class="mih-bottom-btn flex line-back" @click="_toAuditList(manageInfo)">
             <img src="../../assets/img/minicon3.png"/>
             审核任务
-            <div class="flex red-icon-read" v-show="$route.params.task_audit_num">{{$route.params.task_audit_num}}</div>
+            <div class="flex red-icon-read" v-show="manageInfo.task_audit_num">{{manageInfo.task_audit_num}}</div>
           </div>
           <div class="mih-bottom-btn flex line-gray-color">
             <img src="../../assets/img/minicon2.png"/>
@@ -66,7 +66,7 @@
             求助好友
           </div>
         </div>
-        <div class="task-btn flex" @click="_toAllAuditList($route.params)">任务记录</div>
+        <div class="task-btn flex" @click="_toAllAuditList(manageInfo)">所有任务情况</div>
       </div>
       <router-view></router-view>
     </div>
@@ -84,10 +84,16 @@
     //   }
     // },
     name: 'manage-detail',
+    data() {
+      return{
+        manageInfo: null
+      }
+    },
     created() {
       if (!this.$route.params.price) {
         this.$router.back(-1)
       }
+      this.manageInfo = this.$route.params;
       // console.log(this.$route.params)
     },
     mounted() {
@@ -99,7 +105,7 @@
           name: 'audit-list',
           params: Object.assign(info, {
             types: 2,
-            info: this.$route.params
+            // info: this.$route.params
           })
         })
       },
@@ -108,7 +114,7 @@
           name: 'audit-list',
           params: Object.assign(info, {
             types: 1,
-            info: this.$route.params
+            // info: this.$route.params
           })
         })
       },
@@ -140,6 +146,8 @@
 
   .manage-item-header .title {
     font-weight: 600;
+    max-width: 45%;
+    overflow: hidden;
   }
 
   .manage-item-header .min-title {

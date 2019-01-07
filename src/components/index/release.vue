@@ -124,6 +124,7 @@
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', `发布成功~`)
           this.$root.eventHub.$emit('updateList')
+          this.$root.eventHub.$emit('updateUserInfo')
           // this.updateList
           this.$router.replace({
             path: './success',

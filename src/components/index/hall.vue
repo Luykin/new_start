@@ -56,6 +56,16 @@
       this.$root.eventHub.$on('updateList', () => {
         this._pulldown()
       })
+      this.$root.eventHub.$on('refresh/hall', () => {
+        this.$nextTick(() => {
+          try {
+            // console.log('刷新')
+            this.$refs.wrapper.refresh()
+          } catch (e) {
+            console.log(e)
+          }
+        })
+      })
     },
     mounted() {
       this.$refs.wrapper._initScroll()

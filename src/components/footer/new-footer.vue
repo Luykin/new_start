@@ -1,5 +1,5 @@
 <template>
-  <footer class="flex">
+  <footer class="flex" v-show="show">
     <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path'
                  :class="{'disable': item.disable}">
       <img :src="item.icon" class="footer-icon canUsed">
@@ -16,9 +16,11 @@
 </template>
 
 <script>
+  const router_list = ['/index', '/hall', '/commision', '/user']
   export default {
     data() {
       return {
+        show: true,
         active: null,
         footer_config: [{
           name: '推荐',
@@ -63,7 +65,21 @@
       _showPushBotton() {
         this.active = !this.active
       }
-    }
+    },
+    // watch: {
+    //   '$route' : (oldRouter, newRouter) => {
+    //     try {
+    //       if (this.show && router_list.indexOf(newRouter.path) < 0) {
+    //         this.show = null
+    //       }
+    //       if (!this.show && router_list.indexOf(newRouter.path) >= 0) {
+    //         this.show = true
+    //       }
+    //     } catch (e) {
+    //       console.log(e)
+    //     }
+    //   }
+    // }
   }
 </script>
 

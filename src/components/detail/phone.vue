@@ -17,7 +17,7 @@
           <div class="tiw-mid">
             <input type="number" name="验证码" placeholder="请输入验证码" class="index-input" v-model="code"/>
           </div>
-          <div class="tiw-right">
+          <div class="tiw-right flex">
             <div class="line-back flex code-btn" @click="_getCode">{{time ? `${time}s` : '发送验证码'}}</div>
           </div>
         </div>
@@ -184,10 +184,11 @@
     color: #CCCCCC;
   }
   .code-btn{
-    width: 100px;
-    height: 100%;
+    width: 90px;
+    height: 80%;
     border-radius: 10px;
     /*margin-left: 10px;*/
+    /*margin: auto 0;*/
     color: #fff;
   }
 </style>

@@ -2,20 +2,22 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import {
   getuser,
-  loading
+  loading,
+  getEventHub
 } from '../main.js'
+
 Vue.use(Router)
 
 const routerconst = new Router({
-	routes: [{
-		path: '/',
-		redirect: '/index'
-	}, {
-		path: '/index',
-		name: 'index',
-		component: () =>
-			import (`components/index/index`),
-    children:[{
+  routes: [{
+    path: '/',
+    redirect: '/index'
+  }, {
+    path: '/index',
+    name: 'index',
+    component: () =>
+      import (`components/index/index`),
+    children: [{
       path: ':id',
       component: () =>
         import (`components/detail/task-detail`),
@@ -26,22 +28,22 @@ const routerconst = new Router({
           import(`components/detail/submitJob`)
       }]
     }]
-	},{
-	  path: '/release',
+  }, {
+    path: '/release',
     name: 'release',
     component: () =>
       import (`components/index/release`)
-  },{
+  }, {
     path: '/user',
     name: 'user',
     component: () =>
       import (`components/index/user`)
-  },{
+  }, {
     path: '/commision',
     name: 'commision',
     component: () =>
       import (`components/index/commision`)
-  },{
+  }, {
     path: '/success',
     name: 'success',
     component: () =>
@@ -57,10 +59,10 @@ const routerconst = new Router({
       component: () =>
         import(`components/detail/manage-detail`),
       children: [{
-          path: '/audit-list',
-          name: 'audit-list',
-          component: () =>
-            import(`components/detail/audit-list`),
+        path: '/audit-list',
+        name: 'audit-list',
+        component: () =>
+          import(`components/detail/audit-list`),
         children: [{
           path: '/submitJob',
           name: 'al-submitJob',
@@ -69,12 +71,12 @@ const routerconst = new Router({
         }]
       }]
     }]
-  //   , {
-  //   path: '/audit-list',
-  //   name: 'audit-list',
-  //   component: () =>
-  //     import(`components/detail/audit-list`)
-  // }
+    //   , {
+    //   path: '/audit-list',
+    //   name: 'audit-list',
+    //   component: () =>
+    //     import(`components/detail/audit-list`)
+    // }
 
   }, {
     path: '/good',
@@ -91,7 +93,7 @@ const routerconst = new Router({
     name: 'hall',
     component: () =>
       import(`components/index/hall`),
-    children:[{
+    children: [{
       path: ':id',
       component: () =>
         import (`components/detail/task-detail`),
@@ -113,10 +115,19 @@ const routerconst = new Router({
     component: () =>
       import(`components/record/myTask`),
     children: [{
-      path: '/submitMyJob',
-      name: 'submitMyJob',
+      path: ':id',
       component: () =>
-        import(`components/detail/submitJob`)
+        import (`components/detail/task-detail`),
+        // children: [{
+        //   path: '/submitJob',
+        //   name: 'mySubmitJob',
+        //   component: () =>
+        //     import(`components/detail/submitJob`)
+        // }]
+      // path: '/submitMyJob',
+      // name: 'submitMyJob',
+      // component: () =>
+      //   import(`components/detail/submitJob`)
     }]
   }, {
     path: '/report',
@@ -137,18 +148,22 @@ const routerconst = new Router({
 })
 //audit-list
 //manage-detail
+let refreshList = ['/index', '/hall']
 routerconst.beforeEach((to, from, next) => {
-	loading(true)
-	if ((to.path === '/' || to.path === '/index') || getuser()) {
-      next()
-	} else {
-		next({
-			path: '/index'
-		})
-	}
+  loading(true)
+  if ((to.path === '/' || to.path === '/index') || getuser()) {
+    next()
+    if (refreshList.indexOf(to.path) > -1 && getEventHub()) {
+      getEventHub().$emit(`refresh${to.path}`)
+    }
+  } else {
+    next({
+      path: '/index'
+    })
+  }
 })
 routerconst.afterEach((to, from) => {
-	loading(null)
+  loading(null)
 })
 
 export default routerconst
