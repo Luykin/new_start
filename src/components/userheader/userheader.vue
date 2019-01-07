@@ -68,7 +68,7 @@
     right: 0;
     bottom: 0;
     top: 0;
-    background: url("https://cdn.xingkwh.com/headerbg.png") no-repeat;
+    background: url("https://cdn.xingkwh.com/%E9%A6%96%E9%A1%B5%E5%A4%B4%E8%83%8C%E6%99%AF@3x.png") no-repeat;
     background-size: 100% 100%;
     opacity: .88;
   }

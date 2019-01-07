@@ -97,6 +97,7 @@
     color: #6B41E1;
     font-weight: 400;
     padding: 4px 6px;
+    font-size: 12px;
     text-indent: 0;
     border-radius: 4px;
     width: auto;

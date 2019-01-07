@@ -58,7 +58,7 @@
       this.$root.eventHub.$on('updateList', () => {
         this._pulldown()
       })
-      this.$root.eventHub.$on('updateUserInfo', () => {
+      this.$root.eventHub.$on('updateUserInfo', (time) => {
         this.$nextTick(() => {
           if (this.updateTimer) {
             console.log('频繁更新')
@@ -68,7 +68,7 @@
             this._updateuserinfo(this.$root.user.username)
             clearTimeout(this.updateTimer)
             this.updateTimer = null
-          }, 3000)
+          }, time || 3000)
         })
       })
       this.$root.eventHub.$on('refresh/index', () => {

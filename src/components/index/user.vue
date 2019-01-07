@@ -92,7 +92,7 @@
   }
 
   .user-path-item img {
-    width: 38%;
+    width: 40.5%;
     max-width: 45px;
     min-width: 32px;
     height: auto;
@@ -110,19 +110,20 @@
   }
 
   .user_nav:after {
-    content: '>';
+    content: '';
     position: absolute;
     right: 0;
-    top: 50%;
-    transform: translate(0, -50%) scale(1, 2);
-    font-size: 16px;
-    color: #C1C1C1;
+    top: 0;
+    background: url("https://cdn.xingkwh.com/awm.png") no-repeat center center;
+    background-size: 100% auto;
+    width: 8px;
+    height: 100%;
   }
 
   .user_nav img {
     width: 26px;
     height: auto;
-    margin: 0 10px;
+    margin: 0 10px 0 5px;
   }
 
   .padding-none{

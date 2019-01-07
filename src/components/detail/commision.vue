@@ -141,6 +141,7 @@
     text-align: center;
     line-height: 20px;
     border-right: 1px solid #EAEAEA;
+    border-left: 1px solid #EAEAEA;
   }
 
   .tran-line:nth-child(1) {

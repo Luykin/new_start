@@ -60,13 +60,13 @@
     color: #fff;
   }
   .back-btn{
-    width: 25%;
+    width: 30%;
     height: 100%;
   }
   .back-btn img{
-    width: 20px;
+    width: 16px;
     height: auto;
-    margin: 0 5px 0 10px;
+    margin: 0 5px 0 17px;
   }
   /*.btn-back{*/
     /*width: 86px;*/

@@ -119,7 +119,16 @@
       })
       // updateMyTask
       this.$root.eventHub.$on('updateMyTask', () => {
-        this._getDetail(this.detail_info.id)
+        // let status = this.detail_info.status
+        this._getDetail(this.detail_info.id, () => {
+          // if (status !== this.detail_info.status) {
+          //   let timer = setTimeout(() => {
+          //     this._getDetail(this.detail_info.id)
+          //     clearTimeout(timer)
+          //     timer = null
+          //   }, 800)
+          // }
+        })
       })
     },
     mounted() {
