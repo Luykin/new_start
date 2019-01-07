@@ -9,6 +9,7 @@
               <span class="status">{{item.status === 1 ? '[发布中]' : item.status === 2 ? '[已取消]' : '[已完成]'}}</span>
               <span class="title">{{item.title.slice(0,12)}}</span>
               <div class="min-title">{{item.min_title}}</div>
+              <div class="min-title top-title" v-show="item.is_top">已置顶</div>
             </div>
             <div class="mih-body flex fw">
               <span class="mih-red">{{item.single_price}}元</span>
@@ -65,6 +66,9 @@
     },
     mounted() {
       this._init()
+      this.$root.eventHub.$on('updateManage', () => {
+        this._pulldown()
+      })
     },
     methods: {
       _topShow(item) {
@@ -149,6 +153,8 @@
 
   .manage-item-header .title {
     font-weight: 600;
+    max-width: 35%;
+    overflow: hidden;
   }
 
   .manage-item-header .min-title {
@@ -158,7 +164,13 @@
     border-radius: 5px;
     font-size: 10px;
     transform: scale(.85, .85);
-    margin: 0 10px;
+    margin: 0 3px 0 10px;
+  }
+
+  .manage-item-header .top-title {
+    background: #ff3939;
+    color: #fff;
+    margin: 0;
   }
 
   .mih-body {
@@ -243,4 +255,5 @@
   .right-aw {
     transform: scale(1, 1.6);
   }
+
 </style>

@@ -9,6 +9,8 @@
             class="status">{{manageInfo.status === 1 ? '[发布中]' : manageInfo.status === 2 ? '[已取消]' : '[已完成]'}}</span>
           <span class="title">{{manageInfo.title}}</span>
           <div class="min-title">{{manageInfo.min_title}}</div>
+          <div class="min-title top-title" v-show="manageInfo.is_top">已置顶 : {{time}}</div>
+          <!--<div class="min-title top-title cut-down-top">123</div>-->
         </div>
         <div class="money-show flex">
           <img src="../../assets/img/manage6.png"/>
@@ -57,7 +59,7 @@
             审核任务
             <div class="flex red-icon-read" v-show="manageInfo.task_audit_num">{{manageInfo.task_audit_num}}</div>
           </div>
-          <div class="mih-bottom-btn flex line-gray-color">
+          <div class="mih-bottom-btn flex line-gray-color" @click="_show">
             <img src="../../assets/img/minicon2.png"/>
             取消任务
           </div>
@@ -70,6 +72,19 @@
       </div>
       <router-view></router-view>
       <stick ref="stick"></stick>
+
+      <interlayer ref="interlayer"></interlayer>
+      <popup ref="popup">
+        <div class="popup-report flex fw">
+          <h1 class="flex pop-title">取消任务</h1>
+          <span class="describe">任务在没有[审核中][进行中][仲裁]的情况下,可以取消,剩余赏金会返回到您的账户余额中~</span>
+          <div class="pop-btn-warp flex">
+            <div class="flex pop-btn back-f8" @click="_close">取消</div>
+            <div class="flex pop-btn line-back" @click="_cancel">是的</div>
+          </div>
+        </div>
+      </popup>
+
     </div>
   </transition>
 </template>
@@ -77,6 +92,9 @@
 <script>
   import back from 'base/back/back'
   import stick from 'components/stick/stick'
+  import {cancel_publication} from 'api/index'
+  import interlayer from 'base/interlayer/interlayer'
+  import popup from 'base/popup/popup'
 
   export default {
     // props: {
@@ -88,20 +106,90 @@
     name: 'manage-detail',
     data() {
       return{
-        manageInfo: null
+        manageInfo: null,
+        timer: null,
+        time: ''
       }
     },
     created() {
       if (!this.$route.params.price) {
         this.$router.back(-1)
       }
-      this.manageInfo = this.$route.params;
+      try {
+        this.manageInfo = this.$route.params;
+        if (this.manageInfo.due_time) {
+          this.time = this._msecTransform(this.manageInfo.due_time - Date.parse(new Date()))
+          this.timer = setInterval(() => {
+            this.time = this._msecTransform(this.manageInfo.due_time - Date.parse(new Date()))
+          }, 1000)
+        }
+      } catch (e) {
+        console.log(e)
+      }
       // console.log(this.$route.params)
     },
     mounted() {
 
     },
     methods: {
+      async _cancel() {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await cancel_publication(this.manageInfo.id, this.$root.user.username)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.eventHub.$emit('titps', `取消成功~`)
+          this.$root.eventHub.$emit('updateUserInfo')
+          this.$root.eventHub.$emit('updateList')
+          this.$root.eventHub.$emit('updateManage')
+          this.$router.back(-1)
+          return false
+        } else {
+          this._close()
+          this.$root.eventHub.$emit('titps', `本条任务不满足取消条件~`)
+        }
+        // if (ret === 445) {
+        //   this.$root.eventHub.$emit('titps', `本条任务不满足取消条件~`)
+        // } else {
+        //   this.$root.eventHub.$emit('titps', `本条任务不满足取消条件~`)
+        // }
+      },
+      _close() {
+        try {
+          this.$refs.interlayer._hiddenLayer()
+          this.$refs.popup._hiddenPopup()
+        } catch (e) {
+          console.log(e)
+        }
+      },
+      _show() {
+        try {
+          if (this.manageInfo.status === 2) {
+            this.$root.eventHub.$emit('titps', `本条任务已被取消`)
+            return false
+          }
+          this.$refs.interlayer._showLayer()
+          this.$refs.popup._showPopup()
+        } catch (e) {
+          console.log(e)
+        }
+      },
+      _msecTransform(msec) {
+        if (msec < 0) {
+          clearInterval(this.timer)
+          this.timer = null
+          return ''
+        }
+        if (msec / 3600000 > 1) {
+          const hour = Math.floor(msec / 3600000)
+          const minute = Math.floor((msec % 3600000) / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `${hour > 9 ? hour : '0' + hour}:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        } else {
+          const minute = Math.floor(msec / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `00:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        }
+      },
       _topShow(item) {
         this.$refs.stick._show(item)
       },
@@ -123,9 +211,15 @@
         })
       },
     },
+    beforeDestroy() {
+      clearInterval(this.timer)
+      this.timer = null
+    },
     components: {
       back,
-      stick
+      stick,
+      interlayer,
+      popup
     }
   }
 </script>
@@ -151,7 +245,7 @@
 
   .manage-item-header .title {
     font-weight: 600;
-    max-width: 45%;
+    max-width: 30%;
     overflow: hidden;
   }
 
@@ -162,9 +256,14 @@
     border-radius: 5px;
     font-size: 10px;
     transform: scale(.85, .85);
-    margin: 0 10px;
+    margin: 0 3px 0 10px;
   }
 
+  .manage-item-header .top-title {
+    background: #ff3939;
+    color: #fff;
+    margin: 0;
+  }
   .task-id-warp {
     font-size: 10px;
     color: #555;
@@ -332,5 +431,64 @@
   .task-btn {
     background: #FF3939;
     margin: 25% 0 20px 0;
+  }
+
+  .popup-report {
+    width: 80%;
+    padding: 4% 4% 70px 4%;
+    min-height: 80px;
+    background: #fff;
+    border-radius: 10px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .pop-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .describe {
+    display: block;
+    text-align: center;
+    width: 90%;
+    line-height: 20px;
+    margin: 20px auto 15px;
+    color: #444;
+  }
+
+  .pop-text-text {
+    width: 94%;
+    height: 80px;
+    background: #f8f8f8;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .pop-btn-warp {
+    /*height: 50px;*/
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*background: red;*/
+    height: 50px;
+    /*border-radius: 8px;*/
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pop-btn {
+    height: 100%;
+    color: #fff;
+  }
+
+  .back-f8 {
+    background: #f8f8f8;
+    color: #333;
   }
 </style>

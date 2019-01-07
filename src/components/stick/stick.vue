@@ -2,9 +2,9 @@
   <div>
     <interlayer ref="interlayer"></interlayer>
     <popup ref="popup">
-      <div class="popup-report">
+      <div class="popup-report flex fw">
         <!--<h1 class="flex pop-title">置顶推荐</h1>-->
-        <span class="describe">亲，顶置推荐您的任务能获得更大的曝光！</span>
+        <span class="describe" v-if="info">{{info.is_top ? '本任务已被置顶,继续置顶将延长置顶时间' : '亲，顶置推荐您的任务能获得更大的曝光！'}}</span>
         <div class="flex top-consume">本次置顶需消耗¥<span>{{$root.user.top_score}}元</span></div>
         <div class="pop-btn-warp flex">
           <div class="flex pop-btn back-f8" @click="_close">取消</div>
@@ -39,7 +39,11 @@
         }
       },
       _show(item) {
-        console.log(item)
+        if (item.status === 2) {
+          this.$root.eventHub.$emit('titps', `本条任务已被取消`)
+          return false
+        }
+        // console.log(item)
         this.info = item
         try {
           this.$refs.interlayer._showLayer()
@@ -61,7 +65,10 @@
           this._close()
           this.$root.eventHub.$emit('updateUserInfo')
           this.$root.eventHub.$emit('updateList')
+          this.$root.eventHub.$emit('updateManage')
           this.$root.eventHub.$emit('titps', `本条任务已被置顶~`)
+        } else {
+          this.$root.eventHub.$emit('titps', `置顶失败~`)
         }
       },
       // set_top_task(id, username, top_score) {
@@ -93,6 +100,7 @@
 
   .describe {
     display: block;
+    text-align: center;
     width: 90%;
     line-height: 20px;
     margin: 20px auto 15px;

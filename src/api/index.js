@@ -539,3 +539,21 @@ export function send_verify(phone) {
     return Promise.resolve(res.response.status)
   })
 }
+
+// 取消任务
+export function cancel_publication(id, username) {
+  const url = `${PREFIX_URL}/cancel_publication`
+  let data = {
+    id,
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
