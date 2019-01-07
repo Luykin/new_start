@@ -85,6 +85,18 @@
       // this.activeServiceId = this.$root.serverCache[0].id
       this.activeService = this.$root.serverCache.ret[0]
     },
+    mounted() {
+      document.querySelectorAll('.index-input').forEach((item) => {
+        item.addEventListener('blur', () => {
+          try {
+            document.body.scrollTop = document.body.scrollHeight;
+            document.documentElement.scrollTop = 0;
+          } catch (e) {
+            console.log(e)
+          }
+        })
+      })
+    },
     computed: {
       aggregate_amount() {
         if (!this.single_price || !this.reward_amount) {
@@ -123,9 +135,8 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', `发布成功~`)
-          this.$root.eventHub.$emit('updateList')
+          this.$root.eventHub.$emit('updateList', 100)
           this.$root.eventHub.$emit('updateUserInfo')
-          // this.updateList
           this.$router.replace({
             path: './success',
             query: {

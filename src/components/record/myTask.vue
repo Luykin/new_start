@@ -4,12 +4,17 @@
       <back></back>
       <div class="cachet flex js">
         <div class="cachet-item flex" v-for="item in btn_list" :class="{'active-cachet-item': item.id === activeId}"
-             @click="_change(item.id)">{{item.name}}
+             @click="_change(item.id)">
+          <div style="position: relative">
+            {{item.name}}
+            <div class="flex red-icon-read" v-show="_calculationNumber(item.id)">{{_calculationNumber(item.id)}}</div>
+          </div>
         </div>
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div>
-          <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id" @click=" _getDetail(item.task_id)">
+          <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id"
+               @click=" _getDetail(item.task_id)">
             <div class="my-task-top flex js">
               <img :src="item.avatar"/>
               <div class="flex my-task-top-title ell fw">
@@ -67,7 +72,7 @@
     },
     computed: {
       taskTips() {
-        return(status) => {
+        return (status) => {
           return `status${status}`
         }
       },
@@ -75,12 +80,49 @@
         return (status) => {
           return status === 0 ? '任务进行中' : status === 1 ? '任务审核中' : status === 2 ? '任务已完成' : '任务未通过'
         }
-      }
+      },
+      _calculationNumber() {
+        return (id) => {
+          if (id === 0) {
+            try {
+              // return this.$root.user.u_pass_num + this.$root.user.u_fail_num + this.$root.user.u_current_num + this.$root.user.u_audit_num
+              return this.$root.user.u_current_num
+            } catch (e) {
+              return 0
+            }
+          }
+          if (id === 1) {
+            try {
+              return this.$root.user.u_audit_num
+            } catch (e) {
+              console.log(e)
+              return 0
+            }
+          }
+          if (id === 2) {
+            try {
+              return this.$root.user.u_pass_num
+            } catch (e) {
+              console.log(e)
+              return 0
+            }
+          }
+          if (id === 3) {
+            try {
+              return this.$root.user.u_fail_num
+            } catch (e) {
+              console.log(e)
+              return 0
+            }
+          }
+          return false
+        }
+      },
     },
     created() {
-      this._getMyTask()
+      this._getMyTask(this.activeId)
       this.$root.eventHub.$on('updateMyTask', () => {
-        this._pulldown()
+        this._pulldown(this.activeId)
       })
     },
     mounted() {
@@ -110,34 +152,59 @@
           this.$root.eventHub.$emit('titps', `请勿频繁点击`)
           return false
         }
+        if (id === 0) {
+          if (this.$root.user.u_current_num) {
+            this.$root.user.u_current_num = 0
+          }
+        }
+        if (id === 1) {
+          if (this.$root.user.u_current_num) {
+            this.$root.user.u_current_num = 0
+          }
+        }
+        if (id === 2) {
+          if (this.$root.user.u_pass_num) {
+            this.$root.user.u_pass_num = 0
+          }
+        }
+        if (id === 3) {
+          if (this.$root.user.u_fail_num) {
+            this.$root.user.u_fail_num = 0
+          }
+        }
         if (this.activeId !== id) {
           this.timer = setTimeout(() => {
             clearTimeout(this.timer)
             this.timer = null
           }, 600)
-          this.activeId = id
-          this._pulldown()
+          // this.activeId = id
+          this._pulldown(id, () => {
+            this.activeId = id
+          })
         }
       },
-      async _getMyTask() {
+      async _getMyTask(id, callback) {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await my_task(this.activeId, this.$root.user.username, this.page, this.num)
+        const ret = await my_task(id, this.$root.user.username, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.list = [...this.list, ...ret.data.data.ret]
           this.total = ret.data.data.count
+          if (callback) {
+            callback()
+          }
         }
       },
-      _pulldown() {
+      _pulldown(id, callback) {
         this.num = 10
         this.page = 0
         this.list = []
-        this._getMyTask()
+        this._getMyTask(id, callback)
       },
       _scrollToEnd() {
         if (this.list.length < this.total) {
           this.page += 1
-          this._getMyTask()
+          this._getMyTask(this.activeId)
         }
       },
       // _cutDown(time) {
@@ -222,16 +289,20 @@
     font-size: 12px;
     width: 90px;
   }
-  .status0{
+
+  .status0 {
     background: #FF8215;
   }
-  .status1{
+
+  .status1 {
     background: #6741D3;
   }
-  .status2{
+
+  .status2 {
     background: #32BC42;
   }
-  .status3{
+
+  .status3 {
     background: #FF3939;
   }
 
@@ -240,9 +311,10 @@
     margin: 0 20px 0 10px;
   }
 
-  .time-cut-down{
+  .time-cut-down {
     color: #FF3939;
     font-size: 10px;
     margin-top: 4px;
   }
+
 </style>

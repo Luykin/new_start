@@ -1,7 +1,7 @@
 .line-back {
-  background: #A23CE9;
-  background: linear-gradient(-45deg, #6D32FB, #F74CCA);
-  background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
+  background: #6B41E1;
+  /*background: linear-gradient(-45deg, #6D32FB, #F74CCA);*/
+  /*background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));*/
 }
 
 .detail-body {
@@ -29,7 +29,7 @@
 }
 
 .task-color-title {
-  color: #B53FE2;
+  color: #6B41E1;
 }
 
 .task-title:after {
@@ -53,9 +53,9 @@
   width: 5px;
   height: 16px;
   border-radius: 100px;
-  background: #A23CE9;
-  background: linear-gradient(-45deg, #6D32FB, #F74CCA);
-  background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
+  background: #6B41E1;
+  /*background: linear-gradient(-45deg, #6D32FB, #F74CCA);*/
+  /*background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));*/
 }
 
 .task-btn {
@@ -140,4 +140,26 @@
   left: 0;
   top: 50%;
   transform: translate(-100%, -50%);
+}
+
+.red-icon-read {
+  position: absolute;
+  right: 0;
+  top: 0;
+  /*min-width: 23px;*/
+  width: 23px;
+  height: 23px;
+  border-radius: 100px;
+  background: red;
+  color: #fff;
+  transform: translate(100%, -60%) scale(.8, .8);
+}
+
+.reSay-waro{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #999;
+  font-size: 12px;
 }

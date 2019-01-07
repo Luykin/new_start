@@ -48,13 +48,23 @@
           id: 1,
           name: '抖音专区'
         }],
-        activeId: 1
+        activeId: 1,
+        pullDownTimer: null
       }
     },
     created() {
       this._getTaskHall()
-      this.$root.eventHub.$on('updateList', () => {
-        this._pulldown()
+      this.$root.eventHub.$on('updateList', (time) => {
+        this.$nextTick(() => {
+          if (this.pullDownTimer) {
+            clearTimeout(this.pullDownTimer)
+          }
+          this.pullDownTimer = setTimeout(() => {
+            this._pulldown()
+            clearTimeout(this.pullDownTimer)
+            this.pullDownTimer = null
+          }, time || 5000)
+        })
       })
       this.$root.eventHub.$on('refresh/hall', () => {
         this.$nextTick(() => {

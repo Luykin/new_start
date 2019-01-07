@@ -38,7 +38,7 @@ export default {
 </script>
 <style type="text/css" scoped>
 .popup {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: -100%;
   width: 100%;

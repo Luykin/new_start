@@ -50,25 +50,34 @@
         num: 10,
         list: [],
         total: 0,
-        updateTimer: null
+        updateTimer: null,
+        pullDownTimer: null
       }
     },
     name: 'user',
     created() {
-      this.$root.eventHub.$on('updateList', () => {
-        this._pulldown()
+      this.$root.eventHub.$on('updateList', (time) => {
+          this.$nextTick(() => {
+            if (this.pullDownTimer) {
+              clearTimeout(this.pullDownTimer)
+            }
+            this.pullDownTimer = setTimeout(() => {
+              this._pulldown()
+              clearTimeout(this.pullDownTimer)
+              this.pullDownTimer = null
+            }, time || 5000)
+          })
       })
       this.$root.eventHub.$on('updateUserInfo', (time) => {
         this.$nextTick(() => {
           if (this.updateTimer) {
-            console.log('频繁更新')
             clearTimeout(this.updateTimer)
           }
           this.updateTimer = setTimeout(() => {
             this._updateuserinfo(this.$root.user.username)
             clearTimeout(this.updateTimer)
             this.updateTimer = null
-          }, time || 3000)
+          }, time || 2000)
         })
       })
       this.$root.eventHub.$on('refresh/index', () => {

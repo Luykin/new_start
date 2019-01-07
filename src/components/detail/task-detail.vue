@@ -87,7 +87,7 @@
           if (this.disable_btn && !this.detail_info.status) {
             return 0
           }
-          if ((!this.detail_info || !this.detail_info.can_sign_up) && !this.detail_info.status) {
+          if (!this.detail_info || (!this.detail_info.can_sign_up && !this.detail_info.status && this.detail_info.status !== 0)) {
             return 1
           }
           if (this.detail_info.status && this.detail_info.status === 3) {
@@ -106,7 +106,7 @@
       },
     },
     created() {
-      // console.log(this.$route.params.id)
+      console.log(this.$route.params.id, '??????')
       this._getDetail(this.$route.params.id)
       const clipboard = new ClipboardJS('.copy')
       const that = this
@@ -118,9 +118,10 @@
       clipboard.on('error', function (e) {
       })
       // updateMyTask
-      this.$root.eventHub.$on('updateMyTask', () => {
-        // let status = this.detail_info.status
-        this._getDetail(this.detail_info.id)
+      this.$root.eventHub.$on('updateMyTask', (id) => {
+        if (id === this.detail_info.rtr_id) {
+          this._getDetail(this.detail_info.id)
+        }
       })
     },
     mounted() {
@@ -178,8 +179,8 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.detail_info = ret.data.data
-          console.log(this.detail_info)
-          console.log(this.btn_status)
+          // console.log(this.detail_info)
+          // console.log(this.btn_status)
           clearInterval(this.timer)
           this.timer = null
           this._cutDown(this.detail_info.complete_time)

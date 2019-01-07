@@ -8,31 +8,37 @@
         </div>
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
-        <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id">
-          <div class="report-header flex fw">
-            <div class="flex rh-top js">
-              <img :src="item.avatar" class="avatar"/>
-              <div class="flex fw rh-title-warp">
-                <span class="flex js">{{item.title.slice(0, 14)}}</span>
-                <span class="flex js id-text">举报人ID: {{item.appeal_user_username}}</span>
+        <div>
+          <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id">
+            <div class="report-header flex fw">
+              <div class="flex rh-top js">
+                <img :src="item.avatar" class="avatar"/>
+                <div class="flex fw rh-title-warp">
+                  <span class="flex js">{{item.title.slice(0, 14)}}</span>
+                  <span class="flex js id-text">举报人ID: {{item.appeal_user_username}}</span>
+                </div>
+                <div class="rh-titps">{{setTips(item)}}</div>
               </div>
-              <div class="rh-titps">{{setTips(item.status)}}</div>
+              <div class="rh-bottom flex js">
+                <span class="flex js">举报时间: {{item.time}}</span>
+                <span style="color: #ff8215; justify-content: flex-end" class="flex" v-show="_showCutDown(item)">{{`辩诉倒计时:${_msecTransform(item.arbitrate_time - nowTime)}`}}</span>
+              </div>
             </div>
-            <div class="rh-bottom flex js">
-              举报时间: {{item.time}}
+            <div class="report-image flex">
+              <div class="report-image-item flex"
+                   :style="`background: url(${item.appeal_user_image}) no-repeat center center; background-size: 100% auto;`">
+                <div class="rii-text">{{item.appeal_user_explain}}</div>
+              </div>
+              <div class="report-image-item flex" style="background: none" v-if="activeId === 2 && !item.plea_user_image">
+                <span class="reSay-waro ell">等待对方回复</span>
+              </div>
+              <div class="report-image-item flex" :style="_setImage(item.plea_user_image)" @click="_showModel(item)" v-else>
+                <div class="rii-text" v-if="item.plea_user_explain">{{item.plea_user_explain}}</div>
+              </div>
             </div>
           </div>
-          <div class="report-image flex">
-            <div class="report-image-item flex"
-                 :style="`background: url(${item.appeal_user_image}) no-repeat center center; background-size: 100% auto;`">
-              <div class="rii-text">{{item.appeal_user_explain}}</div>
-            </div>
-            <div class="report-image-item flex" :style="_setImage(item.plea_user_image)" @click="_showModel(item)">
-              <div class="rii-text" v-if="item.plea_user_explain">{{item.plea_user_explain}}</div>
-            </div>
-          </div>
+          <empyt v-show="!list.length" :padding="90"></empyt>
         </div>
-        <empyt v-show="!list.length" :padding="90"></empyt>
       </betterscroll>
       <interlayer ref="interlayer"></interlayer>
       <popup ref="popup">
@@ -50,7 +56,7 @@
             </div>
           </div>
           <div class="pop-text-text flex">
-            <textarea v-model="textarea" placeholder="辩诉说明" maxlength="120"></textarea>
+            <textarea v-model="textarea" placeholder="辩诉说明" maxlength="120" class="disableScroll"></textarea>
           </div>
           <div class="pop-btn-warp flex">
             <div class="flex pop-btn back-f8" @click="_close">取消</div>
@@ -92,10 +98,17 @@
         process: 0,
         res_info: null,
         textarea: '',
-        nowChose: null
+        nowChose: null,
+        // cut_down_bs: null,
+        nowTime: Date.parse(new Date()),
       }
     },
     computed: {
+      _showCutDown() {
+        return (item) => {
+          return !item.plea_user_image && item.status === 4
+        }
+      },
       _setImage() {
         return (image) => {
           if (!image) {
@@ -106,11 +119,11 @@
         }
       },
       setTips() {
-        return (status) => {
+        return (item) => {
           if (this.activeId === 1) {
-            return status === 4 ? '仲裁中' : status === 5 ? '辩诉失败' : '辩诉成功'
+            return item.status === 4 ? item.plea_user_explain ? '等待平台仲裁' : '等待辩诉' : item.status === 5 ? '辩诉失败' : '辩诉成功'
           } else {
-            return status === 4 ? '仲裁中' : status === 5 ? '申述成功' : '申诉失败'
+            return item.status === 4 ? item.plea_user_explain ? '等待平台仲裁' : '等待申述' : item.status === 5 ? '申述成功' : '申诉失败'
           }
         }
       },
@@ -120,8 +133,24 @@
     },
     mounted() {
       this.$refs.wrapper._initScroll()
+      this._setTime()
+      document.querySelectorAll('.disableScroll').forEach((item) => {
+        item.addEventListener('blur', () => {
+          try {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          } catch (e) {
+            console.log(e)
+          }
+        })
+      })
     },
     methods: {
+      _setTime() {
+        setInterval(() => {
+          this.nowTime = Date.parse(new Date())
+        }, 1000)
+      },
       async _getRightsProtection() {
         this.$root.eventHub.$emit('loading', true)
         // rp_type, username, page, num) {
@@ -180,12 +209,16 @@
         if (item.plea_user_image) {
           return false
         }
+        if (this.activeId === 2) {
+          this.$root.eventHub.$emit('titps', `请等待辩诉回应~`)
+          return false
+        }
         this.$refs.interlayer._showLayer()
         this.$refs.popup._showPopup()
         this.nowChose = item
       },
       async _submit() {
-        if(!this.textarea) {
+        if (!this.textarea) {
           this.$root.eventHub.$emit('titps', `请先填写您的辩诉说明~`)
           return false
         }
@@ -230,7 +263,22 @@
           this.page += 1
           this._getRightsProtection()
         }
-      }
+      },
+      _msecTransform(msec) {
+        if (msec < 0) {
+          return ''
+        }
+        if (msec / 3600000 > 1) {
+          const hour = Math.floor(msec / 3600000)
+          const minute = Math.floor((msec % 3600000) / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `${hour > 9 ? hour : '0' + hour}:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        } else {
+          const minute = Math.floor(msec / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `00:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        }
+      },
     },
     components: {
       back,

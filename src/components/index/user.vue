@@ -8,7 +8,10 @@
         <!--<div v-for="item in user_config" class="user-path-item flex">{{item.name}}</div>-->
         <router-link tag='div' :to='item.path' class="user-path-item flex fw" v-for="item in user_config" :key='path'>
           <img :src="item.icon"/>
-          {{item.name}}
+          <div class="user-path-item-name">
+            {{item.name}}
+            <div class="flex red-icon-read" v-show="_calculationNumber(item.path)">{{_calculationNumber(item.path)}}</div>
+          </div>
         </router-link>
       </div>
       <div class="task-info padding-none">
@@ -65,6 +68,29 @@
         }]
       }
     },
+    computed: {
+      _calculationNumber() {
+        return (path) => {
+          if (path === '/myTask') {
+            try {
+              return this.$root.user.u_pass_num + this.$root.user.u_fail_num + this.$root.user.u_current_num + this.$root.user.u_audit_num
+            } catch (e) {
+              console.log(e)
+              return 0
+            }
+          }
+          if (path === '/manage') {
+            try {
+              return this.$root.user.u_release_management_num
+            } catch (e) {
+              console.log(e)
+              return 0
+            }
+          }
+          return false
+        }
+      },
+    },
     created() {
 
     },
@@ -89,6 +115,10 @@
   .user-path-item {
     height: 100%;
     color: #666;
+  }
+
+  .user-path-item-name{
+    position: relative;
   }
 
   .user-path-item img {
@@ -128,19 +158,6 @@
 
   .padding-none{
     padding: 0;
-  }
-
-  .red-icon-read {
-    position: absolute;
-    right: 0;
-    top: 0;
-    /*min-width: 23px;*/
-    width: 23px;
-    height: 23px;
-    border-radius: 100px;
-    background: red;
-    color: #fff;
-    transform: translate(100%, -60%) scale(.8, .8);
   }
 
   .user_name{

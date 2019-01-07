@@ -32,7 +32,7 @@
         <div class="flex task-input-warp" v-if="!detail_info.audit && (!detail_info.status || detail_info.status === 3)">
           <div class="tiw-left flex">抖音号</div>
           <div class="tiw-mid">
-            <input type="text" name="抖音号" placeholder="请输入你的抖音号" class="index-input" v-model="dy_name"/>
+            <input type="text" name="抖音号" placeholder="请输入你的抖音号" class="index-input disScroll" v-model="dy_name"/>
           </div>
           <div class="tiw-right"></div>
         </div>
@@ -46,7 +46,7 @@
           <h1 class="flex pop-title">审核不通过</h1>
           <span class="describe">告知提交人不通过原因</span>
           <div class="pop-text-text flex nopass-text">
-            <textarea v-model="nopass" placeholder="不通过理由" maxlength="120"></textarea>
+            <textarea v-model="nopass" placeholder="不通过理由" maxlength="120" class="disScroll"></textarea>
           </div>
           <div class="pop-btn-warp flex">
             <div class="flex pop-btn back-f8" @click="_close">取消</div>
@@ -73,7 +73,7 @@
             <span class="reSay-waro ell">等待对方回复</span>
           </div>
           <div class="pop-text-text flex">
-            <textarea v-model="textarea" placeholder="辩诉说明" maxlength="120"></textarea>
+            <textarea v-model="textarea" placeholder="辩诉说明" maxlength="120" class="disScroll"></textarea>
           </div>
           <div class="pop-btn-warp flex">
             <div class="flex pop-btn back-f8" @click="_close">取消</div>
@@ -125,6 +125,18 @@
       this.detail_info = this.$route.params
       // console.log(this.$route.params)
     },
+    mounted() {
+      document.querySelectorAll('.disScroll').forEach((item) => {
+        item.addEventListener('blur', () => {
+          try {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          } catch (e) {
+            console.log(e)
+          }
+        })
+      })
+    },
     methods: {
       _noPass() {
         if (!this.nopass) {
@@ -149,13 +161,12 @@
         if (ret.status === 200 && ret.data.code === 200) {
           this.nopass = ''
           this.$root.eventHub.$emit('audit')
-          this.$root.eventHub.$emit('updateMyTask')
+          this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
           this.$root.eventHub.$emit('titps', `提交成功~`)
           this.$refs.back._back()
         }
         if (ret === 442) {
           this.$root.eventHub.$emit('audit')
-          // updateMyTask
           this.$root.eventHub.$emit('titps', `该任务已完成`)
         }
       },
@@ -236,9 +247,10 @@
         // console.log(ret)
         if (ret.status === 200 && ret.data.code === 200) {
           // this._close()
-          this.$root.eventHub.$emit('updateMyTask')
+          this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
           this.$root.eventHub.$emit('titps', `提交成功~`)
           this.$router.back(-1)
+          return false
         }
         if (ret === 403) {
           this.$root.eventHub.$emit('titps', `您已经提交过了~`)
@@ -264,12 +276,12 @@
         if (ret.status === 200 && ret.data.code === 200) {
           // 失败
           if (this.detail_info.status && this.detail_info.status === 3) {
-            this.$root.eventHub.$emit('updateMyTask')
+            this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
             this.$root.eventHub.$emit('titps', `修改成功~`)
             this.$router.back(-1)
           } else {
             this.$root.eventHub.$emit('titps', `提交成功~`)
-            this.$root.eventHub.$emit('updateMyTask')
+            this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
             this.$router.back(-1)
           }
         }
@@ -551,12 +563,5 @@
     white-space: nowrap;
     text-indent: 20px;
   }
-  .reSay-waro{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #999;
-    font-size: 12px;
-  }
+
 </style>
