@@ -57,16 +57,17 @@
     name: 'user',
     created() {
       this.$root.eventHub.$on('updateList', (time) => {
-          this.$nextTick(() => {
-            if (this.pullDownTimer) {
-              clearTimeout(this.pullDownTimer)
-            }
-            this.pullDownTimer = setTimeout(() => {
-              this._pulldown()
-              clearTimeout(this.pullDownTimer)
-              this.pullDownTimer = null
-            }, time || 8000)
-          })
+        this._pulldown()
+        // this.$nextTick(() => {
+        //   if (this.pullDownTimer) {
+        //     clearTimeout(this.pullDownTimer)
+        //   }
+        //   this.pullDownTimer = setTimeout(() => {
+        //     this._pulldown()
+        //     clearTimeout(this.pullDownTimer)
+        //     this.pullDownTimer = null
+        //   }, time || 8000)
+        // })
       })
       this.$root.eventHub.$on('updateUserInfo', (time) => {
         this.$nextTick(() => {

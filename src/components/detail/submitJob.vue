@@ -160,13 +160,13 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.nopass = ''
-          this.$root.eventHub.$emit('audit')
+          this.$root.eventHub.$emit('audit', this.$route.params.task_id)
           this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
           this.$root.eventHub.$emit('titps', `提交成功~`)
           this.$refs.back._back()
         }
         if (ret === 442) {
-          this.$root.eventHub.$emit('audit')
+          this.$root.eventHub.$emit('audit', this.detail_info.id)
           this.$root.eventHub.$emit('titps', `该任务已完成`)
         }
       },

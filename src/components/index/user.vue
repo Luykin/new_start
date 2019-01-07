@@ -9,7 +9,7 @@
         <router-link tag='div' :to='item.path' class="user-path-item flex fw" v-for="item in user_config" :key='path'>
           <img :src="item.icon"/>
           <div class="user-path-item-name">
-            {{item.name}}
+            <span class="flex">{{item.name}}</span>
             <div class="flex red-icon-read" v-show="_calculationNumber(item.path)">{{_calculationNumber(item.path)}}</div>
           </div>
         </router-link>
@@ -17,8 +17,9 @@
       <div class="task-info padding-none">
         <router-link tag='div' :to='item.path' class="user_nav flex" v-for="item in user_nav" :key='path' v-if="!item.disable">
           <img :src="item.icon"/>
-          <div class="user_name">
-            {{item.name}}
+          <div class="user_name flex js">
+            <span class="flex js">{{item.name}}</span>
+            <span class="flex" style="max-width: 38%">{{item.otherInfo}}</span>
             <div class="flex red-icon-read" v-if="item.path === '/report' && $root.user.need_deal_num">{{$root.user.need_deal_num}}</div>
           </div>
         </router-link>
@@ -57,9 +58,10 @@
           path: '/report',
           icon: require('../../assets/img/usericon3.png'),
         },{
-          name: Boolean(this.$root.user.phone) ? `更换绑定(${this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3)})` : '绑定手机号',
+          name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',
           icon: require('../../assets/img/usericon1.png'),
+          otherInfo: `${this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3)}`
         },{
           name: '平台入口',
           path: '/phone',
@@ -162,5 +164,8 @@
 
   .user_name{
     position: relative;
+  }
+  .user_name span{
+    height: 100%;
   }
 </style>

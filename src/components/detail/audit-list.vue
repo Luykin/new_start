@@ -40,20 +40,25 @@
         total: 0,
         list: [],
         // parse: null,
-        task_id: null
+        task_id: null,
+        info: null
       }
     },
     created() {
-      this.$root.eventHub.$on('audit', () => {
-        this._pulldown()
+      this.$root.eventHub.$on('audit', (id) => {
+        console.log(id, this.info)
+        if (id === this.info.task_id || id === this.info.id) {
+          this._pulldown()
+        }
       })
       // this.parse = {
       //   name: 'manage-detail',
       //   params: this.$route.params
       // }
-      this._getTaskAudit()
     },
     mounted() {
+      this.info = this.$route.params
+      this._getTaskAudit()
       this.$refs.wrapper._initScroll()
     },
     computed: {
@@ -69,7 +74,7 @@
       async _getTaskAudit() {
         this.$root.eventHub.$emit('loading', true)
         // task_audit(id, username, types, page, num) {
-        const ret = await task_audit(this.$route.params.id, this.$root.user.username, this.$route.params.types, this.page, this.num)
+        const ret = await task_audit(this.info.id, this.$root.user.username, this.info.types, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.list = [...this.list, ...this._format(ret.data.data.ret)]

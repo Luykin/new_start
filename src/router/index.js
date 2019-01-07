@@ -167,7 +167,7 @@ const routerconst = new Router({
 //manage-detail
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
-let IndexRefresh = ['/index']
+// let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
   loading(true)
   if ((to.path === '/' || to.path === '/index') || getuser()) {
@@ -178,9 +178,9 @@ routerconst.beforeEach((to, from, next) => {
     if (updateUserInfoList.indexOf(to.path) > -1 && getEventHub()) {
       getEventHub().$emit(`updateUserInfo`)
     }
-    if (IndexRefresh.indexOf(to.path) > -1 && getEventHub()) {
-      getEventHub().$emit(`updateList`)
-    }
+    // if (IndexRefresh.indexOf(to.path) > -1 && getEventHub()) {
+    //   getEventHub().$emit(`updateList`)
+    // }
   } else {
     next({
       path: '/index'
