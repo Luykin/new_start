@@ -25,6 +25,7 @@
         </router-link>
       </div>
       <div class="footer-none"></div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>

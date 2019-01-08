@@ -12,13 +12,13 @@
             </div>
             <div class="bottom flex fw">
               <div class="count-down flex">
-                <div class="cd-left flex">抖音评论任务</div>
-                任务时间:
+                <div class="cd-left flex ell">{{detail_info.min_title}}任务</div>
+                任务倒计时:
                 <span class="time">{{cut_time}}</span>
               </div>
-              <div class="tdb-left flex">{{detail_info.num}}/<span style="color: #fff">{{detail_info.use_num}}</span>
+              <div class="tdb-left flex">{{detail_info.num}}/<span style="color: #6B41E1; font-weight: 600;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>
               </div>
-              <div class="tdb-right flex">{{detail_info.single_price}}<span style="font-size: 15px">元</span></div>
+              <div class="tdb-right flex">+{{detail_info.single_price}}<span style="font-size: 10px">元</span></div>
             </div>
           </div>
           <div class="task-info flex fw" v-if="detail_info">
@@ -145,6 +145,7 @@
             }, 2500)
             this._getDetail(this.detail_info.id, () => {
               this.$root.eventHub.$emit('titps', '成功报名,快去复制链接完成任务吧~')
+              this.$refs.wrapper.scrollTo(0, 0);
             })
             return
           }
@@ -256,7 +257,7 @@
     /*background: rgba(112, 21, 253, .5);*/
     /*background: linear-gradient(to bottom, rgba(112, 21, 253, .6) 0, rgba(112, 21, 253, .6) 33%, rgba(255, 255, 255, .45) 33.01%, rgba(255, 255, 255, .45) 100%);*/
     /*filter: drop-shadow(0 0 50px rgba(255, 255, 255, 1));*/
-    background: url("https://cdn.xingkwh.com/reward.png") no-repeat;
+    background: url("https://cdn.xingkwh.com/%E4%BB%BB%E5%8A%A1%E6%A1%86@3x.png") no-repeat;
     background-size: 100% 100%;
     opacity: .9;
   }
@@ -319,12 +320,13 @@
     position: absolute;
     left: 4%;
     top: 55%;
-    width: 38%;
+    width: 27%;
     height: 30%;
     border-radius: 8px;
-    color: #CECAFF;
-    font-size: 20px;
-    font-weight: 600;
+    color: #333333;
+    font-size: 13px;
+    font-weight: 400;
+    vertical-align:text-bottom;
     /*background: rgba(0,0,0,.7);*/
   }
 
@@ -332,10 +334,10 @@
     position: absolute;
     left: 47%;
     top: 55%;
-    width: 38%;
+    width: 27%;
     height: 30%;
     border-radius: 8px;
-    color: #fff;
+    color: #FF6000;
     font-size: 20px;
     font-weight: 600;
     /*background: rgba(0,0,0,.7);*/

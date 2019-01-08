@@ -1,6 +1,6 @@
 <template>
   <!--<div class="btn-back flex" @click="_back" v-show="show"></div>-->
-  <div class="flex back-warp js">
+  <div class="flex back-warp js" :style="`background: ${background}`">
     <div class="flex back-btn js" @click="_back">
       <img src="../../assets/img/back.png"/>
       返回
@@ -18,6 +18,14 @@
         type: [String, Boolean],
         default: null
       },
+      background: {
+        type: [String],
+        default: 'none'
+      },
+      color: {
+        type: [String],
+        default: '#fff'
+      }
     },
     data() {
       return{

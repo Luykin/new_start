@@ -20,7 +20,7 @@
                 <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
               </div>
               <div class="flex task-item-money js">
-                赏金{{item.single_price}}元
+                ¥{{item.single_price}}
               </div>
             </div>
           </div>
@@ -183,33 +183,6 @@
   .task-num {
     font-size: 12px;
     color: #9096AB;
-  }
-
-  .task-item-money {
-    width: 25%;
-    max-width: 75px;
-    height: 100%;
-    margin-right: 3%;
-    flex-grow: 1;
-    flex-shrink: 0;
-    white-space: nowrap;
-    font-size: 12px;
-    color: #FF3939;
-    text-indent: 6px;
-    font-weight: 600;
-    position: relative;
-  }
-
-  .task-item-money:after {
-    width: 20px;
-    height: 20px;
-    content: '';
-    background: url("../../assets/img/money.png");
-    background-size: 100% 100%;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translate(-100%, -50%);
   }
 
   .cachet {

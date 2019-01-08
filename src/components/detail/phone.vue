@@ -41,6 +41,18 @@
         timer: null
       }
     },
+    mounted() {
+      document.querySelectorAll('.index-input').forEach((item) => {
+        item.addEventListener('blur', () => {
+          try {
+            document.body.scrollTop = document.body.scrollHeight;
+            document.documentElement.scrollTop = 0;
+          } catch (e) {
+            console.log(e)
+          }
+        })
+      })
+    },
     methods: {
       async _bindPhone() {
         if (!this.phone) {

@@ -50,6 +50,12 @@
       },
       _showqr() {
         if (this.myqrurl) {
+          try {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          } catch (e) {
+            console.log(e)
+          }
           this.$refs.popup._showPopup()
           this.$refs.interlayer._showLayer()
           return false

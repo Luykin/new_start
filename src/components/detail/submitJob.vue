@@ -30,14 +30,14 @@
           您的任务已审核通过，赏金已进入您的收益。
         </div>
         <div class="flex task-input-warp" v-if="!detail_info.audit && (!detail_info.status || detail_info.status === 3)">
-          <div class="tiw-left flex">抖音号</div>
+          <div class="tiw-left flex">抖音名称</div>
           <div class="tiw-mid">
-            <input type="text" name="抖音号" placeholder="请输入你的抖音号" class="index-input disScroll" v-model="dy_name"/>
+            <input type="text" name="抖音名称" placeholder="请输入你的抖音名称" class="index-input disScroll" v-model="dy_name"/>
           </div>
           <div class="tiw-right"></div>
         </div>
         <!--task_nickname-->
-        <div v-if="detail_info.audit && detail_info.status === 1" class="flex dy-id">抖音号:{{detail_info.task_nickname}} </div>
+        <div v-if="detail_info.audit && detail_info.status === 1" class="flex dy-id">抖音名称:{{detail_info.task_nickname}} </div>
       </div>
 
       <interlayer ref="interlayer"></interlayer>
@@ -266,7 +266,7 @@
           return false
         }
         if (!this.dy_name) {
-          this.$root.eventHub.$emit('titps', `请填写抖音号`)
+          this.$root.eventHub.$emit('titps', `请填写抖音名称`)
           return false
         }
         this.$root.eventHub.$emit('loading', true)

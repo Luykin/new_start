@@ -24,7 +24,7 @@
                 <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
               </div>
               <div class="flex task-item-money js">
-                赏金{{item.single_price}}元
+                ¥{{item.single_price}}
               </div>
             </div>
           </div>

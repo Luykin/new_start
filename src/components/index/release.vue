@@ -15,7 +15,7 @@
           <div class="tiw-mid">
             <input type="text" name="作品链接" placeholder="请粘贴作品链接" class="index-input" v-model="works_link"/>
           </div>
-          <div class="line-back course-btn flex fw">
+          <div class="line-back course-btn flex fw" @click="_toCourse(activeService)">
             <span class="flex cb-item">获取</span>
             <span class="flex cb-item">教程</span>
           </div>
@@ -60,6 +60,7 @@
         </div>
       </div>
       <div class="task-btn flex line-back" @click="_payAndPubTask">立即发布</div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -109,6 +110,13 @@
       }
     },
     methods: {
+      _toCourse(item) {
+        // console.log(item.tutorial_url)
+        this.$router.push({
+          name: 'course',
+          params: item
+        })
+      },
       async _payAndPubTask() {
         if (!this.$root.user.username) {
           this.$root.eventHub.$emit('titps', `请从二维码重新进入~`)

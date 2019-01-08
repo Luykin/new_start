@@ -22,11 +22,12 @@
                 <span class="flex js time-cut-down" v-show="item.status === 0">{{'任务倒计时:' + _msecTransform(item.complete_time - nowTime)}}</span>
               </div>
               <div class="flex task-item-money js">
-                赏金{{item.single_price}}元
+                ¥{{item.single_price}}
               </div>
             </div>
             <div class="flex my-task-bottom js">
               <div class="task-status flex" :class="taskTips(item.status)">{{taskText(item.status)}}</div>
+              <span v-show="item.status === 3" class="ell task-fail-message">原因:{{item.task_message}}</span>
               <img src="../../assets/img/delete.png" class="delete"/>
             </div>
           </div>
@@ -315,6 +316,13 @@
     color: #FF3939;
     font-size: 10px;
     margin-top: 4px;
+  }
+
+  .task-fail-message{
+    max-width: 50%;
+    color: #FF3939;
+    font-size: 12px;
+    text-indent: 10px;
   }
 
 </style>

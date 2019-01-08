@@ -64,11 +64,9 @@
     computed: {
       _statusText() {
         return (status) => {
-          return status === 0 ? '进行中' : status === 1 ? '等待审核': status === 2 ? '审核通过' : status === 3 ? '审核不通过' : '仲裁'
+          return status === -1 ? '已过期' : status === 0 ? '进行中' : status === 1 ? '等待审核': status === 2 ? '审核通过' : status === 3 ? '审核不通过' : '仲裁'
         }
       }
-      // item.status === 1 ? '等待审核': item.status === 2 ? '审核通过' : item.status === 3 ?
-      // '审核不通过' : '仲裁'
     },
     methods: {
       async _getTaskAudit() {

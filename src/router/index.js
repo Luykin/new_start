@@ -32,12 +32,24 @@ const routerconst = new Router({
     path: '/release',
     name: 'release',
     component: () =>
-      import (`components/index/release`)
+      import (`components/index/release`),
+    children: [{
+      path: '/course',
+      name: 'course',
+      component: () =>
+        import(`components/detail/course`),
+    }]
   }, {
     path: '/user',
     name: 'user',
     component: () =>
-      import (`components/index/user`)
+      import (`components/index/user`),
+    children: [{
+      path: '/recharge',
+      name: 'recharge',
+      component: () =>
+        import(`components/record/recharge`)
+    }]
   }, {
     path: '/commision',
     name: 'commision',
@@ -111,11 +123,6 @@ const routerconst = new Router({
       }]
     }]
   }, {
-    path: '/recharge',
-    name: 'recharge',
-    component: () =>
-      import(`components/record/recharge`)
-  }, {
     path: '/myTask',
     name: 'myTask',
     component: () =>
@@ -167,6 +174,7 @@ const routerconst = new Router({
 //manage-detail
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
+let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release']
 // let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
   loading(true)
@@ -175,7 +183,7 @@ routerconst.beforeEach((to, from, next) => {
     if (refreshList.indexOf(to.path) > -1 && getEventHub()) {
       getEventHub().$emit(`refresh${to.path}`)
     }
-    if (updateUserInfoList.indexOf(to.path) > -1 && getEventHub()) {
+    if (updateUserInfoList.indexOf(to.path) > -1 && updateUserInfoExcliude.indexOf(from.path) < 0 && getEventHub()) {
       getEventHub().$emit(`updateUserInfo`)
     }
     // if (IndexRefresh.indexOf(to.path) > -1 && getEventHub()) {
