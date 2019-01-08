@@ -19,7 +19,7 @@
   import interlayer from 'base/interlayer/interlayer'
   import QRCode from 'qrcode'
 
-  const SPREED = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx08ef64878a3da30d&redirect_uri=http%3a%2f%2fstars.xingkwh.com%2fdgz%2f%23%2findex'
+  const SPREED = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com%2fdgz%2f%23%2findex'
   export default {
     name: 'poster',
     data() {
