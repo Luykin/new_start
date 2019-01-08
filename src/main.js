@@ -30,7 +30,8 @@ const app = new Vue({
       need_deal_num: 0,
       username: null,
       user_id: null,
-      phone: null
+      phone: null,
+      min_num: 0
     },
     serverCache: {
       service_ratio: 0.2,

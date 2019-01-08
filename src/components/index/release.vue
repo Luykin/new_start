@@ -31,23 +31,32 @@
         <div class="flex task-input-warp">
           <div class="tiw-left flex">悬赏数量</div>
           <div class="tiw-mid">
-            <input type="number" name="悬赏数量" placeholder="设定任务数量" class="index-input" v-model="reward_amount"/>
+            <input type="number" name="悬赏数量" placeholder="设定任务数量" class="index-input" v-model="reward_amount" @blur="_rectifyMinCount"/>
           </div>
           <div class="tiw-right">个</div>
         </div>
+        <!--<div class="flex task-input-warp">-->
+          <!--<div class="tiw-left flex">每单金额</div>-->
+          <!--<div class="tiw-mid">-->
+            <!--<input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input"-->
+                   <!--v-model="single_price"-->
+                   <!--@keyup="_rectifySinglePrice" @blur="_rectifyMinPrice"/>-->
+          <!--</div>-->
+          <!--<div class="tiw-right">元</div>-->
+        <!--</div>-->
         <div class="flex task-input-warp">
-          <div class="tiw-left flex">每单金额</div>
+          <div class="tiw-left flex">总共金额</div>
           <div class="tiw-mid">
-            <input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input"
-                   v-model="single_price"
-                   @keyup="_rectifySinglePrice" @blur="_rectifyMinPrice"/>
+            <input type="text" name="总金额" :placeholder="`请填写总金额`" class="index-input"
+                   v-model="all_price"
+                   @keyup="_rectifyAllPrice" @blur="_rectifyMinPrice"/>
           </div>
           <div class="tiw-right">元</div>
         </div>
         <div class="flex task-input-warp">
-          <div class="tiw-left flex">悬赏总共金额</div>
+          <div class="tiw-left flex">悬赏每单金额</div>
           <div class="tiw-mid"></div>
-          <div class="tiw-right light-color">{{aggregate_amount}}元</div>
+          <div class="tiw-right light-color">{{count_single_price}}元</div>
         </div>
         <div class="flex task-input-warp">
           <div class="tiw-left flex">任务审核时间</div>
@@ -56,7 +65,7 @@
         </div>
         <div class="total-sum-warp flex">
           <div class="cover-charge">发任务平台收取<span class="red">{{$root.serverCache.service_ratio * 100}}%</span>服务费</div>
-          本次预付款总金额<span class="sum-money">{{advance}}</span>元
+          本次预付款总金额<span class="sum-money">{{all_price ? all_price : 0}}</span>元
         </div>
       </div>
       <div class="task-btn flex line-back" @click="_payAndPubTask">立即发布</div>
@@ -78,6 +87,7 @@
         reward_title: '',
         reward_amount: '',
         single_price: '',
+        all_price: '',
         // activeServiceId: null,
         activeService: null,
       }
@@ -99,11 +109,17 @@
       })
     },
     computed: {
+      count_single_price() {
+        if (!this.all_price || !this.reward_amount) {
+          return 0
+        }
+        return formatNum((this.all_price * (1 - this.$root.serverCache.service_ratio)/this.reward_amount), 2)
+      },
       aggregate_amount() {
         if (!this.single_price || !this.reward_amount) {
           return 0
         }
-        return formatNum(this.single_price * this.reward_amount, 2)
+        return formatNum(this.all_price * (1 - this.$root.serverCache.service_ratio), 2)
       },
       advance() {
         return formatNum(this.aggregate_amount +(this.aggregate_amount * this.$root.serverCache.service_ratio), 2)
@@ -139,7 +155,8 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        const ret = await pay_and_pub_task(this.activeService.id, this.reward_title, this.works_link, this.reward_amount, this.single_price, this.aggregate_amount, this.advance, this.$root.user.username)
+        // price, score,
+        const ret = await pay_and_pub_task(this.activeService.id, this.reward_title, this.works_link, this.reward_amount, this.count_single_price, this.aggregate_amount, this.all_price, this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', `发布成功~`)
@@ -185,6 +202,37 @@
           this.single_price = ''
         }
       },
+      _rectifyMinCount() {
+        // reward_amount
+        try {
+          if (!this.reward_amount) {
+            return false
+          }
+          if (isNaN(this.reward_amount) || this.reward_amount < parseFloat(this.$root.user.min_num)) {
+            // console.log(this.single_price < this.activeService.min_price, this.single_price, this.activeService.min_price)
+            this.$root.eventHub.$emit('titps', `设置数量必须大于${this.$root.user.min_num}人哟~`)
+            this.reward_amount = ''
+            return false
+          }
+          return true
+        } catch (e) {
+          this.reward_amount = ''
+          return false
+        }
+      },
+      _rectifyAllPrice() {
+        try {
+          if (isNaN(this.all_price) || this.all_price < 0) {
+            this.all_price = ''
+          }
+          if (this.all_price.indexOf('.') > -1) {
+            const end = this.all_price.indexOf('.')
+            this.all_price = this.all_price.slice(0, end + 3)
+          }
+        } catch (e) {
+          this.all_price = ''
+        }
+      },
       _rectifyRewardTitle() {
         try {
           if (this.reward_title.length > 40) {
@@ -196,18 +244,18 @@
       },
       _rectifyMinPrice() {
         try {
-          if (!this.single_price) {
+          if (!this.all_price) {
             return false
           }
-          if (isNaN(this.single_price) || this.single_price < parseFloat(this.activeService.min_price)) {
+          if (isNaN(this.all_price) || this.all_price < parseFloat(this.activeService.min_price)) {
             // console.log(this.single_price < this.activeService.min_price, this.single_price, this.activeService.min_price)
             this.$root.eventHub.$emit('titps', `设置金额必须大于${this.activeService.min_price}元哟~`)
-            this.single_price = ''
+            this.all_price = ''
             return false
           }
           return true
         } catch (e) {
-          this.single_price = ''
+          this.all_price = ''
           return false
         }
       },
