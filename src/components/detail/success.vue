@@ -95,14 +95,16 @@
   }
 
   .sii-left {
-    width: 40%;
+    width: 20%;
+    min-width: 70px;
+    max-width: 95px;
     height: 100%;
     color: #999;
     text-indent: 10px;
   }
 
   .sii-right {
-    width: 60%;
+    width: 80%;
     height: 100%;
     color: #333;
     text-indent: 20px;

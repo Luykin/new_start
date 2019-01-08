@@ -5,14 +5,14 @@
       <div class="header">
         <userheader></userheader>
       </div>
-      <div class="task-info flex fw js">
+      <div class="task-info flex fw js" v-if="profit_details.length">
         <div class="task-color-title flex">我的团队</div>
         <div class="flex team-com-item fw">
-          <span class="flex team-num">{{$root.user.today_new_people}}</span>
+          <span class="flex team-num">{{profit_details[1] ? profit_details[1].num_people : 0}}</span>
           <span class="flex team-title">一级团队人数</span>
         </div>
         <div class="flex team-com-item fw">
-          <span class="flex team-num">{{$root.user.num_people}}</span>
+          <span class="flex team-num">{{profit_details[2] ? profit_details[2].num_people : 0}}</span>
           <span class="flex team-title">二级团队人数</span>
         </div>
       </div>
