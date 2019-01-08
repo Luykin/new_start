@@ -19,7 +19,7 @@
           <img :src="item.icon"/>
           <div class="user_name flex js">
             <span class="flex js">{{item.name}}</span>
-            <span class="flex" style="max-width: 38%">{{item.otherInfo}}</span>
+            <span class="flex" style="max-width: 38%" v-if="item.otherInfo">{{_initOtherInfo}}</span>
             <div class="flex red-icon-read" v-if="item.path === '/report' && $root.user.need_deal_num">{{$root.user.need_deal_num}}</div>
           </div>
         </router-link>
@@ -61,7 +61,7 @@
           name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',
           icon: require('../../assets/img/usericon1.png'),
-          otherInfo: `${this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3)}`
+          otherInfo: true
         },{
           name: '平台入口',
           path: '/phone',
@@ -71,6 +71,10 @@
       }
     },
     computed: {
+      // `${Boolean(this.$root.user.phone) ? this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3):''}`
+      _initOtherInfo() {
+        return `${Boolean(this.$root.user.phone) ? this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3):''}`
+      },
       _calculationNumber() {
         return (path) => {
           if (path === '/myTask') {

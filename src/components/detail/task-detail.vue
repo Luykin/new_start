@@ -106,7 +106,7 @@
       },
     },
     created() {
-      console.log(this.$route.params.id, '??????')
+      // console.log(this.$route.params.id, '??????')
       this._getDetail(this.$route.params.id)
       const clipboard = new ClipboardJS('.copy')
       const that = this

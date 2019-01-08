@@ -195,7 +195,7 @@
           }
         }
       },
-      _pulldown(id, callback) {
+      _pulldown(id = this.activeId, callback) {
         this.num = 10
         this.page = 0
         this.list = []

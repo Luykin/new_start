@@ -79,7 +79,7 @@
   align-content: flex-start;
   align-items: flex-start;
   padding: 10px 0;
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 }
 
 .normal-title {
@@ -106,7 +106,7 @@
   color: #C7A0F8;
   margin: 0 4% 0 0;
   font-weight: 600;
-  box-shadow: 0 0 4px rgba(0,0,0,.1);
+  box-shadow: 0 0 4px rgba(0, 0, 0, .1);
   flex-shrink: 1;
 }
 
@@ -155,11 +155,23 @@
   transform: translate(100%, -60%) scale(.8, .8);
 }
 
-.reSay-waro{
+.reSay-waro {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #999;
   font-size: 12px;
+}
+
+.line-font {
+  width: 92%;
+  margin: 0 auto;
+  color: #555;
+  line-height: 20px;
+  min-height: 25px;
+  height: auto;
+  justify-content: flex-start;
+  word-break: break-all;
+  font-size: 14px;
 }

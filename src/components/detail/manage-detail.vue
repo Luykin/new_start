@@ -63,7 +63,7 @@
             <img src="../../assets/img/minicon2.png"/>
             取消任务
           </div>
-          <div class="mih-bottom-btn flex line-green-color">
+          <div class="mih-bottom-btn flex line-green-color" @click="_showQrCode">
             <img src="../../assets/img/minicon1.png"/>
             求助好友
           </div>
@@ -84,7 +84,7 @@
           </div>
         </div>
       </popup>
-
+      <poster ref="poster"></poster>
     </div>
   </transition>
 </template>
@@ -95,6 +95,7 @@
   import {cancel_publication} from 'api/index'
   import interlayer from 'base/interlayer/interlayer'
   import popup from 'base/popup/popup'
+  import poster from 'components/poster/poster'
 
   export default {
     // props: {
@@ -132,6 +133,9 @@
 
     },
     methods: {
+      _showQrCode() {
+        this.$refs.poster._showqr()
+      },
       async _cancel() {
         this.$root.eventHub.$emit('loading', true)
         const ret = await cancel_publication(this.manageInfo.id, this.$root.user.username)
@@ -219,7 +223,8 @@
       back,
       stick,
       interlayer,
-      popup
+      popup,
+      poster
     }
   }
 </script>

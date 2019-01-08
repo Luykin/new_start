@@ -21,9 +21,9 @@
       _preview() {
         try {
           let files = this.$refs.file.files[0]
-          console.log(files.size)
-          if (files.size > 2050000) {
-            this.$root.eventHub.$emit('titps', `请选择小于2M的图片~`)
+          // console.log(files.size)
+          if (files.size > 5542880) {
+            this.$root.eventHub.$emit('titps', `请选择小于5M的图片~`)
             return false
           }
           const key = files.name

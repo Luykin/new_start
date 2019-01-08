@@ -3,13 +3,25 @@
     <img :src="$root.user.avatar" class="header-avater"/>
     <div class="user-name flex fw">
       <span class="ell name">{{$root.user.nickname}}</span>
-      <span class="flex js ell">账户余额: {{$root.user.score}}</span>
+      <span class="flex js ell" v-if="showType === 1">账户余额: {{$root.user.score}}</span>
+      <span class="flex js ell" v-else>收益余额: {{$root.user.price}}</span>
     </div>
   </div>
 </template>
 
 <script>
-  export default {}
+  export default {
+    props: {
+      showType: {
+        type: [Number],
+        default: 1
+      }
+      // protocol: {
+      //   type: [Boolean],
+      //   default: false
+      // }
+    }
+  }
 </script>
 
 <style scoped>

@@ -2,7 +2,7 @@
   <transition name="list">
     <div class="detail-body">
       <back></back>
-      <userheader></userheader>
+      <userheader :showType="2"></userheader>
       <div class="task-info flex fw js">
         <div class="normal-title flex">今日剩余提现次数{{$root.user.with_draw_num}}次</div>
         <div class="good-item flex" v-for="item in goods" :class="{'active-good-item': activeId === item.id}"
@@ -10,6 +10,9 @@
         </div>
         <div class="task-btn flex line-back" @click="_withdraw">提现</div>
         <div class="task-color-title flex">提现说明</div>
+        <span class="flex s line-font">1.最低提现金额为1元。</span>
+        <span class="flex s line-font">2.提现时间为5分钟之内到账。</span>
+        <span class="flex s line-font">3.如出现5分钟之内未到账情况，请联系微信客服:zongjiexk016。</span>
       </div>
     </div>
   </transition>

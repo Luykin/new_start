@@ -129,7 +129,7 @@
       },
     },
     created() {
-      this._getRightsProtection()
+      this._getRightsProtection(this.activeId)
     },
     mounted() {
       this.$refs.wrapper._initScroll()
@@ -151,14 +151,17 @@
           this.nowTime = Date.parse(new Date())
         }, 1000)
       },
-      async _getRightsProtection() {
+      async _getRightsProtection(id, callback) {
         this.$root.eventHub.$emit('loading', true)
         // rp_type, username, page, num) {
-        const ret = await rights_protection(this.activeId, this.$root.user.username, this.page, this.num)
+        const ret = await rights_protection(id || this.activeId, this.$root.user.username, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.list = [...this.list, ...this._format(ret.data.data.ret)]
           this.total = ret.data.data.count
+          if (callback) {
+            callback();
+          }
         }
       },
       _format(list) {
@@ -201,8 +204,10 @@
             clearTimeout(this.timer)
             this.timer = null
           }, 600)
-          this.activeId = id
-          this._pulldown()
+          // this.activeId = id
+          this._pulldown(id, () => {
+            this.activeId = id
+          })
         }
       },
       _showModel(item) {
@@ -252,16 +257,16 @@
         this.$refs.interlayer._hiddenLayer()
         this.$refs.popup._hiddenPopup()
       },
-      _pulldown() {
+      _pulldown(id = this.activeId, callback) {
         this.num = 10
         this.page = 0
         this.list = []
-        this._getRightsProtection()
+        this._getRightsProtection(id, callback)
       },
       _scrollToEnd() {
         if (this.list.length < this.total) {
           this.page += 1
-          this._getRightsProtection()
+          this._getRightsProtection(this.activeId)
         }
       },
       _msecTransform(msec) {

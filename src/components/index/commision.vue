@@ -17,7 +17,7 @@
           <span class="flex team-num">{{$root.user.num_people}}</span>
           <span class="flex team-title">目前团队人数</span>
         </div>
-        <div class="task-btn flex line-back">生成推广二维码海报</div>
+        <div class="task-btn flex line-back" @click="_showQrCode">生成推广二维码海报</div>
       </div>
       <div class="task-info">
         <div class="task-color-title flex">说明</div>
@@ -30,12 +30,14 @@
       </div>
       <div class="footer-none"></div>
       <router-view></router-view>
+      <poster ref="poster"></poster>
     </div>
   </transition>
 </template>
 
 <script>
   import userheader from 'components/userheader/userheader'
+  import poster from 'components/poster/poster'
 
   export default {
     name: 'commision',
@@ -47,9 +49,13 @@
         this.$router.push({
           name: 'detail-commision'
         })
-      }
+      },
+      _showQrCode() {
+        this.$refs.poster._showqr()
+      },
     },
     components: {
+      poster,
       userheader
     }
   }
@@ -80,17 +86,6 @@
   .team-title {
     color: #9A80E4;
     font-size: 12px;
-  }
-
-  .line-font {
-    width: 92%;
-    margin: 0 auto;
-    color: #555;
-    line-height: 20px;
-    min-height: 25px;
-    height: auto;
-    justify-content: flex-start;
-    font-size: 14px;
   }
 
   .see-team-btn {
