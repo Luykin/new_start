@@ -10,15 +10,14 @@
           <div class="flex task-title">推荐任务</div>
           <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id"
                @click="_getDetail(item.id)">
+            <div v-show="item.is_top" class="top-title-new"></div>
             <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">
               {{item.min_title}}
             </div>
             <div class="flex index-task-item-inner">
               <img :src="item.avatar" class="task-item-avatar"/>
               <div class="flex fw ell js">
-                <!--<div class="min-title top-title" v-show="manageInfo.is_top">已置顶 : {{time}}</div>-->
                 <div class="task-item-title ell flex js">
-                  <div v-show="item.is_top" class="top-title">置顶</div>
                   {{item.title}}
                 </div>
                 <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
@@ -230,74 +229,5 @@
     top: 0;
     bottom: 55px;
     overflow: hidden;
-  }
-
-  .index-task-item {
-    width: 92%;
-    height: 80px;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
-    background: #fff;
-    margin: 10px auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .categry-task {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 70px;
-    height: 25px;
-    max-height: 30%;
-    border-bottom-right-radius: 10px;
-    background: #FFDEF9;
-    font-size: 10px;
-    color: #F656D9;
-    transform: scale(.8);
-    transform-origin: left top;
-  }
-
-  .index-task-item-inner {
-    height: 80%;
-    position: absolute;
-    bottom: 0;
-  }
-
-  .task-item-avatar {
-    width: 46px;
-    height: 46px;
-    margin: 0 16px;
-    border-radius: 1000px;
-  }
-
-  .task-item-title {
-    width: 90%;
-    font-size: 15px;
-    color: #333;
-    margin-bottom: 5px;
-  }
-
-  .task-num {
-    font-size: 12px;
-    color: #9096AB;
-  }
-
-  .all-pre-img {
-    width: 0;
-    height: 0;
-    opacity: 0;
-    z-index: -1;
-  }
-
-  .top-title {
-    width: auto;
-    flex-grow: 0;
-    border-radius: 5px;
-    font-size: 10px;
-    transform: scale(.85, .85);
-    padding: 5px;
-    background: #ff3939;
-    color: #fff;
   }
 </style>

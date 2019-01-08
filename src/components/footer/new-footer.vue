@@ -9,7 +9,7 @@
     <div class="width-limit">
       <div class="add-task-btn flex" :class="{'show-add-task-btn': active}" @click="_toRelease"></div>
       <div class="push-btn flex" @click="_showPushBotton">
-        <i class="plush flex" :class="{'active': active}">+</i>
+        <i class="plush flex" :class="{'active': active}"></i>
       </div>
       <div class="push-btn-border"></div>
     </div>
@@ -130,7 +130,7 @@
     transform: translate(-50%, -40%);
     overflow: hidden;
     /*transition: all .3s;*/
-    background: url("https://cdn.xingkwh.com/%E9%A6%96%E9%A1%B5%E5%8F%91%E5%B8%83%E6%8C%89%E9%92%AE@3x.png") no-repeat center center;
+    background: url("https://cdn.xingkwh.com/%E9%A6%96%E9%A1%B5%E5%8F%91%E5%B8%83%E6%8C%89%E9%92%AE@3x%281%29.png") no-repeat center center;
     background-size: 100% 100%;
   }
 
@@ -139,9 +139,8 @@
     width: 100%;
     bottom: 0;
     top: 0;
-    color: #fff;
-    font-weight: 300;
-    font-size: 55px;
+    background: url("https://cdn.xingkwh.com/%E9%A6%96%E9%A1%B5%E5%8F%91%E5%B8%83%E6%8C%89%E9%92%AE+%E5%8A%A0%E5%8F%B7@3x.png") no-repeat center center;
+    background-size: 100% 100%;
     transition: all .3s;
     /*transform: translate(0, -2px);*/
   }

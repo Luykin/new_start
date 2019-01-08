@@ -173,10 +173,92 @@
   min-height: 25px;
   height: auto;
   justify-content: flex-start;
-  word-break: break-all;
+  word-break: break-word;
+  white-space: normal;
+  /*white-space: nowrap;*/
   font-size: 14px;
 }
 
 .min-warp-height {
   min-height: 101%;
+}
+
+.index-task-item {
+  width: 92%;
+  height: 90px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+  background: #fff;
+  margin: 10px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.categry-task {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 70px;
+  height: 25px;
+  max-height: 30%;
+  border-bottom-right-radius: 10px;
+  background: #FFDEF9;
+  font-size: 12px;
+  color: #F656D9;
+  transform: scale(.9);
+  transform-origin: left top;
+}
+
+.index-task-item-inner {
+  height: 85%;
+  position: absolute;
+  bottom: 0;
+}
+
+.task-item-avatar {
+  width: 46px;
+  height: 46px;
+  margin: 0 16px;
+  border-radius: 1000px;
+}
+
+.task-item-title {
+  width: 90%;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.task-num {
+  font-size: 12px;
+  color: #9096AB;
+}
+
+.all-pre-img {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  z-index: -1;
+}
+
+.top-title {
+  width: auto;
+  flex-grow: 0;
+  border-radius: 5px;
+  font-size: 10px;
+  transform: scale(.85, .85);
+  padding: 5px;
+  background: #ff3939;
+  color: #fff;
+}
+
+.top-title-new{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  background: url("https://cdn.xingkwh.com/%E7%BD%AE%E9%A1%B6%E8%A7%92%E6%A0%87@3x.png") no-repeat;
+  background-size: 100% 100%;
 }

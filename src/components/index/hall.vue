@@ -10,6 +10,7 @@
         <div class="min-warp-height">
           <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id"
                @click="_getDetail(item.id)">
+            <div v-show="item.is_top" class="top-title-new"></div>
             <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">
               {{item.min_title}}
             </div>
@@ -91,11 +92,25 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           if (must || !this.list.length) {
-            this.list = [...ret.data.data.top_ret, ...ret.data.data.ret]
+            this.list = [...this.formatTop(ret.data.data.top_ret), ...ret.data.data.ret]
           } else {
             this.list = [...this.list, ...ret.data.data.ret]
           }
           this.total = ret.data.data.count
+        }
+      },
+      formatTop(list) {
+        try {
+          if (!list.length) {
+            return []
+          }
+          list.forEach((item) => {
+            item.is_top = true
+          })
+          return list
+        } catch (e) {
+          console.log(e)
+          return list
         }
       },
       async _getDetail(id) {
@@ -134,60 +149,4 @@
     bottom: 55px;
     overflow: hidden;
   }
-
-  .index-task-item {
-    width: 92%;
-    height: 80px;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
-    background: #fff;
-    margin: 10px auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .categry-task {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 70px;
-    height: 25px;
-    max-height: 30%;
-    border-bottom-right-radius: 10px;
-    background: #FFDEF9;
-    font-size: 10px;
-    color: #F656D9;
-    transform: scale(.8);
-    transform-origin: left top;
-  }
-
-  .index-task-item-inner {
-    height: 80%;
-    position: absolute;
-    bottom: 0;
-  }
-
-  .task-item-avatar {
-    width: 46px;
-    height: 46px;
-    margin: 0 16px;
-    border-radius: 1000px;
-  }
-
-  .task-item-title {
-    width: 90%;
-    font-size: 15px;
-    color: #333;
-    margin-bottom: 5px;
-  }
-
-  .task-num {
-    font-size: 12px;
-    color: #9096AB;
-  }
-
-  .cachet {
-    margin-top: 10px;
-  }
-
 </style>
