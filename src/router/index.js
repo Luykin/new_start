@@ -164,14 +164,28 @@ const routerconst = new Router({
     component: () =>
       import(`components/detail/phone`)
   }, {
+    path: '/group',
+    name: 'group',
+    component: () =>
+      import(`components/detail/group`)
+  }, {
+    path: '/inlet',
+    name: 'inlet',
+    component: () =>
+      import(`components/detail/inlet`)
+  }, {
+    path: '/cooperate',
+    name: 'cooperate',
+    component: () =>
+      import(`components/detail/cooperate`)
+  }, {
     path: '/submit-success',
     name: 'submit-success',
     component: () =>
       import(`components/detail/submit-success`)
   }]
 })
-//audit-list
-//manage-detail
+
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
 let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release']

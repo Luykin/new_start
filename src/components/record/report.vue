@@ -26,7 +26,7 @@
             </div>
             <div class="report-image flex">
               <div class="report-image-item flex"
-                   :style="`background: url(${item.appeal_user_image}) no-repeat center center; background-size: 100% auto;`">
+                   :style="`background: url(${item.appeal_user_image}) no-repeat center center; background-size: 100% auto;`" @click="_setEnlargeImage(item.appeal_user_image)">
                 <div class="rii-text">{{item.appeal_user_explain}}</div>
               </div>
               <div class="report-image-item flex" style="background: none" v-if="activeId === 2 && !item.plea_user_image">
@@ -64,6 +64,7 @@
           </div>
         </div>
       </popup>
+      <enlarge :image="enlarge_image" @close="_setEnlargeImage()"></enlarge>
     </div>
   </transition>
 </template>
@@ -77,6 +78,7 @@
   import interlayer from 'base/interlayer/interlayer'
   import popup from 'base/popup/popup'
   import upload from 'base/upload/upload'
+  import enlarge from 'components/enlarge/enlarge'
 
   export default {
     name: 'recharge',
@@ -212,6 +214,7 @@
       },
       _showModel(item) {
         if (item.plea_user_image) {
+          this._setEnlargeImage(item.plea_user_image)
           return false
         }
         if (this.activeId === 2) {
@@ -269,6 +272,14 @@
           this._getRightsProtection(this.activeId)
         }
       },
+      _setEnlargeImage(image) {
+        // console.log(image)
+        if (!image) {
+          this.enlarge_image = null
+        } else {
+          this.enlarge_image = image
+        }
+      },
       _msecTransform(msec) {
         if (msec < 0) {
           return ''
@@ -290,6 +301,7 @@
       empyt,
       popup,
       upload,
+      enlarge,
       interlayer,
       betterscroll
     }

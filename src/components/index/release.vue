@@ -70,6 +70,7 @@
       </div>
       <div class="task-btn flex line-back" @click="_payAndPubTask">立即发布</div>
       <router-view></router-view>
+      <notfunds ref="notfunds"></notfunds>
     </div>
   </transition>
 </template>
@@ -79,6 +80,7 @@
   import back from 'base/back/back'
   import {pay_and_pub_task} from 'api/index'
   import {formatDownNum} from 'common/js/util'
+  import notfunds from 'components/not-funds/not-funds'
 
   export default {
     data() {
@@ -188,15 +190,16 @@
         }
         if (ret === 433) {
           this.$root.eventHub.$emit('titps', `您的余额不足哦~`)
-          this.$router.push({
-            path: './good'
-          })
+          // this.$router.push({
+          //   path: './good'
+          // })
+          this.$refs.notfunds._show()
           return false
         }
-        // if (ret === 444) {
-        //   this.$root.eventHub.$emit('titps', `单价校验不通过`)
-        //   return false
-        // }
+        if (ret === 444) {
+          this.$root.eventHub.$emit('titps', `单价校验不通过`)
+          return false
+        }
       },
       _rectifySinglePrice() {
         try {
@@ -271,7 +274,8 @@
     },
     name: 'release',
     components: {
-      back
+      back,
+      notfunds,
     }
   }
 </script>

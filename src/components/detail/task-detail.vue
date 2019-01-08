@@ -16,10 +16,10 @@
                 任务倒计时:
                 <span class="time">{{cut_time}}</span>
               </div>
-              <div class="tdb-left flex">{{detail_info.num}}/<span
-                style="color: #6B41E1; font-weight: 600;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>
+              <div class="tdb-left flex">{{detail_info.num}}/
+                <span style="color: #6B41E1; font-weight: 900;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>次
               </div>
-              <div class="tdb-right flex">+{{detail_info.single_price}}<span style="font-size: 10px">元</span></div>
+              <div class="tdb-right">+{{detail_info.single_price}}<span style="font-size: 10px;">元</span></div>
             </div>
           </div>
           <div class="task-info flex fw" v-if="detail_info">
@@ -329,7 +329,7 @@
     width: 27%;
     height: 30%;
     border-radius: 8px;
-    color: #333333;
+    color: #6b41e1;
     font-size: 13px;
     font-weight: 400;
     vertical-align: text-bottom;
@@ -345,7 +345,10 @@
     border-radius: 8px;
     color: #FF6000;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 900;
+    vertical-align: bottom;
+    line-height: 45px;
+    padding-left: 5%;
     /*background: rgba(0,0,0,.7);*/
   }
 

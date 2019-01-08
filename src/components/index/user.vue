@@ -7,20 +7,28 @@
       <div class="task-info flex user-path">
         <!--<div v-for="item in user_config" class="user-path-item flex">{{item.name}}</div>-->
         <router-link tag='div' :to='item.path' class="user-path-item flex fw" v-for="item in user_config" :key='path'>
+          <div class="flex red-icon-read user-path-item-red" v-show="_calculationNumber(item.path)">
+            {{_calculationNumber(item.path)}}
+          </div>
           <img :src="item.icon"/>
           <div class="user-path-item-name">
             <span class="flex">{{item.name}}</span>
-            <div class="flex red-icon-read" v-show="_calculationNumber(item.path)">{{_calculationNumber(item.path)}}</div>
           </div>
         </router-link>
       </div>
       <div class="task-info padding-none">
-        <router-link tag='div' :to='item.path' class="user_nav flex" v-for="item in user_nav" :key='path' v-if="!item.disable">
+        <router-link tag='div' :to='item.path' class="user_nav flex" v-for="item in user_nav" :key='path'
+                     v-if="!item.disable">
           <img :src="item.icon"/>
           <div class="user_name flex js">
-            <span class="flex js">{{item.name}}</span>
+            <div class="flex js">
+              <span style="position: relative">
+                {{item.name}}
+                <i class="flex red-icon-read" v-if="item.path === '/report' && $root.user.need_deal_num">{{$root.user.need_deal_num}}
+                </i>
+              </span>
+            </div>
             <span class="flex" style="max-width: 38%" v-if="item.otherInfo">{{_initOtherInfo}}</span>
-            <div class="flex red-icon-read" v-if="item.path === '/report' && $root.user.need_deal_num">{{$root.user.need_deal_num}}</div>
           </div>
         </router-link>
       </div>
@@ -58,23 +66,30 @@
           name: '举报维权',
           path: '/report',
           icon: require('../../assets/img/usericon3.png'),
-        },{
+        }, {
           name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',
           icon: require('../../assets/img/usericon1.png'),
           otherInfo: true
-        },{
+        }, {
+          name: '官方交流群',
+          path: '/group',
+          icon: require('../../assets/img/usericon2.png')
+        }, {
+          name: '商务合作',
+          path: '/cooperate',
+          icon: require('../../assets/img/usericon5.png')
+        }, {
           name: '平台入口',
-          path: '/phone',
-          icon: null,
-          disable: true
+          path: '/inlet',
+          icon: require('../../assets/img/usericon4.png')
         }]
       }
     },
     computed: {
       // `${Boolean(this.$root.user.phone) ? this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3):''}`
       _initOtherInfo() {
-        return `${Boolean(this.$root.user.phone) ? this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3):''}`
+        return `${Boolean(this.$root.user.phone) ? this.$root.user.phone.slice(0, 3) + '***' + this.$root.user.phone.slice(-3) : ''}`
       },
       _calculationNumber() {
         return (path) => {
@@ -122,9 +137,10 @@
   .user-path-item {
     height: 100%;
     color: #666;
+    position: relative;
   }
 
-  .user-path-item-name{
+  .user-path-item-name {
     position: relative;
   }
 
@@ -135,6 +151,12 @@
     height: auto;
     margin: 0 20% 8px;
   }
+
+  /*.user-path-item-img-warp{*/
+  /*width: 40.5%;*/
+  /*height: auto;*/
+  /*position: relative;*/
+  /*}*/
 
   .user_nav {
     width: 92%;
@@ -163,14 +185,20 @@
     margin: 0 10px 0 5px;
   }
 
-  .padding-none{
+  .padding-none {
     padding: 0;
   }
 
-  .user_name{
+  .user_name {
     position: relative;
   }
-  .user_name span{
+
+  .user_name span {
     height: 100%;
+  }
+
+  .user-path-item-red {
+    right: 38%;
+    top: 22%;
   }
 </style>

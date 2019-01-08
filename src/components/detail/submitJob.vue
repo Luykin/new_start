@@ -11,10 +11,10 @@
           '请按示例截图并上传提交给悬赏人审核'}}
         </div>
         <div class="upload-warp"
-             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% auto;`"></div>
+             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% auto;`" @click="_setEnlargeImage(detail_info.complete_image)" ></div>
         <div class="upload-warp"
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% auto;`"
-             v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"></div>
+             v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit" @click="_setEnlargeImage(detail_info.task_image)"></div>
         <div class="upload-warp" @click="_choseImg" v-else>
           <div class="upload-inner flex">
             <div class="process-warp flex fw" v-show="process && process < 100">
@@ -37,7 +37,7 @@
           <div class="tiw-right"></div>
         </div>
         <!--task_nickname-->
-        <div v-if="detail_info.audit && detail_info.status === 1" class="flex dy-id">抖音名称:{{detail_info.task_nickname}} </div>
+        <div v-if="detail_info.audit && detail_info.status" class="flex dy-id">抖音名称:{{detail_info.task_nickname}} </div>
       </div>
 
       <interlayer ref="interlayer"></interlayer>
@@ -81,7 +81,7 @@
           </div>
         </div>
       </popup>
-
+      <enlarge :image="enlarge_image" @close="_setEnlargeImage()"></enlarge>
       <div class="task-btn flex line-back" @click="_submit" v-if="!detail_info.audit && !detail_info.status">完成任务</div>
       <div class="task-btn flex disable-btn" v-if="!detail_info.audit && detail_info.status === 1">审核中</div>
       <div class="task-btn flex red-btn" @click="_submit" v-if="!detail_info.audit && detail_info.status === 3">提交修改</div>
@@ -101,6 +101,7 @@
   import {sub_or_arb, pass_or_fail_task} from 'api/index'
   import interlayer from 'base/interlayer/interlayer'
   import popup from 'base/popup/popup'
+  import enlarge from 'components/enlarge/enlarge'
 
   export default {
     name: 'submitJob',
@@ -117,7 +118,8 @@
         res_info_ZC: null,
         textarea: '',
         nopass: '',
-        dy_name: ''
+        dy_name: '',
+        enlarge_image: null
       }
     },
     created() {
@@ -138,6 +140,14 @@
       })
     },
     methods: {
+      _setEnlargeImage(image) {
+        // console.log(image)
+        if (!image) {
+          this.enlarge_image = null
+        } else {
+          this.enlarge_image = image
+        }
+      },
       _noPass() {
         if (!this.nopass) {
           this.$root.eventHub.$emit('titps', `请输入不通过的理由`)
@@ -294,6 +304,7 @@
       back,
       upload,
       popup,
+      enlarge,
       interlayer
     }
   }
