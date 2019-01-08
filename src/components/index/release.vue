@@ -56,7 +56,7 @@
         <div class="flex task-input-warp">
           <div class="tiw-left flex">悬赏每单金额</div>
           <div class="tiw-mid tiw-mid-tips">{{tips}}</div>
-          <div class="tiw-right light-color">{{count_single_price}}元</div>
+          <div class="tiw-right light-color">{{show_single_price}}元</div>
         </div>
         <div class="flex task-input-warp">
           <div class="tiw-left flex">任务审核时间</div>
@@ -112,6 +112,12 @@
       })
     },
     computed: {
+      show_single_price() {
+        if (!this.all_price || !this.reward_amount) {
+          return 0
+        }
+        return formatDownNum((this.all_price/this.reward_amount), 2)
+      },
       count_single_price() {
         if (!this.all_price || !this.reward_amount) {
           return 0

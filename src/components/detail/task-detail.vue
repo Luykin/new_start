@@ -117,7 +117,7 @@
       const clipboard = new ClipboardJS('.copy')
       const that = this
       clipboard.on('success', function (e) {
-        that.$root.eventHub.$emit('titps', '已复制到剪贴板')
+        that.$root.eventHub.$emit('titps', '已复制作品链接,赶快打开抖音完成任务吧~')
         // console.log(e)s
         e.clearSelection()
       })

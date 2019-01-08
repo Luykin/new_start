@@ -30,7 +30,7 @@ export default {
       }
       this.time = setTimeout(() => {
         this.open = false
-      }, 1200)
+      }, 2000)
     }
   }
 }
