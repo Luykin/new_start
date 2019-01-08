@@ -146,3 +146,8 @@ export function formatNum(f, digit) {
   var m = Math.pow(10, digit);
   return Math.ceil(Number(f * m).toFixed(4)) / m;
 }
+
+export function formatDownNum(f, digit) {
+  var m = Math.pow(10, digit);
+  return Math.floor(Number(f * m).toFixed(4)) / m;
+}

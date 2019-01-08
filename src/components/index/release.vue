@@ -31,7 +31,7 @@
         <div class="flex task-input-warp">
           <div class="tiw-left flex">悬赏数量</div>
           <div class="tiw-mid">
-            <input type="number" name="悬赏数量" placeholder="设定任务数量" class="index-input" v-model="reward_amount" @blur="_rectifyMinCount"/>
+            <input type="number" name="悬赏数量" placeholder="设定任务数量" class="index-input" v-model="reward_amount" @keyup="_rectifyMinPrice" @blur="_rectifyMinCount"/>
           </div>
           <div class="tiw-right">个</div>
         </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="flex task-input-warp">
           <div class="tiw-left flex">悬赏每单金额</div>
-          <div class="tiw-mid"></div>
+          <div class="tiw-mid tiw-mid-tips">{{tips}}</div>
           <div class="tiw-right light-color">{{count_single_price}}元</div>
         </div>
         <div class="flex task-input-warp">
@@ -78,7 +78,7 @@
   // pay_and_pub_task(id, title, task_url, num, single_price, price, score, username) {
   import back from 'base/back/back'
   import {pay_and_pub_task} from 'api/index'
-  import {formatNum} from 'common/js/util'
+  import {formatDownNum} from 'common/js/util'
 
   export default {
     data() {
@@ -90,6 +90,7 @@
         all_price: '',
         // activeServiceId: null,
         activeService: null,
+        tips: ''
       }
     },
     created() {
@@ -113,17 +114,17 @@
         if (!this.all_price || !this.reward_amount) {
           return 0
         }
-        return formatNum((this.all_price * (1 - this.$root.serverCache.service_ratio)/this.reward_amount), 2)
+        return formatDownNum((this.all_price * (1 - this.$root.serverCache.service_ratio)/this.reward_amount), 2)
       },
       aggregate_amount() {
-        if (!this.single_price || !this.reward_amount) {
+        if (!this.all_price || !this.reward_amount) {
           return 0
         }
-        return formatNum(this.all_price * (1 - this.$root.serverCache.service_ratio), 2)
+        return this.count_single_price * this.reward_amount
       },
-      advance() {
-        return formatNum(this.aggregate_amount +(this.aggregate_amount * this.$root.serverCache.service_ratio), 2)
-      }
+      // advance() {
+      //   return formatNum(this.aggregate_amount +(this.aggregate_amount * this.$root.serverCache.service_ratio), 2)
+      // }
     },
     methods: {
       _toCourse(item) {
@@ -146,8 +147,13 @@
           this.$root.eventHub.$emit('titps', `请粘贴您的作品链接~`)
           return false
         }
-        if (!this.single_price) {
-          this.$root.eventHub.$emit('titps', `请设置任务单价哦~`)
+        if (!this.all_price) {
+          this.$root.eventHub.$emit('titps', `请设置任务总价哦~`)
+          return false
+        }
+        if (this.count_single_price < parseFloat(this.activeService.min_price)) {
+          // this.tips = `单价必须大于${this.activeService.min_price}元`
+          this.$root.eventHub.$emit('titps', this.tips)
           return false
         }
         if (!this.reward_amount || this.reward_amount <= 0) {
@@ -155,7 +161,6 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        // price, score,
         const ret = await pay_and_pub_task(this.activeService.id, this.reward_title, this.works_link, this.reward_amount, this.count_single_price, this.aggregate_amount, this.all_price, this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
@@ -169,7 +174,7 @@
               reward_title: this.reward_title,
               works_link: this.works_link,
               reward_amount: this.reward_amount,
-              single_price: this.single_price
+              single_price: this.count_single_price
             }
           })
           this.reward_title = ''
@@ -188,6 +193,10 @@
           })
           return false
         }
+        // if (ret === 444) {
+        //   this.$root.eventHub.$emit('titps', `单价校验不通过`)
+        //   return false
+        // }
       },
       _rectifySinglePrice() {
         try {
@@ -210,7 +219,7 @@
           }
           if (isNaN(this.reward_amount) || this.reward_amount < parseFloat(this.$root.user.min_num)) {
             // console.log(this.single_price < this.activeService.min_price, this.single_price, this.activeService.min_price)
-            this.$root.eventHub.$emit('titps', `设置数量必须大于${this.$root.user.min_num}人哟~`)
+            this.$root.eventHub.$emit('titps', `设置数量必须大于${this.$root.user.min_num}人~`)
             this.reward_amount = ''
             return false
           }
@@ -229,6 +238,7 @@
             const end = this.all_price.indexOf('.')
             this.all_price = this.all_price.slice(0, end + 3)
           }
+          this._rectifyMinPrice()
         } catch (e) {
           this.all_price = ''
         }
@@ -247,12 +257,11 @@
           if (!this.all_price) {
             return false
           }
-          if (isNaN(this.all_price) || this.all_price < parseFloat(this.activeService.min_price)) {
-            // console.log(this.single_price < this.activeService.min_price, this.single_price, this.activeService.min_price)
-            this.$root.eventHub.$emit('titps', `设置金额必须大于${this.activeService.min_price}元哟~`)
-            this.all_price = ''
+          if (this.count_single_price < parseFloat(this.activeService.min_price)) {
+            this.tips = `单价必须大于${this.activeService.min_price}元`
             return false
           }
+          this.tips = ''
           return true
         } catch (e) {
           this.all_price = ''
@@ -429,5 +438,12 @@
   }
   .line-back{
     background: #F74BCA;
+  }
+  .tiw-mid-tips{
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #ff312d;
+    justify-content: center;
   }
 </style>
