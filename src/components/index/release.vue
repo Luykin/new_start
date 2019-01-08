@@ -266,7 +266,8 @@
           if (!this.all_price) {
             return false
           }
-          if (this.count_single_price < parseFloat(this.activeService.min_price)) {
+          // console.log(this.show_single_price, parseFloat(this.activeService.min_price), this.show_single_price < parseFloat(this.activeService.min_price))
+          if (this.show_single_price < parseFloat(this.activeService.min_price)) {
             this.tips = `单价必须大于${this.activeService.min_price}元`
             return false
           }
