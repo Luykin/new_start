@@ -25,14 +25,14 @@
               </div>
             </div>
             <div class="report-image flex">
-              <div class="report-image-item flex"
+              <div class="report-image-item flex magnifier"
                    :style="`background: url(${item.appeal_user_image}) no-repeat center center; background-size: 100% auto;`" @click="_setEnlargeImage(item.appeal_user_image)">
                 <div class="rii-text">{{item.appeal_user_explain}}</div>
               </div>
               <div class="report-image-item flex" style="background: none" v-if="activeId === 2 && !item.plea_user_image">
                 <span class="reSay-waro ell">等待对方回复</span>
               </div>
-              <div class="report-image-item flex" :style="_setImage(item.plea_user_image)" @click="_showModel(item)" v-else>
+              <div class="report-image-item flex" :style="_setImage(item.plea_user_image)" :class="{'magnifier': _setImage(item.plea_user_image)}" @click="_showModel(item)" v-else>
                 <div class="rii-text" v-if="item.plea_user_explain">{{item.plea_user_explain}}</div>
               </div>
             </div>
@@ -125,7 +125,7 @@
           if (this.activeId === 1) {
             return item.status === 4 ? item.plea_user_explain ? '等待平台仲裁' : '等待辩诉' : item.status === 5 ? '辩诉失败' : '辩诉成功'
           } else {
-            return item.status === 4 ? item.plea_user_explain ? '等待平台仲裁' : '等待申述' : item.status === 5 ? '申述成功' : '申诉失败'
+            return item.status === 4 ? item.plea_user_explain ? '等待平台仲裁' : '等待辩诉' : item.status === 5 ? '申诉成功' : '申诉失败'
           }
         }
       },
@@ -399,7 +399,7 @@
   }
 
   .rh-title-warp {
-    width: 60%;
+    width: 58%;
     height: 100%;
     white-space: nowrap;
     overflow: hidden;

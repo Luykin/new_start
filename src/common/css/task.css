@@ -194,7 +194,6 @@
   overflow: hidden;
 }
 
-
 .categry-task {
   position: absolute;
   left: 0;
@@ -253,7 +252,7 @@
   color: #fff;
 }
 
-.top-title-new{
+.top-title-new {
   position: absolute;
   right: 0;
   top: 0;
@@ -261,4 +260,18 @@
   height: 40px;
   background: url("https://cdn.xingkwh.com/%E7%BD%AE%E9%A1%B6%E8%A7%92%E6%A0%87@3x.png") no-repeat;
   background-size: 100% 100%;
+}
+
+/*.https://cdn.xingkwh.com/%E6%94%BE%E5%A4%A7%E9%95%9C.png*/
+.magnifier:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: url("https://cdn.xingkwh.com/%E6%94%BE%E5%A4%A7%E9%95%9C.png") no-repeat center center;
+  background-size: 100% 100%;
+  width: 30px;
+  height: 30px;
+  z-index: 9999;
 }

@@ -10,10 +10,10 @@
         <div class="normal-title flex">{{detail_info.task_message ? `未通过原因: ${detail_info.task_message}` :
           '请按示例截图并上传提交给悬赏人审核'}}
         </div>
-        <div class="upload-warp"
+        <div class="upload-warp magnifier"
              :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% auto;`"
              @click="_setEnlargeImage(detail_info.complete_image)"></div>
-        <div class="upload-warp"
+        <div class="upload-warp magnifier"
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% auto;`"
              v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"
              @click="_setEnlargeImage(detail_info.task_image)"></div>
