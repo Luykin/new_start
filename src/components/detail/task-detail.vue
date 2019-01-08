@@ -16,7 +16,8 @@
                 任务倒计时:
                 <span class="time">{{cut_time}}</span>
               </div>
-              <div class="tdb-left flex">{{detail_info.num}}/<span style="color: #6B41E1; font-weight: 600;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>
+              <div class="tdb-left flex">{{detail_info.num}}/<span
+                style="color: #6B41E1; font-weight: 600;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>
               </div>
               <div class="tdb-right flex">+{{detail_info.single_price}}<span style="font-size: 10px">元</span></div>
             </div>
@@ -25,8 +26,12 @@
             <div class="task-color-title flex">任务信息</div>
             <div class="copy-warp flex">
               <div class="copy-info" :class="{'blink': blink}">{{this.task_url}}</div>
-              <div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')" v-show="!detail_info.is_take_task">点击复制</div>
-              <div class="copy-btn flex line-back copy" v-show="detail_info.is_take_task" :data-clipboard-text="task_url" @click="">点击复制</div>
+              <div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"
+                   v-show="!detail_info.is_take_task">点击复制
+              </div>
+              <div class="copy-btn flex line-back copy" v-show="detail_info.is_take_task"
+                   :data-clipboard-text="task_url" @click="">点击复制
+              </div>
             </div>
           </div>
           <div class="task-info flex fw" v-if="detail_info">
@@ -66,7 +71,9 @@
         cut_time: '',
         timer: null,
         disable_btn: null,
-        blink: null
+        blink: null,
+        status: null,
+        destroy: null
       }
     },
     computed: {
@@ -84,19 +91,19 @@
           if (!this.detail_info) {
             return 1
           }
-          if (this.disable_btn && !this.detail_info.status) {
+          if (this.disable_btn && !this.status) {
             return 0
           }
-          if (!this.detail_info || (!this.detail_info.can_sign_up && !this.detail_info.status && this.detail_info.status !== 0)) {
+          if (!this.detail_info || (!this.detail_info.can_sign_up && !this.status && this.status !== 0)) {
             return 1
           }
-          if (this.detail_info.status && this.detail_info.status === 3) {
+          if (this.status && this.status === 3) {
             return 100
           }
-          if (this.detail_info.status && this.detail_info.status === 2) {
+          if (this.status && this.status === 2) {
             return 200
           }
-          if (this.detail_info.status && this.detail_info.status !== 0) {
+          if (this.status && this.status !== 0) {
             return 300
           }
           return this.detail_info.is_take_task ? 2 : 3
@@ -106,20 +113,19 @@
       },
     },
     created() {
-      // console.log(this.$route.params.id, '??????')
       this._getDetail(this.$route.params.id)
       const clipboard = new ClipboardJS('.copy')
       const that = this
       clipboard.on('success', function (e) {
         that.$root.eventHub.$emit('titps', '已复制到剪贴板')
-        // console.log(e)
+        // console.log(e)s
         e.clearSelection()
       })
       clipboard.on('error', function (e) {
       })
-      // updateMyTask
       this.$root.eventHub.$on('updateMyTask', (id) => {
-        if (id === this.detail_info.rtr_id) {
+        console.log(`通知的ret_id${id} 实际id:${this.detail_info.id}:  改页面${this.destroy}`)
+        if (!this.destroy && id === this.detail_info.rtr_id) {
           this._getDetail(this.detail_info.id)
         }
       })
@@ -145,7 +151,7 @@
             }, 2500)
             this._getDetail(this.detail_info.id, () => {
               this.$root.eventHub.$emit('titps', '成功报名,快去复制链接完成任务吧~')
-              this.$refs.wrapper.scrollTo(0, 0);
+              this.$refs.wrapper.scrollTo(0, 0)
             })
             return
           }
@@ -175,13 +181,13 @@
         }
       },
       async _getDetail(id, callback) {
+        console.log(`要更新的id${id}`)
         this.$root.eventHub.$emit('loading', true)
         const ret = await task_detail(id, this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.detail_info = ret.data.data
-          // console.log(this.detail_info)
-          // console.log(this.btn_status)
+          this.status = this.detail_info.status
           clearInterval(this.timer)
           this.timer = null
           this._cutDown(this.detail_info.complete_time)
@@ -220,6 +226,9 @@
         }
       },
     },
+    beforeDestroy() {
+      this.destroy = true
+    },
     components: {
       back,
       betterscroll
@@ -254,12 +263,9 @@
     right: 0;
     bottom: 0;
     top: 0;
-    /*background: rgba(112, 21, 253, .5);*/
-    /*background: linear-gradient(to bottom, rgba(112, 21, 253, .6) 0, rgba(112, 21, 253, .6) 33%, rgba(255, 255, 255, .45) 33.01%, rgba(255, 255, 255, .45) 100%);*/
-    /*filter: drop-shadow(0 0 50px rgba(255, 255, 255, 1));*/
     background: url("https://cdn.xingkwh.com/%E4%BB%BB%E5%8A%A1%E6%A1%86@3x.png") no-repeat;
     background-size: 100% 100%;
-    opacity: .9;
+    /*opacity: .9;*/
   }
 
   .top {
@@ -278,7 +284,7 @@
     margin: 0 auto 10px;
     font-size: 16px;
     line-height: 20px;
-    font-weight: 600;
+    font-weight: 900;
     color: #fff;
   }
 
@@ -326,7 +332,7 @@
     color: #333333;
     font-size: 13px;
     font-weight: 400;
-    vertical-align:text-bottom;
+    vertical-align: text-bottom;
     /*background: rgba(0,0,0,.7);*/
   }
 
@@ -388,16 +394,16 @@
     transform: translate(-50%, 0);
   }
 
-  .disable-btn{
+  .disable-btn {
     background: #bbb;
     color: #fff;
   }
 
-  .blink{
+  .blink {
     color: #ff3939;
   }
 
-  .dis-task-info{
+  .dis-task-info {
     background: #f8f8f8;
     color: #444;
     padding: 8px 4%;
@@ -410,5 +416,16 @@
     justify-content: flex-start;
     align-content: flex-start;
     align-items: flex-start;
+  }
+
+  .line-back {
+    background: #F74BCA;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    user-select: none;
+    pointer-events: none;
   }
 </style>

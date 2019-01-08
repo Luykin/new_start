@@ -11,7 +11,7 @@
   top: 0;
   bottom: 0;
   overflow-y: scroll;
-  background: #F5F4F8 url("https://cdn.xingkwh.com/newbg.png") no-repeat;
+  background: #6B41E1 url("https://cdn.xingkwh.com/newbg.png") no-repeat;
   background-size: 100% auto;
 }
 
@@ -19,7 +19,7 @@
   height: 30px;
   width: 90.3%;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 900;
   color: #fff;
   text-indent: 15px;
   position: relative;
@@ -124,7 +124,7 @@
   flex-grow: 1;
   flex-shrink: 0;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 15px;
   color: #FF6000;
   text-indent: 6px;
   font-weight: 900;
@@ -175,4 +175,8 @@
   justify-content: flex-start;
   word-break: break-all;
   font-size: 14px;
+}
+
+.min-warp-height {
+  min-height: 101%;
 }

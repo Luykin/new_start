@@ -3,7 +3,7 @@
     <div class="detail-body">
       <back ref="back"></back>
       <div class="task-info flex fw js">
-        <div class="submit-job-header flex line-back">
+        <div class="submit-job-header flex line-back old-line-back">
           {{detail_info.title.slice(0,8)}}
           <div class="min-title">{{detail_info.min_title}}</div>
         </div>
@@ -564,4 +564,12 @@
     text-indent: 20px;
   }
 
+  .line-back{
+    background: #F74BCA;
+  }
+
+  .old-line-back{
+    background: linear-gradient(-45deg, #6D32FB, #F74CCA);
+    background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
+  }
 </style>

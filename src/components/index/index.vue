@@ -2,7 +2,7 @@
   <transition name="list">
     <div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
-        <div>
+        <div class="min-warp-height">
           <div class="height10"></div>
           <div class="header">
             <userheader></userheader>
@@ -28,6 +28,7 @@
               </div>
             </div>
           </div>
+          <div style="height: 10px"></div>
           <empyt v-show="!list.length"></empyt>
         </div>
       </betterscroll>
@@ -227,7 +228,7 @@
     width: 100%;
     position: absolute;
     top: 0;
-    bottom: 65px;
+    bottom: 55px;
     overflow: hidden;
   }
 

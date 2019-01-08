@@ -7,7 +7,7 @@
         </div>
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
-        <div>
+        <div class="min-warp-height">
           <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id"
                @click="_getDetail(item.id)">
             <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">
@@ -24,6 +24,7 @@
               </div>
             </div>
           </div>
+          <div style="height: 10px"></div>
           <empyt v-show="!list.length" :padding="90"></empyt>
         </div>
       </betterscroll>
@@ -130,7 +131,7 @@
     width: 100%;
     position: absolute;
     top: 80px;
-    bottom: 65px;
+    bottom: 55px;
     overflow: hidden;
   }
 
@@ -188,4 +189,5 @@
   .cachet {
     margin-top: 10px;
   }
+
 </style>

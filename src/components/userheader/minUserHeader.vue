@@ -46,7 +46,7 @@
   .name {
     width: 100%;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 900;
     margin-bottom: 10px;
   }
 

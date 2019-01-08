@@ -42,4 +42,10 @@
     overflow: hidden;
     /*background: #f8f8f8;*/
   }
+  img{
+    width: 100%;
+    height: auto;
+    user-select: none;
+    pointer-events: none;
+  }
 </style>

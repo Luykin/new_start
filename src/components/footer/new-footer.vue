@@ -8,9 +8,10 @@
     </router-link>
     <div class="width-limit">
       <div class="add-task-btn flex" :class="{'show-add-task-btn': active}" @click="_toRelease"></div>
-      <div class="push-btn flex line-back" @click="_showPushBotton" :class="{'active': active}">
-        <i class="plush flex">+</i>
+      <div class="push-btn flex" @click="_showPushBotton">
+        <i class="plush flex" :class="{'active': active}">+</i>
       </div>
+      <div class="push-btn-border"></div>
     </div>
   </footer>
 </template>
@@ -118,16 +119,19 @@
   }
 
   .push-btn {
-    width: 14%;
-    padding-top: 14%;
+    width: 16%;
+    padding-top: 16%;
     border-radius: 1000px;
     position: absolute;
     left: 50%;
     top: 0;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
-    transform: translate(-50%, -35%);
+    /*border: 3px solid #fff;*/
+    /*box-shadow: 0 0 10px rgba(0, 0, 0, .2);*/
+    transform: translate(-50%, -40%);
     overflow: hidden;
-    transition: all .3s;
+    /*transition: all .3s;*/
+    background: url("https://cdn.xingkwh.com/%E9%A6%96%E9%A1%B5%E5%8F%91%E5%B8%83%E6%8C%89%E9%92%AE@3x.png") no-repeat center center;
+    background-size: 100% 100%;
   }
 
   .plush {
@@ -138,6 +142,7 @@
     color: #fff;
     font-weight: 300;
     font-size: 55px;
+    transition: all .3s;
     /*transform: translate(0, -2px);*/
   }
 
@@ -159,7 +164,7 @@
   }
 
   .active {
-    transform: translate(-50%, -35%) rotate(45deg);
+    transform: rotate(45deg);
   }
 
   .footer-icon {
