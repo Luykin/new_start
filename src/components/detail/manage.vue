@@ -3,7 +3,7 @@
     <div class="detail-body">
       <back></back>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
-        <div>
+        <div class="min-warp-height">
           <div class="task-info flex fw" v-for="item in list" @click="_toManageDetail(item)">
             <div class="manage-item-header flex ell">
               <span class="status">{{item.status === 1 ? '[发布中]' : item.status === 2 ? '[已取消]' : '[已完成]'}}</span>

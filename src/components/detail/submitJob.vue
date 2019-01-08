@@ -11,10 +11,12 @@
           '请按示例截图并上传提交给悬赏人审核'}}
         </div>
         <div class="upload-warp"
-             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% auto;`" @click="_setEnlargeImage(detail_info.complete_image)" ></div>
+             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% auto;`"
+             @click="_setEnlargeImage(detail_info.complete_image)"></div>
         <div class="upload-warp"
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% auto;`"
-             v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit" @click="_setEnlargeImage(detail_info.task_image)"></div>
+             v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"
+             @click="_setEnlargeImage(detail_info.task_image)"></div>
         <div class="upload-warp" @click="_choseImg" v-else>
           <div class="upload-inner flex">
             <div class="process-warp flex fw" v-show="process && process < 100">
@@ -29,7 +31,8 @@
           <img src="../../assets/img/manage4.png"/>
           您的任务已审核通过，赏金已进入您的收益。
         </div>
-        <div class="flex task-input-warp" v-if="!detail_info.audit && (!detail_info.status || detail_info.status === 3)">
+        <div class="flex task-input-warp"
+             v-if="!detail_info.audit && (!detail_info.status || detail_info.status === 3)">
           <div class="tiw-left flex">抖音名称</div>
           <div class="tiw-mid">
             <input type="text" name="抖音名称" placeholder="请输入你的抖音名称" class="index-input disScroll" v-model="dy_name"/>
@@ -37,7 +40,7 @@
           <div class="tiw-right"></div>
         </div>
         <!--task_nickname-->
-        <div v-if="detail_info.audit && detail_info.status" class="flex dy-id">抖音名称:{{detail_info.task_nickname}} </div>
+        <div v-if="detail_info.audit && detail_info.status" class="flex dy-id">抖音名称:{{detail_info.task_nickname}}</div>
       </div>
 
       <interlayer ref="interlayer"></interlayer>
@@ -84,12 +87,17 @@
       <enlarge :image="enlarge_image" @close="_setEnlargeImage()"></enlarge>
       <div class="task-btn flex line-back" @click="_submit" v-if="!detail_info.audit && !detail_info.status">完成任务</div>
       <div class="task-btn flex disable-btn" v-if="!detail_info.audit && detail_info.status === 1">审核中</div>
-      <div class="task-btn flex red-btn" @click="_submit" v-if="!detail_info.audit && detail_info.status === 3">提交修改</div>
-      <div class="task-btn flex gre-btn" v-if="!detail_info.audit && detail_info.status === 3" @click="_showModel">申请仲裁</div>
+      <div class="task-btn flex red-btn" @click="_submit" v-if="!detail_info.audit && detail_info.status === 3">提交修改
+      </div>
+      <div class="task-btn flex gre-btn" v-if="!detail_info.audit && detail_info.status === 3" @click="_showModel">
+        申请仲裁
+      </div>
       <div class="task-btn flex disable-btn" v-if="detail_info.status > 3">仲裁中</div>
       <!--审核-->
       <div class="task-btn flex disable-btn" v-if="detail_info.audit && detail_info.status === 2">已审核通过</div>
-      <div class="task-btn flex red-btn" v-if="detail_info.audit && detail_info.status === 1" @click="_showNoPasss">不通过</div>
+      <div class="task-btn flex red-btn" v-if="detail_info.audit && detail_info.status === 1" @click="_showNoPasss">
+        不通过
+      </div>
       <div class="task-btn flex gre-btn" v-if="detail_info.audit && detail_info.status === 1" @click="_pass(1)">通过</div>
     </div>
   </transition>
@@ -131,8 +139,8 @@
       document.querySelectorAll('.disScroll').forEach((item) => {
         item.addEventListener('blur', () => {
           try {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0
+            document.documentElement.scrollTop = 0
           } catch (e) {
             console.log(e)
           }
@@ -238,7 +246,7 @@
         this.res_info = res
       },
       async _submitZC() {
-        if(!this.textarea) {
+        if (!this.textarea) {
           this.$root.eventHub.$emit('titps', `请先填写您的申诉理由~`)
           return false
         }
@@ -507,7 +515,7 @@
     color: #333;
   }
 
-  .nopass-text{
+  .nopass-text {
     margin: 20px auto -10px;
   }
 
@@ -567,19 +575,25 @@
   .index-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
     color: #CCCCCC;
   }
-  .dy-id{
+
+  .dy-id {
+    width: 92%;
     color: #444;
+    padding: 10px 0;
     margin: 20px auto;
     justify-content: flex-start;
     white-space: nowrap;
     text-indent: 20px;
+    text-overflow: ellipsis;
+    background: #f8f8f8;
+    border-radius: 6px;
   }
 
-  .line-back{
+  .line-back {
     background: #F74BCA;
   }
 
-  .old-line-back{
+  .old-line-back {
     background: linear-gradient(-45deg, #6D32FB, #F74CCA);
     background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
   }

@@ -4,11 +4,13 @@
       <back></back>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div>
-          <div class="task-info flex" v-for="item in list" v-if="list.length" :key="item.id" @click="_toSubmitJob(item)">
+          <div class="task-info flex" v-for="item in list" v-if="list.length" :key="item.id"
+               @click="_toSubmitJob(item)">
             <img :src="item.avatar"/>
             <div class="flex audit-body fw ell">
               <span class="flex js ab-name">ID: {{item.id}} 提交人:{{item.nickname}}</span>
-              <span class="flex js ab-time">时间:{{item.time}}</span>
+              <span class="flex js ab-time cut-down" v-if="item.status === 1">{{'审核倒计时:' + _msecTransform(item.user_audit_time - nowTime)}}</span>
+              <span class="flex js ab-time" v-else>时间:{{item.time}}</span>
             </div>
             <div class="flex audit-other fw">
               <div class="min-title flex">{{item.min_title}}</div>
@@ -41,7 +43,8 @@
         list: [],
         // parse: null,
         task_id: null,
-        info: null
+        info: null,
+        nowTime: Date.parse(new Date())
       }
     },
     created() {
@@ -60,15 +63,21 @@
       this.info = this.$route.params
       this._getTaskAudit()
       this.$refs.wrapper._initScroll()
+      this._setTime()
     },
     computed: {
       _statusText() {
         return (status) => {
-          return status === -1 ? '已过期' : status === 0 ? '进行中' : status === 1 ? '等待审核': status === 2 ? '审核通过' : status === 3 ? '审核不通过' : '仲裁'
+          return status === -1 ? '已过期' : status === 0 ? '进行中' : status === 1 ? '等待审核' : status === 2 ? '审核通过' : status === 3 ? '审核不通过' : '仲裁'
         }
       }
     },
     methods: {
+      _setTime() {
+        setInterval(() => {
+          this.nowTime = Date.parse(new Date())
+        }, 1000)
+      },
       async _getTaskAudit() {
         this.$root.eventHub.$emit('loading', true)
         // task_audit(id, username, types, page, num) {
@@ -118,7 +127,22 @@
           this.page += 1
           this._getTaskAudit()
         }
-      }
+      },
+      _msecTransform(msec) {
+        if (msec < 0) {
+          return '已过期'
+        }
+        if (msec / 3600000 > 1) {
+          const hour = Math.floor(msec / 3600000)
+          const minute = Math.floor((msec % 3600000) / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `${hour > 9 ? hour : '0' + hour}:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        } else {
+          const minute = Math.floor(msec / 60000)
+          const scend = Math.floor((msec % 60000) / 1000)
+          return `00:${minute > 9 ? minute : '0' + minute}:${scend > 9 ? scend : '0' + scend}`
+        }
+      },
     },
     components: {
       back,
@@ -186,5 +210,9 @@
     font-weight: 600;
     color: #FF8215;
     font-size: 13px;
+  }
+
+  .cut-down {
+    color: #ff6000;
   }
 </style>

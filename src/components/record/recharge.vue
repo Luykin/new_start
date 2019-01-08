@@ -9,7 +9,7 @@
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list"
                     v-show="list.length">
-        <div>
+        <div class="min-warp-height">
           <div class="order-item flex" v-for="item in list" v-if="activeId === 1">
             <img src="../../assets/img/user1.png"/>
             <span class="flex order-title">充值</span>

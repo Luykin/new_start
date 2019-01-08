@@ -8,7 +8,7 @@
         </div>
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
-        <div>
+        <div class="min-warp-height">
           <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id">
             <div class="report-header flex fw">
               <div class="flex rh-top js">

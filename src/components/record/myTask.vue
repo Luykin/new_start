@@ -12,7 +12,7 @@
         </div>
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
-        <div>
+        <div class="min-warp-height">
           <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id"
                @click=" _getDetail(item.task_id)">
             <div class="my-task-top flex js">
