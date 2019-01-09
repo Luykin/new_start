@@ -25,7 +25,9 @@
           <div class="task-info flex fw" v-if="detail_info">
             <div class="task-color-title flex">任务信息</div>
             <div class="copy-warp flex">
-              <div class="copy-info" :class="{'blink': blink}">{{this.task_url}}</div>
+              <div class="copy-info" :class="{'blink': blink}">
+                <span>{{this.task_url}}</span>
+              </div>
               <div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"
                    v-show="!detail_info.is_take_task">点击复制
               </div>
@@ -359,6 +361,7 @@
   }
 
   .copy-info {
+    display: inline-block;
     width: 65%;
     height: 100%;
     line-height: 40px;
@@ -368,10 +371,17 @@
     color: #333;
     margin-right: 20px;
     font-size: 13px;
-    user-select: text;
-    overflow-x: scroll;
+    /*user-select: text;*/
+    /*overflow: scroll;*/
     white-space: nowrap;
     transition: all .5s;
+    overflow: hidden;
+  }
+
+  .copy-info span{
+    width: auto;
+    display: inline-block;
+    white-space: nowrap;
   }
 
   .copy-btn {

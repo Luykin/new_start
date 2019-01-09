@@ -145,7 +145,7 @@
   .wrapper {
     width: 100%;
     position: absolute;
-    top: 80px;
+    top: 65px;
     bottom: 55px;
     overflow: hidden;
   }

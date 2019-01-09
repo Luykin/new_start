@@ -4,7 +4,7 @@
       <back></back>
       <div class="service-warp flex">
         <div v-for="item in $root.serverCache.ret" class="flex service-item fw"
-             :class="{'active-service' : activeService.id === item.id}" @click="activeService = item">
+             :class="{'active-service' : activeService.id === item.id}" @click="activeService = item;all_price='';tips=''">
           <img :src="item.n_icon" class="normal"/>
           <img :src="item.icon" class="active"/>
           <span class="flex">{{item.title}}</span>
@@ -79,7 +79,7 @@
   // pay_and_pub_task(id, title, task_url, num, single_price, price, score, username) {
   import back from 'base/back/back'
   import {pay_and_pub_task} from 'api/index'
-  import {formatDownNum} from 'common/js/util'
+  import {formatDownNum, formatNum} from 'common/js/util'
   import notfunds from 'components/not-funds/not-funds'
 
   export default {
@@ -128,7 +128,7 @@
         if (!this.all_price || !this.reward_amount) {
           return 0
         }
-        return this.count_single_price * this.reward_amount
+        return formatNum(this.count_single_price * this.reward_amount, 2)
       },
       // advance() {
       //   return formatNum(this.aggregate_amount +(this.aggregate_amount * this.$root.serverCache.service_ratio), 2)
@@ -159,7 +159,7 @@
           this.$root.eventHub.$emit('titps', `请设置任务总价哦~`)
           return false
         }
-        if (this.count_single_price < parseFloat(this.activeService.min_price)) {
+        if (this.show_single_price < parseFloat(this.activeService.min_price)) {
           // this.tips = `单价必须大于${this.activeService.min_price}元`
           this.$root.eventHub.$emit('titps', this.tips)
           return false
