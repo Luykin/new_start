@@ -58,15 +58,21 @@
       },
       // this.$refs.file.click()
       _imitateClick() {
+        console.log('点击上传')
         this.$refs.file.click()
       },
       _preview() {
         try {
           let files = this.$refs.file.files[0]
-          if (files.size > 10542880) {
-            this.$root.eventHub.$emit('titps', `请选择小于10M的图片~`)
-            return false
+          try {
+            if (files.size > 10542880) {
+              this.$root.eventHub.$emit('titps', `请选择小于10M的图片~`)
+              return false
+            }
+          } catch (e) {
+            console.log(e)
           }
+          console.log('清空画布')
           //清空画布
           // if (files.type.slice(6)) {}
           this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
@@ -81,6 +87,14 @@
         } catch (e) {
           console.log(e)
         }
+      },
+      _clear() {
+        console.log('清空画布')
+        let canvas = document.querySelector('.spread');
+        this.key = '';
+        this.$emit('view', null);
+        this.$emit('setProcess', 0);
+        canvas.height = canvas.height;
       },
       async _qiniuUpload(file, key) {
         const ret = await up_token()

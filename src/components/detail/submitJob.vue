@@ -133,7 +133,9 @@
     created() {
       // submitJob
       this.detail_info = this.$route.params.info
+      console.log(this.detail_info)
       this.$root.eventHub.$on(`submitJob`, (info) => {
+        console.log(this.detail_info)
         this.detail_info = this.$route.params.info
       })
     },
@@ -196,14 +198,8 @@
           this.dy_name =''
           this.processZC = 0
           this.process = 0
-          if (this.$refs.previewImg) {
-            // this.$refs.previewImg.style.opacity = 0
-            this.$refs.previewImg.src = null
-          }
-          if (this.$refs.previewImgZC) {
-            this.$refs.previewImgZC.src = null
-            // this.$refs.previewImgZC.style.opacity = 0
-          }
+          this.$refs.uploadZC._clear()
+          this.$refs.upload._clear()
           this._close()
         } catch (e) {
           console.log(e)
@@ -221,11 +217,20 @@
       },
       _setUrl(url) {
         this.process = 0.1
-        this.$refs.previewImg.src = url
+        this.$refs.previewImg.src = url || ''
         // this.$refs.previewImg.style.opacity = 1
       },
       _setProcess(res) {
-        this.process = res.total.percent.toFixed(2)
+        try {
+          if (!res || !res.total || !res.total.percent) {
+            this.process = 0
+          } else {
+            this.process = res.total.percent.toFixed(2)
+          }
+        } catch (e) {
+          this.process = 0
+          console.log(e)
+        }
       },
       _showModel() {
         this.$refs.interlayer._showLayer()
@@ -242,11 +247,21 @@
       },
       _setUrlZC(url) {
         this.processZC = 0.1
-        this.$refs.previewImgZC.src = url
+        this.$refs.previewImgZC.src = url || ''
         // this.$refs.previewImgZC.style.opacity = 1
       },
       _setProcessZC(res) {
-        this.processZC = res.total.percent.toFixed(2)
+        // this.processZC = res.total.percent.toFixed(2)
+        try {
+          if (!res || !res.total || !res.total.percent) {
+            this.processZC = 0
+          } else {
+            this.processZC = res.total.percent.toFixed(2)
+          }
+        } catch (e) {
+          this.processZC = 0
+          console.log(e)
+        }
       },
       _successZC(res) {
         this.res_info_ZC = res

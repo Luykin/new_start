@@ -128,6 +128,7 @@
       clipboard.on('error', function (e) {
       })
       this.$root.eventHub.$on(`taskDetail`, (id) => {
+        this.page_id = this.$route.params.id
         this._getDetail(id)
       })
       // this.$root.eventHub.$on(`updateMyTask${this.page_id}`, (info) => {
