@@ -1,7 +1,7 @@
 <template>
   <div class="hidden">
     <input type="file" accept="image/*" class="file" ref="file" @change="_preview($event)"/>
-    <canvas ref="spread" width="300" height="485" class="spread hidek" style="width: 390px; height: 631px;"></canvas>
+    <canvas ref="spread" width="300" height="485" class="spread hidek" style="width: 540px; height: 873px;"></canvas>
     <img class="spreadimg hidek" @load="_setcanvas"/>
   </div>
 </template>
