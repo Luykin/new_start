@@ -179,7 +179,11 @@
           }
           if (ret === 443) {
             this.$root.eventHub.$emit('titps', '不能报名自己的任务')
-            return
+            return false
+          }
+          if (ret === 403) {
+            this.$root.eventHub.$emit('titps', '网络开了小差,稍后重试')
+            return false
           }
           this.$root.eventHub.$emit('titps', '任务已暂停报名')
         } catch (e) {

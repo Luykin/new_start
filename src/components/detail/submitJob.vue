@@ -196,10 +196,14 @@
           this.dy_name =''
           this.processZC = 0
           this.process = 0
-          this.$refs.previewImg.style.opacity = 0
-          this.$refs.previewImg.src = null
-          this.$refs.previewImgZC.src = null
-          this.$refs.previewImgZC.style.opacity = 0
+          if (this.$refs.previewImg) {
+            // this.$refs.previewImg.style.opacity = 0
+            this.$refs.previewImg.src = null
+          }
+          if (this.$refs.previewImgZC) {
+            this.$refs.previewImgZC.src = null
+            // this.$refs.previewImgZC.style.opacity = 0
+          }
           this._close()
         } catch (e) {
           console.log(e)
@@ -218,7 +222,7 @@
       _setUrl(url) {
         this.process = 0.1
         this.$refs.previewImg.src = url
-        this.$refs.previewImg.style.opacity = 1
+        // this.$refs.previewImg.style.opacity = 1
       },
       _setProcess(res) {
         this.process = res.total.percent.toFixed(2)
@@ -239,7 +243,7 @@
       _setUrlZC(url) {
         this.processZC = 0.1
         this.$refs.previewImgZC.src = url
-        this.$refs.previewImgZC.style.opacity = 1
+        // this.$refs.previewImgZC.style.opacity = 1
       },
       _setProcessZC(res) {
         this.processZC = res.total.percent.toFixed(2)
