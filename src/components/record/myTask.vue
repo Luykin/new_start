@@ -121,6 +121,7 @@
       },
     },
     created() {
+      console.log('清空提示')
       this._getMyTask(this.activeId)
       this.$root.eventHub.$on('updateMyTask', () => {
         this._pulldown(this.activeId)

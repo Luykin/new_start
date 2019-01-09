@@ -201,7 +201,7 @@
       _cutDown(time) {
         // console.log(time)
         if (!time) {
-          this.cut_time = '您还未接受改任务'
+          this.cut_time = '您还未接受该任务'
           return false
         }
         this.timer = setInterval(() => {

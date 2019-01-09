@@ -48,7 +48,23 @@ const routerconst = new Router({
       path: '/recharge',
       name: 'recharge',
       component: () =>
-        import(`components/record/recharge`)
+        import(`components/record/recharge`),
+    }, {
+      path: '/myTask',
+      name: 'myTask',
+      component: () =>
+        import(`components/record/myTask`),
+      children: [{
+        path: ':id',
+        component: () =>
+          import (`components/detail/task-detail`),
+        children: [{
+          path: '/submitJob',
+          name: 'mySubmitJob',
+          component: () =>
+            import(`components/detail/submitJob`)
+        }]
+      }]
     }]
   }, {
     path: '/commision',
@@ -122,37 +138,6 @@ const routerconst = new Router({
           import(`components/detail/submitJob`)
       }]
     }]
-  }, {
-    path: '/myTask',
-    name: 'myTask',
-    component: () =>
-      import(`components/record/myTask`),
-    children: [{
-      path: ':id',
-      component: () =>
-        import (`components/detail/task-detail`),
-      children: [{
-        path: '/submitJob',
-        name: 'mySubmitJob',
-        component: () =>
-          import(`components/detail/submitJob`)
-      }]
-    }]
-    // children: [{
-    //   path: ':id',
-    //   component: () =>
-    //     import (`components/detail/task-detail`),
-    //   // children: [{
-    //   //   path: '/submitJob',
-    //   //   name: 'mySubmitJob',
-    //   //   component: () =>
-    //   //     import(`components/detail/submitJob`)
-    //   // }]
-    //   // path: '/submitMyJob',
-    //   // name: 'submitMyJob',
-    //   // component: () =>
-    //   //   import(`components/detail/submitJob`)
-    // }]
   }, {
     path: '/report',
     name: 'report',
