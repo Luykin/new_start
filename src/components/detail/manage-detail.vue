@@ -67,6 +67,10 @@
             <img src="../../assets/img/minicon1.png"/>
             求助好友
           </div>
+          <div class="mih-bottom-btn flex line-blue-color" @click="_seeTask">
+            <img src="../../assets/img/minicon5.png"/>
+            查看任务
+          </div>
         </div>
         <div class="task-btn flex" @click="_toAllAuditList(manageInfo)">所有任务情况</div>
       </div>
@@ -106,7 +110,7 @@
     // },
     name: 'manage-detail',
     data() {
-      return{
+      return {
         manageInfo: null,
         timer: null,
         time: ''
@@ -117,7 +121,7 @@
         this.$router.back(-1)
       }
       try {
-        this.manageInfo = this.$route.params;
+        this.manageInfo = this.$route.params
         if (this.manageInfo.due_time) {
           this.time = this._msecTransform(this.manageInfo.due_time - Date.parse(new Date()))
           this.timer = setInterval(() => {
@@ -133,6 +137,14 @@
 
     },
     methods: {
+      _seeTask() {
+        if (!this.$root.user.username) {
+          return false
+        }
+        this.$router.push({
+          path: `./index/${this.manageInfo.id}`
+        })
+      },
       _showQrCode() {
         this.$refs.poster._showqr()
       },
@@ -269,6 +281,7 @@
     color: #fff;
     margin: 0;
   }
+
   .task-id-warp {
     font-size: 10px;
     color: #555;
@@ -313,14 +326,14 @@
     width: 18%;
     min-width: 55px;
     margin: 0 2.7%;
-    height: 75px;
+    height: 68px;
     border-radius: 10px;
     font-weight: 600;
     background: #f8f8f8;
     position: relative;
   }
 
-  .dm-title{
+  .dm-title {
     position: absolute;
     left: 50%;
     bottom: 0;
@@ -336,9 +349,6 @@
     margin: 0 30% 8px 30%;
   }
 
-  /*.data-manage-item .sp-img{*/
-  /*width: 44%;*/
-  /*}*/
   .data-manage-item:nth-child(1) {
     color: #3671FF;
   }
@@ -377,8 +387,8 @@
   }
 
   .mih-bottom-btn img {
-    width: 13px;
-    height: auto;
+    width: 15px;
+    height: 15px;
     margin-right: 5px;
   }
 
@@ -401,16 +411,22 @@
     background: -webkit-gradient(linear, right bottom, left top, from(#FF3939), to(#FFA96B));
   }
 
-  .line-gray-color{
+  .line-gray-color {
     background: #627288;
     background: linear-gradient(-45deg, #627288, #B2C0C7);
     background: -webkit-gradient(linear, right bottom, left top, from(#627288), to(#B2C0C7));
   }
 
-  .line-green-color{
+  .line-green-color {
     background: #42D852;
     background: linear-gradient(-45deg, #15961E, #42D852);
     background: -webkit-gradient(linear, right bottom, left top, from(#15961E), to(#42D852));
+  }
+
+  .line-blue-color{
+    background: #423AE7;
+    background: linear-gradient(-45deg, #423AE7, #369CFF);
+    background: -webkit-gradient(linear, right bottom, left top, from(#423AE7), to(#369CFF));
   }
 
   .mih-min-btn {

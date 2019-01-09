@@ -14,10 +14,12 @@ export default {
     _showLayer() {
       this.layerIn = true
       this.layerOut = false
+      document.documentElement.style.overflow = 'hidden'
     },
     _hiddenLayer() {
       this.layerIn = false
       this.layerOut = true
+      document.documentElement.style.overflow = 'auto'
     },
     _setZIndex(z) {
       this.$refs.layer.style.zIndex = z

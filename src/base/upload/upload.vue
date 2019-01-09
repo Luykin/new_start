@@ -22,7 +22,7 @@
         try {
           let files = this.$refs.file.files[0]
           // console.log(files.size)
-          if (files.size > 5542880) {
+          if (files.size > 5942880) {
             this.$root.eventHub.$emit('titps', `请选择小于5M的图片~`)
             return false
           }

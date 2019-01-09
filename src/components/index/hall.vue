@@ -51,6 +51,9 @@
         btn_list: [{
           id: 1,
           name: '抖音专区'
+        },{
+          id: 2,
+          name: '快手专区'
         }],
         activeId: 1,
         pullDownTimer: null
@@ -86,6 +89,11 @@
       this.$refs.wrapper._initScroll()
     },
     methods: {
+      _change(id) {
+        if (id === 2) {
+          this.$root.eventHub.$emit('titps', `快手专区正在努力开发中~`)
+        }
+      },
       _error(err) {
         try {
           err.target.style.display = 'none'

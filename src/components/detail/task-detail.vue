@@ -28,11 +28,11 @@
               <div class="copy-info" :class="{'blink': blink}">
                 <span>{{this.task_url}}</span>
               </div>
-              <div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"
-                   v-show="!detail_info.is_take_task">点击复制
-              </div>
-              <div class="copy-btn flex line-back copy" v-show="detail_info.is_take_task"
-                   :data-clipboard-text="task_url" @click="">点击复制
+              <!--<div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"-->
+                   <!--v-show="!detail_info.is_take_task">点击复制-->
+              <!--</div>-->
+              <div class="copy-btn flex line-back" :class="{'copy': detail_info.task_url}"
+                   :data-clipboard-text="task_url" @click="_showTipsV">点击复制
               </div>
             </div>
           </div>
@@ -136,6 +136,11 @@
       this.$refs.wrapper._initScroll()
     },
     methods: {
+      _showTipsV() {
+        if (!this.detail_info.task_url) {
+          this.$root.eventHub.$emit('titps', '请先报名此任务')
+        }
+      },
       async _signUp() {
         try {
           if (!this.detail_info || !this.detail_info.id) {

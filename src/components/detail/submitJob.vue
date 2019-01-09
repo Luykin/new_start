@@ -292,24 +292,32 @@
           this.$root.eventHub.$emit('titps', `请填写抖音名称`)
           return false
         }
-        this.$root.eventHub.$emit('loading', true)
-        // username, id, sub_type, task_image, appeal_user_image, appeal_user_explain) {
-        const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name)
-        this.$root.eventHub.$emit('loading', null)
-        if (ret.status === 200 && ret.data.code === 200) {
-          // 失败
-          if (this.detail_info.status && this.detail_info.status === 3) {
-            this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
-            this.$root.eventHub.$emit('titps', `修改成功~`)
-            this.$router.back(-1)
-          } else {
-            this.$root.eventHub.$emit('titps', `提交成功~`)
-            this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
-            this.$router.back(-1)
-          }
+        if (!this.res_info || !this.res_info.key) {
+          this.$root.eventHub.$emit('titps', `请等待上传完成`)
+          return false
         }
-        if (ret === 404) {
-          this.$root.eventHub.$emit('titps', `任务信息错误~`)
+        try {
+          this.$root.eventHub.$emit('loading', true)
+          const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name)
+          this.$root.eventHub.$emit('loading', null)
+          if (ret.status === 200 && ret.data.code === 200) {
+            // 失败
+            if (this.detail_info.status && this.detail_info.status === 3) {
+              this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
+              this.$root.eventHub.$emit('titps', `修改成功~`)
+              this.$router.back(-1)
+            } else {
+              this.$root.eventHub.$emit('titps', `提交成功~`)
+              this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
+              this.$router.back(-1)
+            }
+          }
+          if (ret === 404) {
+            this.$root.eventHub.$emit('titps', `任务信息错误~`)
+          }
+        } catch (e) {
+          this.$root.eventHub.$emit('titps', `网络错误,请刷新页面后重试`)
+          return false
         }
       },
     },
