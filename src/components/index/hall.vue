@@ -15,7 +15,9 @@
               {{item.min_title}}
             </div>
             <div class="flex index-task-item-inner">
-              <img :src="item.avatar" class="task-item-avatar"/>
+              <div class="default-avatar">
+                <img :src="item.avatar" class="new-task-item-avatar" @error="_error($event)"/>
+              </div>
               <div class="flex fw ell js">
                 <span class="task-item-title ell">{{item.title}}</span>
                 <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
@@ -84,6 +86,13 @@
       this.$refs.wrapper._initScroll()
     },
     methods: {
+      _error(err) {
+        try {
+          err.target.style.display = 'none'
+        } catch (e) {
+          console.log(e)
+        }
+      },
       async _getTaskHall(must) {
         if (!must) {
           this.$root.eventHub.$emit('loading', true)

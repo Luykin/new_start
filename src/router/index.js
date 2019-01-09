@@ -173,7 +173,7 @@ const routerconst = new Router({
 
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
-let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/myTask']
+let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report']
 // let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
   loading(true)

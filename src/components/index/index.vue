@@ -15,7 +15,9 @@
               {{item.min_title}}
             </div>
             <div class="flex index-task-item-inner">
-              <img :src="item.avatar" class="task-item-avatar"/>
+              <div class="default-avatar">
+                <img :src="item.avatar" class="new-task-item-avatar" @error="_error($event)"/>
+              </div>
               <div class="flex fw ell js">
                 <div class="task-item-title ell flex js">
                   {{item.title}}
@@ -95,6 +97,13 @@
       this._inint()
     },
     methods: {
+      _error(err) {
+        try {
+          err.target.style.display = 'none'
+        } catch (e) {
+          console.log(e)
+        }
+      },
       _inint() {
         this.$refs.wrapper._initScroll()
         this._getHomeInfo()

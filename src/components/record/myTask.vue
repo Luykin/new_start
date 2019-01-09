@@ -160,8 +160,8 @@
           }
         }
         if (id === 1) {
-          if (this.$root.user.u_current_num) {
-            this.$root.user.u_current_num = 0
+          if (this.$root.user.u_audit_num) {
+            this.$root.user.u_audit_num = 0
           }
         }
         if (id === 2) {
