@@ -2,7 +2,7 @@
   <div class="hidden">
     <input type="file" accept="image/*" class="file" ref="file" @change="_preview($event)"/>
     <canvas ref="spread" width="300" height="485" class="spread hidek" style="width: 390px; height: 631px;"></canvas>
-    <img class="spreadimg" @load="_setcanvas"/>
+    <img class="spreadimg hidek" @load="_setcanvas"/>
   </div>
 </template>
 
@@ -37,8 +37,12 @@
         try {
           let canvas = document.querySelector('.spread')
           let imgbg = document.querySelector('.spreadimg')
+          //清空画布
+          const canvasText = canvas.getContext('2d');
+          // canvasText.clearRect(0,0,canvasText.width,canvasText.height);
+          canvas.height = canvas.height;
           // 对图像进行压缩
-          canvas.getContext('2d').drawImage(imgbg, 0, 0, 300, 485)
+          canvasText.drawImage(imgbg, 0, 0, 300, 485)
           let files = this.dataURLtoFile(canvas.toDataURL('image/png'), this.key)
           console.log(`压缩文件:${files} 大小${files.size}`)
           let reader = new FileReader()
@@ -63,9 +67,10 @@
             this.$root.eventHub.$emit('titps', `请选择小于10M的图片~`)
             return false
           }
-          this.key = 'DGZ用户传图' + Date.parse(new Date()) + '.png'
-          // this._qiniuUpload(files, key)
-          console.log(`源文件:${files} 大小${files.size}`)
+          //清空画布
+          // if (files.type.slice(6)) {}
+          this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
+          console.log(`源文件:${files} 大小${files.size} ${files.type.replace('image/', '')}`)
           let reader = new FileReader()
           reader.readAsDataURL(files)
           reader.onload = (e) => {
@@ -126,5 +131,13 @@
     height: 0;
     opacity: 0;
     z-index: -1;
+  }
+
+  .hidek {
+    opacity: 0;
+    position: fixed;
+    z-index: -99;
+    top: 1000px;
+    left: 0;
   }
 </style>

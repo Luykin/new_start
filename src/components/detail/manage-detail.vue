@@ -141,8 +141,13 @@
         if (!this.$root.user.username) {
           return false
         }
+        if (this.manageInfo.status === 2) {
+          this.$root.eventHub.$emit('titps', `本条任务已被取消`)
+          return false
+        }
         this.$router.push({
-          path: `./index/${this.manageInfo.id}`
+          name: 'task-detail',
+          params: {id: this.manageInfo.id}
         })
       },
       _showQrCode() {
@@ -423,7 +428,7 @@
     background: -webkit-gradient(linear, right bottom, left top, from(#15961E), to(#42D852));
   }
 
-  .line-blue-color{
+  .line-blue-color {
     background: #423AE7;
     background: linear-gradient(-45deg, #423AE7, #369CFF);
     background: -webkit-gradient(linear, right bottom, left top, from(#423AE7), to(#369CFF));

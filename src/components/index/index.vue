@@ -200,7 +200,8 @@
           return false
         }
         this.$router.push({
-          path: `./index/${id}`
+          name: 'task-detail',
+          params: {id}
         })
       },
       _pulldown() {

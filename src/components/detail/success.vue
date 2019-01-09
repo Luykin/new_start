@@ -41,7 +41,8 @@
       _getDetail(id) {
         console.log(id)
         this.$router.replace({
-          path: `./index/${id}`
+          name: 'task-detail',
+          params: {id}
         })
       },
     },

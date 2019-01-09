@@ -95,6 +95,9 @@
           this.list = [...this.list, ...ret.data.data.ret]
           this.total = ret.data.data.count
         }
+        if (ret === 403) {
+          this.$router.back(-1)
+        }
       },
       _toManageDetail(info) {
         this.$router.push({

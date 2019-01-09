@@ -189,6 +189,7 @@
           this.works_link = ''
           this.reward_amount = ''
           this.single_price = ''
+          this.all_price = ''
         }
         if (ret === 422) {
           this.$root.eventHub.$emit('titps', `金额校验不通过!`)

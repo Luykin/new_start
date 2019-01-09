@@ -96,12 +96,21 @@
           return false
         }
         this.$router.push({
-          name: 'al-submitJob',
-          params: Object.assign(item, {
-            audit: true,
-            task_id: this.task_id
-          })
+          name: 'submit-job',
+          params: {
+            info: Object.assign(item, {
+              audit: true,
+              task_id: this.task_id
+            })
+          }
         })
+        // this.$router.push({
+        //   name: 'al-submitJob',
+        //   params: Object.assign(item, {
+        //     audit: true,
+        //     task_id: this.task_id
+        //   })
+        // })
       },
       _format(list) {
         if (!list || !list.length) {

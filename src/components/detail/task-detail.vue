@@ -29,7 +29,7 @@
                 <span>{{this.task_url}}</span>
               </div>
               <!--<div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"-->
-                   <!--v-show="!detail_info.is_take_task">点击复制-->
+              <!--v-show="!detail_info.is_take_task">点击复制-->
               <!--</div>-->
               <div class="copy-btn flex line-back" :class="{'copy': detail_info.task_url}"
                    :data-clipboard-text="task_url" @click="_showTipsV">点击复制
@@ -75,7 +75,8 @@
         disable_btn: null,
         blink: null,
         status: null,
-        destroy: null
+        destroy: null,
+        page_id: null
       }
     },
     computed: {
@@ -115,7 +116,8 @@
       },
     },
     created() {
-      this._getDetail(this.$route.params.id)
+      this.page_id = this.$route.params.id
+      this._getDetail(this.page_id)
       const clipboard = new ClipboardJS('.copy')
       const that = this
       clipboard.on('success', function (e) {
@@ -125,12 +127,25 @@
       })
       clipboard.on('error', function (e) {
       })
-      this.$root.eventHub.$on('updateMyTask', (id) => {
-        console.log(`通知的ret_id${id} 实际id:${this.detail_info.id}:  改页面${this.destroy}`)
-        if (!this.destroy && id === this.detail_info.rtr_id) {
-          this._getDetail(this.detail_info.id)
-        }
+      this.$root.eventHub.$on(`taskDetail`, (id) => {
+        this._getDetail(id)
       })
+      // this.$root.eventHub.$on(`updateMyTask${this.page_id}`, (info) => {
+      //   this._getDetail()
+      // })
+      // this.$root.eventHub.$on('updateMyTask', (info) => {
+      //   console.log(`通知的ret_id${info} 实际id:${this.detail_info.id}:  改页面${this.destroy}`)
+      //   if (info && info.must) {
+      //     console.log('开始更新')
+      //     this._getDetail(info.id)
+      //   }
+      //   if (!this.destroy && (parseInt(info) === parseInt(this.detail_info.rtr_id))) {
+      //     console.log('开始更新')
+      //     this._getDetail(this.detail_info.id)
+      //   } else {
+      //     console.log('不更新')
+      //   }
+      // })
     },
     mounted() {
       this.$refs.wrapper._initScroll()
@@ -174,37 +189,39 @@
       _toSubmitJob() {
         let ret = JSON.parse(JSON.stringify(this.detail_info))
         ret.id = ret.rtr_id
-        // console.log(this.$route.path.indexOf('/myTask'))
-        if (this.$route.path.indexOf('/myTask') > -1) {
-          this.$router.push({
-            name: 'mySubmitJob',
-            params: ret
-          })
-        } else {
-          this.$router.push({
-            name: 'submitJob',
-            params: ret
-          })
-        }
+        ret.page_id = this.page_id
+        this.$router.push({
+          name: 'submit-job',
+          params: {
+            info: ret
+          }
+        })
       },
       async _getDetail(id, callback) {
-        console.log(`要更新的id${id}`)
         this.$root.eventHub.$emit('loading', true)
-        const ret = await task_detail(id, this.$root.user.username)
+        const ret = await task_detail(id || this.page_id, this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.detail_info = ret.data.data
           this.status = this.detail_info.status
+          this.disable_btn = null
           clearInterval(this.timer)
           this.timer = null
           this._cutDown(this.detail_info.complete_time)
           if (callback) {
             callback()
           }
+          return false
+        }
+        if (ret === 404) {
+          this.$root.eventHub.$emit('titps', `该任务已被取消,无法查看`)
+          this.$router.back(-1)
+        } else {
+          this.$router.back(-1)
         }
       },
       _cutDown(time) {
-        // console.log(time)
+        console.log(time, '设置时间')
         if (!time) {
           this.cut_time = '您还未接受该任务'
           return false
@@ -383,7 +400,7 @@
     overflow: hidden;
   }
 
-  .copy-info span{
+  .copy-info span {
     width: auto;
     display: inline-block;
     white-space: nowrap;
@@ -446,4 +463,5 @@
     user-select: none;
     pointer-events: none;
   }
+
 </style>

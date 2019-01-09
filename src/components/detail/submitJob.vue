@@ -131,9 +131,11 @@
       }
     },
     created() {
-      // console.log(this.$route.query)
-      this.detail_info = this.$route.params
-      // console.log(this.$route.params)
+      // submitJob
+      this.detail_info = this.$route.params.info
+      this.$root.eventHub.$on(`submitJob`, (info) => {
+        this.detail_info = this.$route.params.info
+      })
     },
     mounted() {
       document.querySelectorAll('.disScroll').forEach((item) => {
@@ -168,24 +170,39 @@
         this._pass(2, this.nopass)
       },
       async _pass(type, task_message) {
-        if (!this.$route.params.task_id && this.$route.params.task_id !== 0) {
+        if (!this.detail_info.task_id && this.detail_info.task_id !== 0) {
           this.$root.eventHub.$emit('titps', `请刷新页面后重试`)
           return false
         }
         this.$root.eventHub.$emit('loading', true)
         // pass_or_fail_task(id, task_id, username, click_type, task_message) {
-        const ret = await pass_or_fail_task(this.$route.params.id, this.$route.params.task_id, this.$root.user.username, type, task_message)
+        const ret = await pass_or_fail_task(this.detail_info.id, this.detail_info.task_id, this.$root.user.username, type, task_message)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.nopass = ''
-          this.$root.eventHub.$emit('audit', this.$route.params.task_id)
-          this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
+          this.$root.eventHub.$emit('audit', this.detail_info.task_id)
+          this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)
           this.$root.eventHub.$emit('titps', `提交成功~`)
+          this._setNull()
           this.$refs.back._back()
         }
         if (ret === 442) {
           this.$root.eventHub.$emit('audit', this.detail_info.id)
           this.$root.eventHub.$emit('titps', `该任务已完成`)
+        }
+      },
+      _setNull() {
+        try {
+          this.dy_name =''
+          this.processZC = 0
+          this.process = 0
+          this.$refs.previewImg.style.opacity = 0
+          this.$refs.previewImg.src = null
+          this.$refs.previewImgZC.src = null
+          this.$refs.previewImgZC.style.opacity = 0
+          this._close()
+        } catch (e) {
+          console.log(e)
         }
       },
       _close() {
@@ -201,6 +218,7 @@
       _setUrl(url) {
         this.process = 0.1
         this.$refs.previewImg.src = url
+        this.$refs.previewImg.style.opacity = 1
       },
       _setProcess(res) {
         this.process = res.total.percent.toFixed(2)
@@ -221,6 +239,7 @@
       _setUrlZC(url) {
         this.processZC = 0.1
         this.$refs.previewImgZC.src = url
+        this.$refs.previewImgZC.style.opacity = 1
       },
       _setProcessZC(res) {
         this.processZC = res.total.percent.toFixed(2)
@@ -270,8 +289,11 @@
         // console.log(ret)
         if (ret.status === 200 && ret.data.code === 200) {
           // this._close()
-          this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
+          // updateMyTask
+          this.$root.eventHub.$emit('updateMyTask')
+          this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)
           this.$root.eventHub.$emit('titps', `提交成功~`)
+          this._setNull()
           this.$router.back(-1)
           return false
         }
@@ -303,12 +325,16 @@
           if (ret.status === 200 && ret.data.code === 200) {
             // 失败
             if (this.detail_info.status && this.detail_info.status === 3) {
-              this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
+              this.$root.eventHub.$emit('updateMyTask')
+              this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)
               this.$root.eventHub.$emit('titps', `修改成功~`)
+              this._setNull()
               this.$router.back(-1)
             } else {
               this.$root.eventHub.$emit('titps', `提交成功~`)
-              this.$root.eventHub.$emit('updateMyTask', this.detail_info.id)
+              this.$root.eventHub.$emit('updateMyTask')
+              this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)
+              this._setNull()
               this.$router.back(-1)
             }
           }

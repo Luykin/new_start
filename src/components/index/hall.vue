@@ -135,7 +135,8 @@
           return false
         }
         this.$router.push({
-          path: `./hall/${id}`
+          name: 'task-detail',
+          params: {id}
         })
       },
       _pulldown() {

@@ -134,8 +134,12 @@
     methods: {
       _getDetail(id) {
         // console.log(id)
+        // this.$router.push({
+        //   path: `./myTask/${id}`
+        // })
         this.$router.push({
-          path: `./myTask/${id}`
+          name: 'task-detail',
+          params: {id}
         })
       },
       // _toSubmitJob(item) {
@@ -185,11 +189,14 @@
           })
         }
       },
-      async _getMyTask(id, callback) {
+      async _getMyTask(id, callback, must) {
         this.$root.eventHub.$emit('loading', true)
         const ret = await my_task(id, this.$root.user.username, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
+          if (must) {
+            this.list = []
+          }
           this.list = [...this.list, ...ret.data.data.ret]
           this.total = ret.data.data.count
           if (callback) {
@@ -200,8 +207,8 @@
       _pulldown(id = this.activeId, callback) {
         this.num = 10
         this.page = 0
-        this.list = []
-        this._getMyTask(id, callback)
+        // this.list = []
+        this._getMyTask(id, callback, true)
       },
       _scrollToEnd() {
         if (this.list.length < this.total) {

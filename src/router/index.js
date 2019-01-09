@@ -17,17 +17,16 @@ const routerconst = new Router({
     name: 'index',
     component: () =>
       import (`components/index/index`),
-    children: [{
-      path: ':id',
-      component: () =>
-        import (`components/detail/task-detail`),
-      children: [{
-        path: '/submitJob',
-        name: 'submitJob',
-        component: () =>
-          import(`components/detail/submitJob`)
-      }]
-    }]
+  }, {
+    path: '/task-detail',
+    name: 'task-detail',
+    component: () =>
+      import(`components/detail/task-detail`)
+  }, {
+    path: '/submit-job',
+    name: 'submit-job',
+    component: () =>
+      import(`components/detail/submitJob`)
   }, {
     path: '/release',
     name: 'release',
@@ -49,7 +48,7 @@ const routerconst = new Router({
       name: 'report',
       component: () =>
         import(`components/record/report`)
-    },{
+    }, {
       path: '/recharge',
       name: 'recharge',
       component: () =>
@@ -59,17 +58,6 @@ const routerconst = new Router({
       name: 'myTask',
       component: () =>
         import(`components/record/myTask`),
-      children: [{
-        path: ':id',
-        component: () =>
-          import (`components/detail/task-detail`),
-        children: [{
-          path: '/submitJob',
-          name: 'mySubmitJob',
-          component: () =>
-            import(`components/detail/submitJob`)
-        }]
-      }]
     }]
   }, {
     path: '/commision',
@@ -102,21 +90,8 @@ const routerconst = new Router({
         name: 'audit-list',
         component: () =>
           import(`components/detail/audit-list`),
-        children: [{
-          path: '/submitJob',
-          name: 'al-submitJob',
-          component: () =>
-            import(`components/detail/submitJob`)
-        }]
       }]
     }]
-    //   , {
-    //   path: '/audit-list',
-    //   name: 'audit-list',
-    //   component: () =>
-    //     import(`components/detail/audit-list`)
-    // }
-
   }, {
     path: '/good',
     name: 'good',
@@ -131,18 +106,7 @@ const routerconst = new Router({
     path: '/hall',
     name: 'hall',
     component: () =>
-      import(`components/index/hall`),
-    children: [{
-      path: ':id',
-      component: () =>
-        import (`components/detail/task-detail`),
-      children: [{
-        path: '/submitJob',
-        name: 'submitJob',
-        component: () =>
-          import(`components/detail/submitJob`)
-      }]
-    }]
+      import(`components/index/hall`)
   }, {
     path: '/phone',
     name: 'phone',
@@ -196,6 +160,16 @@ routerconst.beforeEach((to, from, next) => {
 })
 routerconst.afterEach((to, from) => {
   loading(null)
+  if (to.name === 'task-detail') {
+    if (to.params.id) {
+      getEventHub().$emit(`taskDetail`, to.params.id)
+    }
+  }
+  if (to.name === 'submit-job') {
+    if (to.params.info) {
+      getEventHub().$emit(`submitJob`, to.params.info)
+    }
+  }
 })
 
 export default routerconst
