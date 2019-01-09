@@ -221,6 +221,10 @@
           this.$root.eventHub.$emit('titps', `请等待辩诉回应~`)
           return false
         }
+        if (item.status === 5) {
+          this.$root.eventHub.$emit('titps', `辩诉已结束`)
+          return false
+        }
         this.$refs.interlayer._showLayer()
         this.$refs.popup._showPopup()
         this.nowChose = item

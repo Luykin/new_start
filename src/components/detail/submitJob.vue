@@ -240,6 +240,11 @@
           console.log(this.process)
           return false
         }
+        // console.log(this.detail_info)
+        if (this.detail_info.status === -1) {
+          this.$root.eventHub.$emit('titps', `任务已到期,无法提交~`)
+          return false
+        }
         this.$refs.upload._imitateClick()
       },
       _success(res) {
