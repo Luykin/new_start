@@ -45,6 +45,11 @@ const routerconst = new Router({
     component: () =>
       import (`components/index/user`),
     children: [{
+      path: '/report',
+      name: 'report',
+      component: () =>
+        import(`components/record/report`)
+    },{
       path: '/recharge',
       name: 'recharge',
       component: () =>
@@ -139,11 +144,6 @@ const routerconst = new Router({
       }]
     }]
   }, {
-    path: '/report',
-    name: 'report',
-    component: () =>
-      import(`components/record/report`)
-  }, {
     path: '/phone',
     name: 'phone',
     component: () =>
@@ -173,7 +173,7 @@ const routerconst = new Router({
 
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
-let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release']
+let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/myTask']
 // let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
   loading(true)
