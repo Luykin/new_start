@@ -28,14 +28,14 @@
               <div class="report-image-item flex magnifier"
                    :style="`background: url(${item.appeal_user_image}) no-repeat center center; background-size: 100% auto;`" @click="_setEnlargeImage(item.appeal_user_image)">
                 <div class="rii-text">{{item.appeal_user_explain}}</div>
-                <downwx ref="downwx" :url="item.appeal_user_explain" :index="index" @load="_setWxUrl" v-if="item"></downwx>
+                <downwx ref="downwx" :url="item.appeal_user_image" :index="index" @load="_setWxUrl" v-if="item" :config="config"></downwx>
               </div>
               <div class="report-image-item flex" style="background: none" v-if="activeId === 2 && !item.plea_user_image">
                 <span class="reSay-waro ell">等待对方回复</span>
               </div>
               <div class="report-image-item flex" :style="_setImage(item.plea_user_image)" :class="{'magnifier': _setImage(item.plea_user_image)}" @click="_showModel(item)" v-else>
                 <div class="rii-text" v-if="item.plea_user_explain">{{item.plea_user_explain}}</div>
-                <downwx ref="downwx" :url="item.plea_user_image" :index="index" @load="_setPleaWxUrl" v-if="item"></downwx>
+                <downwx ref="downwx" :url="item.plea_user_image" :index="index" @load="_setPleaWxUrl" v-if="item" :config="config"></downwx>
               </div>
             </div>
           </div>
@@ -76,7 +76,7 @@
   import back from 'base/back/back'
   import empyt from 'base/empyt/empyt'
   import betterscroll from 'base/better-scroll/better-scroll'
-  import {rights_protection, sub_of_plea} from 'api/index'
+  import {rights_protection, sub_of_plea, jsapi_code} from 'api/index'
   import {timeformat} from 'common/js/util'
   import interlayer from 'base/interlayer/interlayer'
   import popup from 'base/popup/popup'
@@ -107,6 +107,7 @@
         nowChose: null,
         // cut_down_bs: null,
         nowTime: Date.parse(new Date()),
+        config: null
       }
     },
     computed: {
@@ -135,7 +136,8 @@
       },
     },
     created() {
-      this._getRightsProtection(this.activeId)
+      // this._getRightsProtection(this.activeId)
+      this._getJsapiCode()
     },
     mounted() {
       this.$refs.wrapper._initScroll()
@@ -152,23 +154,39 @@
       })
     },
     methods: {
+      async _getJsapiCode() {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await jsapi_code((window.location.href.split('#')[0]))
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          console.log('配置jsapi')
+          // const data = ret.data.data
+          this.config = ret.data.data
+          this._getRightsProtection(this.activeId)
+        } else {
+          this.$root.eventHub.$emit('titps', ret)
+        }
+      },
       _setWxUrl(arg) {
-        this.list[arg.index].appeal_user_explain = arg.url
+        this.list[arg.index].appeal_user_image = arg.url
       },
       _setPleaWxUrl(arg) {
-        this.list[arg.index].plea_user_explain = arg.url
+        this.list[arg.index].plea_user_image = arg.url
       },
       _setTime() {
         setInterval(() => {
           this.nowTime = Date.parse(new Date())
         }, 1000)
       },
-      async _getRightsProtection(id, callback) {
+      async _getRightsProtection(id, callback, must) {
         this.$root.eventHub.$emit('loading', true)
         // rp_type, username, page, num) {
         const ret = await rights_protection(id || this.activeId, this.$root.user.username, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
+          if (must) {
+            this.list = []
+          }
           this.list = [...this.list, ...this._format(ret.data.data.ret)]
           this.total = ret.data.data.count
           if (callback) {
@@ -279,8 +297,8 @@
       _pulldown(id = this.activeId, callback) {
         this.num = 10
         this.page = 0
-        this.list = []
-        this._getRightsProtection(id, callback)
+        // this.list = []
+        this._getRightsProtection(id, callback, true)
       },
       _scrollToEnd() {
         if (this.list.length < this.total) {

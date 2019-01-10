@@ -25,7 +25,7 @@
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% 100%;`"
              v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"
              @click="_setEnlargeImage(detail_info.task_image)">
-          <downwx ref="downwx" :url="detail_info.task_image" :index="0" @load="_setWxUrl" v-if="detail_info"></downwx>
+          <downwx ref="downwx" :url="detail_info.task_image" :index="0" @load="_setWxUrl" v-if="detail_info && ((detail_info.task_image && detail_info.status !== 3) || detail_info.audit)" :config="config"></downwx>
         </div>
         <div class="upload-warp" @click="_choseImg" v-else>
           <div class="upload-inner flex">
@@ -122,6 +122,7 @@
   import popup from 'base/popup/popup'
   import enlarge from 'components/enlarge/enlarge'
   import downwx from 'base/upload/down_wx_image'
+  import {jsapi_code} from 'api/index'
 
   export default {
     name: 'submitJob',
@@ -140,23 +141,12 @@
         textarea: '',
         nopass: '',
         dy_name: '',
-        enlarge_image: null
+        enlarge_image: null,
+        config: null
       }
     },
     created() {
-      // submitJob
-      this.detail_info = this.$route.params.info
-      // console.log(localStorage.getItem('douyinID'))
-      this.$root.eventHub.$on(`submitJob`, (info) => {
-        console.log(this.detail_info)
-        this.detail_info = this.$route.params.info
-        // this.detail_info.task_image = this.$refs.downwx._loadUrl(this.detail_info.task_image);
-      })
-      try {
-        this.dy_name = localStorage.getItem('douyinID') || ''
-      } catch (e) {
-        console.log(e)
-      }
+      this._getJsapiCode()
     },
     mounted() {
       // this.detail_info.task_image = this.$refs.downwx._loadUrl(this.detail_info.task_image);
@@ -172,6 +162,36 @@
       })
     },
     methods: {
+      _init() {
+        this.detail_info = this.$route.params.info
+        this.$root.eventHub.$on(`submitJob`, (info) => {
+          this.detail_info = this.$route.params.info
+          try {
+            if (this.detail_info.task_image) {
+              this.$refs.downwx._loadUrl(this.detail_info.task_image)
+            }
+          } catch (e) {
+            console.log(e)
+          }
+        })
+        try {
+          this.dy_name = localStorage.getItem('douyinID') || ''
+        } catch (e) {
+          console.log(e)
+        }
+      },
+      async _getJsapiCode() {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await jsapi_code((window.location.href.split('#')[0]))
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          console.log('配置jsapi')
+          this.config = ret.data.data
+          this._init()
+        } else {
+          this.$root.eventHub.$emit('titps', ret)
+        }
+      },
       _setEnlargeImage(image) {
         // console.log(image)
         if (!image) {
