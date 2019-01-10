@@ -1,5 +1,5 @@
 <template>
-  <div class="entrance" @click="$router.push({name: 'inlet'})">
+  <div class="entrance" @click="$router.push({name: 'entrance'})">
     <img src="../../assets/img/entrance.png"/>
   </div>
 </template>

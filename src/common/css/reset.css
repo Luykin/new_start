@@ -124,6 +124,16 @@ input:focus::-webkit-contacts-auto-fill-button {
   justify-content: flex-start;
 }
 
+.pop-enter-active, .pop-leave-active {
+  transition: opacity .3s;
+  opacity: 1;
+}
+
+.pop-enter, .pop-leave-to {
+  transition: opacity .3s;
+  opacity: 0;
+}
+
 .list-enter-active, .list-leave-active {
   transition: opacity .8s;
   opacity: 1;

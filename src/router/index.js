@@ -17,6 +17,12 @@ const routerconst = new Router({
     name: 'index',
     component: () =>
       import (`components/index/index`),
+    children: [{
+      path: '/entrance',
+      name: 'entrance',
+      component: () =>
+        import(`components/detail/entrance`)
+    }]
   }, {
     path: '/task-detail',
     name: 'task-detail',
@@ -134,7 +140,7 @@ const routerconst = new Router({
       import(`components/detail/submit-success`)
   }]
 })
-
+//entrance
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
 let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report']

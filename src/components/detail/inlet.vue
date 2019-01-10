@@ -3,7 +3,7 @@
     <div class="detail-body">
       <back></back>
       <div class="task-info">
-        <img src="https://cdn.xingkwh.com/%E5%85%B3%E6%B3%A8%E5%85%AC%E4%BC%97%E5%8F%B7@3x.png"/>
+        <img src="https://cdn.xingkwh.com/%E5%B9%B3%E5%8F%B0%E5%85%A5%E5%8F%A3%E6%B5%81%E7%A8%8B@3x.png"/>
       </div>
     </div>
   </transition>
@@ -21,12 +21,6 @@
 
 <style scoped>
   .task-info {
-    position: fixed;
-    top: 42%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 78%;
-    /*margin-top: 50px;*/
     padding: 0;
     background: none;
     overflow: hidden;
