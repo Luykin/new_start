@@ -91,9 +91,10 @@
           this.total = ret.data.data.count
           this.task_id = ret.data.data.task_id
         }
-        if (ret === 403) {
-          // this.$root.eventHub.$emit('titps', `网络开了小差~`)
-          // return false
+        if (ret === 403 && !this.list.length) {
+          this.$root.eventHub.$emit('titps', `网络开了小差~`)
+          this.$router.back(-1)
+          return false
         }
       },
       _toSubmitJob(item) {

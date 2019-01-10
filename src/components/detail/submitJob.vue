@@ -134,11 +134,16 @@
     created() {
       // submitJob
       this.detail_info = this.$route.params.info
-      console.log(this.detail_info)
+      // console.log(localStorage.getItem('douyinID'))
       this.$root.eventHub.$on(`submitJob`, (info) => {
         console.log(this.detail_info)
         this.detail_info = this.$route.params.info
       })
+      try {
+        this.dy_name = localStorage.getItem('douyinID') || ''
+      } catch (e) {
+        console.log(e)
+      }
     },
     mounted() {
       document.querySelectorAll('.disScroll').forEach((item) => {
@@ -178,7 +183,6 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        // pass_or_fail_task(id, task_id, username, click_type, task_message) {
         const ret = await pass_or_fail_task(this.detail_info.id, this.detail_info.task_id, this.$root.user.username, type, task_message)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
@@ -359,7 +363,7 @@
           const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name)
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200) {
-            // 失败
+            localStorage.setItem('douyinID', this.dy_name);
             if (this.detail_info.status && this.detail_info.status === 3) {
               this.$root.eventHub.$emit('updateMyTask')
               this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)

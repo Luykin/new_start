@@ -33,6 +33,7 @@
           <empyt v-show="!list.length"></empyt>
         </div>
       </betterscroll>
+      <entrance></entrance>
       <router-view></router-view>
     </div>
   </transition>
@@ -42,6 +43,7 @@
   import userheader from 'components/userheader/userheader'
   import betterscroll from 'base/better-scroll/better-scroll'
   import empyt from 'base/empyt/empyt'
+  import entrance from 'components/entrance-window/entrance'
   import {pub_task, login, home_page, task_detail, update_user_info} from 'api/index'
   import {UAID, CHANNEL, APPNAME} from 'api/config'
 
@@ -220,6 +222,7 @@
     },
     components: {
       empyt,
+      entrance,
       userheader,
       betterscroll
     }
