@@ -22,7 +22,8 @@
                 <div class="task-item-title ell flex js">
                   {{item.title}}
                 </div>
-                <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
+                <p class="task-num ell"><span style="color: #6B41E1">{{item.use_num}}</span>人已做,还剩<span
+                  style="color: #FF3939">{{item.remain_num}}</span>个名额</p>
               </div>
               <div class="flex task-item-money js">
                 ¥{{item.single_price}}
@@ -45,7 +46,7 @@
   import empyt from 'base/empyt/empyt'
   import entrance from 'components/entrance-window/entrance'
   import {pub_task, login, home_page, task_detail, update_user_info} from 'api/index'
-  import {UAID, CHANNEL, APPNAME} from 'api/config'
+  import {UAID, CHANNEL, APPNAME, env} from 'api/config'
 
   export default {
     data() {
@@ -126,7 +127,12 @@
           history.replaceState(null, null, locationUrl)
         } else {
           console.log('浏览器储存登录')
-          const user = localStorage.getItem(`${UAID}${CHANNEL}user_id`) || localStorage.getItem('user_id')
+          let user
+          if (env === 'dev') {
+            user = '8888888'
+          } else {
+            user = localStorage.getItem(`${UAID}${CHANNEL}user_id`) || localStorage.getItem('user_id')
+          }
           if (user) {
             this._updateuserinfo(user, callback)
           } else {

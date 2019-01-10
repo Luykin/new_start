@@ -7,13 +7,13 @@
           <back></back>
           <div class="task-header" v-if="detail_info">
             <div class="top flex fw">
-              <div class="tht-title ell">{{detail_info.title}}</div>
+              <div class="tht-title ell">{{detail_info.min_title}}任务</div>
               <div class="tht-user ell">悬赏发布人: {{detail_info.nickname}}</div>
             </div>
             <div class="bottom flex fw">
               <div class="count-down flex">
-                <div class="cd-left flex ell">{{detail_info.min_title}}任务</div>
-                任务倒计时:
+                <div class="cd-left flex ell">任务倒计时:</div>
+                <!--任务倒计时:-->
                 <span class="time">{{cut_time}}</span>
               </div>
               <div class="tdb-left flex">{{detail_info.num}}/

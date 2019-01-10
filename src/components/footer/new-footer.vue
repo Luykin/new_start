@@ -4,7 +4,7 @@
                  :class="{'disable': item.disable}">
       <img :src="item.icon" class="footer-icon canUsed">
       <img :src="item.disabled" class="footer-icon disabled">
-      <span class="flex mg5 ssss">{{item.name}}</span>
+      <span class="flex mg5 ssss footer-item-name">{{item.name}}</span>
     </router-link>
     <div class="width-limit">
       <div class="add-task-btn flex" :class="{'show-add-task-btn': active}" @click="_toRelease"></div>
@@ -34,7 +34,7 @@
           disabled: require('../../assets/img/disable1.png'),
           path: '/hall'
         }, {
-          name: '',
+          name: '发布',
           icon: null,
           path: '',
           disabled: null,
@@ -101,6 +101,7 @@
   .footer-item {
     height: 100%;
     flex-grow: 1;
+    align-content: flex-end;
   }
 
   .disable {
@@ -188,5 +189,9 @@
 
   .router-link-active .disabled {
     display: none;
+  }
+
+  .footer-item-name{
+    margin-bottom: 6%;
   }
 </style>

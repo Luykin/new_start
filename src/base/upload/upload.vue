@@ -17,6 +17,14 @@
       }
     },
     created() {
+      // wx.config({
+      //   debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      //   appId: '', // 必填，公众号的唯一标识
+      //   timestamp: '', // 必填，生成签名的时间戳
+      //   nonceStr: '', // 必填，生成签名的随机串
+      //   signature: '',// 必填，签名
+      //   jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
+      // });
     },
     mounted() {
       // console.log(this.$refs.file)
@@ -52,6 +60,20 @@
       _imitateClick() {
         console.log('点击上传')
         this.$refs.file.click()
+        // this._wxChooseImage()
+      },
+      _wxChooseImage() {
+        wx.ready(() => {
+          wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+              var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+              alert(res.localIds);
+            }
+          });
+        })
       },
       _preview() {
         try {
@@ -64,10 +86,19 @@
             this.$root.eventHub.$emit('titps', `请选择小于7M的图片~`)
             return false
           }
+          // let fr = new FileReader()
+          // fr.readAsArrayBuffer(files)
+          // fr.onload = e => {
+          //   alert(1)
+          // }
+          // fr.onerror = e => {
+          //   alert(e.target.error)
+          // }
           this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
           if (parseFloat(files.size/1048576) <= 0) {
             this.$root.eventHub.$emit('titps', `请从[相册]中选择图片~`)
             // this._qiniuUpload(files, this.key, this, true)
+            //alert(JSON.stringify(files))
             return false
           }
           // this.$root.eventHub.$emit('titps', `图片大小:${parseFloat(files.size/1048576)}M`)
