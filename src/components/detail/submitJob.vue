@@ -10,9 +10,17 @@
         <div class="normal-title flex">{{detail_info.task_message ? `未通过原因: ${detail_info.task_message}` :
           '请按示例截图并上传提交给悬赏人审核'}}
         </div>
-        <div class="upload-warp magnifier"
-             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% 100%;`"
-             @click="_setEnlargeImage(detail_info.complete_image)"></div>
+        <!--<div class="upload-warp magnifier"-->
+        <!--&lt;!&ndash;:style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% 100%;`"&ndash;&gt;-->
+        <!--@click="_setEnlargeImage(detail_info.complete_image)">-->
+        <!--<img src="detail_info.complete_image"/>-->
+        <!--</div>-->
+        <div class="upload-warp magnifier" @click="_setEnlargeImage(detail_info.complete_image)"
+             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% 100%;`">
+          <div class="complete-image">
+            <img :src="detail_info.complete_image"/>
+          </div>
+        </div>
         <div class="upload-warp magnifier"
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% 100%;`"
              v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"
@@ -23,7 +31,8 @@
               {{process}}%
               <span class="flex">正在上传,请耐心等待...</span>
             </div>
-            <upload ref="upload" @view="_setUrl" @setprocess="_setProcess" @err="_err" @success="_success"  v-if="!showZC"></upload>
+            <upload ref="upload" @view="_setUrl" @setprocess="_setProcess" @err="_err" @success="_success"
+                    v-if="!showZC"></upload>
             <img ref="previewImg"/>
           </div>
         </div>
@@ -265,13 +274,13 @@
         this.$root.eventHub.$emit('titps', `上传出错啦,请查询选择图片~`)
       },
       _setUrlZC(url) {
-        console.log('seurlzc')
+        // console.log('seurlzc')
         this.processZC = 0.1
         this.$refs.previewImgZC.src = url || ''
         // this.$refs.previewImgZC.style.opacity = 1
       },
       _setProcessZC(res) {
-        console.log(res,'shou')
+        console.log(res, 'shou')
         try {
           if (!res || !res.total) {
             this.processZC = 0
@@ -284,7 +293,7 @@
         }
       },
       _successZC(res) {
-        console.log(res, 'suc')
+        // console.log(res, 'suc')
         this.res_info_ZC = res
       },
       _choseImgZC() {
@@ -363,7 +372,7 @@
           const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name)
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200) {
-            localStorage.setItem('douyinID', this.dy_name);
+            localStorage.setItem('douyinID', this.dy_name)
             if (this.detail_info.status && this.detail_info.status === 3) {
               this.$root.eventHub.$emit('updateMyTask')
               this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)
@@ -626,7 +635,7 @@
     text-indent: 10px;
   }
 
-  .tiw-left-new{
+  .tiw-left-new {
     width: 40%;
   }
 
@@ -681,9 +690,22 @@
     background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
   }
 
-  .min-name-tips{
+  .min-name-tips {
     font-size: 10px;
     color: #f74bca;
     transform: scale(.9, .9);
+  }
+
+  .complete-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .complete-image img {
+    width: 100%;
+    height: 100%;
   }
 </style>

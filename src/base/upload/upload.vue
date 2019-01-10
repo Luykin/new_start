@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import {up_token} from 'api/index'
+  import {up_token, jsapi_code} from 'api/index'
 
   export default {
     name: 'upload',
@@ -17,6 +17,7 @@
       }
     },
     created() {
+      this._getJsapiCode()
       // wx.config({
       //   debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
       //   appId: '', // 必填，公众号的唯一标识
@@ -27,9 +28,24 @@
       // });
     },
     mounted() {
-      // console.log(this.$refs.file)
     },
     methods: {
+      async _getJsapiCode() {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await jsapi_code((window.location.href.split('#')[0]))
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          const data = ret.data.data
+          wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.app_id, // 必填，公众号的唯一标识
+            timestamp: data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: data.noncestr, // 必填，生成签名的随机串
+            signature: data.sign,// 必填，签名
+            jsApiList: ['chooseImage', 'uploadImage', 'downloadImage', 'getLocalImgData'] // 必填，需要使用的JS接口列表
+          });
+        }
+      },
       dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
           bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n)
@@ -47,7 +63,7 @@
           let canvas = document.querySelector('.spread')
           let imgbg = document.querySelector('.spreadimg')
           const canvasText = canvas.getContext('2d')
-          canvas.height = canvas.height
+          canvas.height = canvas.height;
           canvasText.drawImage(imgbg, 0, 0, 300, 485)
           let files = this.dataURLtoFile(canvas.toDataURL('image/png'), this.key)
           this._qiniuUpload(files, this.key, this)
@@ -56,21 +72,78 @@
           return false
         }
       },
-      // this.$refs.file.click()
       _imitateClick() {
         console.log('点击上传')
-        this.$refs.file.click()
-        // this._wxChooseImage()
+        // this.$refs.file.click()
+        this._wxChooseImage()
       },
       _wxChooseImage() {
+        const that = this
         wx.ready(() => {
           wx.chooseImage({
             count: 1, // 默认9
             sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
             sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             success: function (res) {
-              var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-              alert(res.localIds);
+              try {
+                setTimeout(() => {
+                  var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                  that.$emit('view', localIds)
+                  // 兼容ios渲染
+                  try{
+                    var u = navigator.userAgent, app = navigator.appVersion;
+                    // var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+                    var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                    if (isIOS) {
+                      wx.getLocalImgData({
+                        localId: localIds.toString(), // 图片的localID
+                        success: function (res) {
+                          var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+                          that.$emit('view', localData)
+                        }
+                      });
+                    }
+                  } catch (e) {
+                    console.log(e)
+                  }
+                  let proess = Math.random();
+                  that.$emit('setprocess', {
+                    total: {
+                      percent: proess
+                    }
+                  })
+                  let timer = setInterval(() => {
+                    if (proess > 88) {
+                      clearInterval(timer)
+                      return false
+                    }
+                    proess += Math.random() * 10;
+                    that.$emit('setprocess', {
+                      total: {
+                        percent: proess
+                      }
+                    })
+                  }, 300)
+                  wx.uploadImage({
+                    localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    success: function (res) {
+                      var serverId = res.serverId; // 返回图片的服务器端ID
+                      that.$emit('success', {
+                        key: serverId
+                      })
+                      clearInterval(timer)
+                      that.$emit('setprocess', {
+                        total: {
+                          percent: 100
+                        }
+                      })
+                    }
+                  });
+                }, 200);
+              } catch (e) {
+                alert(e)
+              }
             }
           });
         })
@@ -86,14 +159,6 @@
             this.$root.eventHub.$emit('titps', `请选择小于7M的图片~`)
             return false
           }
-          // let fr = new FileReader()
-          // fr.readAsArrayBuffer(files)
-          // fr.onload = e => {
-          //   alert(1)
-          // }
-          // fr.onerror = e => {
-          //   alert(e.target.error)
-          // }
           this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
           if (parseFloat(files.size/1048576) <= 0) {
             this.$root.eventHub.$emit('titps', `请从[相册]中选择图片~`)
@@ -110,7 +175,6 @@
             this._setView(e.target.result)
           }
         } catch (e) {
-          alert(e)
           console.log(e)
         }
       },
@@ -120,7 +184,7 @@
         this.key = ''
         this.$emit('view', null)
         this.$emit('setprocess', 0)
-        canvas.height = canvas.height
+        canvas.height = canvas.height;
         this.$refs.file.value = ''
         this.$refs.spreadimg.src = null
       },
@@ -140,7 +204,7 @@
           let observable = window.qiniu.upload(file, key, ret.data.data.uptoken, putExtra, config)
           const observer = {
             next(res) {
-              console.log(that)
+              // console.log(that)
               that.$emit('setprocess', res)
             },
             error(err) {

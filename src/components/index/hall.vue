@@ -20,7 +20,8 @@
               </div>
               <div class="flex fw ell js">
                 <span class="task-item-title ell">{{item.title}}</span>
-                <span class="task-num ell">{{item.use_num}}人已做,还剩{{item.remain_num}}个名额</span>
+                <p class="task-num ell"><span style="color: #6B41E1">{{item.use_num}}</span>人已做,还剩<span
+                  style="color: #FF3939">{{item.remain_num}}</span>个名额</p>
               </div>
               <div class="flex task-item-money js">
                 ¥{{item.single_price}}

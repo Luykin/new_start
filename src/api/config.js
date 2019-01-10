@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 })
-var env = exports.env = 'qzone'
+var env = exports.env = 'dev'
 var PREFIX_URL = exports.PREFIX_URL = 'https://' + env + '.btc.melonblock.com/fabulous'
 var UAID = exports.UAID = 360400
 var CHANNEL = exports.CHANNEL = '10000'

@@ -575,3 +575,20 @@ export function see_team(username) {
     return Promise.resolve(res.response.status)
   })
 }
+
+//jsapi_code
+export function jsapi_code(js_url) {
+  const url = `${PREFIX_URL}/jsapi_code`
+  let data = {
+    url: js_url,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
