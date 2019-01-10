@@ -2,7 +2,7 @@
   <div class="hidden">
     <input type="file" accept="image/*" class="file" ref="file" @change="_preview($event)"/>
     <canvas ref="spread" width="300" height="485" class="spread hidek" style="width: 540px; height: 873px;"></canvas>
-    <img class="spreadimg hidek" @load="_setcanvas"/>
+    <img class="spreadimg hidek" @load="_setcanvas" ref="spreadimg"/>
   </div>
 </template>
 
@@ -44,13 +44,8 @@
           // 对图像进行压缩
           canvasText.drawImage(imgbg, 0, 0, 300, 485)
           let files = this.dataURLtoFile(canvas.toDataURL('image/png'), this.key)
-          console.log(`压缩文件:${files} 大小${files.size}`)
-          let reader = new FileReader()
-          reader.readAsDataURL(files)
-          reader.onload = (e) => {
-            console.log(e)
-          }
-          this._qiniuUpload(files, this.key||new Date())
+          // console.log(`压缩文件:${files} 大小${files.size}`)
+          this._qiniuUpload(files, this.key, this)
         } catch (err) {
           console.log(err)
           return false
@@ -75,8 +70,11 @@
           console.log('清空画布')
           //清空画布
           // if (files.type.slice(6)) {}
-          this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
-          console.log(`源文件:${files} 大小${files.size} ${files.type.replace('image/', '')}`)
+          try {
+            this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
+          } catch (e) {
+            this.key = 'DGZ用户传图' + Date.parse(new Date()) + '.png'
+          }
           let reader = new FileReader()
           reader.readAsDataURL(files)
           reader.onload = (e) => {
@@ -93,13 +91,17 @@
         let canvas = document.querySelector('.spread');
         this.key = '';
         this.$emit('view', null);
-        this.$emit('setProcess', 0);
+        this.$emit('setprocess', 0);
         canvas.height = canvas.height;
+        this.$refs.file.outerHTML = this.$refs.file.outerHTML;
+        this.$refs.spreadimg.outerHTML = this.$refs.spreadimg.outerHTML;
+        // document.querySelector('.spreadimg').outerHTML = document.querySelector('.spreadimg').outerHTML;
       },
-      async _qiniuUpload(file, key) {
+      async _qiniuUpload(file, key, that) {
+        console.log('开始上传')
         const ret = await up_token()
         if (ret.status === 200 && ret.data.code === 200) {
-          const that = this
+          // const that = this
           const putExtra = {
             fname: key,
             params: {},
@@ -112,7 +114,8 @@
           let observable = window.qiniu.upload(file, key, ret.data.data.uptoken, putExtra, config)
           const observer = {
             next(res){
-              that.$emit('setProcess', res)
+              console.log(that)
+              that.$emit('setprocess', res)
             },
             error(err){
               console.log(err)
@@ -121,10 +124,12 @@
             complete(res){
               console.log(res)
               that.$emit('success', res)
+              this.$refs.file.outerHTML = this.$refs.file.outerHTML
             }
           }
           let subscription = observable.subscribe(observer) // 上传开始
         }
+        // console.log('上传失败')
         // console.log(file, key)
         // let observable = window.qiniu.upload(file, key, token, putExtra, config)
       },

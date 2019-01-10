@@ -11,10 +11,10 @@
           '请按示例截图并上传提交给悬赏人审核'}}
         </div>
         <div class="upload-warp magnifier"
-             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% auto;`"
+             :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% 100%;`"
              @click="_setEnlargeImage(detail_info.complete_image)"></div>
         <div class="upload-warp magnifier"
-             :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% auto;`"
+             :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% 100%;`"
              v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"
              @click="_setEnlargeImage(detail_info.task_image)"></div>
         <div class="upload-warp" @click="_choseImg" v-else>
@@ -23,7 +23,7 @@
               {{process}}%
               <span class="flex">正在上传,请耐心等待...</span>
             </div>
-            <upload ref="upload" @view="_setUrl" @setProcess="_setProcess" @err="_err" @success="_success"></upload>
+            <upload ref="upload" @view="_setUrl" @setprocess="_setProcess" @err="_err" @success="_success"  v-if="!showZC"></upload>
             <img ref="previewImg"/>
           </div>
         </div>
@@ -67,8 +67,8 @@
                 {{processZC}}%
                 <span class="flex">正在上传...</span>
               </div>
-              <upload ref="uploadZC" @view="_setUrlZC" @setProcess="_setProcessZC" @err="_errZC"
-                      @success="_successZC"></upload>
+              <upload ref="uploadZC" @view="_setUrlZC" @setprocess="_setProcessZC" @err="_errZC"
+                      @success="_successZC" key="processZC" v-if="showZC"></upload>
               <img ref="previewImgZC"/>
             </div>
           </div>
@@ -115,6 +115,7 @@
     name: 'submitJob',
     data() {
       return {
+        showZC: null,
         process: 0,
         processZC: 0,
         detail_info: {
@@ -198,14 +199,19 @@
           this.dy_name =''
           this.processZC = 0
           this.process = 0
-          this.$refs.uploadZC._clear()
-          this.$refs.upload._clear()
           this._close()
+          if (this.$refs.uploadZC) {
+            this.$refs.uploadZC._clear()
+          }
+          if (this.$refs.upload) {
+            this.$refs.upload._clear()
+          }
         } catch (e) {
           console.log(e)
         }
       },
       _close() {
+        this.showZC = null
         this.$refs.interlayer._hiddenLayer()
         this.$refs.popup._hiddenPopup()
         this.$refs.nopass._hiddenPopup()
@@ -222,7 +228,7 @@
       },
       _setProcess(res) {
         try {
-          if (!res || !res.total || !res.total.percent) {
+          if (!res || !res.total) {
             this.process = 0
           } else {
             this.process = res.total.percent.toFixed(2)
@@ -233,6 +239,7 @@
         }
       },
       _showModel() {
+        this.showZC = true
         this.$refs.interlayer._showLayer()
         this.$refs.popup._showPopup()
       },
@@ -246,14 +253,15 @@
         this.$root.eventHub.$emit('titps', `上传出错啦,请查询选择图片~`)
       },
       _setUrlZC(url) {
+        console.log('seurlzc')
         this.processZC = 0.1
         this.$refs.previewImgZC.src = url || ''
         // this.$refs.previewImgZC.style.opacity = 1
       },
       _setProcessZC(res) {
-        // this.processZC = res.total.percent.toFixed(2)
+        console.log(res,'shou')
         try {
-          if (!res || !res.total || !res.total.percent) {
+          if (!res || !res.total) {
             this.processZC = 0
           } else {
             this.processZC = res.total.percent.toFixed(2)
@@ -264,6 +272,7 @@
         }
       },
       _successZC(res) {
+        console.log(res, 'suc')
         this.res_info_ZC = res
       },
       _choseImgZC() {

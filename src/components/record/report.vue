@@ -51,7 +51,7 @@
                 {{process}}%
                 <span class="flex">正在上传,请耐心等待...</span>
               </div>
-              <upload ref="upload" @view="_setUrl" @setProcess="_setProcess" @err="_err" @success="_success"></upload>
+              <upload ref="upload" @view="_setUrl" @setprocess="_setProcess" @err="_err" @success="_success"></upload>
               <img ref="previewImg"/>
             </div>
           </div>
