@@ -51,6 +51,7 @@
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 1">暂时无法报名</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 300">任务已提交</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 200">任务已完成</div>
+      <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 400">任务已过期</div>
       <div class="task-btn flex task-detail-btn line-back" v-if="btn_status === 100" @click="_toSubmitJob">重新提交</div>
       <div class="task-btn flex line-back task-detail-btn" v-if="btn_status === 2" @click="_toSubmitJob">提交任务</div>
       <div class="task-btn flex line-back task-detail-btn" v-if="btn_status === 3" @click="_signUp">立即报名</div>
@@ -105,6 +106,9 @@
           }
           if (this.status && this.status === 2) {
             return 200
+          }
+          if (this.status && this.status === -1) {
+            return 400
           }
           if (this.status && this.status !== 0) {
             return 300

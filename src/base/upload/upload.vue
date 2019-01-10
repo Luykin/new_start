@@ -1,17 +1,18 @@
 <template>
   <div class="hidden">
     <input type="file" accept="image/*" class="file" ref="file" @change="_preview($event)"/>
-    <canvas ref="spread" width="300" height="485" class="spread hidek" style="width: 540px; height: 873px;"></canvas>
+    <canvas ref="spread" width="300" height="485" class="spread hidek" style="width: 600px; height: 970px;"></canvas>
     <img class="spreadimg hidek" @load="_setcanvas" ref="spreadimg"/>
   </div>
 </template>
 
 <script>
-  import { up_token } from 'api/index'
+  import {up_token} from 'api/index'
+
   export default {
     name: 'upload',
     data() {
-      return{
+      return {
         key: ''
       }
     },
@@ -23,11 +24,11 @@
     methods: {
       dataURLtoFile(dataurl, filename) {
         var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-        while(n--){
-          u8arr[n] = bstr.charCodeAt(n);
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
         }
-        return new File([u8arr], filename, {type:mime});
+        return new File([u8arr], filename, {type: mime})
       },
       _setView(image) {
         let imgbg = document.querySelector('.spreadimg')
@@ -37,14 +38,10 @@
         try {
           let canvas = document.querySelector('.spread')
           let imgbg = document.querySelector('.spreadimg')
-          //清空画布
-          const canvasText = canvas.getContext('2d');
-          // canvasText.clearRect(0,0,canvasText.width,canvasText.height);
-          canvas.height = canvas.height;
-          // 对图像进行压缩
+          const canvasText = canvas.getContext('2d')
+          canvas.height = canvas.height
           canvasText.drawImage(imgbg, 0, 0, 300, 485)
           let files = this.dataURLtoFile(canvas.toDataURL('image/png'), this.key)
-          // console.log(`压缩文件:${files} 大小${files.size}`)
           this._qiniuUpload(files, this.key, this)
         } catch (err) {
           console.log(err)
@@ -59,72 +56,73 @@
       _preview() {
         try {
           let files = this.$refs.file.files[0]
-          try {
-            if (files.size > 10542880) {
-              this.$root.eventHub.$emit('titps', `请选择小于10M的图片~`)
-              return false
-            }
-          } catch (e) {
-            console.log(e)
+          if (!files) {
+            this.$root.eventHub.$emit('titps', `没有选择图片哦`)
+            return false
           }
-          console.log('清空画布')
-          //清空画布
-          // if (files.type.slice(6)) {}
-          try {
-            this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
-          } catch (e) {
-            this.key = 'DGZ用户传图' + Date.parse(new Date()) + '.png'
+          if (files.size > 7500000) {
+            this.$root.eventHub.$emit('titps', `请选择小于7M的图片~`)
+            return false
           }
+          this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
+          if (parseFloat(files.size/1048576) <= 0) {
+            this.$root.eventHub.$emit('titps', `请从[相册]中选择图片~`)
+            // this._qiniuUpload(files, this.key, this, true)
+            return false
+          }
+          // this.$root.eventHub.$emit('titps', `图片大小:${parseFloat(files.size/1048576)}M`)
           let reader = new FileReader()
           reader.readAsDataURL(files)
           reader.onload = (e) => {
-            console.log(e)
+            this.$root.eventHub.$emit('titps', `开始上传图片`)
             this.$emit('view', e.target.result)
             this._setView(e.target.result)
           }
         } catch (e) {
+          alert(e)
           console.log(e)
         }
       },
       _clear() {
         console.log('清空画布')
-        let canvas = document.querySelector('.spread');
-        this.key = '';
-        this.$emit('view', null);
-        this.$emit('setprocess', 0);
-        canvas.height = canvas.height;
-        this.$refs.file.outerHTML = this.$refs.file.outerHTML;
-        this.$refs.spreadimg.outerHTML = this.$refs.spreadimg.outerHTML;
-        // document.querySelector('.spreadimg').outerHTML = document.querySelector('.spreadimg').outerHTML;
+        let canvas = document.querySelector('.spread')
+        this.key = ''
+        this.$emit('view', null)
+        this.$emit('setprocess', 0)
+        canvas.height = canvas.height
+        this.$refs.file.value = ''
+        this.$refs.spreadimg.src = null
       },
-      async _qiniuUpload(file, key, that) {
+      async _qiniuUpload(file, key, that, update) {
         console.log('开始上传')
         const ret = await up_token()
         if (ret.status === 200 && ret.data.code === 200) {
-          // const that = this
           const putExtra = {
             fname: key,
             params: {},
-            mimeType: ["image/png", "image/jpeg", "image/gif"] || null
-          };
+            mimeType: ['image/png', 'image/jpeg', 'image/gif'] || null
+          }
           const config = {
             useCdnDomain: true,
             region: qiniu.region.z2
           }
           let observable = window.qiniu.upload(file, key, ret.data.data.uptoken, putExtra, config)
           const observer = {
-            next(res){
+            next(res) {
               console.log(that)
               that.$emit('setprocess', res)
             },
-            error(err){
+            error(err) {
               console.log(err)
               that.$emit('err', err)
             },
-            complete(res){
-              console.log(res)
+            complete(res) {
               that.$emit('success', res)
-              this.$refs.file.outerHTML = this.$refs.file.outerHTML
+              that.$refs.file.value = ''
+              if (update) {
+                this.$emit('view', `https://cdn.back.melonblock.com/${this.key}`)
+              }
+              // console.log(that.$refs.file.value)
             }
           }
           let subscription = observable.subscribe(observer) // 上传开始

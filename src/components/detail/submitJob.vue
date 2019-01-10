@@ -190,8 +190,16 @@
           this.$refs.back._back()
         }
         if (ret === 442) {
-          this.$root.eventHub.$emit('audit', this.detail_info.id)
+          this.$root.eventHub.$emit('audit', this.detail_info.task_id)
           this.$root.eventHub.$emit('titps', `该任务已完成`)
+        }
+        if (ret === 403) {
+          this.$root.eventHub.$emit('titps', `网络开了小差~`)
+          return false
+        }
+        if (ret === 404) {
+          this.$root.eventHub.$emit('titps', `好像出错啦~`)
+          return false
         }
       },
       _setNull() {

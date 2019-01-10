@@ -79,13 +79,14 @@
         this._getManageList()
       },
       _toAuditList(info) {
-        console.log('审核任务')
+        // console.log('审核任务')
         this.$router.push({
           name: 'audit-list',
           params: Object.assign(info, {
             types: 1,
           })
-        })
+        });
+        info.task_audit_num = 0;
       },
       async _getManageList() {
         this.$root.eventHub.$emit('loading', true)

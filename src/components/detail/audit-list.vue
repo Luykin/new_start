@@ -78,15 +78,22 @@
           this.nowTime = Date.parse(new Date())
         }, 1000)
       },
-      async _getTaskAudit() {
+      async _getTaskAudit(must) {
         this.$root.eventHub.$emit('loading', true)
         // task_audit(id, username, types, page, num) {
-        const ret = await task_audit(this.info.id, this.$root.user.username, this.info.types, this.page, this.num)
+        const ret = await task_audit(this.info.id, this.$root.user.username, this.info.types || 1, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
+          if (must) {
+            this.list = []
+          }
           this.list = [...this.list, ...this._format(ret.data.data.ret)]
           this.total = ret.data.data.count
           this.task_id = ret.data.data.task_id
+        }
+        if (ret === 403) {
+          // this.$root.eventHub.$emit('titps', `网络开了小差~`)
+          // return false
         }
       },
       _toSubmitJob(item) {
@@ -127,8 +134,8 @@
       _pulldown() {
         this.num = 10
         this.page = 0
-        this.list = []
-        this._getTaskAudit()
+        // this.list = []
+        this._getTaskAudit(true)
       },
       _scrollToEnd() {
         // console.log(this.list.length < this.totle, typeof this.list.length, this.list.length , typeof this.total, this.total)
