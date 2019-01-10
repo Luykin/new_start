@@ -9,7 +9,7 @@
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div class="min-warp-height">
-          <div class="task-info flex fw" v-for="item in list" v-if="list.length" :key="item.id">
+          <div class="task-info flex fw" v-for="(item,index) in list" v-if="list.length" :key="item.id">
             <div class="report-header flex fw">
               <div class="flex rh-top js">
                 <img :src="item.avatar" class="avatar"/>
@@ -28,12 +28,14 @@
               <div class="report-image-item flex magnifier"
                    :style="`background: url(${item.appeal_user_image}) no-repeat center center; background-size: 100% auto;`" @click="_setEnlargeImage(item.appeal_user_image)">
                 <div class="rii-text">{{item.appeal_user_explain}}</div>
+                <downwx ref="downwx" :url="item.appeal_user_explain" :index="index" @load="_setWxUrl" v-if="item"></downwx>
               </div>
               <div class="report-image-item flex" style="background: none" v-if="activeId === 2 && !item.plea_user_image">
                 <span class="reSay-waro ell">等待对方回复</span>
               </div>
               <div class="report-image-item flex" :style="_setImage(item.plea_user_image)" :class="{'magnifier': _setImage(item.plea_user_image)}" @click="_showModel(item)" v-else>
                 <div class="rii-text" v-if="item.plea_user_explain">{{item.plea_user_explain}}</div>
+                <downwx ref="downwx" :url="item.plea_user_image" :index="index" @load="_setPleaWxUrl" v-if="item"></downwx>
               </div>
             </div>
           </div>
@@ -64,6 +66,7 @@
           </div>
         </div>
       </popup>
+      <!--<downwx ref="downwx"></downwx>-->
       <enlarge :image="enlarge_image" @close="_setEnlargeImage()"></enlarge>
     </div>
   </transition>
@@ -79,6 +82,7 @@
   import popup from 'base/popup/popup'
   import upload from 'base/upload/upload'
   import enlarge from 'components/enlarge/enlarge'
+  import downwx from 'base/upload/down_wx_image'
 
   export default {
     name: 'recharge',
@@ -148,6 +152,12 @@
       })
     },
     methods: {
+      _setWxUrl(arg) {
+        this.list[arg.index].appeal_user_explain = arg.url
+      },
+      _setPleaWxUrl(arg) {
+        this.list[arg.index].plea_user_explain = arg.url
+      },
       _setTime() {
         setInterval(() => {
           this.nowTime = Date.parse(new Date())
@@ -172,6 +182,8 @@
         }
         list.forEach((res) => {
           res.time = timeformat(res.create)
+          // res.appeal_user_image = this.$refs.downwx._loadUrl(res.appeal_user_image)
+          // res.plea_user_explain = this.$refs.downwx._loadUrl(res.plea_user_explain)
         })
         return list
       },
@@ -306,6 +318,7 @@
       popup,
       upload,
       enlarge,
+      downwx,
       interlayer,
       betterscroll
     }

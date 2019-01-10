@@ -24,7 +24,9 @@
         <div class="upload-warp magnifier"
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% 100%;`"
              v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"
-             @click="_setEnlargeImage(detail_info.task_image)"></div>
+             @click="_setEnlargeImage(detail_info.task_image)">
+          <downwx ref="downwx" :url="detail_info.task_image" :index="0" @load="_setWxUrl" v-if="detail_info"></downwx>
+        </div>
         <div class="upload-warp" @click="_choseImg" v-else>
           <div class="upload-inner flex">
             <div class="process-warp flex fw" v-show="process && process < 100">
@@ -119,6 +121,7 @@
   import interlayer from 'base/interlayer/interlayer'
   import popup from 'base/popup/popup'
   import enlarge from 'components/enlarge/enlarge'
+  import downwx from 'base/upload/down_wx_image'
 
   export default {
     name: 'submitJob',
@@ -147,6 +150,7 @@
       this.$root.eventHub.$on(`submitJob`, (info) => {
         console.log(this.detail_info)
         this.detail_info = this.$route.params.info
+        // this.detail_info.task_image = this.$refs.downwx._loadUrl(this.detail_info.task_image);
       })
       try {
         this.dy_name = localStorage.getItem('douyinID') || ''
@@ -155,6 +159,7 @@
       }
     },
     mounted() {
+      // this.detail_info.task_image = this.$refs.downwx._loadUrl(this.detail_info.task_image);
       document.querySelectorAll('.disScroll').forEach((item) => {
         item.addEventListener('blur', () => {
           try {
@@ -350,6 +355,9 @@
           this.$root.eventHub.$emit('titps', `您已经提交过了~`)
         }
       },
+      _setWxUrl(arg) {
+        this.detail_info.task_image = arg.url
+      },
       async _submit() {
         if (!this.process) {
           this.$root.eventHub.$emit('titps', `请先上传您完成的截图~`)
@@ -401,6 +409,7 @@
       upload,
       popup,
       enlarge,
+      downwx,
       interlayer
     }
   }
