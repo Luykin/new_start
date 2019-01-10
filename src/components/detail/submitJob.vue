@@ -33,9 +33,9 @@
         </div>
         <div class="flex task-input-warp"
              v-if="!detail_info.audit && (!detail_info.status || detail_info.status === 3)">
-          <div class="tiw-left flex">抖音名称</div>
+          <div class="tiw-left flex tiw-left-new">抖音名字<span class="min-name-tips">(非抖音号)</span></div>
           <div class="tiw-mid">
-            <input type="text" name="抖音名称" placeholder="请输入你的抖音名称" class="index-input disScroll" v-model="dy_name"/>
+            <input type="text" name="抖音名字" placeholder="请输入你的抖音名字" class="index-input disScroll" v-model="dy_name"/>
           </div>
           <div class="tiw-right"></div>
         </div>
@@ -208,7 +208,7 @@
       },
       _setNull() {
         try {
-          this.dy_name =''
+          // this.dy_name =''
           this.processZC = 0
           this.process = 0
           this._close()
@@ -626,6 +626,10 @@
     text-indent: 10px;
   }
 
+  .tiw-left-new{
+    width: 40%;
+  }
+
   .tiw-mid {
     width: 0;
     flex-grow: 1;
@@ -675,5 +679,11 @@
   .old-line-back {
     background: linear-gradient(-45deg, #6D32FB, #F74CCA);
     background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
+  }
+
+  .min-name-tips{
+    font-size: 10px;
+    color: #f74bca;
+    transform: scale(.9, .9);
   }
 </style>
