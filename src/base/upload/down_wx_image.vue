@@ -30,7 +30,7 @@
         // alert('配置完成')
         try {
           console.log(this.url)
-          if (this.url && this.url.indexOf('http') > -1) {
+          if (this.url && this.url.indexOf('://') > -1) {
             console.log('含有http')
             this.$emit(`load`, {
               url: this.url,
@@ -49,12 +49,20 @@
         if (!url) {
           return false
         }
+        if (url && url.indexOf('://') > -1) {
+          // console.log('含有http')
+          this.$emit(`load`, {
+            url: url,
+            index: this.index
+          })
+          return false
+        }
         try {
           wx.ready(() => {
             setTimeout(() => {
               wx.downloadImage({
                 serverId: url.toString(), // 需要下载的图片的服务器端ID，由uploadImage接口获得
-                isShowProgressTips: 1, // 默认为1，显示进度提示
+                isShowProgressTips: 0, // 默认为1，显示进度提示
                 success: function (res) {
                   var localId = res.localId // 返回图片下载后的本地ID
                   that.$emit(`load`, {

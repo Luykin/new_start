@@ -61,7 +61,6 @@
     },
     name: 'user',
     created() {
-      // this._getJsapiCode()
       this.$root.eventHub.$on('updateList', (time) => {
         this._pulldown()
       })
@@ -89,6 +88,7 @@
     },
     mounted() {
       this._inint()
+      // this._checkLogin()
     },
     methods: {
       _error(err) {
@@ -100,11 +100,39 @@
       },
       _inint() {
         this.$refs.wrapper._initScroll()
-        this._getHomeInfo()
-        this._getPubTask()
-        // this._login()
-        this._wxLogin(null)
-        // updateUserInfo
+        this._getHomeInfo(null, this._checkHomeInfo())
+        this._getPubTask(this._checkTask())
+        this._wxLogin(this._checkLogin())
+      },
+      _checkHomeInfo() {
+        if (!this.total) {
+          let timer = setTimeout(() => {
+            console.log('获取列表失败,尝试重新获取')
+            this._getHomeInfo()
+            clearTimeout(timer)
+            timer = null
+          }, 1000)
+        }
+      },
+      _checkTask() {
+        if (!this.$root.serverCache.ret.length) {
+          let timer = setTimeout(() => {
+            console.log('获取商品失败,尝试重新获取')
+            this._getPubTask()
+            clearTimeout(timer)
+            timer = null
+          }, 1000)
+        }
+      },
+      _checkLogin() {
+        if (!this.$root.user.username) {
+          let timer = setTimeout(() => {
+            console.log('登录失败,尝试重连')
+            this._wxLogin()
+            clearTimeout(timer)
+            timer = null
+          }, 1000)
+        }
       },
       _wxLogin(callback) {
         const url = window.location.href
@@ -146,12 +174,15 @@
           callback(this.$root.user)
         }
       },
-      async _getPubTask() {
+      async _getPubTask(callback) {
         this.$root.eventHub.$emit('loading', true)
         const ret = await pub_task(1)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.serverCache = ret.data.data
+        }
+        if (callback) {
+          callback()
         }
       },
       async _login(code, surper_code, callback) {
@@ -166,7 +197,7 @@
           callback(this.$root.user)
         }
       },
-      async _getHomeInfo(must) {
+      async _getHomeInfo(must, callback) {
         if (!must) {
           this.$root.eventHub.$emit('loading', true)
         }
@@ -179,6 +210,9 @@
             this.list = [...this.list, ...ret.data.data.ret]
           }
           this.total = parseInt(ret.data.data.count)
+        }
+        if (callback) {
+          callback()
         }
       },
       formatTop(list) {
