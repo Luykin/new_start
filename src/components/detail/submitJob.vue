@@ -418,6 +418,9 @@
           if (ret === 404) {
             this.$root.eventHub.$emit('titps', `任务信息错误~`)
           }
+          if (ret === 403) {
+            this.$root.eventHub.$emit('titps', `提交任务的人数过多,请稍后提交~`)
+          }
         } catch (e) {
           this.$root.eventHub.$emit('titps', `网络错误,请刷新页面后重试`)
           return false

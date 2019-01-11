@@ -5,43 +5,65 @@
         <div>
           <div class="height10"></div>
           <back></back>
-          <div class="task-header" v-if="detail_info">
-            <div class="top flex fw">
-              <div class="tht-title ell">{{detail_info.min_title}}任务</div>
-              <div class="tht-user ell">悬赏发布人: {{detail_info.nickname}}</div>
+          <!--<div class="task-header" v-if="detail_info">-->
+          <!--<div class="top flex fw">-->
+          <!--<div class="tht-title ell">{{detail_info.min_title}}任务</div>-->
+          <!--<div class="tht-user ell">悬赏发布人: {{detail_info.nickname}}</div>-->
+          <!--</div>-->
+          <!--<div class="bottom flex fw">-->
+          <!--<div class="count-down flex">-->
+          <!--<div class="cd-left flex ell">任务倒计时:</div>-->
+          <!--&lt;!&ndash;任务倒计时:&ndash;&gt;-->
+          <!--<span class="time">{{cut_time}}</span>-->
+          <!--</div>-->
+          <!--<div class="tdb-left flex">{{detail_info.num}}/-->
+          <!--<span style="color: #6B41E1; font-weight: 900;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>次-->
+          <!--</div>-->
+          <!--<div class="tdb-right">+{{detail_info.single_price}}<span style="font-size: 10px;">元</span></div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <div class="new-task-header flex fw" v-if="detail_info">
+            <div class="new-top flex fw">
+              <img :src="detail_info.avatar" class="top-avatar"/>
+              <div class="new-top-info-warp flex fw">
+                <div class="tht-title ell">{{detail_info.min_title}}任务</div>
+                <div class="tht-user ell">悬赏发布人: {{detail_info.nickname}}</div>
+              </div>
+              <div class="num-price ell">+<span style="font-size: 22px">{{detail_info.single_price}}</span>元</div>
             </div>
-            <div class="bottom flex fw">
-              <div class="count-down flex">
-                <div class="cd-left flex ell">任务倒计时:</div>
-                <!--任务倒计时:-->
-                <span class="time">{{cut_time}}</span>
-              </div>
-              <div class="tdb-left flex">{{detail_info.num}}/
-                <span style="color: #6B41E1; font-weight: 900;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>次
-              </div>
-              <div class="tdb-right">+{{detail_info.single_price}}<span style="font-size: 10px;">元</span></div>
+            <div class="new-task-num">
+              任务数量:
+              <span style="color: #555555">&nbsp;&nbsp;&nbsp;{{detail_info.num}}/</span>
+              <span style="color: #F34281;font-weight: 900; font-size: 20px;">{{detail_info.use_num}}</span>
+            </div>
+            <div class="new-task-num" style="border: none">
+              任务描述: <span style="color: #555;">&nbsp;&nbsp;{{detail_info.title}}</span>
+            </div>
+            <div class="task-url-warp flex">{{this.task_url}}</div>
+            <div class="flex task-btn-copy" :data-clipboard-text="task_url" @click="_showTipsV"
+                 :class="{'copy': detail_info.task_url}">点击复制 前往抖音
             </div>
           </div>
-          <div class="task-info flex fw" v-if="detail_info">
-            <div class="task-color-title flex">任务信息</div>
-            <div class="copy-warp flex">
-              <div class="copy-info" :class="{'blink': blink}">
-                <span>{{this.task_url}}</span>
-              </div>
-              <!--<div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"-->
-              <!--v-show="!detail_info.is_take_task">点击复制-->
-              <!--</div>-->
-              <div class="copy-btn flex line-back" :class="{'copy': detail_info.task_url}"
-                   :data-clipboard-text="task_url" @click="_showTipsV">点击复制
-              </div>
-            </div>
-          </div>
-          <div class="task-info flex fw" v-if="detail_info">
-            <div class="task-color-title flex">任务描述</div>
-            <div class="dis-task-info flex">
-              {{detail_info.title}}
-            </div>
-          </div>
+          <!--<div class="task-info flex fw" v-if="detail_info">-->
+          <!--<div class="task-color-title flex">任务信息</div>-->
+          <!--<div class="copy-warp flex">-->
+          <!--<div class="copy-info" :class="{'blink': blink}">-->
+          <!--<span>{{this.task_url}}</span>-->
+          <!--</div>-->
+          <!--&lt;!&ndash;<div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"&ndash;&gt;-->
+          <!--&lt;!&ndash;v-show="!detail_info.is_take_task">点击复制&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--<div class="copy-btn flex line-back" :class="{'copy': detail_info.task_url}"-->
+          <!--:data-clipboard-text="task_url" @click="_showTipsV">点击复制-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--<div class="task-info flex fw" v-if="detail_info">-->
+          <!--<div class="task-color-title flex">任务描述</div>-->
+          <!--<div class="dis-task-info flex">-->
+          <!--{{detail_info.title}}-->
+          <!--</div>-->
+          <!--</div>-->
           <div class="task-info flex fw" v-if="detail_info">
             <img :src="detail_info.image_url" class="task-image" @load="$refs.wrapper.refresh()"/>
           </div>
@@ -125,8 +147,7 @@
       const clipboard = new ClipboardJS('.copy')
       const that = this
       clipboard.on('success', function (e) {
-        that.$root.eventHub.$emit('titps', '已复制作品链接,赶快打开抖音完成任务吧~')
-        // console.log(e)s
+        that.$root.eventHub.$emit('titps', '已复制链接,打开抖音完成任务')
         e.clearSelection()
       })
       clipboard.on('error', function (e) {
@@ -206,28 +227,32 @@
           }
         })
       },
-      async _getDetail(id, callback) {
+      _getDetail(id, callback) {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await task_detail(id || this.page_id, this.$root.user.username)
-        this.$root.eventHub.$emit('loading', null)
-        if (ret.status === 200 && ret.data.code === 200) {
-          this.detail_info = ret.data.data
-          this.status = this.detail_info.status
-          this.disable_btn = null
-          clearInterval(this.timer)
-          this.timer = null
-          this._cutDown(this.detail_info.complete_time)
-          if (callback) {
-            callback()
+        let timer = setTimeout(async () => {
+          const ret = await task_detail(id || this.page_id, this.$root.user.username)
+          this.$root.eventHub.$emit('loading', null)
+          if (ret.status === 200 && ret.data.code === 200) {
+            this.detail_info = ret.data.data
+            this.status = this.detail_info.status
+            this.disable_btn = null
+            clearInterval(this.timer)
+            this.timer = null
+            this._cutDown(this.detail_info.complete_time)
+            if (callback) {
+              callback()
+            }
+            return false
           }
-          return false
-        }
-        if (ret === 404) {
-          this.$root.eventHub.$emit('titps', `该任务已被取消,无法查看`)
-          this.$router.back(-1)
-        } else {
-          this.$router.back(-1)
-        }
+          if (ret === 404) {
+            this.$root.eventHub.$emit('titps', `该任务已被取消,无法查看`)
+            this.$router.back(-1)
+          } else {
+            this.$router.back(-1)
+          }
+          clearTimeout(timer)
+          timer = null
+        }, 400)
       },
       _cutDown(time) {
         console.log(time, '设置时间')
@@ -274,7 +299,7 @@
     width: 100%;
     position: absolute;
     top: 0;
-    bottom: 85px;
+    bottom: 78px;
     overflow: hidden;
   }
 
@@ -314,17 +339,20 @@
 
   .tht-title {
     width: 90%;
-    margin: 0 auto 10px;
+    margin: 0 auto 6px;
     font-size: 16px;
     line-height: 20px;
     font-weight: 900;
-    color: #fff;
+    color: #6B41E1;
   }
 
   .tht-user {
     width: 90%;
-    font-size: 12px;
-    color: #fff;
+    font-size: 10px;
+    min-height: 20px;
+    line-height: 20px;
+    margin-bottom: -5px;
+    color: #555555;
   }
 
   .count-down {
@@ -433,7 +461,7 @@
 
   .task-detail-btn {
     position: fixed;
-    bottom: 15px;
+    bottom: 5px;
     left: 50%;
     transform: translate(-50%, 0);
   }
@@ -473,4 +501,87 @@
     pointer-events: none;
   }
 
+  .top-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 1000px;
+    margin: 0 1% 0 5%;
+  }
+
+  .new-task-header {
+    width: 92%;
+    height: auto;
+    min-height: 240px;
+    margin: 10px auto;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+    background: #fff;
+    color: #333;
+    align-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+
+  .new-top {
+    width: 100%;
+    height: 80px;
+    background: #E3DEFF;
+    justify-content: flex-start;
+  }
+
+  .new-top-info-warp {
+    width: 0;
+    flex-grow: 1;
+    height: 100%;
+  }
+
+  .num-price {
+    width: 90px;
+    height: 100%;
+    color: #FF6000;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 80px;
+    vertical-align: bottom;
+  }
+
+  .new-task-num {
+    width: 90%;
+    height: auto;
+    min-height: 22px;
+    line-height: 20px;
+    border-bottom: 1px dashed #E3DEFF;
+    vertical-align: bottom;
+    word-break: break-all;
+    padding: 15px 0;
+  }
+
+  .new-task-num span {
+    display: inline-block;
+    height: 100%;
+  }
+
+  .task-url-warp {
+    width: 83%;
+    padding: 10px 4%;
+    height: auto;
+    line-height: 18px;
+    min-height: 30px;
+    background: #F8F8F8;
+    border-radius: 10px;
+    word-break: break-all;
+    user-select: text;
+    color: #999999;
+    font-size: 12px;
+  }
+
+  .task-btn-copy {
+    background: #FB53D9;
+    color: #fff;
+    width: 40%;
+    height: 35px;
+    border-radius: 6px;
+    margin: 15px auto 20px;
+  }
 </style>

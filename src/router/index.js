@@ -9,6 +9,7 @@ import {
 Vue.use(Router)
 
 const routerconst = new Router({
+  // maintain
   routes: [{
     path: '/',
     redirect: '/index'
@@ -138,6 +139,11 @@ const routerconst = new Router({
     name: 'submit-success',
     component: () =>
       import(`components/detail/submit-success`)
+  }, {
+    path: '/maintain',
+    name: 'maintain',
+    component: () =>
+      import(`components/index/maintain`)
   }]
 })
 //entrance
