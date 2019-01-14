@@ -3,8 +3,9 @@
     <div class="top flex">
       <img :src="$root.user.avatar" class="header-avater"/>
       <div class="user-name flex fw">
-        <span class="ell name">{{$root.user.nickname}}</span>
-        <span class="flex js ell">ID: {{$root.user.username}}</span>
+        <span class="ell name" :class="{'login': !$root.user.username}"
+              @click="_reload()">{{$root.user.nickname}}</span>
+        <span class="flex js ell">ID: {{$root.user.username||'登录失败'}}</span>
       </div>
       <div class="flex btn-warp">
         <router-link tag='div' to='./good' class="flex btn top-btn line-back">充值</router-link>
@@ -29,7 +30,14 @@
 
 <script>
   export default {
-    name: 'userheader'
+    name: 'userheader',
+    methods: {
+      _reload() {
+        if (!this.$root.user.username) {
+          window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/dgz&response_type=code&scope=snsapi_userinfo#wechat_redirect\n'
+        }
+      },
+    }
   }
 </script>
 
@@ -142,5 +150,9 @@
 
   .num-title {
     color: #D1A8FF;
+  }
+
+  .login {
+    color: #ff6000;
   }
 </style>

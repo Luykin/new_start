@@ -3,7 +3,7 @@
     <div>
       <!--<lamp></lamp>-->
       <!--@pulldown="_pulldown"-->
-      <betterscroll class="wrapper"  @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
+      <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div class="min-warp-height">
           <div class="height10"></div>
           <div class="header">
