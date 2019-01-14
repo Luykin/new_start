@@ -110,6 +110,7 @@
         不通过
       </div>
       <div class="task-btn flex gre-btn" v-if="detail_info.audit && detail_info.status === 1" @click="_pass(1)">通过</div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>

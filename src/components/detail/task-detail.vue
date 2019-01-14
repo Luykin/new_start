@@ -175,6 +175,9 @@
     },
     mounted() {
       this.$refs.wrapper._initScroll()
+      // this.$router.push({
+      //   name: 'sub-loading'
+      // })
     },
     methods: {
       _showTipsV() {
@@ -189,8 +192,12 @@
           }
           this.blink = null
           this.$root.eventHub.$emit('loading', true)
+          // this.$router.push({
+          //   name: 'sub-loading'
+          // })
           const ret = await sign_up(this.detail_info.id, this.$root.user.username)
-          this.$root.eventHub.$emit('loading', null)
+          // this.$root.eventHub.$emit('loading', null)
+          this.$router.back(-1)
           if (ret.status === 200 && ret.data.code === 200) {
             this.blink = true
             let time = setTimeout(() => {
@@ -211,7 +218,7 @@
             this.$root.eventHub.$emit('titps', '网络开了小差,稍后重试')
             return false
           }
-          this.$root.eventHub.$emit('titps', '任务已暂停报名')
+          this.$root.eventHub.$emit('titps', '报名结束啦,看看其他任务吧')
         } catch (e) {
           console.log(e)
         }

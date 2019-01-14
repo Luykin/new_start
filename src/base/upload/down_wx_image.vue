@@ -29,7 +29,7 @@
         })
         // alert('配置完成')
         try {
-          console.log(this.url)
+          // console.log(this.url)
           if (this.url && this.url.indexOf('://') > -1) {
             console.log('含有http')
             this.$emit(`load`, {

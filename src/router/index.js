@@ -28,7 +28,13 @@ const routerconst = new Router({
     path: '/task-detail',
     name: 'task-detail',
     component: () =>
-      import(`components/detail/task-detail`)
+      import(`components/detail/task-detail`),
+    children: [{
+      path: '/sub-loading',
+      name: 'sub-loading',
+      component: () =>
+        import(`components/detail/subJobLoading`),
+    }]
   }, {
     path: '/submit-job',
     name: 'submit-job',
