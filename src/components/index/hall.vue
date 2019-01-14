@@ -29,7 +29,7 @@
             </div>
           </div>
           <div style="height: 10px"></div>
-          <empyt v-show="!list.length" :padding="90"></empyt>
+          <empyt v-show="!list.length" :padding="90" :flush="!pullLoading" @flush="_pulldown(1)"></empyt>
         </div>
       </betterscroll>
       <router-view></router-view>
@@ -57,7 +57,8 @@
           name: '快手专区'
         }],
         activeId: 1,
-        pullDownTimer: null
+        pullDownTimer: null,
+        pullLoading: null
       }
     },
     created() {
@@ -102,10 +103,11 @@
           console.log(e)
         }
       },
-      async _getTaskHall(must) {
-        if (!must) {
+      async _getTaskHall(must, loading) {
+        if (!must || loading) {
           this.$root.eventHub.$emit('loading', true)
         }
+        this.pullLoading = true
         const ret = await task_hall(null, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
@@ -116,6 +118,11 @@
           }
           this.total = ret.data.data.count
         }
+        let timer = setTimeout(() => {
+          this.pullLoading = null
+          clearTimeout(timer)
+          timer = null
+        }, 2000)
       },
       formatTop(list) {
         try {
@@ -140,11 +147,11 @@
           params: {id}
         })
       },
-      _pulldown() {
+      _pulldown(loading) {
         this.num = 10
         this.page = 0
         // this.list = []
-        this._getTaskHall(true)
+        this._getTaskHall(true, loading)
       },
       _scrollToEnd() {
         if (this.list.length < this.total) {

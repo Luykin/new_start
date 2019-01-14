@@ -2,13 +2,19 @@
   <transition name="list">
     <div>
       <!--<lamp></lamp>-->
-      <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
+      <!--@pulldown="_pulldown"-->
+      <betterscroll class="wrapper"  @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div class="min-warp-height">
           <div class="height10"></div>
           <div class="header">
             <userheader></userheader>
           </div>
-          <div class="flex task-title">推荐任务</div>
+          <div class="flex task-title">
+            <span class="flex js">推荐任务</span>
+            <div class="flush flex" @click="_pulldown(true)" v-show="!pullLoading">
+              <img src="../../assets/img/reflush.png"/>
+            </div>
+          </div>
           <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id"
                @click="_getDetail(item.id)">
             <div v-show="item.is_top" class="top-title-new"></div>
@@ -32,7 +38,7 @@
             </div>
           </div>
           <div style="height: 10px"></div>
-          <empyt v-show="!list.length"></empyt>
+          <empyt v-show="!list.length" :flush="!pullLoading" @flush="_pulldown(1)"></empyt>
         </div>
       </betterscroll>
       <entrance></entrance>
@@ -58,7 +64,8 @@
         list: [],
         total: 0,
         updateTimer: null,
-        pullDownTimer: null
+        pullDownTimer: null,
+        pullLoading: null
       }
     },
     name: 'user',
@@ -102,20 +109,20 @@
       },
       _inint() {
         this.$refs.wrapper._initScroll()
-        this._getHomeInfo(null, this._checkHomeInfo())
+        this._getHomeInfo(null)
         this._getPubTask(this._checkTask())
         this._wxLogin(this._checkLogin())
       },
-      _checkHomeInfo() {
-        if (!this.total) {
-          let timer = setTimeout(() => {
-            console.log('获取列表失败,尝试重新获取')
-            this._getHomeInfo()
-            clearTimeout(timer)
-            timer = null
-          }, 1300)
-        }
-      },
+      // _checkHomeInfo() {
+      //   if (!this.total) {
+      //     let timer = setTimeout(() => {
+      //       console.log('获取列表失败,尝试重新获取')
+      //       this._getHomeInfo()
+      //       clearTimeout(timer)
+      //       timer = null
+      //     }, 1300)
+      //   }
+      // },
       _checkTask() {
         if (!this.$root.serverCache.ret.length) {
           let timer = setTimeout(() => {
@@ -203,10 +210,11 @@
           callback(this.$root.user)
         }
       },
-      async _getHomeInfo(must, callback) {
-        if (!must) {
+      async _getHomeInfo(must, callback, loading) {
+        if (!must || loading) {
           this.$root.eventHub.$emit('loading', true)
         }
+        this.pullLoading = true
         const ret = await home_page(this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
@@ -217,6 +225,11 @@
           }
           this.total = parseInt(ret.data.data.count)
         }
+        let timer = setTimeout(() => {
+          this.pullLoading = null
+          clearTimeout(timer)
+          timer = null
+        }, 2000)
         if (callback) {
           callback()
         }
@@ -244,11 +257,13 @@
           params: {id}
         })
       },
-      _pulldown() {
+      _pulldown(loading) {
+        if (this.pullLoading) {
+          return false
+        }
         this.num = 10
         this.page = 0
-        // this.list = []
-        this._getHomeInfo(true)
+        this._getHomeInfo(true, null, loading)
       },
       _scrollToEnd() {
         // console.log(this.list.length < this.totle, typeof this.list.length, this.list.length , typeof this.total, this.total)

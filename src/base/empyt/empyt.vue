@@ -1,7 +1,7 @@
 <template>
     <div class="flex empyt fw" :style="`padding-bottom: ${padding}%`">
       <img src="../../assets/img/empty.png"/>
-      <span class="flex ssss">空荡荡的～什么也没有！</span>
+      <div class="flex ssss">空荡荡的～什么也没有！<span class="flush-btn" v-if="flush" @click="$emit('flush')">刷新试一试</span></div>
     </div>
 </template>
 
@@ -11,6 +11,10 @@
       padding: {
         type: [Number],
         default: 55
+      },
+      flush: {
+        type: [Boolean],
+        detail: false
       }
     },
     name: 'empyt'
@@ -31,5 +35,10 @@
     width: 140px;
     height: auto;
     margin: 30px auto;
+  }
+
+  .flush-btn{
+    color: #ff6000;
+    font-weight: 600;
   }
 </style>
