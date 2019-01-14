@@ -153,6 +153,6 @@
   }
 
   .login {
-    color: #ff6000;
+    color: rgb(222, 242, 255);
   }
 </style>
