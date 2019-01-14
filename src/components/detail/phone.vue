@@ -59,7 +59,7 @@
           this.$root.eventHub.$emit('titps', `请输入手机号~`)
           return false
         }
-        let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}|(19[0-9]{1})))+\d{8})$/
+        let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}|(19[0-9]{1})))+\d{8})$/
         if (!myreg.test(this.phone)) {
           this.$root.eventHub.$emit('titps', `请正确填写手机号哦~`)
           return false
@@ -89,7 +89,7 @@
           this.$root.eventHub.$emit('titps', `请输入手机号~`)
           return false
         }
-        let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}|(19[0-9]{1})))+\d{8})$/
+        let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}|(19[0-9]{1})))+\d{8})$/
         if (!myreg.test(this.phone)) {
           this.$root.eventHub.$emit('titps', `请正确填写手机号哦~`)
           return false
