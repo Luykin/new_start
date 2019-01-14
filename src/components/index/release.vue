@@ -207,6 +207,10 @@
           this.$root.eventHub.$emit('titps', `单价校验不通过`)
           return false
         }
+        if (ret === 448) {
+          this.$root.eventHub.$emit('titps', `您的权限不足`)
+          return false
+        }
       },
       _rectifySinglePrice() {
         try {

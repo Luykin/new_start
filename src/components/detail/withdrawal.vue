@@ -78,6 +78,10 @@
         if (ret === 438) {
           this.$root.eventHub.$emit('titps', `提现次数超出今日上限~`)
         }
+        if (ret === 448) {
+          this.$root.eventHub.$emit('titps', `您的权限不足`)
+          return false
+        }
       },
       _chose(item) {
         this.activeId = item.id
