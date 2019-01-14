@@ -1,6 +1,7 @@
 <template>
   <transition name="list">
     <div>
+      <!--<lamp></lamp>-->
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div class="min-warp-height">
           <div class="height10"></div>
@@ -47,6 +48,7 @@
   import entrance from 'components/entrance-window/entrance'
   import {pub_task, login, home_page, task_detail, update_user_info} from 'api/index'
   import {UAID, CHANNEL, APPNAME, env} from 'api/config'
+  // import lamp from 'components/lamp/lamp'
 
   export default {
     data() {
@@ -111,7 +113,7 @@
             this._getHomeInfo()
             clearTimeout(timer)
             timer = null
-          }, 1000)
+          }, 1300)
         }
       },
       _checkTask() {
@@ -121,7 +123,7 @@
             this._getPubTask()
             clearTimeout(timer)
             timer = null
-          }, 1000)
+          }, 1300)
         }
       },
       _checkLogin() {
@@ -131,7 +133,7 @@
             this._wxLogin()
             clearTimeout(timer)
             timer = null
-          }, 1000)
+          }, 1300)
         }
       },
       _wxLogin(callback) {
@@ -142,7 +144,7 @@
           console.log('微信登录')
           this._login(url.slice(start, end), this.$route.query.username, callback)
           const locationUrl = window.location.origin + `/dgz/#/`
-          console.log(locationUrl)
+          // console.log(locationUrl)
           history.replaceState(null, null, locationUrl)
         } else {
           console.log('浏览器储存登录')
@@ -191,7 +193,11 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
-          localStorage.setItem(`${UAID}${CHANNEL}user_id`, ret.data.data.username)
+          try {
+            localStorage.setItem(`${UAID}${CHANNEL}user_id`, ret.data.data.username)
+          } catch (e) {
+            console.log(e)
+          }
         }
         if (callback) {
           callback(this.$root.user)
@@ -254,6 +260,7 @@
     },
     components: {
       empyt,
+      // lamp,
       entrance,
       userheader,
       betterscroll

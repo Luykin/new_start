@@ -70,7 +70,7 @@
         </div>
       </betterscroll>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 0">未在规定时间内完成</div>
-      <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 1">暂时无法报名</div>
+      <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 1">报名已结束</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 300">任务已提交</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 200">任务已完成</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 400">任务已过期</div>
