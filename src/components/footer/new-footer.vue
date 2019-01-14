@@ -111,9 +111,9 @@
 
   .width-limit {
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: 0;
-    width: 100%;
+    transform: translate(-50%, 0);
     height: 100%;
     max-width: 420px;
     min-width: 350px;
@@ -123,6 +123,7 @@
 
   .push-btn {
     width: 16%;
+    /*max-width: ;*/
     padding-top: 16%;
     border-radius: 1000px;
     position: absolute;

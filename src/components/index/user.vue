@@ -11,7 +11,7 @@
             {{_calculationNumber(item.path)}}
           </div>
           <img :src="item.icon"/>
-          <div class="user-path-item-name">
+          <div class="user-path-item-name flex">
             <span class="flex">{{item.name}}</span>
           </div>
         </router-link>
