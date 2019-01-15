@@ -196,8 +196,8 @@
           //   name: 'sub-loading'
           // })
           const ret = await sign_up(this.detail_info.id, this.$root.user.username)
-          // this.$root.eventHub.$emit('loading', null)
-          this.$router.back(-1)
+          this.$root.eventHub.$emit('loading', null)
+          // this.$router.back(-1)
           if (ret.status === 200 && ret.data.code === 200) {
             this.blink = true
             let time = setTimeout(() => {
@@ -255,7 +255,7 @@
             this.$root.eventHub.$emit('titps', `该任务已被取消,无法查看`)
             this.$router.back(-1)
           } else {
-            this.$router.back(-1)
+            // this.$router.back(-1)
           }
           clearTimeout(timer)
           timer = null

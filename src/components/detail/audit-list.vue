@@ -93,7 +93,7 @@
         }
         if (ret === 403 && !this.list.length) {
           this.$root.eventHub.$emit('titps', `网络开了小差~`)
-          this.$router.back(-1)
+          // this.$router.back(-1)
           return false
         }
       },
