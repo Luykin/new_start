@@ -150,7 +150,7 @@
         if (start > 4 && end > -1) {
           console.log('微信登录')
           this._login(url.slice(start, end), this.$route.query.username, callback)
-          const locationUrl = window.location.origin + `/dgz/#/`
+          const locationUrl = window.location.origin + `/#/`
           // console.log(locationUrl)
           history.replaceState(null, null, locationUrl)
         } else {
