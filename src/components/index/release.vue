@@ -318,20 +318,22 @@
   }
 
   .service-warp {
-    width: 100%;
+    width: 96%;
     height: 120px;
-    margin-top: -15px;
+    margin: 0 auto -8px;
+    border-radius: 10px;
+    background: #fff;
   }
 
   .service-item {
-    color: #fff;
+    color: #666;
   }
 
   .service-item img {
     width: 55px;
     height: 55px;
     border-radius: 1000px;
-    margin: 20px auto 10px;
+    margin: 0 auto 10px;
   }
 
   .task-input-warp {
@@ -436,8 +438,8 @@
   }
 
   .active-service {
-    color: #ffe3ff;
-    font-weight: 600;
+    color: #333;
+    /*font-weight: 600;*/
     position: relative;
   }
 

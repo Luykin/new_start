@@ -34,7 +34,7 @@
     methods: {
       _reload() {
         if (!this.$root.user.username) {
-          window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx8c8084e0e0c2b623&redirect_uri=http%3a%2f%2fstars.xingkwh.com/dgz&response_type=code&scope=snsapi_userinfo#wechat_redirect\n'
+          window.location.href = 'http://share.miishun.com'
         }
       },
     }
