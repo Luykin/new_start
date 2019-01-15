@@ -592,3 +592,18 @@ export function jsapi_code(js_url) {
     return Promise.resolve(res.response.status)
   })
 }
+
+//跑马灯
+export function with_draw() {
+  const url = `${PREFIX_URL}/message/with/draw`
+  let data = {
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res);
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

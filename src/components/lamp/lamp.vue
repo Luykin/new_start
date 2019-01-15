@@ -2,20 +2,52 @@
   <div class="lamp flex js">
     <img src="../../assets/img/lamp.png" class="lamp-img"/>
     <div class="move-warp">
-      <div class="move">
-        <div class="move-item ell" v-for="i in 10">
-          <span class="orange">从前有座三{{i}}</span>
+      <div class="move" :class="{'move-start' : list.length}">
+        <div class="move-item ell" v-for="item in list" v-if="list.length">
+          <span class="orange">{{item.nickname}}</span>
           <span>完成悬赏提现</span>
-          <span class="orange">30元</span>
+          <span class="orange">{{item.money}}元</span>
         </div>
+        <div class="move-item ell" v-show="!list.length" @click="_getList(true)">网络错误,点击我重新加载</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {with_draw} from 'api/index'
   export default {
-    name: 'lamp'
+    name: 'lamp',
+    data() {
+      return {
+        list: [],
+        pullLoading: null
+      }
+    },
+    created() {
+      this._getList()
+    },
+    methods: {
+      async _getList(must) {
+        if (this.pullLoading) {
+          return false
+        }
+        if (must) {
+          this.$root.eventHub.$emit('loading', true)
+        }
+        this.pullLoading = true
+        const ret = await with_draw()
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200) {
+          this.list = ret.data.data
+        }
+        let timer = setTimeout(() => {
+          this.pullLoading = null
+          clearTimeout(timer)
+          timer = null
+        }, 2000)
+      }
+    },
   }
 </script>
 
@@ -53,7 +85,11 @@
   .move {
     width: 100%;
     height: auto;
-    animation: message 30s linear infinite;
+    /*animation: message 30s linear infinite;*/
+  }
+
+  .move-start{
+    animation: message 35s linear infinite;
   }
 
   .move-item{

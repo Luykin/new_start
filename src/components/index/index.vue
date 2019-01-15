@@ -1,11 +1,11 @@
 <template>
   <transition name="list">
     <div>
-      <!--<lamp></lamp>-->
+      <lamp></lamp>
       <!--@pulldown="_pulldown"-->
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div class="min-warp-height">
-          <div class="height10"></div>
+          <div class="height45"></div>
           <div class="header">
             <userheader></userheader>
           </div>
@@ -54,7 +54,7 @@
   import entrance from 'components/entrance-window/entrance'
   import {pub_task, login, home_page, task_detail, update_user_info} from 'api/index'
   import {UAID, CHANNEL, APPNAME, env} from 'api/config'
-  // import lamp from 'components/lamp/lamp'
+  import lamp from 'components/lamp/lamp'
 
   export default {
     data() {
@@ -275,7 +275,7 @@
     },
     components: {
       empyt,
-      // lamp,
+      lamp,
       entrance,
       userheader,
       betterscroll
