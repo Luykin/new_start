@@ -63,6 +63,12 @@
           <div class="tiw-mid"></div>
           <div class="tiw-right light-color">24小时</div>
         </div>
+        <div class="flex task-input-warp">
+          <div class="tiw-left flex">悬赏任务类型</div>
+          <div class="tiw-mid">
+          </div>
+          <div class="tiw-right light-color">{{activeService.title}}</div>
+        </div>
         <div class="total-sum-warp flex">
           <div class="cover-charge">发任务平台收取<span class="red">{{$root.serverCache.service_ratio * 100}}%</span>服务费</div>
           本次预付款总金额<span class="sum-money">{{all_price ? all_price : 0}}</span>元
@@ -153,6 +159,11 @@
         }
         if (!this.works_link) {
           this.$root.eventHub.$emit('titps', `请粘贴您的作品链接~`)
+          return false
+        }
+        if (this.works_link.indexOf('http') < 0 || this.works_link.indexOf('douyin.com') < 0) {
+          this.works_link = ''
+          this.$root.eventHub.$emit('titps', `请粘贴抖音作品链接~`)
           return false
         }
         if (!this.all_price) {
