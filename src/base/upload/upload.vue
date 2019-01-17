@@ -29,12 +29,12 @@
       // });
     },
     mounted() {
-      this._getJsapiCode()
+      // this._getJsapiCode()
     },
     methods: {
       async _getJsapiCode() {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await jsapi_code((window.location.href.split('#')[0]))
+        const ret = await jsapi_code('dz1.ruooming.com')
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           console.log('配置jsapi')
@@ -65,9 +65,9 @@
       },
       _setcanvas() {
         try {
-          let canvas = document.querySelector('.spread')
-          let imgbg = document.querySelector('.spreadimg')
-          const canvasText = canvas.getContext('2d')
+          let canvas = document.querySelector('.spread');
+          let imgbg = document.querySelector('.spreadimg');
+          const canvasText = canvas.getContext('2d');
           canvas.height = canvas.height;
           canvasText.drawImage(imgbg, 0, 0, 300, 485)
           let files = this.dataURLtoFile(canvas.toDataURL('image/png'), this.key)
@@ -79,8 +79,8 @@
       },
       _imitateClick() {
         console.log('点击上传')
-        // this.$refs.file.click()
-        this._wxChooseImage()
+        this.$refs.file.click()
+        // this._wxChooseImage()
       },
       _wxChooseImage() {
         const that = this

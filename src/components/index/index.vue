@@ -143,15 +143,30 @@
           }, 1300)
         }
       },
+      getRequestParameters() {
+        var arr = (location.search || '').replace(/^\?/, '').split('&')
+        var params = {}
+        for (var i = 0; i < arr.length; i++) {
+          var data = arr[i].split('=')
+          if (data.length == 2) {
+            params[data[0]] = data[1]
+          }
+        }
+        return params
+      },
+      getRequestParameter(key){
+        var params = this.getRequestParameters();
+        return params[key];
+      },
       _wxLogin(callback) {
         // const url = window.location.href
         // const start = url.indexOf('code=') + 5
-        // const end = url.indexOf('&state')
+        // const end = url.indexOf('&username')
         const channel = decodeURIComponent(this.$route.query.channel || '老用户')
         this.$root.channel = channel
-        if (this.$route.query.code) {
-          console.log('微信登录', this.$route.query.code)
-          this._login(this.$route.query.code, this.$route.query.username, channel, callback)
+        if (this.getRequestParameter('code')) {
+          console.log('微信登录', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
+          this._login(this.getRequestParameter('code'), this.getRequestParameter('username'), channel, callback)
           const locationUrl = window.location.origin + `/#/`
           history.replaceState(null, null, locationUrl)
         } else {

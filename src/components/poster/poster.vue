@@ -34,7 +34,10 @@
     },
     methods: {
       async _getAntiSeal() {
-        const ret = await anti_seal()
+        if (!this.$root.user.lower_code) {
+          return false
+        }
+        const ret = await anti_seal(this.$root.user.lower_code)
         if (ret.status === 200) {
           this.ae_url = ret.data.ae_url
         }

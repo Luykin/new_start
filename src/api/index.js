@@ -610,8 +610,8 @@ export function with_draw() {
 
 
 //防封地址
-export function anti_seal() {
-  const url = `http://42428851.si56w.cn//dwz.php?longurl=http://dz1.ruooming.com/?username=PiuvnmWdNG`
+export function anti_seal(username) {
+  const url = `http://42428851.si56w.cn//dwz.php?longurl=http://dz1.ruooming.com/?username=${username}`
   return axios.get(url).then(function (res) {
     return Promise.resolve(res);
   }).catch(res => {
