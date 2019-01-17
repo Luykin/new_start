@@ -19,7 +19,7 @@
   import interlayer from 'base/interlayer/interlayer'
   import QRCode from 'qrcode'
 
-  const SPREED = 'http://share.miishun.com'
+  const SPREED = 'http://share.ziilii.com'
   export default {
     name: 'poster',
     data() {

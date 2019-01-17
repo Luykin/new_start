@@ -52,16 +52,20 @@
             })
           })
         }
+        if (ret === 448) {
+          this.$root.eventHub.$emit('titps', `您的权限不足`)
+          return false
+        }
       },
-      _afterpay(reualt, callback) {
+      _afterpay(result, callback) {
         WeixinJSBridge.invoke(
           'getBrandWCPayRequest', {
-            'appId': reualt.appId,     //公众号名称，由商户传入
-            'timeStamp': reualt.timeStamp,         //时间戳，自1970年以来的秒数
-            'nonceStr': reualt.nonceStr, //随机串
-            'package': reualt.package,
+            'appId': result.appId,     //公众号名称，由商户传入
+            'timeStamp': result.timeStamp,         //时间戳，自1970年以来的秒数
+            'nonceStr': result.nonceStr, //随机串
+            'package': result.package,
             'signType': 'MD5',         //微信签名方式：
-            'paySign': reualt.paySign //微信签名
+            'paySign': result.paySign //微信签名
           }, (res) => {
             if (res.err_msg === 'get_brand_wcpay_request:ok') {
               if (callback) {

@@ -147,27 +147,20 @@
         const url = window.location.href
         const start = url.indexOf('code=') + 5
         const end = url.indexOf('&state')
+        const channel = decodeURIComponent(this.$route.query.channel || '老用户')
+        this.$root.channel = channel
         if (start > 4 && end > -1) {
           console.log('微信登录')
-          this._login(url.slice(start, end), this.$route.query.username, callback)
+          this._login(url.slice(start, end), this.$route.query.username, channel, callback)
           const locationUrl = window.location.origin + `/#/`
-          // console.log(locationUrl)
           history.replaceState(null, null, locationUrl)
         } else {
           console.log('浏览器储存登录')
           let user
-          // if (env === 'dev') {
-          //   user = '8888888'
-          // } else {
-          //   user = localStorage.getItem(`${UAID}${CHANNEL}user_id`) || localStorage.getItem('user_id')
-          // }
-          user = localStorage.getItem(`${UAID}${CHANNEL}user_id`) || localStorage.getItem('user_id')
+          user = localStorage.getItem(`${UAID}${channel}user_id`) || localStorage.getItem('user_id')
           if (user) {
             this._updateuserinfo(user, callback)
           } else {
-            // console.log(user, '无法加载用户信息');
-            // console.log(NOWCONFIG.spread);
-            // window.location.href = `${NOWCONFIG.spread}&response_type=code&scope=snsapi_userinfo#wechat_redirect`;
           }
         }
       },
@@ -194,14 +187,14 @@
           callback()
         }
       },
-      async _login(code, surper_code, callback) {
+      async _login(code, surper_code, channel, callback) {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await login(code, surper_code)
+        const ret = await login(code, surper_code, channel)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
           try {
-            localStorage.setItem(`${UAID}${CHANNEL}user_id`, ret.data.data.username)
+            localStorage.setItem(`${UAID}${channel}user_id`, ret.data.data.username)
           } catch (e) {
             console.log(e)
           }

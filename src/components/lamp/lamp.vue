@@ -89,7 +89,7 @@
   }
 
   .move-start{
-    animation: message 35s linear infinite;
+    animation: message 25s linear infinite;
   }
 
   .move-item{

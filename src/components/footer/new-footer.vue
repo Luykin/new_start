@@ -1,17 +1,17 @@
 <template>
   <footer class="flex" v-show="show">
     <router-link tag='div' :to='item.path' class="footer-item flex sss fw" v-for="item in footer_config" :key='path'
-                 :class="{'disable': item.disable}">
+                 :class="{'disable': item.disable}" v-if="item">
       <img :src="item.icon" class="footer-icon canUsed">
       <img :src="item.disabled" class="footer-icon disabled">
       <span class="flex mg5 ssss footer-item-name">{{item.name}}</span>
     </router-link>
     <div class="width-limit">
-      <div class="add-task-btn flex" :class="{'show-add-task-btn': active}" @click="_toRelease"></div>
-      <div class="push-btn flex" @click="_showPushBotton">
-        <i class="plush flex" :class="{'active': active}"></i>
-      </div>
-      <div class="push-btn-border"></div>
+    <div class="add-task-btn flex" :class="{'show-add-task-btn': active}" @click="_toRelease"></div>
+    <div class="push-btn flex" @click="_showPushBotton">
+    <i class="plush flex" :class="{'active': active}"></i>
+    </div>
+    <div class="push-btn-border"></div>
     </div>
   </footer>
 </template>
@@ -39,6 +39,10 @@
           path: '',
           disabled: null,
           disable: true
+          // name: '发布',
+          // icon: require('../../assets/img/footer2.png'),
+          // disabled: require('../../assets/img/disable2.png'),
+          // path: '/release'
         }, {
           name: '推广',
           icon: require('../../assets/img/footer2.png'),
@@ -51,6 +55,12 @@
           path: '/user'
         }]
       }
+      // {
+      //   // name: '推广',
+      //   // icon: require('../../assets/img/footer2.png'),
+      //   // disabled: require('../../assets/img/footer2.png'),
+      //   // path: '/release'
+      // }
     },
     name: 'new-footer',
     methods: {
@@ -194,7 +204,7 @@
     display: none;
   }
 
-  .footer-item-name{
+  .footer-item-name {
     margin-bottom: 6%;
   }
 </style>

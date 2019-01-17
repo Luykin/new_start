@@ -58,13 +58,13 @@ export function pub_task(service_group_id) {
 }
 
 // 登录
-export function login(wx_login_code, super_code) {
+export function login(wx_login_code, super_code, channel) {
   const url = `${PREFIX_URL}/login`
   let data = {
     uaid: UAID,
     wx_login_code,
     timestamp: getTime(),
-    user_channel: CHANNEL
+    user_channel: channel || '老用户'
   }
   if (super_code) {
     Object.assign(data, {

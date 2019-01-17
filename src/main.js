@@ -33,6 +33,7 @@ const app = new Vue({
       phone: null,
       min_num: 0
     },
+    channel: '老用户',
     serverCache: {
       service_ratio: 0.2,
       ret: []
