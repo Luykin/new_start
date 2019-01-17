@@ -18,16 +18,27 @@
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
   import QRCode from 'qrcode'
+  import {anti_seal} from 'api/index'
 
   const SPREED = 'http://share.ziilii.com'
   export default {
     name: 'poster',
     data() {
       return {
-        myqrurl: null
+        myqrurl: null,
+        ae_url: null
       }
     },
+    created() {
+      this._getAntiSeal()
+    },
     methods: {
+      async _getAntiSeal() {
+        const ret = await anti_seal()
+        if (ret.status === 200) {
+          this.ae_url = ret.data.ae_url
+        }
+      },
       _closeresult() {
         this.$refs.popup._hiddenPopup()
         this.$refs.interlayer._hiddenLayer()
@@ -55,6 +66,10 @@
         }
       },
       _showqr() {
+        if (!this.ae_url) {
+          this.$root.eventHub.$emit('titps', '暂时无法分享')
+          return false
+        }
         if (this.myqrurl) {
           try {
             document.body.scrollTop = 0;
@@ -71,8 +86,8 @@
         }
         this.$root.eventHub.$emit('loading', true)
         // console.log(`${SPREED}?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`)
-        console.log(`${SPREED}?username=${this.$root.user.lower_code}`);
-        QRCode.toDataURL(`${SPREED}?username=${this.$root.user.lower_code}`, opts, (err, url) => {
+        console.log(`${this.ae_url}`);
+        QRCode.toDataURL(`${this.ae_url}`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')
             console.error(err)

@@ -24,7 +24,7 @@ const app = new Vue({
     eventHub: new Vue(),
     user: {
       avatar: require('./assets/img/avatar.png'),
-      nickname: '点我重新登录',
+      nickname: '请刷新页面',
       score: 0,
       price: 0,
       need_deal_num: 0,

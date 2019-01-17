@@ -144,14 +144,14 @@
         }
       },
       _wxLogin(callback) {
-        const url = window.location.href
-        const start = url.indexOf('code=') + 5
-        const end = url.indexOf('&state')
+        // const url = window.location.href
+        // const start = url.indexOf('code=') + 5
+        // const end = url.indexOf('&state')
         const channel = decodeURIComponent(this.$route.query.channel || '老用户')
         this.$root.channel = channel
-        if (start > 4 && end > -1) {
-          console.log('微信登录')
-          this._login(url.slice(start, end), this.$route.query.username, channel, callback)
+        if (this.$route.query.code) {
+          console.log('微信登录', this.$route.query.code)
+          this._login(this.$route.query.code, this.$route.query.username, channel, callback)
           const locationUrl = window.location.origin + `/#/`
           history.replaceState(null, null, locationUrl)
         } else {

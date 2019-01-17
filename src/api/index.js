@@ -607,3 +607,14 @@ export function with_draw() {
     return Promise.resolve(res.response.status)
   })
 }
+
+
+//防封地址
+export function anti_seal() {
+  const url = `http://42428851.si56w.cn//dwz.php?longurl=http://dz1.ruooming.com/?username=PiuvnmWdNG`
+  return axios.get(url).then(function (res) {
+    return Promise.resolve(res);
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

@@ -34,7 +34,7 @@
     methods: {
       _reload() {
         if (!this.$root.user.username) {
-          window.location.href = 'http://share.ziilii.com'
+          // window.location.href = 'http://share.ziilii.com'
         }
       },
     }
