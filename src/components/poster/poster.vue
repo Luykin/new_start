@@ -20,7 +20,7 @@
   import QRCode from 'qrcode'
   import {anti_seal} from 'api/index'
 
-  const SPREED = 'http://share.ziilii.com'
+  // const SPREED = 'http://share.ziilii.com'
   export default {
     name: 'poster',
     data() {
@@ -70,6 +70,7 @@
       },
       _showqr() {
         if (!this.ae_url) {
+          this._getAntiSeal()
           this.$root.eventHub.$emit('titps', '暂时无法分享')
           return false
         }

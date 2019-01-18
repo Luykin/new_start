@@ -160,8 +160,8 @@
             this.$root.eventHub.$emit('titps', `没有选择图片哦`)
             return false
           }
-          if (files.size > 7500000) {
-            this.$root.eventHub.$emit('titps', `请选择小于7M的图片~`)
+          if (files.size > 10500000) {
+            this.$root.eventHub.$emit('titps', `请选择小于10M的图片~`)
             return false
           }
           this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`

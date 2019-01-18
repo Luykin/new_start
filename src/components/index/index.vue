@@ -110,8 +110,8 @@
       _inint() {
         this.$refs.wrapper._initScroll()
         this._getHomeInfo(null)
-        this._getPubTask(this._checkTask())
-        this._wxLogin(this._checkLogin())
+        this._getPubTask()
+        this._wxLogin()
       },
       // _checkHomeInfo() {
       //   if (!this.total) {
@@ -123,26 +123,27 @@
       //     }, 1300)
       //   }
       // },
-      _checkTask() {
-        if (!this.$root.serverCache.ret.length) {
-          let timer = setTimeout(() => {
-            console.log('获取商品失败,尝试重新获取')
-            this._getPubTask()
-            clearTimeout(timer)
-            timer = null
-          }, 1300)
-        }
-      },
-      _checkLogin() {
-        if (!this.$root.user.username) {
-          let timer = setTimeout(() => {
-            console.log('登录失败,尝试重连')
-            this._wxLogin()
-            clearTimeout(timer)
-            timer = null
-          }, 1300)
-        }
-      },
+      // _checkTask() {
+      //   if (!this.$root.serverCache.ret.length) {
+      //     let timer = setTimeout(() => {
+      //       console.log('获取商品失败,尝试重新获取')
+      //       this._getPubTask()
+      //       clearTimeout(timer)
+      //       timer = null
+      //     }, 1300)
+      //   }
+      // },
+      // _checkLogin() {
+      //   console.log(this.$root.user)
+      //   if (!this.$root.user.username) {
+      //     let timer = setTimeout(() => {
+      //       console.log('登录失败,尝试重连')
+      //       this._wxLogin()
+      //       clearTimeout(timer)
+      //       timer = null
+      //     }, 1300)
+      //   }
+      // },
       getRequestParameters() {
         var arr = (location.search || '').replace(/^\?/, '').split('&')
         var params = {}
@@ -162,17 +163,15 @@
         // const url = window.location.href
         // const start = url.indexOf('code=') + 5
         // const end = url.indexOf('&username')
-        const channel = decodeURIComponent(this.$route.query.channel || '老用户')
-        this.$root.channel = channel
+        // const channel = decodeURIComponent(this.$route.query.channel || '老用户')
+        // this.$root.channel = channel
         if (this.getRequestParameter('code')) {
           console.log('微信登录', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
-          this._login(this.getRequestParameter('code'), this.getRequestParameter('username'), channel, callback)
-          const locationUrl = window.location.origin + `/#/`
-          history.replaceState(null, null, locationUrl)
+          this._login(this.getRequestParameter('code'), this.getRequestParameter('username'), null, callback)
         } else {
           console.log('浏览器储存登录')
           let user
-          user = localStorage.getItem(`${UAID}${channel}user_id`) || localStorage.getItem('user_id')
+          user = localStorage.getItem(`${UAID}user_id`) || localStorage.getItem('user_id')
           if (user) {
             this._updateuserinfo(user, callback)
           } else {
@@ -204,15 +203,18 @@
       },
       async _login(code, surper_code, channel, callback) {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await login(code, surper_code, channel)
+        const ret = await login(code, surper_code)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
+          const locationUrl = window.location.origin + `/#/`
+          history.replaceState(null, null, locationUrl)
           try {
-            localStorage.setItem(`${UAID}${channel}user_id`, ret.data.data.username)
+            localStorage.setItem(`${UAID}user_id`, ret.data.data.username)
           } catch (e) {
             console.log(e)
           }
+          return false
         }
         if (callback) {
           callback(this.$root.user)

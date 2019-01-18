@@ -44,7 +44,7 @@
           // disabled: require('../../assets/img/disable2.png'),
           // path: '/release'
         }, {
-          name: '推广',
+          name: '更多',
           icon: require('../../assets/img/footer2.png'),
           disabled: require('../../assets/img/disable2.png'),
           path: '/commision'

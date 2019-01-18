@@ -158,9 +158,12 @@ let updateUserInfoList = ['/user']
 let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision','/group', '/inlet', '/cooperate']
 // let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
+  if (to.name === 'commision') {
+    getEventHub().$emit('titps', `暂时未开放~`)
+    return false
+  }
   loading(true)
   if ((to.path === '/' || to.path === '/index') || getuser()) {
-    next()
     if (refreshList.indexOf(to.path) > -1 && getEventHub()) {
       getEventHub().$emit(`refresh${to.path}`)
     }
@@ -170,6 +173,7 @@ routerconst.beforeEach((to, from, next) => {
     // if (IndexRefresh.indexOf(to.path) > -1 && getEventHub()) {
     //   getEventHub().$emit(`updateList`)
     // }
+    next()
   } else {
     next({
       path: '/index'
