@@ -22,8 +22,16 @@ const routerconst = new Router({
   }, {
     path: '/wx-index',
     name: 'wx-index',
+    meta: {wx: true},
     component: () =>
       import (`components/index/wx-index`),
+    children: [{
+      path: '/wx-index-tips',
+      name: 'wx-index-tips',
+      meta: {wx: true},
+      component: () =>
+        import(`components/index/wx-index-tips`)
+    }]
   }, {
     path: '/index',
     name: 'index',
@@ -170,14 +178,14 @@ let updateUserInfoList = ['/user']
 let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision', '/group', '/inlet', '/cooperate']
 // let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
-  if (isWx() && to.path !== '/wx-index') {
+  if (isWx() && !to.meta.wx) {
     // console.log('微信内部打开')
     next({
       path: '/wx-index'
     })
     return false
   }
-  if (to.path === '/wx-index') {
+  if (to.meta.wx) {
     next()
     return false
   }

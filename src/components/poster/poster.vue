@@ -68,11 +68,6 @@
         }
       },
       _showqr() {
-        // if (!this.ae_url) {
-        //   this._getAntiSeal()
-        //   this.$root.eventHub.$emit('titps', '暂时无法分享')
-        //   return false
-        // }
         if (this.myqrurl) {
           try {
             document.body.scrollTop = 0;
@@ -88,7 +83,7 @@
           type: 'image/jpeg'
         }
         this.$root.eventHub.$emit('loading', true)
-        let share_url = `${SPREED}?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`
+        let share_url = `${SPREED}?username=${this.$root.user.lower_code|| ''}`
         QRCode.toDataURL(`${this.share_url}`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')

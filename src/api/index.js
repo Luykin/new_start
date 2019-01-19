@@ -608,6 +608,22 @@ export function with_draw() {
   })
 }
 
+//支付查看地址
+export function notify_web(code) {
+  const url = `${PREFIX_URL}/notify/web`
+  let data = {
+    code,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res);
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
 
 //防封地址
 export function anti_seal(username) {

@@ -4,15 +4,20 @@
       <div class="header">
         <userheader :hidden="hidden"></userheader>
       </div>
-      <div class="task-info flex">
-        请用外部浏览器打开,获取更良好的体验
+      <!--<div class="task-info flex">-->
+      <!--提示: 我们平台将获取您的微信头像,姓名等信息,方便您使用抖个赞,点击开启新旅程即为同意!-->
+      <!--</div>-->
+      <div class="task-info" :class="{'copy': $root.user.username}" :data-clipboard-text="your_url" @click="_new">
+        <img src="https://cdn.xingkwh.com/%E7%99%BB%E5%BD%95%E9%A1%B5@2x.png"/>
       </div>
-      <div class="task-info flex">
-        公告: 抖个赞开始外部浏览器内测啦~
-      </div>
-      <div class="task-btn flex gre-btn" :class="{'copy': $root.user.username}" :data-clipboard-text="your_url" @click="_new">
-        开启新旅程
-      </div>
+
+      <!--<div class="task-info flex">-->
+      <!--请用外部浏览器打开,获取更良好的体验-->
+      <!--</div>-->
+      <!--<div class="task-btn flex gre-btn" :class="{'copy': $root.user.username}" :data-clipboard-text="your_url" @click="_new">-->
+      <!--开启新旅程-->
+      <!--</div>-->
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -24,10 +29,11 @@
   import ClipboardJS from 'clipboard'
   import {encryptByDES} from 'common/js/util'
   import {isWx} from 'common/js/util'
+
   export default {
     name: 'wx-index',
     data() {
-      return{
+      return {
         hidden: true,
         your_url: ''
       }
@@ -58,9 +64,13 @@
     },
     methods: {
       _new() {
-        if (!this.$root.user.username) {
-          this.$root.eventHub.$emit('titps', '未登录')
-        }
+        // if (!this.$root.user.username) {
+        //   this.$root.eventHub.$emit('titps', '未登录')
+        //   return false
+        // }
+        this.$router.push({
+          name: 'wx-index-tips'
+        })
       },
       getRequestParameters() {
         var arr = (location.search || '').replace(/^\?/, '').split('&')
@@ -79,7 +89,7 @@
       },
       _wxLogin(callback) {
         if (this.getRequestParameter('code')) {
-          console.log('微信登录', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
+          // console.log('微信登录', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
           this._login(this.getRequestParameter('code') || this.$route.query.browser_code, this.getRequestParameter('username'), null, callback)
         } else {
           console.log('浏览器储存登录')
@@ -88,6 +98,9 @@
           if (user) {
             this._updateuserinfo(user, callback)
           } else {
+            this.$router.replace({
+              path: '/browser-login'
+            })
           }
         }
       },
@@ -126,6 +139,12 @@
         if (callback) {
           callback(this.$root.user)
         }
+        if (ret === 404) {
+          this.$root.eventHub.$emit('titps', '登录已失效,请重新登录')
+          this.$router.replace({
+            path: '/browser-login'
+          })
+        }
       },
     },
     components: {
@@ -140,12 +159,27 @@
     height: 170px;
     margin: 10px auto 20px;
   }
-  .task-info{
+
+  .task-info {
+    width: 72%;
     color: #999;
     align-content: center;
     align-items: center;
+    line-height: 25px;
+    padding: 12px 10%;
   }
-  .gre-btn{
+
+  .gre-btn {
     background: #F74BCA;
+  }
+  .task-info{
+    width: 100%;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .task-info img{
+    width: 100%;
+    height: auto;
   }
 </style>

@@ -16,8 +16,9 @@
 
 <script>
   import back from 'base/back/back'
-  import {goods, order} from 'api/index'
+  import {goods, order, notify_web} from 'api/index'
   import userheader from 'components/userheader/minUserHeader'
+  import {isWx} from 'common/js/util'
 
   export default {
     name: 'good',
@@ -25,7 +26,9 @@
       return {
         goods_list: [],
         activeId: null,
-        activeGood: null
+        activeGood: null,
+        newPage: null,
+        // timer: null
       }
     },
     created() {
@@ -40,10 +43,16 @@
         this.activeGood = item
       },
       async _pay() {
+        this.newPage = window.open('about:blank', "_blank")
         this.$root.eventHub.$emit('loading', true)
         const ret = await order(this.activeGood.id, this.$root.user.username,this.activeGood.price, this.activeGood.score)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
+          // 浏览器支付
+          if (!isWx()) {
+            this.newPage.location.href = ret.data.data.pay_ret
+            return false
+          }
           this._afterpay(ret.data.data.pay_ret, () => {
             this.$root.eventHub.$emit('titps', `充值成功,如未到账,请刷新页面~`)
             this.$root.eventHub.$emit('updateUserInfo', 1000)

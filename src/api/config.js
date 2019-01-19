@@ -13,4 +13,3 @@ var SUCCESS_CODE = exports.SUCCESS_CODE = 200
 var TRADE_TYPE = exports.TRADE_TYPE = 'MWEB' // h5交易类型
 var DOMAIN = exports.DOMAIN = 'http://dgz.likesblock.com' // 域名
 var SPREED = exports.SPREED = 'http://share1.likesblock.com' // 分享域名
-// const SPREED = 'http://share1..com'

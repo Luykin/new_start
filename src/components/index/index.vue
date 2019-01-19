@@ -238,6 +238,12 @@
         if (callback) {
           callback(this.$root.user)
         }
+        if (ret === 404) {
+          this.$root.eventHub.$emit('titps', '登录已失效,请重新登录')
+          this.$router.replace({
+            path: '/browser-login'
+          })
+        }
       },
       async _getPubTask(callback) {
         this.$root.eventHub.$emit('loading', true)
