@@ -39,7 +39,7 @@
       }
     },
     created() {
-      console.log(this.$route)
+      // console.log(this.$route)
       if (this.$route.query.browser_code && !isWx()) {
         console.log(`${DOMAIN}?browser_code=${this.$route.query.browser_code}`)
         window.location.href = `${DOMAIN}?browser_code=${this.$route.query.browser_code}`
