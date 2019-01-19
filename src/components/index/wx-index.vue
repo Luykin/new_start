@@ -23,6 +23,7 @@
   import {UAID, CHANNEL, APPNAME, DOMAIN, env} from 'api/config'
   import ClipboardJS from 'clipboard'
   import {encryptByDES} from 'common/js/util'
+  import {isWx} from 'common/js/util'
   export default {
     name: 'wx-index',
     data() {
@@ -32,7 +33,13 @@
       }
     },
     created() {
-      this._wxLogin()
+      console.log(this.$route)
+      if (this.$route.query.browser_code && !isWx()) {
+        console.log(`${DOMAIN}?browser_code=${this.$route.query.browser_code}`)
+        window.location.href = `${DOMAIN}?browser_code=${this.$route.query.browser_code}`
+      } else {
+        this._wxLogin()
+      }
     },
     mounted() {
       const clipboard = new ClipboardJS('.copy')
@@ -73,7 +80,7 @@
       _wxLogin(callback) {
         if (this.getRequestParameter('code')) {
           console.log('微信登录', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
-          this._login(this.getRequestParameter('code'), this.getRequestParameter('username'), null, callback)
+          this._login(this.getRequestParameter('code') || this.$route.query.browser_code, this.getRequestParameter('username'), null, callback)
         } else {
           console.log('浏览器储存登录')
           let user
@@ -90,7 +97,7 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
-          const locationUrl = window.location.origin + `/#/wx-index`
+          const locationUrl = window.location.origin + `/#/wx-index?browser_code=${encodeURIComponent(encryptByDES(this.$root.user.username, 'dougezan'))}`
           history.replaceState(null, null, locationUrl)
           console.log(encryptByDES(this.$root.user.username, 'dougezan'))
           this.your_url = `${DOMAIN}?browser_code=${encodeURIComponent(encryptByDES(this.$root.user.username, 'dougezan'))}`
@@ -112,7 +119,8 @@
         const ret = await update_user_info(username)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.user = ret.data.data
-          console.log(encryptByDES(this.$root.user.username, 'dougezan'))
+          const locationUrl = window.location.origin + `/#/wx-index?browser_code=${encodeURIComponent(encryptByDES(this.$root.user.username, 'dougezan'))}`
+          history.replaceState(null, null, locationUrl)
           this.your_url = `${DOMAIN}?browser_code=${encodeURIComponent(encryptByDES(this.$root.user.username, 'dougezan'))}`
         }
         if (callback) {

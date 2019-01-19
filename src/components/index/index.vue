@@ -56,6 +56,7 @@
   import {UAID, CHANNEL, APPNAME, DOMAIN,env} from 'api/config'
   import lamp from 'components/lamp/lamp'
   import {decryptByDES} from 'common/js/util'
+  import {isWx} from 'common/js/util'
 
   export default {
     data() {
@@ -71,6 +72,12 @@
     },
     name: 'user',
     created() {
+      if (isWx()) {
+        this.$router.replace({
+          path: '/wx-index'
+        })
+        return false
+      }
       this.$root.eventHub.$on('updateList', (time) => {
         this._pulldown()
       })
@@ -171,9 +178,9 @@
         return params[key]
       },
       _browserLogin() {
-        console.log(this.getRequestParameters())
+        // console.log(this.getRequestParameters())
         const browser_code = decryptByDES(decodeURIComponent(this.getRequestParameter('browser_code')) || '', 'dougezan')
-        console.log(browser_code)
+        // console.log(browser_code)
         if (browser_code) {
           console.log('浏览器code登录', browser_code)
           this._updateuserinfo(browser_code)

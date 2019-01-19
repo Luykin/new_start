@@ -171,7 +171,7 @@ let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/h
 // let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
   if (isWx() && to.path !== '/wx-index') {
-    console.log('微信内部打开')
+    // console.log('微信内部打开')
     next({
       path: '/wx-index'
     })
