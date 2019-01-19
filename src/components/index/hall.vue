@@ -77,14 +77,23 @@
         this._pulldown()
       })
       this.$root.eventHub.$on('refresh/hall', () => {
-        this.$nextTick(() => {
+        // this.$nextTick(() => {
+        //   try {
+        //     // console.log('刷新')
+        //     this.$refs.wrapper.refresh()
+        //   } catch (e) {
+        //     console.log(e)
+        //   }
+        // })
+        let timer = setTimeout(() => {
           try {
-            // console.log('刷新')
             this.$refs.wrapper.refresh()
           } catch (e) {
             console.log(e)
           }
-        })
+          clearInterval(timer)
+          timer = null
+        }, 100)
       })
     },
     mounted() {

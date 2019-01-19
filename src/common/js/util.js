@@ -103,12 +103,15 @@ export function isPhone() {
     return false
   }
 }
+// export function isWx() {
+//   if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) && navigator.userAgent.indexOf('MicroMessenger') > -1) {
+//     return true
+//   } else {
+//     return false
+//   }
+// }
 export function isWx() {
-  if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) && navigator.userAgent.indexOf('MicroMessenger') > -1) {
-    return true
-  } else {
-    return false
-  }
+  return /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) && navigator.userAgent.indexOf('MicroMessenger') > -1
 }
 
 export function randomString(len) {　　

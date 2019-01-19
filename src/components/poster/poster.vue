@@ -19,8 +19,7 @@
   import interlayer from 'base/interlayer/interlayer'
   import QRCode from 'qrcode'
   import {anti_seal} from 'api/index'
-
-  // const SPREED = 'http://share.ziilii.com'
+  import {DOMAIN, SPREED} from 'api/config'
   export default {
     name: 'poster',
     data() {
@@ -30,7 +29,7 @@
       }
     },
     created() {
-      this._getAntiSeal()
+      // this._getAntiSeal()
     },
     methods: {
       async _getAntiSeal() {
@@ -54,11 +53,11 @@
           let context = canvas.getContext('2d');  //获取对应的2D对象(画笔)
           context.drawImage(imgbg, 0, 0, 600, 970)
           context.drawImage(imgqr, 185, 400, 230, 230)
-          context.fillStyle = '#fff';
-          context.strokeStyle = '#fff'; //设置笔触的颜色
-          context.textAlign = 'right';
-          context.font = "bold 28px '字体','字体','微软雅黑','宋体'"; //设置字体
-          context.fillText(`ID:${this.$root.user.username}` ,580 ,38); //设置文本内容
+          // context.fillStyle = '#fff';
+          // context.strokeStyle = '#fff'; //设置笔触的颜色
+          // context.textAlign = 'right';
+          // context.font = "bold 28px '字体','字体','微软雅黑','宋体'"; //设置字体
+          // context.fillText(`ID:${this.$root.user.username}` ,580 ,38); //设置文本内容
           this.myqrurl = canvas.toDataURL('image/png')
           this.$root.eventHub.$emit('loading', null)
           this.$refs.popup._showPopup()
@@ -69,11 +68,11 @@
         }
       },
       _showqr() {
-        if (!this.ae_url) {
-          this._getAntiSeal()
-          this.$root.eventHub.$emit('titps', '暂时无法分享')
-          return false
-        }
+        // if (!this.ae_url) {
+        //   this._getAntiSeal()
+        //   this.$root.eventHub.$emit('titps', '暂时无法分享')
+        //   return false
+        // }
         if (this.myqrurl) {
           try {
             document.body.scrollTop = 0;
@@ -89,9 +88,8 @@
           type: 'image/jpeg'
         }
         this.$root.eventHub.$emit('loading', true)
-        // console.log(`${SPREED}?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`)
-        console.log(`${this.ae_url}`);
-        QRCode.toDataURL(`${this.ae_url}`, opts, (err, url) => {
+        let share_url = `${SPREED}?username=${this.$root.user.lower_code}&response_type=code&scope=snsapi_userinfo#wechat_redirect`
+        QRCode.toDataURL(`${this.share_url}`, opts, (err, url) => {
           if (err) {
             this.$root.eventHub.$emit('titps', '二维码解析出错')
             console.error(err)

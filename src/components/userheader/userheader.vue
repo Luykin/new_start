@@ -7,7 +7,7 @@
               @click="_reload()">{{$root.user.nickname}}</span>
         <span class="flex js ell">ID: {{$root.user.username||'登录失败'}}</span>
       </div>
-      <div class="flex btn-warp">
+      <div class="flex btn-warp" v-if="!hidden">
         <router-link tag='div' to='./good' class="flex btn top-btn line-back">充值</router-link>
         <!--<div class="flex btn top-btn line-back">充值</div>-->
       </div>
@@ -21,7 +21,7 @@
         <span class="flex number">{{$root.user.score}}</span>
         <span class="flex num-title">充值余额(元)</span>
       </div>
-      <div class="flex fw btn-warp">
+      <div class="flex fw btn-warp" v-if="!hidden">
         <router-link tag='div' to='./withdrawal' class="flex btn bottom-btn">提现</router-link>
       </div>
     </div>
@@ -31,6 +31,12 @@
 <script>
   export default {
     name: 'userheader',
+    props: {
+      hidden: {
+        type: [Boolean],
+        default: false
+      }
+    },
     methods: {
       _reload() {
         if (!this.$root.user.username) {

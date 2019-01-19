@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {isWx} from 'common/js/util'
 import {
   getuser,
   loading,
@@ -13,6 +14,16 @@ const routerconst = new Router({
   routes: [{
     path: '/',
     redirect: '/index'
+  }, {
+    path: '/browser-login',
+    name: 'browser-login',
+    component: () =>
+      import (`components/index/browser-login`),
+  }, {
+    path: '/wx-index',
+    name: 'wx-index',
+    component: () =>
+      import (`components/index/wx-index`),
   }, {
     path: '/index',
     name: 'index',
@@ -76,7 +87,8 @@ const routerconst = new Router({
     path: '/commision',
     name: 'commision',
     component: () =>
-      import (`components/index/commision`),
+      import (`components/index/new-commision`),
+    // import (`components/index/commision`),
     children: [{
       path: '/detail',
       name: 'detail-commision',
@@ -155,11 +167,18 @@ const routerconst = new Router({
 //entrance
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
-let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision','/group', '/inlet', '/cooperate']
+let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision', '/group', '/inlet', '/cooperate']
 // let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
-  if (to.name === 'commision') {
-    getEventHub().$emit('titps', `暂时未开放~`)
+  if (isWx() && to.path !== '/wx-index') {
+    console.log('微信内部打开')
+    next({
+      path: '/wx-index'
+    })
+    return false
+  }
+  if (to.path === '/wx-index') {
+    next()
     return false
   }
   loading(true)
@@ -170,6 +189,10 @@ routerconst.beforeEach((to, from, next) => {
     if (updateUserInfoList.indexOf(to.path) > -1 && updateUserInfoExcliude.indexOf(from.path) < 0 && getEventHub()) {
       getEventHub().$emit(`updateUserInfo`)
     }
+    // if (to.name === 'commision') {
+    //   getEventHub().$emit('titps', `暂时未开放~`)
+    //   return false
+    // }
     // if (IndexRefresh.indexOf(to.path) > -1 && getEventHub()) {
     //   getEventHub().$emit(`updateList`)
     // }
