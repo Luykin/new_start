@@ -85,7 +85,11 @@
               path: path
             })
           }
-        } else {
+        }
+        if (ret === 404) {
+          this.$router.replace({
+            path: '/login'
+          })
         }
       },
     },

@@ -75,16 +75,16 @@
     methods: {
       async _codeLogin() {
         if (!this.phone) {
-          this.$root.eventHub.$emit('titps', `请输入手机号~`)
+          this.$root.eventHub.$emit('titps', `请输入手机号`)
           return false
         }
         let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}|(19[0-9]{1})))+\d{8})$/
         if (!myreg.test(this.phone)) {
-          this.$root.eventHub.$emit('titps', `请正确填写手机号哦~`)
+          this.$root.eventHub.$emit('titps', `请正确填写手机号`)
           return false
         }
         if (!this.code) {
-          this.$root.eventHub.$emit('titps', `请输入验证码~`)
+          this.$root.eventHub.$emit('titps', `请输入验证码`)
           return false
         }
         this.$root.eventHub.$emit('loading', true)
@@ -114,12 +114,12 @@
           return false
         }
         if (!this.phone) {
-          this.$root.eventHub.$emit('titps', `请输入手机号~`)
+          this.$root.eventHub.$emit('titps', `请输入手机号`)
           return false
         }
         let myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}|(19[0-9]{1})))+\d{8})$/
         if (!myreg.test(this.phone)) {
-          this.$root.eventHub.$emit('titps', `请正确填写手机号哦~`)
+          this.$root.eventHub.$emit('titps', `请正确填写手机号`)
           return false
         }
         this.$root.eventHub.$emit('loading', true)
@@ -127,7 +127,7 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           clearInterval(this.timer)
-          this.$root.eventHub.$emit('titps', `验证码发送成功~`)
+          this.$root.eventHub.$emit('titps', `验证码发送成功`)
           this.time = 60
           this.timer = setInterval(() => {
             this.time -= 1

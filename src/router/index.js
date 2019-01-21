@@ -109,7 +109,7 @@ const routerconst = new Router({
     path: '/commision',
     name: 'commision',
     component: () =>
-      import (`components/index/commision`),
+      import (`components/index/new-commision`),
     children: [{
       path: '/detail',
       name: 'detail-commision',
