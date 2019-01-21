@@ -634,3 +634,45 @@ export function anti_seal(username) {
     return Promise.resolve(res.response.status)
   })
 }
+
+
+//验证码登录
+export function code_login(code, phone, channel, super_code) {
+  const url = `${PREFIX_URL}/web/login`
+  let data = {
+    phone,
+    code,
+    user_channel: channel || '老用户',
+    uaid: UAID,
+    timestamp: getTime()
+  }
+  if (super_code) {
+    Object.assign(data, {
+      super_code
+    })
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res);
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+//web手机版updateuserinfo
+export function getUserInfo(username) {
+  const url = `${PREFIX_URL}/web/update_user_info`
+  let data = {
+    username,
+    uaid: UAID,
+    timestamp: getTime()
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res);
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

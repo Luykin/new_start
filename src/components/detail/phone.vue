@@ -69,7 +69,6 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        // bind_phone(code, phone, username) {
         const ret = await bind_phone(this.code, this.phone, this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
@@ -115,7 +114,7 @@
       },
     },
     created() {
-      console.log(Boolean(this.$root.user.phone))
+      // console.log(Boolean(this.$root.user.phone))
     },
     components: {
       back

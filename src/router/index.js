@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import {isWx} from 'common/js/util'
+import {ENVIRONMENT} from 'api/config'
 import {
   getuser,
   loading,
@@ -13,12 +14,25 @@ const routerconst = new Router({
   // maintain
   routes: [{
     path: '/',
-    redirect: '/index'
+    name: 'calibrator',
+    component: () =>
+      import (`components/index/calibrator`),
+    children: [{
+      path: '/login',
+      name: 'login',
+      component: () =>
+        import (`components/index/login`),
+    }]
   }, {
     path: '/browser-login',
     name: 'browser-login',
     component: () =>
       import (`components/index/browser-login`),
+  }, {
+    path: '/home',
+    name: 'home',
+    component: () =>
+      import (`components/index/home`),
   }, {
     path: '/wx-index',
     name: 'wx-index',
@@ -95,8 +109,7 @@ const routerconst = new Router({
     path: '/commision',
     name: 'commision',
     component: () =>
-      import (`components/index/new-commision`),
-    // import (`components/index/commision`),
+      import (`components/index/commision`),
     children: [{
       path: '/detail',
       name: 'detail-commision',
@@ -176,38 +189,19 @@ const routerconst = new Router({
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
 let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision', '/group', '/inlet', '/cooperate']
-// let IndexRefresh = ['/index']
 routerconst.beforeEach((to, from, next) => {
-  if (isWx() && !to.meta.wx) {
-    // console.log('微信内部打开')
-    next({
-      path: '/wx-index'
-    })
-    return false
-  }
-  if (to.meta.wx) {
-    next()
-    return false
-  }
   loading(true)
-  if ((to.path === '/' || to.path === '/index') || getuser()) {
+  if ((to.path === '/' || to.path === '/home' || to.path === '/login') || getuser()) {
     if (refreshList.indexOf(to.path) > -1 && getEventHub()) {
       getEventHub().$emit(`refresh${to.path}`)
     }
     if (updateUserInfoList.indexOf(to.path) > -1 && updateUserInfoExcliude.indexOf(from.path) < 0 && getEventHub()) {
       getEventHub().$emit(`updateUserInfo`)
     }
-    // if (to.name === 'commision') {
-    //   getEventHub().$emit('titps', `暂时未开放~`)
-    //   return false
-    // }
-    // if (IndexRefresh.indexOf(to.path) > -1 && getEventHub()) {
-    //   getEventHub().$emit(`updateList`)
-    // }
     next()
   } else {
     next({
-      path: '/index'
+      path: '/'
     })
   }
 })

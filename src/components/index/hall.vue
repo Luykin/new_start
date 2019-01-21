@@ -64,30 +64,13 @@
     created() {
       this._getTaskHall()
       this.$root.eventHub.$on('updateList', (time) => {
-        // this.$nextTick(() => {
-        //   if (this.pullDownTimer) {
-        //     clearTimeout(this.pullDownTimer)
-        //   }
-        //   this.pullDownTimer = setTimeout(() => {
-        //     this._pulldown()
-        //     clearTimeout(this.pullDownTimer)
-        //     this.pullDownTimer = null
-        //   }, time || 8000)
-        // })
         this._pulldown()
       })
       this.$root.eventHub.$on('refresh/hall', () => {
-        // this.$nextTick(() => {
-        //   try {
-        //     // console.log('刷新')
-        //     this.$refs.wrapper.refresh()
-        //   } catch (e) {
-        //     console.log(e)
-        //   }
-        // })
+        const that = this
         let timer = setTimeout(() => {
           try {
-            this.$refs.wrapper.refresh()
+            that.$refs.wrapper.refresh()
           } catch (e) {
             console.log(e)
           }

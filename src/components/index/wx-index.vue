@@ -4,10 +4,10 @@
       <div class="header">
         <userheader :hidden="hidden"></userheader>
       </div>
-      <!--<div class="task-info flex">-->
-      <!--提示: 我们平台将获取您的微信头像,姓名等信息,方便您使用抖个赞,点击开启新旅程即为同意!-->
-      <!--</div>-->
-      <div class="task-info" :class="{'copy': $root.user.username}" :data-clipboard-text="your_url" @click="_new">
+      <div class="task-info flex">
+      提示: 我们平台将获取您的微信头像,姓名等信息,方便您使用抖个赞,点击开启新旅程即为同意!
+      </div>
+      <div class="task-info-sp" :class="{'copy': $root.user.username}" :data-clipboard-text="your_url" @click="_new">
         <img src="https://cdn.xingkwh.com/%E7%99%BB%E5%BD%95%E9%A1%B5@2x.png"/>
       </div>
 
@@ -64,13 +64,13 @@
     },
     methods: {
       _new() {
-        // if (!this.$root.user.username) {
-        //   this.$root.eventHub.$emit('titps', '未登录')
-        //   return false
-        // }
-        this.$router.push({
-          name: 'wx-index-tips'
-        })
+        if (!this.$root.user.username) {
+          this.$root.eventHub.$emit('titps', '未登录')
+          return false
+        }
+        // this.$router.push({
+        //   name: 'wx-index-tips'
+        // })
       },
       getRequestParameters() {
         var arr = (location.search || '').replace(/^\?/, '').split('&')
@@ -172,7 +172,7 @@
   .gre-btn {
     background: #F74BCA;
   }
-  .task-info{
+  .task-info-sp{
     width: 100%;
     padding: 0;
     background: none;

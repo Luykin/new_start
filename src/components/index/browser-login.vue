@@ -25,6 +25,9 @@
         this.$refs.poster._showqr()
       },
     },
+    created() {
+      console.log(this.$route.query.usage_mode)
+    },
     components: {
       poster
     }

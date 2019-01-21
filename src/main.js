@@ -33,6 +33,7 @@ const app = new Vue({
       phone: null,
       min_num: 0
     },
+    must_info: null,
     channel: '老用户',
     serverCache: {
       service_ratio: 0.2,
@@ -45,7 +46,7 @@ export function getuser() {
   if (!app) {
     return false
   }
-  return app.user
+  return app.user.username
 }
 export function getEventHub() {
   if (!app) {

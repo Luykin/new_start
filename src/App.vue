@@ -18,6 +18,9 @@
   import centerTips from 'base/centerTips/centerTips'
   import loading from 'base/loading/loading'
   import preloading from 'components/preloading/preloading'
+  import {getUserInfo} from 'api/index'
+  import {decryptByDES} from 'common/js/util'
+  import {UAID, CHANNEL, FACTOR} from 'api/config'
 
   export default {
     data() {
@@ -32,6 +35,23 @@
       this.$root.eventHub.$on('titps', (titps) => {
         this.centerTips = titps
         this.$refs.centerTips._open()
+      })
+      this.$root.eventHub.$on('updateUserInfo', (path) => {
+        console.log('全局更新用户信息')
+        try {
+          const username = decryptByDES(localStorage.getItem(`${UAID}${CHANNEL}username`) || '', FACTOR)
+          if (username) {
+            this._getUserInfo(username, path)
+          } else {
+            this.$router.replace({
+              path: '/login'
+            })
+          }
+        } catch (e) {
+          this.$router.replace({
+            path: '/login'
+          })
+        }
       })
       this.$root.eventHub.$on('loading', (loading) => {
         if (this.timer && loading) {
@@ -53,7 +73,22 @@
         this.preloadingshow = []
       }, 300)
     },
-    methods: {},
+    methods: {
+      async _getUserInfo(username, path) {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await getUserInfo(username)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.user = ret.data.data
+          if (path) {
+            this.$router.replace({
+              path: path
+            })
+          }
+        } else {
+        }
+      },
+    },
     components: {
       foot,
       loading,

@@ -70,7 +70,8 @@
           name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',
           icon: require('../../assets/img/usericon1.png'),
-          otherInfo: true
+          otherInfo: true,
+          disable: true
         }, {
           name: '官方交流群',
           path: '/group',

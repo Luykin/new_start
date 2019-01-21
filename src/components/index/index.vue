@@ -72,38 +72,14 @@
     },
     name: 'user',
     created() {
-      if (isWx()) {
-        this.$router.replace({
-          path: '/wx-index'
-        })
-        return false
-      }
       this.$root.eventHub.$on('updateList', (time) => {
         this._pulldown()
       })
-      this.$root.eventHub.$on('updateUserInfo', (time) => {
-        this.$nextTick(() => {
-          if (this.updateTimer) {
-            clearTimeout(this.updateTimer)
-          }
-          this.updateTimer = setTimeout(() => {
-            this._updateuserinfo(this.$root.user.username)
-            clearTimeout(this.updateTimer)
-            this.updateTimer = null
-          }, time || 2000)
-        })
-      })
       this.$root.eventHub.$on('refresh/index', () => {
-        // this.$nextTick(() => {
-        //   try {
-        //     this.$refs.wrapper.refresh()
-        //   } catch (e) {
-        //     console.log(e)
-        //   }
-        // })
+        const that = this
         let timer = setTimeout(() => {
           try {
-            this.$refs.wrapper.refresh()
+            that.$refs.wrapper.refresh()
           } catch (e) {
             console.log(e)
           }
@@ -114,7 +90,6 @@
     },
     mounted() {
       this._inint()
-      // this._checkLogin()
     },
     methods: {
       _error(err) {
@@ -128,40 +103,7 @@
         this.$refs.wrapper._initScroll()
         this._getHomeInfo(null)
         this._getPubTask()
-        // this._wxLogin()
-        this._browserLogin()
       },
-      // _checkHomeInfo() {
-      //   if (!this.total) {
-      //     let timer = setTimeout(() => {
-      //       console.log('获取列表失败,尝试重新获取')
-      //       this._getHomeInfo()
-      //       clearTimeout(timer)
-      //       timer = null
-      //     }, 1300)
-      //   }
-      // },
-      // _checkTask() {
-      //   if (!this.$root.serverCache.ret.length) {
-      //     let timer = setTimeout(() => {
-      //       console.log('获取商品失败,尝试重新获取')
-      //       this._getPubTask()
-      //       clearTimeout(timer)
-      //       timer = null
-      //     }, 1300)
-      //   }
-      // },
-      // _checkLogin() {
-      //   console.log(this.$root.user)
-      //   if (!this.$root.user.username) {
-      //     let timer = setTimeout(() => {
-      //       console.log('登录失败,尝试重连')
-      //       this._wxLogin()
-      //       clearTimeout(timer)
-      //       timer = null
-      //     }, 1300)
-      //   }
-      // },
       getRequestParameters() {
         var arr = (location.search || '').replace(/^\?/, '').split('&')
         var params = {}
@@ -178,14 +120,12 @@
         return params[key]
       },
       _browserLogin() {
-        // console.log(this.getRequestParameters())
         const browser_code = decryptByDES(decodeURIComponent(this.getRequestParameter('browser_code')) || '', 'dougezan')
-        // console.log(browser_code)
         if (browser_code) {
           console.log('浏览器code登录', browser_code)
           this._updateuserinfo(browser_code)
         } else {
-          console.log('浏览器储存登录')
+          console.log('浏览器储存登录browserLogin')
           let user
           user = localStorage.getItem(`${UAID}user_id`) || localStorage.getItem('user_id')
           if (user) {
@@ -198,20 +138,12 @@
         }
       },
       _wxLogin(callback) {
-        // const url = window.location.href
-        // const start = url.indexOf('code=') + 5
-        // const end = url.indexOf('&username')
-        // const channel = decodeURIComponent(this.$route.query.channel || '老用户')
-        // this.$root.channel = channel
-        // alert(location.search)
-        // alert((location.search || '').replace(/^\?/, ''))
-        // alert(this.getRequestParameter('code'))
         if (this.getRequestParameter('code')) {
-          console.log('微信登录', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
+          console.log('微信登录wxLogin', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
           // alert('微信code登录')
           this._login(this.getRequestParameter('code'), this.getRequestParameter('username'), null, callback)
         } else {
-          console.log('浏览器储存登录')
+          console.log('浏览器储存登录wxLogin')
           let user
           user = localStorage.getItem(`${UAID}user_id`) || localStorage.getItem('user_id')
           if (user) {
