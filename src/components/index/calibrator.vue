@@ -18,6 +18,10 @@
       }
     },
     created() {
+      // console.log(encodeURIComponent(encryptByDES(JSON.stringify({
+      //   username: '123456',
+      //   environment: ENVIRONMENT
+      // }), FACTOR)))
       if (this.capabilityCheck()) {
         this.$root.eventHub.$emit('updateUserInfo', '/index')
       } else {

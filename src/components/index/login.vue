@@ -4,7 +4,8 @@
       <div class="input-all-warp">
         <div class="login-header-warp">
           <div class="login-header flex">
-            抖个赞
+            <!--抖个赞-->
+            <img src="https://cdn.xingkwh.com/logo%202.png" class="logo-img"/>
           </div>
         </div>
         <div class="login-input-warp">
@@ -27,6 +28,7 @@
         <div class="login-sure-btn flex" :class="{'active-login-btn': phone && code}" @click="_codeLogin">
           登录
         </div>
+        <div v-if="$root.must_info && $root.must_info.username" class="has-code flex">*含有上级邀请码的入口</div>
       </div>
     </div>
   </transition>
@@ -52,6 +54,11 @@
       // if (username) {
       //   this._getUserInfo(username)
       // }
+    },
+    computed: {
+      // show_username(value, key) {
+      //   return encryptByDES(value, key)
+      // },
     },
     mounted() {
       document.querySelectorAll('.index-input').forEach((item) => {
@@ -81,7 +88,7 @@
           return false
         }
         this.$root.eventHub.$emit('loading', true)
-        const ret = await code_login(this.code, this.phone)
+        const ret = await code_login(this.code, this.phone, this.$root.must_info ? this.$root.must_info.username: '')
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.eventHub.$emit('titps', `登录成功`)
@@ -235,5 +242,18 @@
 
   .active-login-btn{
     background: #F656D9;
+  }
+  .has-code{
+    width: 80%;
+    margin: 15px auto 0;
+    color: #F656D9;
+    font-size: 12px;
+    justify-content: flex-start;
+  }
+  .logo-img{
+    width: 40%;
+    height: auto;
+    max-width: 175px;
+    min-width: 130px;
   }
 </style>

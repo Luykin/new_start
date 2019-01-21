@@ -53,7 +53,7 @@
   import empyt from 'base/empyt/empyt'
   import entrance from 'components/entrance-window/entrance'
   import {pub_task, login, home_page, task_detail, update_user_info} from 'api/index'
-  import {UAID, CHANNEL, APPNAME, DOMAIN,env} from 'api/config'
+  import {UAID, CHANNEL, APPNAME,env} from 'api/config'
   import lamp from 'components/lamp/lamp'
   import {decryptByDES} from 'common/js/util'
   import {isWx} from 'common/js/util'

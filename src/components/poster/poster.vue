@@ -19,7 +19,7 @@
   import popup from 'base/popup/popup'
   import interlayer from 'base/interlayer/interlayer'
   import QRCode from 'qrcode'
-  import {DOMAIN, SPREED} from 'api/config'
+  import {SPREED} from 'api/config'
   import {encryptByDES} from 'common/js/util'
   import {ENVIRONMENT, FACTOR} from 'api/config'
 

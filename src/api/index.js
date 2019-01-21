@@ -637,12 +637,12 @@ export function anti_seal(username) {
 
 
 //验证码登录
-export function code_login(code, phone, channel, super_code) {
+export function code_login(code, phone, super_code) {
   const url = `${PREFIX_URL}/web/login`
   let data = {
     phone,
     code,
-    user_channel: channel || '老用户',
+    user_channel: '老用户',
     uaid: UAID,
     timestamp: getTime()
   }
