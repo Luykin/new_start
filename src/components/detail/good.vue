@@ -57,7 +57,7 @@
       async _pay() {
         this.newPage = window.open('about:blank', "_blank")
         this.$root.eventHub.$emit('loading', true)
-        const ret = await order(this.activeGood.id, this.$root.user.username,this.activeGood.price, this.activeGood.score)
+        const ret = await order(this.activeGood.id, this.$root.user.username,this.activeGood.price, this.activeGood.score, isWx()?1:2);
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           // 浏览器支付

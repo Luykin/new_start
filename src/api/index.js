@@ -431,13 +431,14 @@ export function withdraw_list(username, page, num) {
 }
 
 // 下单
-export function order(id, username, price, score) {
+export function order(id, username, price, score, pay_type) {
   const url = `${PREFIX_URL}/order`
   let data = {
     id,
     price,
     score,
     username,
+    pay_type,
     uaid: UAID,
     timestamp: getTime(),
   }
