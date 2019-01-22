@@ -64,8 +64,12 @@
       document.querySelectorAll('.index-input').forEach((item) => {
         item.addEventListener('blur', () => {
           try {
-            document.body.scrollTop = document.body.scrollHeight
+            document.body.scrollTop = 0
             document.documentElement.scrollTop = 0
+            this.$nextTick(() => {
+              document.body.scrollTop = 0
+              document.documentElement.scrollTop = 0
+            })
           } catch (e) {
             console.log(e)
           }
