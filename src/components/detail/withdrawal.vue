@@ -8,7 +8,11 @@
         <div class="good-item flex" v-for="item in goods" :class="{'active-good-item': activeId === item.id}"
              @click="_chose(item)">{{item.price}}
         </div>
-        <div class="task-btn flex line-back" @click="_withdraw">提现</div>
+        <div class="task-btn flex line-back" v-if="$root.user.can_withdraw" @click="_withdraw">提现</div>
+        <!--<div v-else class="task-btn flex line-back">请先绑定微信号</div>-->
+        <router-link tag='div' to='/inlet' class="task-btn flex line-back" v-else>
+          请先绑定微信号
+        </router-link>
         <div class="task-color-title flex">提现说明</div>
         <span class="flex s line-font">1.最低提现金额为10元。</span>
         <span class="flex s line-font">2.提现时间为5分钟之内到账。</span>
