@@ -2,7 +2,7 @@
   <transition name="pop">
     <div class="pop-body" @click.self="$router.back(-1)">
       <div class="task-info" @click.stop="">
-        <img src="https://cdn.xingkwh.com/%E5%85%B3%E6%B3%A8%E5%85%AC%E4%BC%97%E5%8F%B7@3x.png"/>
+        <img src="https://cdn.xingkwh.com/%E5%85%B3%E6%B3%A8%E5%85%AC%E4%BC%97%E5%8F%B72@3x.png"/>
       </div>
     </div>
   </transition>

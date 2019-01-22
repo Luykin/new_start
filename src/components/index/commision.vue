@@ -28,6 +28,9 @@
       <div class="s line-font line-min-title">完成任务：</div>
       <div class="s line-font">1、当你好友，完成并审核通过任务后，你将获得<i class="red-color">2%</i>奖励；</div>
       <div class="s line-font">2、当你好友的好友，完成并审核通过任务后，你将获得<i class="red-color">1%</i>奖励；</div>
+      <div class="s line-font line-min-title">置顶奖励：</div>
+      <div class="s line-font">1、当你好友发布任务并置顶后，你将获得<i class="red-color">20%</i>奖励；</div>
+      <div class="s line-font">2、当你好友的好友发布任务并置顶后，你将获得<i class="red-color">10%</i>奖励；</div>
     </div>
     <div class="footer-none"></div>
     <router-view></router-view>

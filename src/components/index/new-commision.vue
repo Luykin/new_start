@@ -1,9 +1,9 @@
 <template>
   <transition name="list">
     <div>
-      <div class="header">
-        <userheader></userheader>
-      </div>
+      <!--<div class="header">-->
+        <!--<userheader></userheader>-->
+      <!--</div>-->
       <!--<router-link tag='div' to='/group' class="task-btn flex task-detail-btn">-->
         <!--加入官方交流群-->
       <!--</router-link>-->

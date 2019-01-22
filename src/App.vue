@@ -84,9 +84,10 @@
             this.$router.replace({
               path: path
             })
+            if (this.$route.query.ability) {
+              window.location.hash = `/index`
+            }
           }
-          const locationUrl = `${window.location.origin}/#${this.$route.fullPath}`
-          history.replaceState(null, null, locationUrl)
         }
         if (ret === 404) {
           this.$router.replace({
