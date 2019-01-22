@@ -8,7 +8,10 @@
         <div class="good-item flex" v-for="item in goods_list" :class="{'active-good-item': activeId === item.id}"
              @click="_chose(item)">{{item.label}}
         </div>
-        <div class="task-btn flex line-back" @click="_pay">支付</div>
+        <div class="task-btn flex line-back" @click="_pay" v-if="can_pay">支付</div>
+        <router-link tag='div' to='/inlet' class="task-btn flex line-back" v-else>
+          请先绑定微信号
+        </router-link>
       </div>
     </div>
   </transition>
@@ -30,6 +33,15 @@
         newPage: null,
         // timer: null
       }
+    },
+    computed: {
+      can_pay() {
+        if (isWx()) {
+          return this.$root.user.can_withdraw
+        } else {
+          return true
+        }
+      },
     },
     created() {
       this._init()
