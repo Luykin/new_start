@@ -85,8 +85,7 @@
               path: path
             })
           }
-          console.log(this.$route)
-          const locationUrl = window.location.origin + `/#/`
+          const locationUrl = `${window.location.origin}/#${this.$route.fullPath}`
           history.replaceState(null, null, locationUrl)
         }
         if (ret === 404) {

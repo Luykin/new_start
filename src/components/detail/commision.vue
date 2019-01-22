@@ -6,14 +6,14 @@
         <!--<userheader></userheader>-->
       <!--</div>-->
       <div class="task-info flex fw js" v-if="profit_details.length">
-        <div class="task-color-title flex">我的团队</div>
+        <div class="task-color-title flex">我的好友</div>
         <div class="flex team-com-item fw">
           <span class="flex team-num">{{profit_details[1] ? profit_details[1].num_people : 0}}</span>
-          <span class="flex team-title">一级团队人数</span>
+          <span class="flex team-title">一友人数</span>
         </div>
         <div class="flex team-com-item fw">
           <span class="flex team-num">{{profit_details[2] ? profit_details[2].num_people : 0}}</span>
-          <span class="flex team-title">二级团队人数</span>
+          <span class="flex team-title">二友人数</span>
         </div>
       </div>
       <div class="task-info">
@@ -26,7 +26,7 @@
           <span class="th-item flex ell mins">总收益</span>
         </div>
         <div class="transcat-item flex" v-for="item in profit_details" v-if="profit_details.length">
-          <div class="tran-line flex ell">{{item.level == 0 ? '我' : item.level == 1 ? '一级' : '二级'}}</div>
+          <div class="tran-line flex ell">{{item.level == 0 ? '我' : item.level == 1 ? '一友' : '二友'}}</div>
           <div class="tran-line flex ell">{{item.level == 0 ? '-' : item.num_people}}</div>
           <div class="tran-line flex ell">{{item.num_completed}}</div>
           <div class="tran-line flex ell">{{item.today_income}}</div>

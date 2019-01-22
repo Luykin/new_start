@@ -110,7 +110,7 @@
         if (!this.detail_info.task_url) {
           return '您还未报名该项目'
         }
-        return this.removeChinese(this.detail_info.task_url)
+        return this.httpString(this.detail_info.task_url)
       },
       btn_status() {
         try {
@@ -180,13 +180,14 @@
       // })
     },
     methods: {
-      removeChinese(strValue) {
-        if(strValue!= null && strValue !== ""){
-          var reg = /[\u4e00-\u9fa5]/g;
-          return strValue.replace(reg, "");
+      httpString(s) {
+        let reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
+        s = s.match(reg);
+        if (s.length) {
+          return s[0];
+        } else {
+          return ''
         }
-        else
-          return "";
       },
       _showTipsV() {
         if (!this.detail_info.task_url) {

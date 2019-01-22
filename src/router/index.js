@@ -194,7 +194,7 @@ const routerconst = new Router({
 //entrance
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
-let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision', '/group', '/inlet', '/cooperate']
+let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision', '/group', '/inlet', '/cooperate', '/user-commision']
 routerconst.beforeEach((to, from, next) => {
   loading(true)
   if ((to.path === '/' || to.path === '/home' || to.path === '/login') || getuser()) {
