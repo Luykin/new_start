@@ -104,6 +104,17 @@ const routerconst = new Router({
       name: 'myTask',
       component: () =>
         import(`components/record/myTask`),
+    },{
+      path: '/user-commision',
+      name: 'user-commision',
+      component: () =>
+        import(`components/index/commision`),
+      children: [{
+        path: '/detail',
+        name: 'detail-commision',
+        component: () =>
+          import(`components/detail/commision`)
+      }]
     }]
   }, {
     path: '/commision',
@@ -111,10 +122,10 @@ const routerconst = new Router({
     component: () =>
       import (`components/index/new-commision`),
     children: [{
-      path: '/detail',
-      name: 'detail-commision',
+      path: '/group',
+      name: 'group',
       component: () =>
-        import(`components/detail/commision`)
+        import(`components/detail/group`)
     }]
   }, {
     path: '/success',
@@ -158,11 +169,6 @@ const routerconst = new Router({
     name: 'phone',
     component: () =>
       import(`components/detail/phone`)
-  }, {
-    path: '/group',
-    name: 'group',
-    component: () =>
-      import(`components/detail/group`)
   }, {
     path: '/inlet',
     name: 'inlet',

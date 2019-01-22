@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <div class="header">
-      <userheader></userheader>
-    </div>
+  <div class="detail-body">
+    <back></back>
+    <!--<div class="header">-->
+      <!--<userheader></userheader>-->
+    <!--</div>-->
     <div class="task-info flex fw js">
       <div class="task-color-title flex">
         <span class="flex js">我的团队</span>
@@ -45,6 +46,7 @@
 <script>
   import userheader from 'components/userheader/userheader'
   import poster from 'components/poster/poster'
+  import back from 'base/back/back'
 
   export default {
     name: 'commision',
@@ -62,6 +64,7 @@
       },
     },
     components: {
+      back,
       poster,
       userheader
     }

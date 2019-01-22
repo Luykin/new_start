@@ -4,9 +4,13 @@
       <div class="header">
         <userheader></userheader>
       </div>
+      <!--<router-link tag='div' to='/group' class="task-btn flex task-detail-btn">-->
+        <!--加入官方交流群-->
+      <!--</router-link>-->
       <div class="task-info flex fw">
-        本页面将在公测开放,内测数据不丢失
+        页面正在建设中,公测开放!
       </div>
+      <router-view></router-view>
     </div>
   </transition>
 </template>
@@ -15,10 +19,17 @@
   import userheader from 'components/userheader/userheader'
   export default {
     name: 'new-commision',
+    created() {
+
+    },
     components: {
       userheader
     }
   }
+  //   name: '官方交流群',
+  //     path: '/group',
+  //     icon: require('../../assets/img/usericon2.png')
+  // }
 </script>
 
 <style scoped>
@@ -70,5 +81,8 @@
     white-space: nowrap;
     border: 1px solid #6B41E1;
     justify-content: center;
+  }
+  .task-detail-btn{
+    background: #FB53D9;
   }
 </style>

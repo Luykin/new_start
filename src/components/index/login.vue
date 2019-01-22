@@ -96,8 +96,8 @@
           this.$router.replace({
             path: '/index'
           })
-          // const locationUrl = window.location.origin + `/#/index`
-          // history.replaceState(null, null, locationUrl)
+          const locationUrl = window.location.origin + `/#/index`
+          history.replaceState(null, null, locationUrl)
           // encryptByDES
           localStorage.setItem(`${UAID}${CHANNEL}username`, encryptByDES(ret.data.data.username, FACTOR))
         } else {

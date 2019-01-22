@@ -63,6 +63,10 @@
           path: '/recharge?id=2'
         }],
         user_nav: [{
+          name: '推广获取',
+          path: '/user-commision',
+          icon: require('../../assets/img/usericon7.png')
+        },{
           name: '举报维权',
           path: '/report',
           icon: require('../../assets/img/usericon3.png'),
@@ -73,20 +77,21 @@
           otherInfo: true,
           disable: true
         }, {
-          name: '官方交流群',
-          path: '/group',
-          icon: require('../../assets/img/usericon2.png')
-        }, {
           name: '商务合作',
           path: '/cooperate',
           icon: require('../../assets/img/usericon5.png')
         }, {
-          name: '平台入口',
+          name: '绑定微信',
           path: '/inlet',
-          icon: require('../../assets/img/usericon4.png')
+          icon: require('../../assets/img/usericon6.png')
         }]
       }
     },
+  // , {
+  //   name: '官方交流群',
+  //     path: '/group',
+  //     icon: require('../../assets/img/usericon2.png')
+  // }
     computed: {
       // `${Boolean(this.$root.user.phone) ? this.$root.user.phone.slice(0,3)+'***'+this.$root.user.phone.slice(-3):''}`
       _initOtherInfo() {

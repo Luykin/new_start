@@ -2,9 +2,9 @@
   <transition name="list">
     <div class="detail-body">
       <back></back>
-      <div class="header">
-        <userheader></userheader>
-      </div>
+      <!--<div class="header">-->
+        <!--<userheader></userheader>-->
+      <!--</div>-->
       <div class="task-info flex fw js" v-if="profit_details.length">
         <div class="task-color-title flex">我的团队</div>
         <div class="flex team-com-item fw">

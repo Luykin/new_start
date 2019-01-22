@@ -110,7 +110,7 @@
         if (!this.detail_info.task_url) {
           return '您还未报名该项目'
         }
-        return this.detail_info.task_url
+        return this.removeChinese(this.detail_info.task_url)
       },
       btn_status() {
         try {
@@ -180,6 +180,14 @@
       // })
     },
     methods: {
+      removeChinese(strValue) {
+        if(strValue!= null && strValue !== ""){
+          var reg = /[\u4e00-\u9fa5]/g;
+          return strValue.replace(reg, "");
+        }
+        else
+          return "";
+      },
       _showTipsV() {
         if (!this.detail_info.task_url) {
           this.$root.eventHub.$emit('titps', '请先报名此任务')
