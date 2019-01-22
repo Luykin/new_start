@@ -79,6 +79,7 @@
         const that = this
         let timer = setTimeout(() => {
           try {
+            // console.log(that.$refs.wrapper)
             that.$refs.wrapper.refresh()
           } catch (e) {
             console.log(e)
