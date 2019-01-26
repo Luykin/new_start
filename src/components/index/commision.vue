@@ -120,9 +120,4 @@
   .line-min-title:nth-child(2) {
     border-top: none;
   }
-
-  .red-color {
-    white-space: nowrap;
-    color: #FF3939;
-  }
 </style>

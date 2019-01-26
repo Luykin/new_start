@@ -322,6 +322,7 @@
   height: 18px;
   transition: all 1s;
 }
-/*.flush-doing{*/
-  /*transform: rotate(1800deg);*/
-/*}*/
+.red-color {
+  white-space: nowrap;
+  color: #FF3939;
+}

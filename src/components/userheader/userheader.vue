@@ -5,7 +5,7 @@
       <div class="user-name flex fw">
         <span class="ell name" :class="{'login': !$root.user.username}"
               @click="_reload()">{{$root.user.nickname}}</span>
-        <span class="flex js ell">ID: {{$root.user.username||'登录失败'}}</span>
+        <span class="flex js ell">ID: {{$root.user.username||'未登录'}}</span>
       </div>
       <div class="flex btn-warp" v-if="!hidden">
         <router-link tag='div' to='./good' class="flex btn top-btn line-back">充值</router-link>

@@ -104,7 +104,7 @@ const routerconst = new Router({
       name: 'myTask',
       component: () =>
         import(`components/record/myTask`),
-    },{
+    }, {
       path: '/user-commision',
       name: 'user-commision',
       component: () =>
@@ -189,15 +189,23 @@ const routerconst = new Router({
     name: 'maintain',
     component: () =>
       import(`components/index/maintain`)
+  }, {
+    path: '/reputation',
+    name: 'reputation',
+    component: () =>
+      import(`components/index/reputation`)
   }]
 })
+//reputation
 //entrance
+// let viewingPage = ['/', '/index', '/login', '/hall', '/commision', '/user', '/home]
+let viewingPage = ['/', '/login', '/home']
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
 let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision', '/group', '/inlet', '/cooperate', '/user-commision']
 routerconst.beforeEach((to, from, next) => {
   loading(true)
-  if ((to.path === '/' || to.path === '/home' || to.path === '/login') || getuser()) {
+  if (viewingPage.indexOf(to.path) > -1 || getuser()) {
     if (refreshList.indexOf(to.path) > -1 && getEventHub()) {
       getEventHub().$emit(`refresh${to.path}`)
     }
@@ -209,6 +217,7 @@ routerconst.beforeEach((to, from, next) => {
     next({
       path: '/'
     })
+    getEventHub().$emit(`flushAll`)
   }
 })
 routerconst.afterEach((to, from) => {

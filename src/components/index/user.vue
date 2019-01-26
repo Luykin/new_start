@@ -70,6 +70,10 @@
           name: '举报维权',
           path: '/report',
           icon: require('../../assets/img/usericon3.png'),
+        },{
+          name: '信誉系统',
+          path: '/reputation',
+          icon: require('../../assets/img/usericon8.png'),
         }, {
           name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',

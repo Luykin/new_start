@@ -131,9 +131,9 @@
         }
       },
       async _getDetail(id) {
-        if (!this.$root.user.username) {
-          return false
-        }
+        // if (!this.$root.user.username) {
+        //   return false
+        // }
         this.$router.push({
           name: 'task-detail',
           params: {id}

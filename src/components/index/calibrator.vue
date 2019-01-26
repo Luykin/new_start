@@ -22,15 +22,22 @@
       //   username: '123456',
       //   environment: ENVIRONMENT
       // }), FACTOR)))
-      if (this.capabilityCheck()) {
-        this.$root.eventHub.$emit('updateUserInfo', '/index')
-      } else {
-        this.$router.replace({
-          path: '/home'
-        })
-      }
+      // flushAll
+      this.$root.eventHub.$on('flushAll', () => {
+        this._init()
+      })
+      this._init()
     },
     methods: {
+      _init() {
+        if (this.capabilityCheck()) {
+          this.$root.eventHub.$emit('updateUserInfo', '/index')
+        } else {
+          this.$router.replace({
+            path: '/home'
+          })
+        }
+      },
       // 能力校验
       capabilityCheck() {
         if (!isWx()) {
