@@ -41,7 +41,7 @@
             </div>
             <div class="task-url-warp flex">{{this.task_url}}</div>
             <div class="flex task-btn-copy" :data-clipboard-text="task_url" @click="_showTipsV"
-                 :class="{'copy': detail_info.task_url}">点击复制 前往抖音
+                 :class="{'copy': detail_info.task_url}">点击复制 前往{{type}}
             </div>
           </div>
           <!--<div class="task-info flex fw" v-if="detail_info">-->
@@ -99,7 +99,8 @@
         blink: null,
         status: null,
         destroy: null,
-        page_id: null
+        page_id: null,
+        type: '抖音'
       }
     },
     computed: {
@@ -147,7 +148,7 @@
       const clipboard = new ClipboardJS('.copy')
       const that = this
       clipboard.on('success', function (e) {
-        that.$root.eventHub.$emit('titps', '已复制链接,打开抖音完成任务')
+        that.$root.eventHub.$emit('titps', `已复制链接,打开${this.type}完成任务`)
         e.clearSelection()
       })
       clipboard.on('error', function (e) {
@@ -192,6 +193,11 @@
       _showTipsV() {
         if (!this.detail_info.task_url) {
           this.$root.eventHub.$emit('titps', '请先报名此任务')
+          return false
+        }
+        if (this.detail_info.service_group_id === 2) {
+          // window.location.href = this.task_url
+          window.open(this.task_url)
         }
       },
       async _signUp() {
@@ -250,6 +256,7 @@
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200) {
             this.detail_info = ret.data.data
+            this.type = this.detail_info.service_group_id === 2 ? '快手' : '抖音'
             this.status = this.detail_info.status
             this.disable_btn = null
             clearInterval(this.timer)
@@ -587,7 +594,7 @@
     background: #F8F8F8;
     border-radius: 10px;
     word-break: break-all;
-    user-select: text;
+    user-select: text !important;
     color: #999999;
     font-size: 12px;
   }

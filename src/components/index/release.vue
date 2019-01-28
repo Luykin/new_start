@@ -1,82 +1,84 @@
 <template>
   <transition name="list">
-    <div class="detail-body" v-if="activeService">
-      <back></back>
-      <div class="service-warp flex">
-        <div v-for="item in $root.serverCache.ret" class="flex service-item fw"
-             :class="{'active-service' : activeService.id === item.id}" @click="activeService = item;all_price='';tips=''">
-          <img :src="item.n_icon" class="normal"/>
-          <img :src="item.icon" class="active"/>
-          <span class="flex">{{item.title}}</span>
-        </div>
-      </div>
-      <div class="release-body flex fw">
-        <div class="flex max-task-input-warp task-input-warp">
-          <div class="tiw-mid">
-            <input type="text" name="作品链接" placeholder="请粘贴作品链接" class="index-input" v-model="works_link"/>
-          </div>
-          <div class="line-back course-btn flex fw" @click="_toCourse(activeService)">
-            <span class="flex cb-item">获取</span>
-            <span class="flex cb-item">教程</span>
+    <div class="detail-body">
+      <div v-if="activeService">
+        <back></back>
+        <div class="service-warp flex">
+          <div v-for="item in $root.serverCache.ret" class="flex service-item fw"
+               :class="{'active-service' : activeService.id === item.id}" @click="activeService = item;all_price='';tips=''">
+            <img :src="item.n_icon" class="normal"/>
+            <img :src="item.icon" class="active"/>
+            <span class="flex">{{item.title}}</span>
           </div>
         </div>
-        <div class="flex task-input-warp">
-          <div class="tiw-left flex">悬赏标题</div>
-          <div class="tiw-mid">
-            <input type="text" name="悬赏标题" placeholder="请输入标题(不超过40个字符)" class="index-input" v-model="reward_title"
-                   @keyup="_rectifyRewardTitle"/>
+        <div class="release-body flex fw">
+          <div class="flex max-task-input-warp task-input-warp">
+            <div class="tiw-mid">
+              <input type="text" name="作品链接" placeholder="请粘贴作品链接" class="index-input" v-model="works_link"/>
+            </div>
+            <div class="line-back course-btn flex fw" @click="_toCourse(activeService)">
+              <span class="flex cb-item">获取</span>
+              <span class="flex cb-item">教程</span>
+            </div>
           </div>
-          <div class="tiw-right"></div>
-        </div>
-        <div class="flex task-input-warp">
-          <div class="tiw-left flex">悬赏数量</div>
-          <div class="tiw-mid">
-            <input type="number" name="悬赏数量" placeholder="设定任务数量" class="index-input" v-model="reward_amount" @keyup="_rectifyMinPrice" @blur="_rectifyMinCount"/>
+          <div class="flex task-input-warp">
+            <div class="tiw-left flex">悬赏标题</div>
+            <div class="tiw-mid">
+              <input type="text" name="悬赏标题" placeholder="请输入标题(不超过40个字符)" class="index-input" v-model="reward_title"
+                     @keyup="_rectifyRewardTitle"/>
+            </div>
+            <div class="tiw-right"></div>
           </div>
-          <div class="tiw-right">个</div>
-        </div>
-        <!--<div class="flex task-input-warp">-->
+          <div class="flex task-input-warp">
+            <div class="tiw-left flex">悬赏数量</div>
+            <div class="tiw-mid">
+              <input type="number" name="悬赏数量" placeholder="设定任务数量" class="index-input" v-model="reward_amount" @keyup="_rectifyMinPrice" @blur="_rectifyMinCount"/>
+            </div>
+            <div class="tiw-right">个</div>
+          </div>
+          <!--<div class="flex task-input-warp">-->
           <!--<div class="tiw-left flex">每单金额</div>-->
           <!--<div class="tiw-mid">-->
-            <!--<input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input"-->
-                   <!--v-model="single_price"-->
-                   <!--@keyup="_rectifySinglePrice" @blur="_rectifyMinPrice"/>-->
+          <!--<input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input"-->
+          <!--v-model="single_price"-->
+          <!--@keyup="_rectifySinglePrice" @blur="_rectifyMinPrice"/>-->
           <!--</div>-->
           <!--<div class="tiw-right">元</div>-->
-        <!--</div>-->
-        <div class="flex task-input-warp">
-          <div class="tiw-left flex">总共金额</div>
-          <div class="tiw-mid">
-            <input type="text" name="总金额" :placeholder="`请填写总金额`" class="index-input"
-                   v-model="all_price"
-                   @keyup="_rectifyAllPrice" @blur="_rectifyMinPrice"/>
+          <!--</div>-->
+          <div class="flex task-input-warp">
+            <div class="tiw-left flex">总共金额</div>
+            <div class="tiw-mid">
+              <input type="text" name="总金额" :placeholder="`请填写总金额`" class="index-input"
+                     v-model="all_price"
+                     @keyup="_rectifyAllPrice" @blur="_rectifyMinPrice"/>
+            </div>
+            <div class="tiw-right">元</div>
           </div>
-          <div class="tiw-right">元</div>
-        </div>
-        <div class="flex task-input-warp">
-          <div class="tiw-left flex">悬赏每单金额</div>
-          <div class="tiw-mid tiw-mid-tips">{{tips}}</div>
-          <div class="tiw-right light-color">{{show_single_price}}元</div>
-        </div>
-        <div class="flex task-input-warp">
-          <div class="tiw-left flex">任务审核时间</div>
-          <div class="tiw-mid"></div>
-          <div class="tiw-right light-color">24小时</div>
-        </div>
-        <div class="flex task-input-warp">
-          <div class="tiw-left flex">悬赏任务类型</div>
-          <div class="tiw-mid">
+          <div class="flex task-input-warp">
+            <div class="tiw-left flex">悬赏每单金额</div>
+            <div class="tiw-mid tiw-mid-tips">{{tips}}</div>
+            <div class="tiw-right light-color">{{show_single_price}}元</div>
           </div>
-          <div class="tiw-right light-color">{{activeService.title}}</div>
+          <div class="flex task-input-warp">
+            <div class="tiw-left flex">任务审核时间</div>
+            <div class="tiw-mid"></div>
+            <div class="tiw-right light-color">24小时</div>
+          </div>
+          <div class="flex task-input-warp">
+            <div class="tiw-left flex">悬赏任务类型</div>
+            <div class="tiw-mid">
+            </div>
+            <div class="tiw-right light-color">{{activeService.title}}</div>
+          </div>
+          <div class="total-sum-warp flex">
+            <div class="cover-charge">发任务平台收取<span class="red">{{$root.serverCache.service_ratio * 100}}%</span>服务费</div>
+            本次预付款总金额<span class="sum-money">{{all_price ? all_price : 0}}</span>元
+          </div>
         </div>
-        <div class="total-sum-warp flex">
-          <div class="cover-charge">发任务平台收取<span class="red">{{$root.serverCache.service_ratio * 100}}%</span>服务费</div>
-          本次预付款总金额<span class="sum-money">{{all_price ? all_price : 0}}</span>元
-        </div>
+        <div class="task-btn flex line-back" @click="_payAndPubTask">立即发布</div>
+        <router-view></router-view>
+        <notfunds ref="notfunds"></notfunds>
       </div>
-      <div class="task-btn flex line-back" @click="_payAndPubTask">立即发布</div>
-      <router-view></router-view>
-      <notfunds ref="notfunds"></notfunds>
     </div>
   </transition>
 </template>
@@ -84,7 +86,7 @@
 <script>
   // pay_and_pub_task(id, title, task_url, num, single_price, price, score, username) {
   import back from 'base/back/back'
-  import {pay_and_pub_task} from 'api/index'
+  import {pay_and_pub_task, pub_task} from 'api/index'
   import {formatDownNum, formatNum} from 'common/js/util'
   import notfunds from 'components/not-funds/not-funds'
 
@@ -103,7 +105,11 @@
     },
     created() {
       // this.activeServiceId = this.$root.serverCache[0].id
-      this.activeService = this.$root.serverCache.ret[0]
+      // this.activeService = this.$root.serverCache.ret[0]
+      this._getPubTask(this.$route.params.type);
+      this.$root.eventHub.$on('chose_type', (type) => {
+        this._getPubTask(type);
+      })
     },
     mounted() {
       document.querySelectorAll('.index-input').forEach((item) => {
@@ -141,6 +147,15 @@
       // }
     },
     methods: {
+      async _getPubTask(task_type=1) {
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await pub_task(task_type)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.serverCache = ret.data.data
+          this.activeService = this.$root.serverCache.ret[0]
+        }
+      },
       _toCourse(item) {
         // console.log(item.tutorial_url)
         this.$router.push({
@@ -161,9 +176,9 @@
           this.$root.eventHub.$emit('titps', `请粘贴您的作品链接~`)
           return false
         }
-        if (this.works_link.indexOf('http') < 0 || this.works_link.indexOf('douyin.com') < 0) {
+        if (this.works_link.indexOf('http') < 0 || (this.works_link.indexOf('douyin.com') < 0 && this.works_link.indexOf('gifshow.com') < 0 && this.works_link.indexOf('kuaishou.com') < 0)) {
           this.works_link = ''
-          this.$root.eventHub.$emit('titps', `请粘贴抖音作品链接~`)
+          this.$root.eventHub.$emit('titps', `请粘贴作品链接~`)
           return false
         }
         if (!this.all_price) {

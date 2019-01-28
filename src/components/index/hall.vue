@@ -62,7 +62,7 @@
       }
     },
     created() {
-      this._getTaskHall()
+      this._getTaskHall(this.activeId)
       this.$root.eventHub.$on('updateList', (time) => {
         this._pulldown()
       })
@@ -84,9 +84,12 @@
     },
     methods: {
       _change(id) {
-        if (id === 2) {
-          this.$root.eventHub.$emit('titps', `快手专区正在努力开发中~`)
-        }
+        // if (id === 2) {
+        //   this.$root.eventHub.$emit('titps', `快手专区正在努力开发中~`)
+        // }
+        this._getTaskHall(id, true, true, () => {
+          this.activeId= id
+        })
       },
       _error(err) {
         try {
@@ -95,12 +98,12 @@
           console.log(e)
         }
       },
-      async _getTaskHall(must, loading) {
+      async _getTaskHall(id=1, must, loading, callback) {
         if (!must || loading) {
           this.$root.eventHub.$emit('loading', true)
         }
         this.pullLoading = true
-        const ret = await task_hall(null, this.page, this.num)
+        const ret = await task_hall(id, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           if (must || !this.list.length) {
@@ -109,6 +112,9 @@
             this.list = [...this.list, ...ret.data.data.ret]
           }
           this.total = ret.data.data.count
+          if (callback) {
+            callback()
+          }
         }
         let timer = setTimeout(() => {
           this.pullLoading = null
@@ -143,12 +149,12 @@
         this.num = 10
         this.page = 0
         // this.list = []
-        this._getTaskHall(true, loading)
+        this._getTaskHall(this.activeId, true, loading)
       },
       _scrollToEnd() {
         if (this.list.length < this.total) {
           this.page += 1
-          this._getTaskHall()
+          this._getTaskHall(this.activeId)
         }
       }
     },

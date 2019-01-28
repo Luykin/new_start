@@ -74,6 +74,7 @@
           name: '信誉系统',
           path: '/reputation',
           icon: require('../../assets/img/usericon8.png'),
+          disable: true
         }, {
           name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',

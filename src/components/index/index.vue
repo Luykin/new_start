@@ -52,7 +52,7 @@
   import betterscroll from 'base/better-scroll/better-scroll'
   import empyt from 'base/empyt/empyt'
   import entrance from 'components/entrance-window/entrance'
-  import {pub_task, login, home_page, task_detail, update_user_info} from 'api/index'
+  import {login, home_page, task_detail, update_user_info} from 'api/index'
   import {UAID, CHANNEL, APPNAME,env} from 'api/config'
   import lamp from 'components/lamp/lamp'
   import {decryptByDES} from 'common/js/util'
@@ -103,7 +103,7 @@
       _inint() {
         this.$refs.wrapper._initScroll()
         this._getHomeInfo(null)
-        this._getPubTask()
+        // this._getPubTask()
       },
       getRequestParameters() {
         var arr = (location.search || '').replace(/^\?/, '').split('&')
@@ -178,17 +178,17 @@
           })
         }
       },
-      async _getPubTask(callback) {
-        this.$root.eventHub.$emit('loading', true)
-        const ret = await pub_task(1)
-        this.$root.eventHub.$emit('loading', null)
-        if (ret.status === 200 && ret.data.code === 200) {
-          this.$root.serverCache = ret.data.data
-        }
-        if (callback) {
-          callback()
-        }
-      },
+      // async _getPubTask(callback) {
+      //   this.$root.eventHub.$emit('loading', true)
+      //   const ret = await pub_task(1)
+      //   this.$root.eventHub.$emit('loading', null)
+      //   if (ret.status === 200 && ret.data.code === 200) {
+      //     this.$root.serverCache = ret.data.data
+      //   }
+      //   if (callback) {
+      //     callback()
+      //   }
+      // },
       async _login(code, surper_code, channel, callback) {
         this.$root.eventHub.$emit('loading', true)
         const ret = await login(code, surper_code)

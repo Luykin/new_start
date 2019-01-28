@@ -25,7 +25,9 @@
              :style="`background: #f8f8f8 url(${detail_info.task_image}) no-repeat center center; background-size: 100% 100%;`"
              v-if="(detail_info.task_image && detail_info.status !== 3) || detail_info.audit"
              @click="_setEnlargeImage(detail_info.task_image)">
-          <downwx ref="downwx" :url="detail_info.task_image" :index="0" @load="_setWxUrl" v-if="detail_info && ((detail_info.task_image && detail_info.status !== 3) || detail_info.audit)" :config="config"></downwx>
+          <downwx ref="downwx" :url="detail_info.task_image" :index="0" @load="_setWxUrl"
+                  v-if="detail_info && ((detail_info.task_image && detail_info.status !== 3) || detail_info.audit)"
+                  :config="config"></downwx>
         </div>
         <div class="upload-warp" @click="_choseImg" v-else>
           <div class="upload-inner flex">
@@ -44,14 +46,17 @@
         </div>
         <div class="flex task-input-warp"
              v-if="!detail_info.audit && (!detail_info.status || detail_info.status === 3)">
-          <div class="tiw-left flex tiw-left-new">抖音名字<span class="min-name-tips">(非抖音号)</span></div>
+          <div class="tiw-left flex tiw-left-new">{{type}}名字<span class="min-name-tips">(非{{type}}号)</span></div>
           <div class="tiw-mid">
-            <input type="text" name="抖音名字" placeholder="请输入你的抖音名字" class="index-input disScroll" v-model="dy_name"/>
+            <input type="text" name="抖音名字" :placeholder="'请输入你的'+type+'名字'" class="index-input disScroll"
+                   v-model="dy_name"/>
           </div>
           <div class="tiw-right"></div>
         </div>
         <!--task_nickname-->
-        <div v-if="detail_info.audit && detail_info.status" class="flex dy-id">抖音名称:{{detail_info.task_nickname}}</div>
+        <div v-if="detail_info.audit && detail_info.status" class="flex dy-id">
+          {{type}}名称:{{detail_info.task_nickname}}
+        </div>
       </div>
 
       <interlayer ref="interlayer"></interlayer>
@@ -143,7 +148,8 @@
         nopass: '',
         dy_name: '',
         enlarge_image: null,
-        config: null
+        config: null,
+        type: '抖音'
       }
     },
     created() {
@@ -165,8 +171,10 @@
     methods: {
       _init() {
         this.detail_info = this.$route.params.info
+        this.type = this.detail_info.service_group_id === 2 ? '快手' : '抖音'
         this.$root.eventHub.$on(`submitJob`, (info) => {
           this.detail_info = this.$route.params.info
+          this.type = this.detail_info.service_group_id === 2 ? '快手' : '抖音'
           try {
             if (this.detail_info.task_image) {
               this.$refs.downwx._loadUrl(this.detail_info.task_image)
@@ -389,7 +397,7 @@
           return false
         }
         if (!this.dy_name) {
-          this.$root.eventHub.$emit('titps', `请填写抖音名称`)
+          this.$root.eventHub.$emit('titps', `请填写${this.type}名称`)
           return false
         }
         if (!this.res_info || !this.res_info.key) {

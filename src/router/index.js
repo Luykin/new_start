@@ -196,6 +196,7 @@ const routerconst = new Router({
       import(`components/index/reputation`)
   }]
 })
+//choice
 //reputation
 //entrance
 // let viewingPage = ['/', '/index', '/login', '/hall', '/commision', '/user', '/home]
@@ -207,17 +208,23 @@ routerconst.beforeEach((to, from, next) => {
   loading(true)
   if (viewingPage.indexOf(to.path) > -1 || getuser()) {
     if (refreshList.indexOf(to.path) > -1 && getEventHub()) {
-      getEventHub().$emit(`refresh${to.path}`)
+      if (getEventHub()) {
+        getEventHub().$emit(`refresh${to.path}`)
+      }
     }
     if (updateUserInfoList.indexOf(to.path) > -1 && updateUserInfoExcliude.indexOf(from.path) < 0 && getEventHub()) {
-      getEventHub().$emit(`updateUserInfo`)
+      if (getEventHub()) {
+        getEventHub().$emit(`updateUserInfo`)
+      }
     }
     next()
   } else {
     next({
       path: '/'
     })
-    getEventHub().$emit(`flushAll`)
+    if (getEventHub()) {
+      getEventHub().$emit(`flushAll`)
+    }
   }
 })
 routerconst.afterEach((to, from) => {

@@ -7,11 +7,26 @@
       <span class="flex mg5 ssss footer-item-name">{{item.name}}</span>
     </router-link>
     <div class="width-limit">
-    <div class="add-task-btn flex" :class="{'show-add-task-btn': active}" @click="_toRelease"></div>
-    <div class="push-btn flex" @click="_showPushBotton">
-    <i class="plush flex" :class="{'active': active}"></i>
+      <!--<div class="add-task-btn flex" :class="{'show-add-task-btn': active}" @click="_toRelease"></div>-->
+      <div class="push-btn flex" @click="_showPushBotton">
+        <i class="plush flex"></i>
+      </div>
+      <div class="push-btn-border"></div>
     </div>
-    <div class="push-btn-border"></div>
+    <div class="choice-layer flex fw" :class="{'active-layer': active}" @click="_showPushBotton">
+      <img src="https://cdn.xingkwh.com/logo%202.png" class="logo-img"/>
+      <div class="icon-box-warp flex fw">
+        <div class="flex ibw-title">请选择您悬赏的</div>
+        <div class="flex ibw-title">任务类型</div>
+        <div class="ibw-item flex ell fw" @click.stop="_toReplease(1)">
+          <img src="https://cdn.xingkwh.com/%E6%8A%96%E9%9F%B3%E6%82%AC%E8%B5%8Ficon@3x.png"/>
+          抖音悬赏
+        </div>
+        <div class="ibw-item flex ell fw" @click.stop="_toReplease(2)">
+          <img src="https://cdn.xingkwh.com/%E5%BF%AB%E6%89%8B%E6%82%AC%E8%B5%8Ficon@3x.png"/>
+          快手悬赏
+        </div>
+      </div>
     </div>
   </footer>
 </template>
@@ -64,18 +79,28 @@
     },
     name: 'new-footer',
     methods: {
-      _toRelease() {
-        if (!this.$root.serverCache.ret.length) {
-          return false
-        }
+      // _toRelease() {
+      //   if (!this.$root.serverCache.ret.length) {
+      //     return false
+      //   }
+      //   this.$router.push({
+      //     path: './release'
+      //   })
+      //   this._showPushBotton()
+      // },
+      _showPushBotton() {
+        this.active = !this.active
+      },
+      _toReplease(type) {
+        this.$root.eventHub.$emit('chose_type', type)
         this.$router.push({
-          path: './release'
+          name: 'release',
+          params: {
+            type
+          }
         })
         this._showPushBotton()
       },
-      _showPushBotton() {
-        this.active = !this.active
-      }
     },
     // watch: {
     //   '$route' : (oldRouter, newRouter) => {
@@ -206,5 +231,63 @@
 
   .footer-item-name {
     margin-bottom: 6%;
+  }
+
+  .choice-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, .75);
+    overflow: hidden;
+    z-index: 99999;
+    color: #fff;
+    align-items: flex-end;
+    align-content: flex-end;
+    /*transform: translate3d(0, 100%, 0);*/
+    transform: scale(0, 0);
+    border-radius: 1000px;
+    transition: all .2s;
+    transform-origin: center 93%;
+  }
+
+  .active-layer {
+    transform: scale(1, 1);
+    border-radius: 0;
+  }
+
+  .icon-box-warp {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 60px;
+  }
+
+  .ibw-item {
+    width: 15%;
+    margin: 30px 10% 0;
+  }
+
+  .ibw-item img {
+    width: 100%;
+    height: auto;
+    margin: 0 0 12px 0;
+  }
+
+  .ibw-title {
+    height: 35px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .logo-img {
+    width: 40%;
+    height: auto;
+    max-width: 157px;
+    min-width: 117px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>
