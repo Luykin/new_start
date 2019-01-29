@@ -213,6 +213,10 @@
   justify-content: flex-start;
 }
 
+.bg-none{
+  background: none;
+}
+
 .categry-task {
   position: absolute;
   left: 0;
@@ -325,4 +329,20 @@
 .red-color {
   white-space: nowrap;
   color: #FF3939;
+}
+.iti-back1:after, .iti-back2:after{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff url("https://cdn.xingkwh.com/%E6%8A%96%E9%9F%B3%E6%B0%B4%E5%8D%B0.png") no-repeat right bottom;
+  background-size: auto 100%;
+}
+
+.iti-back2:after{
+  background: #fff url("https://cdn.xingkwh.com/%E5%BF%AB%E6%89%8B%E6%B0%B4%E5%8D%B0.png") no-repeat right bottom;
+  background-size: auto 100%;
 }

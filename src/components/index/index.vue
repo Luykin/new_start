@@ -9,14 +9,15 @@
           <div class="header">
             <userheader></userheader>
           </div>
+          <!--bg-none-->
           <div class="flex task-title">
             <span class="flex js">推荐任务</span>
             <div class="flush flex" @click="_pulldown(true)" v-show="!pullLoading">
               <img src="../../assets/img/reflush.png"/>
             </div>
           </div>
-          <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id"
-               @click="_getDetail(item.id)">
+          <div class="index-task-item bg-none flex" v-for="item in list" v-if="list.length" :key="item.id"
+               @click="_getDetail(item.id)" :class="_setBackTaskItem(item)">
             <div v-show="item.is_top" class="top-title-new"></div>
             <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">
               {{item.min_title}}
@@ -71,6 +72,13 @@
       }
     },
     name: 'user',
+    computed: {
+      _setBackTaskItem() {
+        return (item) => {
+          return `iti-back${item.service_group_id}`
+        }
+      },
+    },
     created() {
       this.$root.eventHub.$on('updateList', (time) => {
         this._pulldown()

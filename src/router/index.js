@@ -199,7 +199,7 @@ const routerconst = new Router({
 //choice
 //reputation
 //entrance
-let viewingPage = ['/', '/index', '/login', '/hall', '/commision', '/user', '/home']
+let viewingPage = ['/', '/index', '/login', '/hall', '/home']
 if (isWx()) {
   viewingPage = ['/', '/login', '/home']
 }

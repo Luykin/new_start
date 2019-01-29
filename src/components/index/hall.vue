@@ -8,8 +8,8 @@
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
         <div class="min-warp-height">
-          <div class="index-task-item flex" v-for="item in list" v-if="list.length" :key="item.id"
-               @click="_getDetail(item.id)">
+          <div class="index-task-item flex bg-none" v-for="item in list" v-if="list.length" :key="item.id"
+               @click="_getDetail(item.id)" :class="_setBackTaskItem(item)">
             <div v-show="item.is_top" class="top-title-new"></div>
             <div class="categry-task flex" :style="`background:${item.bg_color}; color: ${item.font_color}`">
               {{item.min_title}}
@@ -60,6 +60,13 @@
         pullDownTimer: null,
         pullLoading: null
       }
+    },
+    computed: {
+      _setBackTaskItem() {
+        return (item) => {
+          return `iti-back${item.service_group_id}`
+        }
+      },
     },
     created() {
       this._getTaskHall(this.activeId)
