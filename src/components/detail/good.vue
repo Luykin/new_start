@@ -6,7 +6,9 @@
       <div class="task-info flex fw js">
         <div class="normal-title flex">选择充值的金额</div>
         <div class="good-item flex" v-for="item in goods_list" :class="{'active-good-item': activeId === item.id}"
-             @click="_chose(item)">{{item.label}}
+             @click="_chose(item)">
+          <img :src="item.description"/>
+          {{item.label}}
         </div>
         <div class="task-btn flex line-back" @click="_pay" v-if="can_pay">支付</div>
         <router-link tag='div' to='/inlet' class="task-btn flex line-back" v-else>
@@ -130,6 +132,16 @@
     color: #555555;
     font-size: 20px;
     font-weight: 600;
+    position: relative;
+  }
+
+  .good-item img{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30%;
+    height: auto;
+    z-index: 99;
   }
 
   .active-good-item {

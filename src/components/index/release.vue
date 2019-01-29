@@ -100,7 +100,8 @@
         all_price: '',
         // activeServiceId: null,
         activeService: null,
-        tips: ''
+        tips: '',
+        pageServiceCache: {}
       }
     },
     created() {
@@ -148,12 +149,18 @@
     },
     methods: {
       async _getPubTask(task_type=1) {
+        if (this.pageServiceCache[task_type]) {
+          this.$root.serverCache = this.pageServiceCache[task_type]
+          this.activeService = this.$root.serverCache.ret[0]
+          return false
+        }
         this.$root.eventHub.$emit('loading', true)
         const ret = await pub_task(task_type)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.$root.serverCache = ret.data.data
           this.activeService = this.$root.serverCache.ret[0]
+          this.pageServiceCache[task_type] = ret.data.data
         }
       },
       _toCourse(item) {

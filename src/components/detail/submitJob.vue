@@ -409,7 +409,6 @@
           const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name)
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200) {
-            localStorage.setItem('douyinID', this.dy_name)
             if (this.detail_info.status && this.detail_info.status === 3) {
               this.$root.eventHub.$emit('updateMyTask')
               this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)
@@ -423,6 +422,8 @@
               this._setNull()
               this.$router.back(-1)
             }
+            localStorage.setItem('douyinID', this.dy_name)
+            return false
           }
           if (ret === 404) {
             this.$root.eventHub.$emit('titps', `任务信息错误~`)

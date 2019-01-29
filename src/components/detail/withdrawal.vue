@@ -5,7 +5,7 @@
       <userheader :showType="2"></userheader>
       <div class="task-info flex fw js">
         <div class="normal-title flex">今日剩余提现次数{{$root.user.with_draw_num}}次</div>
-        <div class="good-item flex" v-for="item in goods" :class="{'active-good-item': activeId === item.id}"
+        <div class="good-item flex" v-for="item in goods" :class="{'active-good-item': activeId === item.id, 'disbale-agi': !item.can_cash}"
              @click="_chose(item)">{{item.price}}
         </div>
         <div class="task-btn flex line-back" v-if="$root.user.can_withdraw" @click="_withdraw">提现</div>
@@ -14,9 +14,9 @@
           请先绑定微信号
         </router-link>
         <div class="task-color-title flex">提现说明</div>
-        <span class="flex s line-font">1.最低提现金额为10元。</span>
+        <span class="flex s line-font">1.新用户首次可提现1元, 最低提现金额为10元。</span>
         <span class="flex s line-font">2.提现时间为5分钟之内到账。</span>
-        <span class="flex s line-font">3.如出现5分钟之内未到账情况，请联系微信客服:zongjiexk016。</span>
+        <span class="flex s line-font">4.如出现5分钟之内未到账情况，请联系微信客服:zongjiexk016。</span>
       </div>
     </div>
   </transition>
@@ -45,15 +45,28 @@
       },
       async _getWiGoods() {
         this.$root.eventHub.$emit('loading', true)
-        const ret = await withdraw_good()
+        const ret = await withdraw_good(this.$root.user.username)
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
-          this.goods = ret.data.data
-          if (ret.data.data.length) {
-            this.activeId = ret.data.data[0].id
-            this.activeGood = ret.data.data[0]
+          this.goods = this._format(ret.data.data)
+          // if (ret.data.data.length) {
+          //   this.activeId = ret.data.data[0].id
+          //   this.activeGood = ret.data.data[0]
+          // }
+        }
+      },
+      _format(list) {
+        if (!list || !list.length) {
+          return []
+        }
+        for(let i =0;i<list.length;i++){
+          if (list[i].can_cash){
+            this.activeId = list[i].id
+            this.activeGood = list[i]
+            break;
           }
         }
+        return list
       },
       async _withdraw() {
         this.$root.eventHub.$emit('loading', true)
@@ -82,12 +95,18 @@
         if (ret === 438) {
           this.$root.eventHub.$emit('titps', `提现次数超出今日上限~`)
         }
+        if (ret === 429) {
+          this.$root.eventHub.$emit('titps', `没有权限~`)
+        }
         if (ret === 448) {
           this.$root.eventHub.$emit('titps', `您的权限不足`)
           return false
         }
       },
       _chose(item) {
+        if (!item.can_cash) {
+          return false
+        }
         this.activeId = item.id
         this.activeGood = item
       },
@@ -120,5 +139,9 @@
 
   .line-font{
     word-break: break-all;
+  }
+  .disbale-agi{
+    background: #f8f8f8;
+    color: #999;
   }
 </style>

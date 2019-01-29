@@ -452,9 +452,10 @@ export function order(id, username, price, score, pay_type) {
 }
 
 // 提现商品列表
-export function withdraw_good() {
+export function withdraw_good(username) {
   const url = `${PREFIX_URL}/withdraw_good`
   let data = {
+    username,
     uaid: UAID,
     timestamp: getTime(),
   }

@@ -148,7 +148,7 @@
       const clipboard = new ClipboardJS('.copy')
       const that = this
       clipboard.on('success', function (e) {
-        that.$root.eventHub.$emit('titps', `已复制链接,打开${this.type}完成任务`)
+        that.$root.eventHub.$emit('titps', `已复制链接,打开${that.type}完成任务`)
         e.clearSelection()
       })
       clipboard.on('error', function (e) {
@@ -184,10 +184,10 @@
       httpString(s) {
         let reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         s = s.match(reg);
-        if (s.length) {
+        if (s && s.length) {
           return s[0];
         } else {
-          return ''
+          return '链接信息错误'
         }
       },
       _showTipsV() {
