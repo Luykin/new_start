@@ -56,7 +56,7 @@
               if (must_info && must_info.environment === ENVIRONMENT) {
                 console.log('校对成功')
                 this.$root.must_info = must_info
-                sessionStorage.setItem('environment', must_info.environment)
+                localStorage.setItem('environment', must_info.environment)
                 return true
               } else {
                 return false
@@ -66,7 +66,7 @@
             }
           } else {
             // 2.判断是否是刷新
-            return sessionStorage.getItem('environment') && sessionStorage.getItem('environment') === ENVIRONMENT
+            return localStorage.getItem('environment') && localStorage.getItem('environment') === ENVIRONMENT
           }
         }
       },
