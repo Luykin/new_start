@@ -2,14 +2,16 @@
   <transition name="list">
     <div>
       <!--<div class="header">-->
-        <!--<userheader></userheader>-->
+      <!--<userheader></userheader>-->
       <!--</div>-->
       <!--<router-link tag='div' to='/group' class="task-btn flex task-detail-btn">-->
-        <!--加入官方交流群-->
+      <!--加入官方交流群-->
       <!--</router-link>-->
       <div class="task-info flex fw">
-        页面正在建设中,公测开放!
+        <!--页面正在建设中,公测开放!-->
+        <img src="https://cdn.xingkwh.com/243454587.jpg"/>
       </div>
+      <div class="footer-none"></div>
       <router-view></router-view>
     </div>
   </transition>
@@ -17,6 +19,7 @@
 
 <script>
   import userheader from 'components/userheader/userheader'
+
   export default {
     name: 'new-commision',
     created() {
@@ -34,13 +37,17 @@
 
 <style scoped>
   .task-info {
+    padding: 0;
     color: #999;
+    border-radius: 15px;
+    overflow: hidden;
   }
 
-  .task-info {
-    align-content: center;
-    align-items: center;
+  .task-info img {
+    width: 100%;
+    height: auto;
   }
+
   .header {
     width: 92%;
     height: 170px;
@@ -82,7 +89,8 @@
     border: 1px solid #6B41E1;
     justify-content: center;
   }
-  .task-detail-btn{
+
+  .task-detail-btn {
     background: #FB53D9;
   }
 </style>

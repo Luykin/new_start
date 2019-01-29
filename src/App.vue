@@ -32,6 +32,10 @@
       }
     },
     created() {
+      const username = decryptByDES(localStorage.getItem(`${UAID}${CHANNEL}username`) || '', FACTOR)
+      if (username) {
+        this._getUserInfo(username)
+      }
       this.$root.eventHub.$on('titps', (titps) => {
         this.centerTips = titps
         this.$refs.centerTips._open()
