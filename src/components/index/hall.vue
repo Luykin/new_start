@@ -94,6 +94,9 @@
         // if (id === 2) {
         //   this.$root.eventHub.$emit('titps', `快手专区正在努力开发中~`)
         // }
+        if (id === this.activeId) {
+          return false
+        }
         this._getTaskHall(id, true, true, () => {
           this.activeId= id
         })

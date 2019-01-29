@@ -200,9 +200,9 @@ const routerconst = new Router({
 //reputation
 //entrance
 let viewingPage = ['/', '/index', '/login', '/hall', '/commision', '/home']
-if (isWx()) {
-  viewingPage = ['/', '/login', '/home']
-}
+// if (isWx()) {
+//   viewingPage = ['/', '/login', '/home']
+// }
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
 let updateUserInfoExcliude = ['/recharge', '/phone', '/withdrawal', '/good', '/hall', '/release', '/report', '/commision', '/group', '/inlet', '/cooperate', '/user-commision']

@@ -7,7 +7,7 @@
         <div class="normal-title flex">选择充值的金额</div>
         <div class="good-item flex" v-for="item in goods_list" :class="{'active-good-item': activeId === item.id}"
              @click="_chose(item)">
-          <img :src="item.description"/>
+          <img :src="item.description" v-if="item.description"/>
           {{item.label}}
         </div>
         <div class="task-btn flex line-back" @click="_pay" v-if="can_pay">支付</div>

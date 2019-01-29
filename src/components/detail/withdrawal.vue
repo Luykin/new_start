@@ -69,6 +69,9 @@
         return list
       },
       async _withdraw() {
+        if (!this.activeGood) {
+          return false
+        }
         this.$root.eventHub.$emit('loading', true)
         const ret = await withdraw(this.activeGood.id, this.$root.user.username, this.activeGood.price)
         this.$root.eventHub.$emit('loading', null)
