@@ -202,7 +202,6 @@
         }
       },
       _setEnlargeImage(image) {
-        // console.log(image)
         if (!image) {
           this.enlarge_image = null
         } else {

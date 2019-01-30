@@ -155,7 +155,7 @@
       },
       _preview() {
         try {
-          this._clear()
+          // this._clear()
           let files = this.$refs.file.files[0]
           if (!files) {
             this.$root.eventHub.$emit('titps', `没有选择图片哦`)

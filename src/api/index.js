@@ -468,6 +468,24 @@ export function withdraw_good(username) {
   })
 }
 
+// 批量审核
+export function pass_task(username, task_id) {
+  const url = `${PREFIX_URL}/batch/pass/task`
+  let data = {
+    username,
+    task_id,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
 // 提现
 export function withdraw(id, username, price) {
   const url = `${PREFIX_URL}/withdraw`
