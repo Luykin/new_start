@@ -43,7 +43,7 @@
         </div>
       </popup>
       <enlarge :image="enlarge_image" @close="_setEnlargeImage()"></enlarge>
-      <div class="task-btn flex suc-color" @click="_submit" v-if="list.length && info.types === 1">全部通过</div>
+      <!--<div class="task-btn flex suc-color" @click="_submit" v-if="list.length && info.types === 1">全部通过</div>-->
       <router-view></router-view>
       <interlayer ref="interlayer"></interlayer>
     </div>
@@ -104,7 +104,7 @@
     },
     methods: {
       async _submit() {
-        this.$root.eventHub.$emit('titps', `正在提交中,请勿刷新页面`)
+        this.$root.eventHub.$emit('titps', `等待时间较长,请勿刷新页面`)
         this.$root.eventHub.$emit('loading', true)
         const ret = await pass_task(this.$root.user.username, this.info.id)
         this.$root.eventHub.$emit('loading', null)
@@ -279,7 +279,7 @@
     width: 100%;
     position: absolute;
     top: 60px;
-    bottom: 70px;
+    bottom: 0;
     overflow: hidden;
   }
 
