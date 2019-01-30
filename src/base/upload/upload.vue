@@ -164,14 +164,12 @@
             this.$root.eventHub.$emit('titps', `请选择小于10M的图片~`)
             return false
           }
-          this.key = 'DGZ用户传图' + Date.parse(new Date()) + `.${files.type.replace('image/', '')}`
-          if (parseFloat(files.size/1048576) <= 0) {
+          if (!files.size) {
             this.$root.eventHub.$emit('titps', `请从[相册]中选择图片~`)
-            // this._qiniuUpload(files, this.key, this, true)
-            //alert(JSON.stringify(files))
+            this._clear()
             return false
           }
-          // this.$root.eventHub.$emit('titps', `图片大小:${parseFloat(files.size/1048576)}M`)
+          this.key = 'DGZ_user' + (Math.random() + +new Date()) + '.png'
           let reader = new FileReader()
           reader.readAsDataURL(files)
           reader.onload = (e) => {
@@ -209,20 +207,18 @@
           let observable = window.qiniu.upload(file, key, ret.data.data.uptoken, putExtra, config)
           const observer = {
             next(res) {
-              // console.log(that)
               that.$emit('setprocess', res)
             },
             error(err) {
-              console.log(err)
+              that._clear()
               that.$emit('err', err)
             },
             complete(res) {
               that.$emit('success', res)
               that.$refs.file.value = ''
               if (update) {
-                this.$emit('view', `https://cdn.back.melonblock.com/${this.key}`)
+                that.$emit('view', `https://cdn.back.melonblock.com/${this.key}`)
               }
-              // console.log(that.$refs.file.value)
             }
           }
           let subscription = observable.subscribe(observer) // 上传开始

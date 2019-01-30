@@ -327,7 +327,6 @@
         }
       },
       _successZC(res) {
-        // console.log(res, 'suc')
         this.res_info_ZC = res
       },
       _choseImgZC() {
@@ -369,10 +368,7 @@
         // sub_or_arb(username, id, sub_type, task_image, appeal_user_image, appeal_user_explain) {
         const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 2, null, this.res_info_ZC.key, this.textarea)
         this.$root.eventHub.$emit('loading', null)
-        // console.log(ret)
         if (ret.status === 200 && ret.data.code === 200) {
-          // this._close()
-          // updateMyTask
           this.$root.eventHub.$emit('updateMyTask')
           this.$root.eventHub.$emit('taskDetail', this.detail_info.page_id)
           this.$root.eventHub.$emit('titps', `提交成功~`)
