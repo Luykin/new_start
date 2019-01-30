@@ -155,6 +155,7 @@
       },
       _preview() {
         try {
+          this._clear()
           let files = this.$refs.file.files[0]
           if (!files) {
             this.$root.eventHub.$emit('titps', `没有选择图片哦`)
@@ -215,6 +216,7 @@
             },
             complete(res) {
               that.$emit('success', res)
+              that.$root.eventHub.$emit('titps', `上传完成`)
               that.$refs.file.value = ''
               if (update) {
                 that.$emit('view', `https://cdn.back.melonblock.com/${this.key}`)
