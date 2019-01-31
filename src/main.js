@@ -23,7 +23,7 @@ const app = new Vue({
   data: {
     eventHub: new Vue(),
     user: {
-      avatar: require('./assets/img/avatar.png'),
+      avatar: 'https://cdn.xingkwh.com/%E6%8A%96%E4%B8%AA%E8%B5%9E%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.png',
       nickname: '未登录',
       score: 0,
       price: 0,
