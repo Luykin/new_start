@@ -1,7 +1,7 @@
 <template>
   <transition name="pop">
     <div class="pop-body" @click.self="_close">
-      <div class="task-info" @click.self="$router.back(-1)">
+      <div class="task-info" @click.self="_close">
         <div class="inner-notice" v-html="$root.notice">
           暂无公告
         </div>
@@ -14,11 +14,18 @@
 <script>
   export default {
     created() {
+      if (!this.$root.notice) {
+        this.$router.replace({
+          path: '/index'
+        })
+      }
     },
     methods: {
       _close() {
         this.$root.noticeDown = true
-        this.$router.back(-1)
+        this.$router.replace({
+          path: '/index'
+        })
       },
     },
     components: {
