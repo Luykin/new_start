@@ -58,7 +58,7 @@
     background: -webkit-gradient(linear, right bottom, left top, from(#8B2DD6), to(#F73D64));
     border-radius: 9%;
     min-height: 100px;
-    border: 2px solid rgba(173, 26, 106, 0.36);
+    /*border: 2px solid rgba(173, 26, 106, 0.36);*/
   }
 
   .task-info:after{
