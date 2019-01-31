@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import {isWx} from 'common/js/util'
 import {ENVIRONMENT} from 'api/config'
 import {
+  getapp,
   getuser,
   loading,
   getEventHub
@@ -56,6 +57,11 @@ const routerconst = new Router({
       name: 'entrance',
       component: () =>
         import(`components/detail/entrance`)
+    },{
+      path: '/notice',
+      name: 'notice',
+      component: () =>
+        import(`components/detail/notice`)
     }]
   }, {
     path: '/task-detail',
@@ -196,12 +202,12 @@ const routerconst = new Router({
       import(`components/index/reputation`)
   }]
 })
+//
 //choice
-//reputation
 //entrance
-let viewingPage = ['/', '/index', '/login', '/hall', '/commision', '/home']
+let viewingPage = ['/', '/index', '/login', '/hall', '/commision', '/home', '/notice']
 if (isWx()) {
-  viewingPage = ['/', '/login', '/home']
+  viewingPage = ['/', '/login', '/home', '/notice']
 }
 let refreshList = ['/index', '/hall']
 let updateUserInfoList = ['/user']
@@ -218,6 +224,12 @@ routerconst.beforeEach((to, from, next) => {
       if (getEventHub()) {
         getEventHub().$emit(`updateUserInfo`)
       }
+    }
+    if (!getapp().noticeDown && to.path === '/index' && getapp().notice) {
+      next({
+        path: '/notice'
+      })
+      return false
     }
     next()
   } else {

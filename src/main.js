@@ -33,6 +33,8 @@ const app = new Vue({
       phone: null,
       min_num: 0
     },
+    noticeDown: null,
+    notice: '',
     must_info: null,
     channel: '老用户',
     serverCache: {
@@ -48,6 +50,14 @@ export function getuser() {
   }
   return app.user.username
 }
+
+export function getapp() {
+  if (!app) {
+    return {}
+  }
+  return app
+}
+
 export function getEventHub() {
   if (!app) {
     return false

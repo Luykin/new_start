@@ -53,7 +53,7 @@
   import betterscroll from 'base/better-scroll/better-scroll'
   import empyt from 'base/empyt/empyt'
   import entrance from 'components/entrance-window/entrance'
-  import {login, home_page, task_detail, update_user_info} from 'api/index'
+  import {login, home_page, task_detail, update_user_info, getAppInfo} from 'api/index'
   import {UAID, CHANNEL, APPNAME,env} from 'api/config'
   import lamp from 'components/lamp/lamp'
   import {decryptByDES} from 'common/js/util'
@@ -87,7 +87,6 @@
         const that = this
         let timer = setTimeout(() => {
           try {
-            // console.log(that.$refs.wrapper)
             that.$refs.wrapper.refresh()
           } catch (e) {
             console.log(e)
@@ -99,6 +98,7 @@
     },
     mounted() {
       this._inint()
+      this._getAppInfo()
     },
     methods: {
       _error(err) {
@@ -106,6 +106,17 @@
           err.target.style.display = 'none'
         } catch (e) {
           console.log(e)
+        }
+      },
+      async _getAppInfo() {
+        const ret = await getAppInfo()
+        if (ret.status === 200 && ret.data.code === 200) {
+          if (ret.data.data.notice && this.$route.path === '/index') {
+            this.$root.notice = ret.data.data.notice
+            this.$router.push({
+              path: '/notice'
+            })
+          }
         }
       },
       _inint() {

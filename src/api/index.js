@@ -696,3 +696,19 @@ export function getUserInfo(username) {
     return Promise.resolve(res.response.status)
   })
 }
+
+//app_info
+export function getAppInfo() {
+  const url = `${PREFIX_URL}/app/info`
+  let data = {
+    uaid: UAID,
+    timestamp: getTime()
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res);
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
