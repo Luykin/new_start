@@ -42,7 +42,21 @@
       capabilityCheck() {
         if (!isWx()) {
           // 浏览器通过能力校验
-          console.log('进入index页面')
+          console.log('进入index页面');
+          if (this.$route.query.ability && decryptByDES(decodeURIComponent(this.$route.query.ability), FACTOR)) {
+            let must_info;
+            try {
+              const string_info = decryptByDES(decodeURIComponent(this.$route.query.ability), FACTOR);
+              must_info = JSON.parse(string_info);
+              if (must_info && must_info.environment === ENVIRONMENT) {
+                console.log('校对成功');
+                this.$root.must_info = must_info;
+                localStorage.setItem('environment', must_info.environment);
+              }
+            } catch (e) {
+              console.log(e)
+            }
+          }
           return true
         } else {
           // 1.判断url进入方式
