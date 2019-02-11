@@ -5,23 +5,6 @@
         <div>
           <div class="height10"></div>
           <back></back>
-          <!--<div class="task-header" v-if="detail_info">-->
-          <!--<div class="top flex fw">-->
-          <!--<div class="tht-title ell">{{detail_info.min_title}}任务</div>-->
-          <!--<div class="tht-user ell">悬赏发布人: {{detail_info.nickname}}</div>-->
-          <!--</div>-->
-          <!--<div class="bottom flex fw">-->
-          <!--<div class="count-down flex">-->
-          <!--<div class="cd-left flex ell">任务倒计时:</div>-->
-          <!--&lt;!&ndash;任务倒计时:&ndash;&gt;-->
-          <!--<span class="time">{{cut_time}}</span>-->
-          <!--</div>-->
-          <!--<div class="tdb-left flex">{{detail_info.num}}/-->
-          <!--<span style="color: #6B41E1; font-weight: 900;font-size: 24px;transform: translate(0, -17.5%)">{{detail_info.use_num}}</span>次-->
-          <!--</div>-->
-          <!--<div class="tdb-right">+{{detail_info.single_price}}<span style="font-size: 10px;">元</span></div>-->
-          <!--</div>-->
-          <!--</div>-->
           <div class="new-task-header flex fw" v-if="detail_info">
             <div class="new-top flex fw">
               <img :src="detail_info.avatar" class="top-avatar"/>
@@ -44,31 +27,22 @@
                  :class="{'copy': detail_info.task_url}">点击复制 前往{{type}}
             </div>
           </div>
-          <!--<div class="task-info flex fw" v-if="detail_info">-->
-          <!--<div class="task-color-title flex">任务信息</div>-->
-          <!--<div class="copy-warp flex">-->
-          <!--<div class="copy-info" :class="{'blink': blink}">-->
-          <!--<span>{{this.task_url}}</span>-->
-          <!--</div>-->
-          <!--&lt;!&ndash;<div class="copy-btn flex line-back" @click="$root.eventHub.$emit('titps', '请先报名此任务')"&ndash;&gt;-->
-          <!--&lt;!&ndash;v-show="!detail_info.is_take_task">点击复制&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--<div class="copy-btn flex line-back" :class="{'copy': detail_info.task_url}"-->
-          <!--:data-clipboard-text="task_url" @click="_showTipsV">点击复制-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--<div class="task-info flex fw" v-if="detail_info">-->
-          <!--<div class="task-color-title flex">任务描述</div>-->
-          <!--<div class="dis-task-info flex">-->
-          <!--{{detail_info.title}}-->
-          <!--</div>-->
-          <!--</div>-->
           <div class="task-info flex fw" v-if="detail_info">
             <img :src="detail_info.image_url" class="task-image" @load="$refs.wrapper.refresh()"/>
           </div>
         </div>
       </betterscroll>
+      <popup ref="popup">
+        <div class="popup-report">
+          <h1 class="flex pop-title">提示</h1>
+          <span class="describe">您有已报名任务尚未完成,请完成后再报名.</span>
+          <div class="pop-btn-warp flex">
+            <div class="flex pop-btn back-f8" @click="_close">取消</div>
+            <router-link tag='div' to='/myTask' class="flex pop-btn line-back">去完成</router-link>
+          </div>
+        </div>
+      </popup>
+      <interlayer ref="interlayer"></interlayer>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 0">未在规定时间内完成</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 1">报名已结束</div>
       <div class="task-btn flex task-detail-btn disable-btn" v-if="btn_status === 300">任务已提交</div>
@@ -84,6 +58,8 @@
 
 <script>
   import betterscroll from 'base/better-scroll/better-scroll'
+  import interlayer from 'base/interlayer/interlayer'
+  import popup from 'base/popup/popup'
   import {task_detail, sign_up} from 'api/index'
   import ClipboardJS from 'clipboard'
   import back from 'base/back/back'
@@ -157,30 +133,21 @@
         this.page_id = this.$route.params.id
         this._getDetail(id)
       })
-      // this.$root.eventHub.$on(`updateMyTask${this.page_id}`, (info) => {
-      //   this._getDetail()
-      // })
-      // this.$root.eventHub.$on('updateMyTask', (info) => {
-      //   console.log(`通知的ret_id${info} 实际id:${this.detail_info.id}:  改页面${this.destroy}`)
-      //   if (info && info.must) {
-      //     console.log('开始更新')
-      //     this._getDetail(info.id)
-      //   }
-      //   if (!this.destroy && (parseInt(info) === parseInt(this.detail_info.rtr_id))) {
-      //     console.log('开始更新')
-      //     this._getDetail(this.detail_info.id)
-      //   } else {
-      //     console.log('不更新')
-      //   }
-      // })
     },
     mounted() {
       this.$refs.wrapper._initScroll()
-      // this.$router.push({
-      //   name: 'sub-loading'
-      // })
+      // this.$refs.interlayer._showLayer()
+      // this.$refs.popup._showPopup()
     },
     methods: {
+      _close() {
+        this.$refs.interlayer._hiddenLayer()
+        this.$refs.popup._hiddenPopup()
+      },
+      _showPop() {
+        this.$refs.interlayer._showLayer()
+        this.$refs.popup._showPopup()
+      },
       httpString(s) {
         let reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
         s = s.match(reg);
@@ -224,6 +191,11 @@
               this.$refs.wrapper.scrollTo(0, 0)
             })
             return
+          }
+          if (ret === 453) {
+            this._showPop()
+            this.$root.eventHub.$emit('titps', '请先完成已报名的任务')
+            return false
           }
           if (ret === 443) {
             this.$root.eventHub.$emit('titps', '不能报名自己的任务')
@@ -316,7 +288,9 @@
     },
     components: {
       back,
-      betterscroll
+      popup,
+      betterscroll,
+      interlayer
     }
   }
 </script>
@@ -610,5 +584,50 @@
     height: 35px;
     border-radius: 6px;
     margin: 15px auto 20px;
+  }
+  .popup-report {
+    width: 80%;
+    padding: 4% 4% 70px 4%;
+    min-height: 50px;
+    background: #fff;
+    border-radius: 10px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .pop-title {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .describe {
+    display: block;
+    width: 90%;
+    line-height: 20px;
+    margin: 0 auto;
+    color: #555;
+  }
+
+  .pop-btn-warp {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pop-btn {
+    height: 100%;
+    color: #fff;
+  }
+
+  .back-f8 {
+    background: #f8f8f8;
+    color: #333;
   }
 </style>

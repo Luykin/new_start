@@ -64,7 +64,7 @@
     data() {
       return {
         page: 0,
-        num: 10,
+        num: 30,
         list: [],
         total: 0,
         updateTimer: null,
@@ -279,7 +279,7 @@
         if (this.pullLoading) {
           return false
         }
-        this.num = 10
+        this.num = 30
         this.page = 0
         this._getHomeInfo(true, null, loading)
       },

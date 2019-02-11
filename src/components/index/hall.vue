@@ -47,7 +47,7 @@
       return {
         list: [],
         page: 0,
-        num: 10,
+        num: 30,
         total: 0,
         btn_list: [{
           id: 1,
@@ -156,7 +156,7 @@
         })
       },
       _pulldown(loading) {
-        this.num = 10
+        this.num = 30
         this.page = 0
         // this.list = []
         this._getTaskHall(this.activeId, true, loading)
