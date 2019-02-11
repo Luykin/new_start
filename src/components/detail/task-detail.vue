@@ -233,6 +233,10 @@
             this.$root.eventHub.$emit('titps', '网络开了小差,稍后重试')
             return false
           }
+          if (ret === 448) {
+            this.$root.eventHub.$emit('titps', `您的账号已被封禁`)
+            return false
+          }
           this.$root.eventHub.$emit('titps', '报名结束啦,看看其他任务吧')
         } catch (e) {
           console.log(e)
