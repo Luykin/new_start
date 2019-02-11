@@ -27,6 +27,7 @@
             </div>
             <div class="flex my-task-bottom js">
               <div class="task-status flex" :class="taskTips(item.status)">{{taskText(item.status)}}</div>
+              <span class="task-status flex delete-order" @click.stop="_showPop(item)" v-show="item.status === 0">放弃任务</span>
               <span v-show="item.status === 3" class="ell task-fail-message">原因:{{item.task_message}}</span>
               <img src="../../assets/img/delete.png" class="delete"/>
             </div>
@@ -34,6 +35,17 @@
           <empyt v-show="!list.length" :padding="90"></empyt>
         </div>
       </betterscroll>
+      <popup ref="popup">
+        <div class="popup-report">
+          <h1 class="flex pop-title">提示</h1>
+          <span class="describe">是否放弃该任务?</span>
+          <div class="pop-btn-warp flex">
+            <div class="flex pop-btn back-f8" @click="_close">取消</div>
+            <div class="flex pop-btn line-back" @click="_giveUp">放弃</div>
+          </div>
+        </div>
+      </popup>
+      <interlayer ref="interlayer"></interlayer>
       <router-view></router-view>
     </div>
   </transition>
@@ -44,6 +56,8 @@
   import empyt from 'base/empyt/empyt'
   import betterscroll from 'base/better-scroll/better-scroll'
   import {my_task} from 'api/index'
+  import interlayer from 'base/interlayer/interlayer'
+  import popup from 'base/popup/popup'
 
   export default {
     name: 'recharge',
@@ -68,6 +82,7 @@
         total: 0,
         list: [],
         timer: null,
+        nowid: null,
         nowTime: Date.parse(new Date())
       }
     },
@@ -132,11 +147,29 @@
       this._setTime()
     },
     methods: {
+      async _giveUp() {
+        console.log(this.nowid)
+        // this.$root.eventHub.$emit('loading', true)
+        // const ret = await my_task(this.nowid)
+        // this.$root.eventHub.$emit('loading', null)
+        // this._close()
+        // if (ret.status === 200 && ret.data.code === 200) {
+        //   this.$root.eventHub.$emit('titps', `操作成功`)
+        // }
+      },
+      _close() {
+        this.$refs.interlayer._hiddenLayer()
+        this.$refs.popup._hiddenPopup()
+      },
+      _showPop(item) {
+        this.$refs.interlayer._showLayer()
+        this.$refs.popup._showPopup()
+        if (item) {
+          this.nowid = item.id
+        }
+      },
       _getDetail(id) {
-        // console.log(id)
-        // this.$router.push({
-        //   path: `./myTask/${id}`
-        // })
+        this._close()
         this.$router.push({
           name: 'task-detail',
           params: {id}
@@ -246,6 +279,8 @@
     components: {
       back,
       empyt,
+      popup,
+      interlayer,
       betterscroll
     }
   }
@@ -291,12 +326,11 @@
 
   .task-status {
     padding: 8px 3px;
-    background: #FF8215;
     border-radius: 5px;
     color: #fff;
     font-weight: 600;
     font-size: 12px;
-    width: 90px;
+    width: 80px;
   }
 
   .status0 {
@@ -326,11 +360,21 @@
     margin-top: 4px;
   }
 
-  .task-fail-message{
+  .task-fail-message {
     max-width: 50%;
     color: #FF3939;
     font-size: 12px;
     text-indent: 10px;
+  }
+
+  .delete-order {
+    color: #fff;
+    background: #6B41E1;
+    margin-left: 10px;
+  }
+
+  .describe{
+    text-align: center;
   }
 
 </style>

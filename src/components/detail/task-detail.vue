@@ -35,10 +35,11 @@
       <popup ref="popup">
         <div class="popup-report">
           <h1 class="flex pop-title">提示</h1>
-          <span class="describe">您有已报名任务尚未完成,请完成后再报名.</span>
+          <span class="describe">您有1个已报名任务尚未完成,需完成后再报名.</span>
           <div class="pop-btn-warp flex">
             <div class="flex pop-btn back-f8" @click="_close">取消</div>
-            <router-link tag='div' to='/myTask' class="flex pop-btn line-back">去完成</router-link>
+            <div class="flex pop-btn line-back" @click="_toTask">去完成</div>
+            <!--<router-link tag='div' to='/myTask' class="flex pop-btn line-back" @click="_close">去完成</router-link>-->
           </div>
         </div>
       </popup>
@@ -136,8 +137,6 @@
     },
     mounted() {
       this.$refs.wrapper._initScroll()
-      // this.$refs.interlayer._showLayer()
-      // this.$refs.popup._showPopup()
     },
     methods: {
       _close() {
@@ -147,6 +146,12 @@
       _showPop() {
         this.$refs.interlayer._showLayer()
         this.$refs.popup._showPopup()
+      },
+      _toTask() {
+        this._close()
+        this.$router.replace({
+          path: '/myTask'
+        })
       },
       httpString(s) {
         let reg= /(https?|http|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g;
@@ -584,50 +589,5 @@
     height: 35px;
     border-radius: 6px;
     margin: 15px auto 20px;
-  }
-  .popup-report {
-    width: 80%;
-    padding: 4% 4% 70px 4%;
-    min-height: 50px;
-    background: #fff;
-    border-radius: 10px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .pop-title {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #333;
-  }
-
-  .describe {
-    display: block;
-    width: 90%;
-    line-height: 20px;
-    margin: 0 auto;
-    color: #555;
-  }
-
-  .pop-btn-warp {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    overflow: hidden;
-  }
-
-  .pop-btn {
-    height: 100%;
-    color: #fff;
-  }
-
-  .back-f8 {
-    background: #f8f8f8;
-    color: #333;
   }
 </style>

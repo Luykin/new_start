@@ -346,3 +346,49 @@
   background: #fff url("https://cdn.xingkwh.com/%E5%BF%AB%E6%89%8B%E6%B0%B4%E5%8D%B0.png") no-repeat right bottom;
   background-size: auto 100%;
 }
+
+.popup-report {
+  width: 80%;
+  padding: 4% 4% 70px 4%;
+  min-height: 50px;
+  background: #fff;
+  border-radius: 10px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.pop-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.describe {
+  display: block;
+  width: 90%;
+  line-height: 20px;
+  margin: 0 auto;
+  color: #555;
+}
+
+.pop-btn-warp {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  overflow: hidden;
+}
+
+.pop-btn {
+  height: 100%;
+  color: #fff;
+}
+
+.back-f8 {
+  background: #f8f8f8;
+  color: #333;
+}
