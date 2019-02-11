@@ -55,7 +55,7 @@
   import back from 'base/back/back'
   import empyt from 'base/empyt/empyt'
   import betterscroll from 'base/better-scroll/better-scroll'
-  import {my_task} from 'api/index'
+  import {my_task, mission} from 'api/index'
   import interlayer from 'base/interlayer/interlayer'
   import popup from 'base/popup/popup'
 
@@ -136,7 +136,7 @@
       },
     },
     created() {
-      console.log('清空提示')
+      // console.log('清空提示')
       this._getMyTask(this.activeId)
       this.$root.eventHub.$on('updateMyTask', () => {
         this._pulldown(this.activeId)
@@ -148,14 +148,16 @@
     },
     methods: {
       async _giveUp() {
-        console.log(this.nowid)
-        // this.$root.eventHub.$emit('loading', true)
-        // const ret = await my_task(this.nowid)
-        // this.$root.eventHub.$emit('loading', null)
-        // this._close()
-        // if (ret.status === 200 && ret.data.code === 200) {
-        //   this.$root.eventHub.$emit('titps', `操作成功`)
-        // }
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await mission(this.nowid, this.$root.user.username)
+        this.$root.eventHub.$emit('loading', null)
+        this._close()
+        if (ret.status === 200 && ret.data.code === 200) {
+          this.$root.eventHub.$emit('titps', `操作成功`)
+          this._pulldown()
+        } else {
+          this.$root.eventHub.$emit('titps', `操作失败`)
+        }
       },
       _close() {
         this.$refs.interlayer._hiddenLayer()

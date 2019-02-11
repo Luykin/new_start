@@ -712,3 +712,22 @@ export function getAppInfo() {
     return Promise.resolve(res.response.status)
   })
 }
+
+
+//放弃任务
+export function mission(id, username) {
+  const url = `${PREFIX_URL}/abort/mission`
+  let data = {
+    id,
+    username,
+    uaid: UAID,
+    timestamp: getTime()
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res);
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
