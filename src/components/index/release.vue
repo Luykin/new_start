@@ -241,7 +241,7 @@
           return false
         }
         if (ret === 448) {
-          this.$root.eventHub.$emit('titps', `您的权限不足`)
+          this.$root.eventHub.$emit('titps', `您有违规传图,账号已被冻结`)
           return false
         }
       },

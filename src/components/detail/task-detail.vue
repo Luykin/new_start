@@ -234,7 +234,7 @@
             return false
           }
           if (ret === 448) {
-            this.$root.eventHub.$emit('titps', `您的账号已被封禁`)
+            this.$root.eventHub.$emit('titps', `您有违规传图,账号已被冻结`)
             return false
           }
           this.$root.eventHub.$emit('titps', '报名结束啦,看看其他任务吧')
