@@ -61,11 +61,11 @@
             </div>
             <div class="tiw-right light-color">{{activeService.title}}</div>
           </div>
-          <div class="flex task-input-warp" v-show="activeService.service_type === 5">
-            <div class="tiw-left flex">抖音套餐包含</div>
+          <div class="flex task-input-warp" v-show="activeService.service_type === 5 || activeService.service_type === 9">
+            <div class="tiw-left flex">{{tpyeName}}套餐包含</div>
             <div class="tiw-mid">
             </div>
-            <div class="tiw-right light-color">抖音点赞+抖音粉丝+抖音评论</div>
+            <div class="tiw-right light-color">{{tpyeName}}点赞+{{tpyeName}}粉丝+{{tpyeName}}评论</div>
           </div>
           <div class="total-sum-warp flex">
             <div class="cover-charge">发任务平台收取<span class="red">{{$root.serverCache.service_ratio * 100}}%</span>服务费</div>
@@ -122,6 +122,9 @@
       })
     },
     computed: {
+      tpyeName() {
+        return this.$route.params.type === 1 ? '抖音' : '快手'
+      },
       show_single_price() {
         if (!this.all_price || !this.reward_amount) {
           return 0
