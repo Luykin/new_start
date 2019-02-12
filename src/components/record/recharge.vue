@@ -23,7 +23,7 @@
             <img src="../../assets/img/user3.png"/>
             <span class="flex order-title">提现<i style="color: #B53FE2; text-indent: 0;">{{item.money}}</i>元</span>
             <div class="flex fw">
-              <span class="flex" :class="statusClass(item.status)">{{item.status === 1 ? '审核中' : '已完成'}}</span>
+              <span class="flex" :class="statusClass(item.status)">{{item.status === 2 ? '已完成' : '审核中'}}</span>
               <span class="flex order-time">{{item.time}}</span>
             </div>
           </div>

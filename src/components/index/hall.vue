@@ -47,7 +47,7 @@
       return {
         list: [],
         page: 0,
-        num: 30,
+        num: 20,
         total: 0,
         btn_list: [{
           id: 1,
@@ -58,7 +58,8 @@
         }],
         activeId: 1,
         pullDownTimer: null,
-        pullLoading: null
+        pullLoading: null,
+        doingLoad: null
       }
     },
     computed: {
@@ -109,9 +110,13 @@
         }
       },
       async _getTaskHall(id=1, must, loading, callback) {
+        if (this.doingLoad) {
+          return false
+        }
         if (!must || loading) {
           this.$root.eventHub.$emit('loading', true)
         }
+        this.doingLoad = true
         this.pullLoading = true
         const ret = await task_hall(id, this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
@@ -131,6 +136,7 @@
           clearTimeout(timer)
           timer = null
         }, 2000)
+        this.doingLoad = null
       },
       formatTop(list) {
         try {
@@ -156,7 +162,7 @@
         })
       },
       _pulldown(loading) {
-        this.num = 30
+        this.num = 20
         this.page = 0
         // this.list = []
         this._getTaskHall(this.activeId, true, loading)

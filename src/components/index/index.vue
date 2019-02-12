@@ -64,12 +64,13 @@
     data() {
       return {
         page: 0,
-        num: 30,
+        num: 20,
         list: [],
         total: 0,
         updateTimer: null,
         pullDownTimer: null,
-        pullLoading: null
+        pullLoading: null,
+        doingLoad: null,
       }
     },
     name: 'user',
@@ -229,9 +230,13 @@
         }
       },
       async _getHomeInfo(must, callback, loading) {
+        if (this.doingLoad) {
+          return false
+        }
         if (!must || loading) {
           this.$root.eventHub.$emit('loading', true)
         }
+        this.doingLoad = true
         this.pullLoading = true
         const ret = await home_page(this.page, this.num)
         this.$root.eventHub.$emit('loading', null)
@@ -251,6 +256,7 @@
         if (callback) {
           callback()
         }
+        this.doingLoad = null
       },
       formatTop(list) {
         try {
@@ -279,7 +285,7 @@
         if (this.pullLoading) {
           return false
         }
-        this.num = 30
+        this.num = 20
         this.page = 0
         this._getHomeInfo(true, null, loading)
       },
