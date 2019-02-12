@@ -41,7 +41,7 @@
         this.$refs.centerTips._open()
       })
       this.$root.eventHub.$on('updateUserInfo', (path) => {
-        console.log('全局更新用户信息')
+        // console.log('全局更新用户信息')
         try {
           const username = decryptByDES(localStorage.getItem(`${UAID}${CHANNEL}username`) || '', FACTOR)
           if (username) {

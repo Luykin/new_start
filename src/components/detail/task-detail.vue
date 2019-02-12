@@ -242,7 +242,7 @@
             this.disable_btn = null
             clearInterval(this.timer)
             this.timer = null
-            this._cutDown(this.detail_info.complete_time)
+            // this._cutDown(this.detail_info.complete_time)
             if (callback) {
               callback()
             }
@@ -259,7 +259,6 @@
         }, 400)
       },
       _cutDown(time) {
-        console.log(time, '设置时间')
         if (!time) {
           this.cut_time = '您还未接受该任务'
           return false

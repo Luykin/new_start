@@ -36,15 +36,6 @@
             </div>
             <div class="tiw-right">个</div>
           </div>
-          <!--<div class="flex task-input-warp">-->
-          <!--<div class="tiw-left flex">每单金额</div>-->
-          <!--<div class="tiw-mid">-->
-          <!--<input type="text" name="每单金额" :placeholder="`悬赏每单金额(最低${activeService.min_price}元)`" class="index-input"-->
-          <!--v-model="single_price"-->
-          <!--@keyup="_rectifySinglePrice" @blur="_rectifyMinPrice"/>-->
-          <!--</div>-->
-          <!--<div class="tiw-right">元</div>-->
-          <!--</div>-->
           <div class="flex task-input-warp">
             <div class="tiw-left flex">总共金额</div>
             <div class="tiw-mid">
@@ -69,6 +60,12 @@
             <div class="tiw-mid">
             </div>
             <div class="tiw-right light-color">{{activeService.title}}</div>
+          </div>
+          <div class="flex task-input-warp" v-show="activeService.service_type === 5">
+            <div class="tiw-left flex">抖音套餐包含</div>
+            <div class="tiw-mid">
+            </div>
+            <div class="tiw-right light-color">抖音点赞+抖音粉丝+抖音评论</div>
           </div>
           <div class="total-sum-warp flex">
             <div class="cover-charge">发任务平台收取<span class="red">{{$root.serverCache.service_ratio * 100}}%</span>服务费</div>
@@ -265,7 +262,6 @@
             return false
           }
           if (isNaN(this.reward_amount) || this.reward_amount < parseFloat(this.$root.user.min_num)) {
-            // console.log(this.single_price < this.activeService.min_price, this.single_price, this.activeService.min_price)
             this.$root.eventHub.$emit('titps', `设置数量必须大于${this.$root.user.min_num}人~`)
             this.reward_amount = ''
             return false
@@ -395,6 +391,7 @@
   .tiw-right {
     width: auto;
     margin-right: 10px;
+    font-size: 13px;
   }
 
   .light-color {

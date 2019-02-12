@@ -193,7 +193,12 @@
         this.$refs.spreadimg.src = null
       },
       async _qiniuUpload(file, key, that, update) {
-        console.log('开始上传')
+        // console.log('开始上传', file.size)
+        if (!file || !file.size || file.size < 200) {
+          this.$root.eventHub.$emit('titps', `请从[相册]中选择图片~`)
+          this._clear()
+          return false
+        }
         const ret = await up_token()
         if (ret.status === 200 && ret.data.code === 200) {
           const putExtra = {
