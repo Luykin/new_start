@@ -23,6 +23,18 @@ export default {
       this.show = true
       this.popupIn = true
       this.popupOut = false
+      this.$nextTick(() => {
+        try {
+          document.body.scrollTop = 0
+          document.documentElement.scrollTop = 0
+          const scrollAll = document.querySelector('.scroll-top');
+          if (scrollAll) {
+            scrollAll.scrollTop = 0
+          }
+        } catch (e) {
+          console.log(e)
+        }
+      })
     },
     _hiddenPopup() {
       this.popupIn = false

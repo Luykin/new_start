@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-body">
+  <div class="detail-body scroll-top">
     <back></back>
     <!--<div class="header">-->
       <!--<userheader></userheader>-->
