@@ -1,6 +1,6 @@
 <template>
   <transition name="list">
-    <div class="detail-body">
+    <div class="detail-body scroll-top">
       <back ref="back"></back>
       <div class="task-info flex fw js">
         <div class="submit-job-header flex line-back old-line-back">
