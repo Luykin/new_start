@@ -256,7 +256,7 @@
           }
           clearTimeout(timer)
           timer = null
-        }, 400)
+        }, 300)
       },
       _cutDown(time) {
         if (!time) {

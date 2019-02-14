@@ -137,7 +137,7 @@
         不通过
       </div>
       <div class="task-btn flex gre-btn" v-if="detail_info.audit && detail_info.status === 1" @click="_pass(1)">通过</div>
-      <div style="height: 1px"></div>
+      <div style="height: 35px"></div>
       <router-view></router-view>
     </div>
   </transition>
@@ -284,6 +284,9 @@
           }
           if (this.$refs.upload) {
             this.$refs.upload._clear()
+          }
+          if (this.$refs.upload2) {
+            this.$refs.upload2._clear()
           }
         } catch (e) {
           console.log(e)
@@ -455,6 +458,10 @@
           this.$root.eventHub.$emit('titps', `请等待上传完成`)
           return false
         }
+        if (this.detail_info.complete_image2 && this.process2 < 100) {
+          this.$root.eventHub.$emit('titps', `请等待上传完成`)
+          return false
+        }
         if (this.detail_info.complete_image2 && (!this.res_info2 || !this.res_info2.key)) {
           this.$root.eventHub.$emit('titps', `请上传两张截图`)
           return false
@@ -616,7 +623,7 @@
   }
 
   .task-btn {
-    margin: 30px auto 20px;
+    margin: 30px auto -15px;
   }
 
   .red-btn {
