@@ -12,7 +12,7 @@
               <span class="flex js ab-time cut-down" v-if="item.status === 1">{{'审核倒计时:' + _msecTransform(item.user_audit_time - nowTime)}}</span>
               <span class="flex js ab-time" v-else>时间:{{item.time}}</span>
             </div>
-            <div class="flex img-audit" @click.stop="_setEnlargeImage(item.task_image)">
+            <div class="flex img-audit" @click.stop="_setEnlargeImage(item.task_image, item.task_image2)">
               <img :src="item.task_image" v-if="item.task_image" @error="_setError(item)"/>
               <span v-if="item.error">图片错误</span>
             </div>
@@ -42,7 +42,7 @@
           </div>
         </div>
       </popup>
-      <enlarge :image="enlarge_image" @close="_setEnlargeImage()"></enlarge>
+      <enlarge :image="enlarge_image" :image1="enlarge_image2" @close="_setEnlargeImage()"></enlarge>
       <!--<div class="task-btn flex suc-color" @click="_submit" v-if="list.length && info.types === 1">全部通过</div>-->
       <router-view></router-view>
       <interlayer ref="interlayer"></interlayer>
@@ -74,6 +74,7 @@
         nopass: '',
         nowItem: null,
         enlarge_image: null,
+        enlarge_image2: null,
         nowTime: Date.parse(new Date()),
       }
     },
@@ -177,12 +178,17 @@
         item.task_image = null
         item.error = true
       },
-      _setEnlargeImage(image) {
+      _setEnlargeImage(image, image2) {
         // console.log('??')
         if (!image) {
           this.enlarge_image = null
         } else {
           this.enlarge_image = image
+        }
+        if (!image2) {
+          this.enlarge_image2 = null
+        } else {
+          this.enlarge_image2 = image2
         }
       },
       _setTime() {

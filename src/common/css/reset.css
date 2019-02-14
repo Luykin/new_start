@@ -132,6 +132,9 @@ input:focus::-webkit-contacts-auto-fill-button {
 }
 
 .js {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
   justify-content: flex-start;
 }
 

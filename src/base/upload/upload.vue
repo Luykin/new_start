@@ -1,6 +1,6 @@
 <template>
   <div class="hidden">
-    <input type="file" accept="image/*" class="file" ref="file" @change="_preview($event)"/>
+    <input type="file" accept="image/*" class="file" ref="file" @change="_preview($event)" @click.stop=""/>
     <canvas ref="spread" width="300" height="485" class="spread hidek" style="width: 600px; height: 970px;"></canvas>
     <img class="spreadimg hidek" @load="_setcanvas" ref="spreadimg"/>
   </div>
@@ -14,19 +14,9 @@
     name: 'upload',
     data() {
       return {
-        key: ''
       }
     },
     created() {
-      // this._getJsapiCode()
-      // wx.config({
-      //   debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-      //   appId: '', // 必填，公众号的唯一标识
-      //   timestamp: '', // 必填，生成签名的时间戳
-      //   nonceStr: '', // 必填，生成签名的随机串
-      //   signature: '',// 必填，签名
-      //   jsApiList: ['chooseImage'] // 必填，需要使用的JS接口列表
-      // });
     },
     mounted() {
       // this._getJsapiCode()
@@ -60,18 +50,19 @@
         return new File([u8arr], filename, {type: mime})
       },
       _setView(image) {
-        let imgbg = document.querySelector('.spreadimg')
+        let imgbg = this.$refs.spreadimg;
         imgbg.src = image
       },
       _setcanvas() {
         try {
-          let canvas = document.querySelector('.spread');
-          let imgbg = document.querySelector('.spreadimg');
+          let canvas = this.$refs.spread;
+          let imgbg = this.$refs.spreadimg;
           const canvasText = canvas.getContext('2d');
           canvas.height = canvas.height;
           canvasText.drawImage(imgbg, 0, 0, 300, 485)
-          let files = this.dataURLtoFile(canvas.toDataURL('image/png'), this.key)
-          this._qiniuUpload(files, this.key, this)
+          const key = 'DGZ_user' + (Math.random() + +new Date()) + '.png'
+          let files = this.dataURLtoFile(canvas.toDataURL('image/png'), key)
+          this._qiniuUpload(files, key, this)
         } catch (err) {
           console.log(err)
           return false
@@ -80,7 +71,6 @@
       _imitateClick() {
         console.log('点击上传')
         this.$refs.file.click()
-        // this._wxChooseImage()
       },
       _wxChooseImage() {
         const that = this
@@ -155,7 +145,6 @@
       },
       _preview() {
         try {
-          // this._clear()
           let files = this.$refs.file.files[0]
           if (!files) {
             this.$root.eventHub.$emit('titps', `没有选择图片哦`)
@@ -170,12 +159,12 @@
             this._clear()
             return false
           }
-          this.key = 'DGZ_user' + (Math.random() + +new Date()) + '.png'
+          // this.key = 'DGZ_user' + (Math.random() + +new Date()) + '.png'
           let reader = new FileReader()
           reader.readAsDataURL(files)
           reader.onload = (e) => {
             this.$root.eventHub.$emit('titps', `开始上传图片`)
-            this.$emit('view', e.target.result)
+            this.$emit(`view`, e.target.result)
             this._setView(e.target.result)
           }
         } catch (e) {
@@ -185,15 +174,14 @@
       _clear() {
         console.log('清空画布')
         let canvas = document.querySelector('.spread')
-        this.key = ''
-        this.$emit('view', null)
-        this.$emit('setprocess', 0)
+        this.$emit(`view`, null)
+        this.$emit(`setprocess`, 0)
         canvas.height = canvas.height;
         this.$refs.file.value = ''
         this.$refs.spreadimg.src = null
       },
       async _qiniuUpload(file, key, that, update) {
-        // console.log('开始上传', file.size)
+        console.log('开始上传', file.size)
         if (!file || !file.size || file.size < 200) {
           this.$root.eventHub.$emit('titps', `请从[相册]中选择图片~`)
           this._clear()
@@ -213,26 +201,23 @@
           let observable = window.qiniu.upload(file, key, ret.data.data.uptoken, putExtra, config)
           const observer = {
             next(res) {
-              that.$emit('setprocess', res)
+              that.$emit(`setprocess`, res)
             },
             error(err) {
               that._clear()
-              that.$emit('err', err)
+              that.$emit(`err`, err)
             },
             complete(res) {
-              that.$emit('success', res)
+              that.$emit(`success`, res)
               that.$root.eventHub.$emit('titps', `上传完成`)
               that.$refs.file.value = ''
               if (update) {
-                that.$emit('view', `https://cdn.back.melonblock.com/${this.key}`)
+                // that.$emit('view', `https://cdn.back.melonblock.com/${this.key}`)
               }
             }
           }
           let subscription = observable.subscribe(observer) // 上传开始
         }
-        // console.log('上传失败')
-        // console.log(file, key)
-        // let observable = window.qiniu.upload(file, key, token, putExtra, config)
       },
     }
   }

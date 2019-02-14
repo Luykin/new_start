@@ -10,11 +10,6 @@
         <div class="normal-title flex">{{detail_info.task_message ? `未通过原因: ${detail_info.task_message}` :
           '请按示例截图并上传提交给悬赏人审核'}}
         </div>
-        <!--<div class="upload-warp magnifier"-->
-        <!--&lt;!&ndash;:style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% 100%;`"&ndash;&gt;-->
-        <!--@click="_setEnlargeImage(detail_info.complete_image)">-->
-        <!--<img src="detail_info.complete_image"/>-->
-        <!--</div>-->
         <div class="upload-warp magnifier" @click="_setEnlargeImage(detail_info.complete_image)"
              :style="`background: #f8f8f8 url(${detail_info.complete_image}) no-repeat center center; background-size: 100% 100%;`">
           <div class="complete-image">
@@ -29,8 +24,8 @@
                   v-if="detail_info && ((detail_info.task_image && detail_info.status !== 3) || detail_info.audit)"
                   :config="config"></downwx>
         </div>
-        <div class="upload-warp" @click="_choseImg" v-else>
-          <div class="upload-inner flex">
+        <div class="upload-warp" v-else>
+          <div class="upload-inner flex" @click="_choseImg">
             <div class="process-warp flex fw" v-show="process && process < 100">
               {{process}}%
               <span class="flex">正在上传,请耐心等待...</span>
@@ -38,6 +33,33 @@
             <upload ref="upload" @view="_setUrl" @setprocess="_setProcess" @err="_err" @success="_success"
                     v-if="!showZC"></upload>
             <img ref="previewImg"/>
+          </div>
+        </div>
+        <div v-if="detail_info.complete_image2" class="flex js">
+          <div class="upload-warp magnifier" @click="_setEnlargeImage(detail_info.complete_image2)"
+               :style="`background: #f8f8f8 url(${detail_info.complete_image2}) no-repeat center center; background-size: 100% 100%;`">
+            <div class="complete-image">
+              <img :src="detail_info.complete_image2"/>
+            </div>
+          </div>
+          <div class="upload-warp magnifier"
+               :style="`background: #f8f8f8 url(${detail_info.task_image2}) no-repeat center center; background-size: 100% 100%;`"
+               v-if="(detail_info.task_image2 && detail_info.status !== 3) || detail_info.audit"
+               @click="_setEnlargeImage(detail_info.task_image2)">
+            <downwx ref="downwx" :url="detail_info.task_image2" :index="0" @load="_setWxUrl"
+                    v-if="detail_info && ((detail_info.task_image2 && detail_info.status !== 3) || detail_info.audit)"
+                    :config="config"></downwx>
+          </div>
+          <div class="upload-warp" v-else>
+            <div class="upload-inner flex" @click="_choseImg2">
+              <div class="process-warp flex fw" v-show="process2 && process2 < 100">
+                {{process2}}%
+                <span class="flex">正在上传,请耐心等待...</span>
+              </div>
+              <upload ref="upload2" @view="_setUrl2" @setprocess="_setProcess2" @err="_err2" @success="_success2"
+              v-if="!showZC"></upload>
+              <img ref="previewImg2"/>
+            </div>
           </div>
         </div>
         <div class="flex success" v-if="!detail_info.audit && detail_info.status === 2">
@@ -77,7 +99,7 @@
         <div class="popup-report flex fw js">
           <h1 class="flex pop-title">举报维权</h1>
           <span class="describe">请上传您真实任务完成截图，对您仲裁结果成功率更高哦！</span>
-          <div class="upload-warp" @click="_choseImgZC">
+          <div class="upload-warp" @click.self="_choseImgZC">
             <div class="upload-inner flex">
               <div class="process-warp flex fw" v-show="processZC && processZC < 100">
                 {{processZC}}%
@@ -115,6 +137,7 @@
         不通过
       </div>
       <div class="task-btn flex gre-btn" v-if="detail_info.audit && detail_info.status === 1" @click="_pass(1)">通过</div>
+      <div style="height: 1px"></div>
       <router-view></router-view>
     </div>
   </transition>
@@ -136,6 +159,7 @@
       return {
         showZC: null,
         process: 0,
+        process2:0,
         processZC: 0,
         detail_info: {
           id: null,
@@ -143,6 +167,7 @@
           title: ''
         },
         res_info: null,
+        res_info2: null,
         res_info_ZC: null,
         textarea: '',
         nopass: '',
@@ -156,7 +181,6 @@
       this._getJsapiCode()
     },
     mounted() {
-      // this.detail_info.task_image = this.$refs.downwx._loadUrl(this.detail_info.task_image);
       document.querySelectorAll('.disScroll').forEach((item) => {
         item.addEventListener('blur', () => {
           try {
@@ -253,6 +277,7 @@
           // this.dy_name =''
           this.processZC = 0
           this.process = 0
+          this.process2 = 0
           this._close()
           if (this.$refs.uploadZC) {
             this.$refs.uploadZC._clear()
@@ -275,10 +300,18 @@
         this.$refs.previewImg.src = null
         this.$root.eventHub.$emit('titps', `上传出错啦,请查询选择图片~`)
       },
+      _err2() {
+        this.process2 = 0
+        this.$refs.previewImg2.src = null
+        this.$root.eventHub.$emit('titps', `上传出错啦,请查询选择图片~`)
+      },
       _setUrl(url) {
         this.process = 0.1
         this.$refs.previewImg.src = url || ''
-        // this.$refs.previewImg.style.opacity = 1
+      },
+      _setUrl2(url) {
+        this.process2 = 0.1
+        this.$refs.previewImg2.src = url || ''
       },
       _setProcess(res) {
         try {
@@ -289,6 +322,18 @@
           }
         } catch (e) {
           this.process = 0
+          console.log(e)
+        }
+      },
+      _setProcess2(res) {
+        try {
+          if (!res || !res.total) {
+            this.process2 = 0
+          } else {
+            this.process2 = res.total.percent.toFixed(2)
+          }
+        } catch (e) {
+          this.process2 = 0
           console.log(e)
         }
       },
@@ -313,7 +358,6 @@
         // this.$refs.previewImgZC.style.opacity = 1
       },
       _setProcessZC(res) {
-        console.log(res, 'shou')
         try {
           if (!res || !res.total) {
             this.processZC = 0
@@ -337,18 +381,30 @@
       },
       _choseImg() {
         if (this.process && this.process < 100) {
-          console.log(this.process)
+          // console.log(this.process)
           return false
         }
-        // console.log(this.detail_info)
         if (this.detail_info.status === -1) {
           this.$root.eventHub.$emit('titps', `任务已到期,无法提交~`)
           return false
         }
         this.$refs.upload._imitateClick()
       },
+      _choseImg2() {
+        if (this.process2 && this.process2 < 100) {
+          return false
+        }
+        if (this.detail_info.status === -1) {
+          this.$root.eventHub.$emit('titps', `任务已到期,无法提交~`)
+          return false
+        }
+        this.$refs.upload2._imitateClick()
+      },
       _success(res) {
         this.res_info = res
+      },
+      _success2(res) {
+        this.res_info2 = res
       },
       async _submitZC() {
         if (!this.textarea) {
@@ -399,9 +455,13 @@
           this.$root.eventHub.$emit('titps', `请等待上传完成`)
           return false
         }
+        if (this.detail_info.complete_image2 && (!this.res_info2 || !this.res_info2.key)) {
+          this.$root.eventHub.$emit('titps', `请上传两张截图`)
+          return false
+        }
         try {
           this.$root.eventHub.$emit('loading', true)
-          const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name)
+          const ret = await sub_or_arb(this.$root.user.username, this.detail_info.id, 1, this.res_info.key, null, null, this.dy_name, this.res_info2 ? this.res_info2.key: null)
           this.$root.eventHub.$emit('loading', null)
           if (ret.status === 200 && ret.data.code === 200) {
             if (this.detail_info.status && this.detail_info.status === 3) {
@@ -556,7 +616,7 @@
   }
 
   .task-btn {
-    margin: 30px auto -15px;
+    margin: 30px auto 20px;
   }
 
   .red-btn {

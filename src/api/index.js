@@ -228,7 +228,7 @@ export function up_token() {
 
 
 // 提交任务或者申请仲裁
-export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image, appeal_user_explain, task_nickname) {
+export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image, appeal_user_explain, task_nickname, task_image2) {
   const url = `${PREFIX_URL}/sub_or_arb`
   let data = {
     id,
@@ -251,6 +251,11 @@ export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image
   if (task_nickname) {
     Object.assign(data, {
       task_nickname
+    })
+  }
+  if (task_image2) {
+    Object.assign(data, {
+      task_image2
     })
   }
   return axios.post(url, qs.stringify(Object.assign({
@@ -622,7 +627,7 @@ export function with_draw() {
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data))).then(function (res) {
-    return Promise.resolve(res);
+    return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
@@ -638,7 +643,7 @@ export function notify_web(code) {
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data))).then(function (res) {
-    return Promise.resolve(res);
+    return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
@@ -649,7 +654,7 @@ export function notify_web(code) {
 export function anti_seal(username) {
   const url = `http://42428851.si56w.cn//dwz.php?longurl=http://dz1.ruooming.com/?username=${username}`
   return axios.get(url).then(function (res) {
-    return Promise.resolve(res);
+    return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
@@ -674,7 +679,7 @@ export function code_login(code, phone, super_code) {
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data))).then(function (res) {
-    return Promise.resolve(res);
+    return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
@@ -691,7 +696,7 @@ export function getUserInfo(username) {
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data))).then(function (res) {
-    return Promise.resolve(res);
+    return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
@@ -707,7 +712,7 @@ export function getAppInfo() {
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data))).then(function (res) {
-    return Promise.resolve(res);
+    return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
@@ -726,7 +731,7 @@ export function mission(id, username) {
   return axios.post(url, qs.stringify(Object.assign({
     sign: getSign(data)
   }, data))).then(function (res) {
-    return Promise.resolve(res);
+    return Promise.resolve(res)
   }).catch(res => {
     return Promise.resolve(res.response.status)
   })
