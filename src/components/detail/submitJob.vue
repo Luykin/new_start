@@ -99,7 +99,7 @@
         <div class="popup-report flex fw js">
           <h1 class="flex pop-title">举报维权</h1>
           <span class="describe">请上传您真实任务完成截图，对您仲裁结果成功率更高哦！</span>
-          <div class="upload-warp" @click.self="_choseImgZC">
+          <div class="upload-warp" @click="_choseImgZC">
             <div class="upload-inner flex">
               <div class="process-warp flex fw" v-show="processZC && processZC < 100">
                 {{processZC}}%
