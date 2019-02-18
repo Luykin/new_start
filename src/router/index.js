@@ -205,7 +205,7 @@ const routerconst = new Router({
 //
 //choice
 //entrance
-let viewingPage = ['/', '/index', '/login', '/hall', '/commision', '/home', '/notice']
+let viewingPage = ['/', '/index', '/login', '/hall', '/home', '/notice']
 if (isWx()) {
   viewingPage = ['/', '/login', '/home', '/notice']
 }

@@ -736,3 +736,41 @@ export function mission(id, username) {
     return Promise.resolve(res.response.status)
   })
 }
+
+
+// 黑名单
+export function blackList(page, num) {
+  const url = `${PREFIX_URL}/black/list`
+  let data = {
+    uaid: UAID,
+    timestamp: getTime(),
+    page,
+    num
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 提现排名
+export function rankList(username, page, num) {
+  const url = `${PREFIX_URL}/rank/list`
+  let data = {
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+    page,
+    num
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

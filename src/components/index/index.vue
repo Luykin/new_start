@@ -11,6 +11,23 @@
           </div>
           <!--bg-none-->
           <div class="flex task-title">
+            <span class="flex js">抖赞信用</span>
+          </div>
+          <div class="flex credit-user fw">
+            <div class="credit-progress">
+              <div class="credit-progress-inner">
+                <div class="now-credit">
+                  {{parseInt($root.user.credit_num)}}
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="credit-user-item flex" v-for="item in creditList">
+                <span>{{item.name}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex task-title">
             <span class="flex js">推荐任务</span>
             <div class="flush flex" @click="_pulldown(true)" v-show="!pullLoading">
               <img src="../../assets/img/reflush.png"/>
@@ -55,7 +72,7 @@
   import empyt from 'base/empyt/empyt'
   import entrance from 'components/entrance-window/entrance'
   import {login, home_page, task_detail, update_user_info, getAppInfo} from 'api/index'
-  import {UAID, CHANNEL, APPNAME,env} from 'api/config'
+  import {UAID, CHANNEL, APPNAME, env} from 'api/config'
   import lamp from 'components/lamp/lamp'
   import {decryptByDES} from 'common/js/util'
   import {isWx} from 'common/js/util'
@@ -71,6 +88,17 @@
         pullDownTimer: null,
         pullLoading: null,
         doingLoad: null,
+        creditList: [{
+          name: '冻结'
+        }, {
+          name: '限制'
+        }, {
+          name: '良好'
+        }, {
+          name: '优秀'
+        }, {
+          name: '极好'
+        }]
       }
     },
     name: 'user',
@@ -320,5 +348,77 @@
     top: 0;
     bottom: 55px;
     overflow: hidden;
+  }
+
+  .credit-user {
+    width: 92%;
+    height: 70px;
+    background: #fff;
+    border-radius: 10px;
+    margin: 10px auto;
+  }
+
+  .credit-user-item {
+    width: 0;
+    flex-grow: 1;
+    height: auto;
+    color: #555;
+  }
+
+  .credit-progress {
+    width: 82%;
+    background: #CCCCCC;
+    height: 10px;
+    border-radius: 100px;
+    margin: 15px auto 12px;
+    position: relative;
+  }
+
+  .credit-progress:before, .credit-progress:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 100px;
+    z-index: 999;
+  }
+
+  .credit-progress:before {
+    left: -10px;
+    background: url("https://cdn.xingkwh.com/%E5%86%BB%E7%BB%93icon@3x.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .credit-progress:after {
+    right: -10px;
+    background: url("https://cdn.xingkwh.com/%E6%9E%81%E5%A5%BDicon@3x.png") no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .credit-progress-inner {
+    width: 50%;
+    height: 100%;
+    background: #DB49CF;
+    border-radius: 100px;
+    background: linear-gradient(-45deg, #6D32FB, #F74CCA);
+    background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
+    position: relative;
+  }
+
+  .now-credit {
+    position: absolute;
+    right: -18px;
+    top: -21px;
+    width: 40px;
+    height: 20px;
+    text-align: center;
+    line-height: 15px;
+    background: url("https://cdn.xingkwh.com/%E5%BD%93%E5%89%8D%E4%BF%A1%E7%94%A8%E5%80%BC@3x.png") no-repeat;
+    background-size: 100% 100%;
+    transform: scale(.85,.85);
+    font-size: 10px;
+    color: #fff;
   }
 </style>

@@ -31,7 +31,8 @@ const app = new Vue({
       username: null,
       user_id: null,
       phone: null,
-      min_num: 0
+      min_num: 0,
+      credit_num: 300
     },
     noticeDown: null,
     notice: '',
