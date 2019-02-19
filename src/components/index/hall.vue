@@ -132,7 +132,7 @@
           this.pullLoading = null
           clearTimeout(timer)
           timer = null
-        }, 2000)
+        }, 3000)
         this.doingLoad = null
       },
       formatTop(list) {

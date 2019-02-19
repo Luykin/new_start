@@ -15,7 +15,9 @@
           </div>
           <div class="flex credit-user fw">
             <div class="credit-progress">
-              <div class="credit-progress-inner">
+              <div class="min-score-credit">{{MIN_CREDIT}}</div>
+              <div class="max-score-credit">{{MAX_CREDIT}}</div>
+              <div class="credit-progress-inner" :style="credit_length(parseInt($root.user.credit_num))">
                 <div class="now-credit">
                   {{parseInt($root.user.credit_num)}}
                 </div>
@@ -44,7 +46,7 @@
                 <img :src="item.avatar" class="new-task-item-avatar" @error="_error($event)"/>
               </div>
               <div class="flex fw ell js">
-                <div class="task-item-title ell flex js">
+                <div class="task-item-title ell">
                   {{item.title}}
                 </div>
                 <p class="task-num ell"><span style="color: #6B41E1">{{item.use_num}}</span>人已做,还剩<span
@@ -66,7 +68,8 @@
 </template>
 
 <script>
-  // https://cdn.xingkwh.com/%E6%8A%96%E4%B8%AA%E8%B5%9E%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.png
+  const MIN_CREDIT = 150;
+  const MAX_CREDIT = 450;
   import userheader from 'components/userheader/userheader'
   import betterscroll from 'base/better-scroll/better-scroll'
   import empyt from 'base/empyt/empyt'
@@ -98,7 +101,9 @@
           name: '优秀'
         }, {
           name: '极好'
-        }]
+        }],
+        MIN_CREDIT: 0,
+        MAX_CREDIT: 0
       }
     },
     name: 'user',
@@ -108,6 +113,21 @@
           return `iti-back${item.service_group_id}`
         }
       },
+      credit_length() {
+        return (credit_num) => {
+          let proess = 0.5;
+          if (credit_num <= MIN_CREDIT) {
+            proess = 0
+          }
+          if (credit_num >= MAX_CREDIT) {
+            proess = 1
+          }
+          if (credit_num > MIN_CREDIT && credit_num < MAX_CREDIT) {
+            proess = (credit_num - MIN_CREDIT) / (MAX_CREDIT - MIN_CREDIT)
+          }
+          return `width:${proess*100}%;`
+        }
+      }
     },
     created() {
       this.$root.eventHub.$on('updateList', (time) => {
@@ -125,6 +145,8 @@
           timer = null
         }, 100)
       })
+      this.MIN_CREDIT = MIN_CREDIT
+      this.MAX_CREDIT = MAX_CREDIT
     },
     mounted() {
       this._inint()
@@ -280,7 +302,7 @@
           this.pullLoading = null
           clearTimeout(timer)
           timer = null
-        }, 2000)
+        }, 3000)
         if (callback) {
           callback()
         }
@@ -368,10 +390,26 @@
   .credit-progress {
     width: 82%;
     background: #CCCCCC;
-    height: 10px;
+    height: 12px;
     border-radius: 100px;
     margin: 15px auto 12px;
     position: relative;
+  }
+  .min-score-credit, .max-score-credit{
+    position: absolute;
+    color: #fff;
+    font-size: 10px;
+    z-index: 9999;
+    top: 0;
+    transform: scale(.75, .75);
+  }
+
+  .min-score-credit{
+    left: 16px;
+  }
+
+  .max-score-credit{
+    right: 16px;
   }
 
   .credit-progress:before, .credit-progress:after {
@@ -405,6 +443,7 @@
     background: linear-gradient(-45deg, #6D32FB, #F74CCA);
     background: -webkit-gradient(linear, right bottom, left top, from(#6D32FB), to(#F74CCA));
     position: relative;
+    transition: all .3s;
   }
 
   .now-credit {

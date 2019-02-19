@@ -24,8 +24,21 @@
               </div>
             </div>
           </div>
+          <div class="ranking-item flex js ell" v-if="activeId === 1 && userList" style="background: #E3DEFF">
+            <span class="ranking-number ell">{{userList.ranknum}}</span>
+            <img :src="userList.avatar" class="ranking-avatar"/>
+            <span class="ranking-name ell">{{userList.nickname}}</span>
+            <div class="ranking-credit flex">
+              <img src="https://cdn.xingkwh.com/%E4%BF%A1%E7%94%A8icon@3x.png"/>
+              {{parseInt(userList.credit_num)}}
+            </div>
+            <div class="ranking-score ell flex">
+              提现:
+              <span>{{userList.score}}元</span>
+            </div>
+          </div>
           <div v-for="(item, index) in list" class="ranking-item flex js ell">
-            <span class="ranking-number" v-show="activeId === 1">{{index+4}}</span>
+            <span class="ranking-number ell" v-show="activeId === 1">{{index+4}}</span>
             <img :src="item.avatar" class="ranking-avatar"/>
             <span class="ranking-name ell">{{item.nickname}}</span>
             <div class="ranking-credit flex">
@@ -70,8 +83,10 @@
         topThree: [],
         page: 0,
         num: 20,
-        total: 0,
-        catheList: {}
+        catheList: {},
+        cathePage: {},
+        catheTotal: {},
+        userList: null
       }
     },
     created() {
@@ -86,7 +101,7 @@
         if (id === this.activeId) {
           return false
         }
-        this.page = 0
+        this.page = this.cathePage[id] || 0
         this.list = []
         if (id === 2) {
           this._getBlacklist(null, () => {
@@ -112,10 +127,11 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.list = [...this.list, ...ret.data.data.ret]
-          this.total = ret.data.data.count
+          // this.total = ret.data.data.count
           if (callback) {
             callback()
           }
+          this.catheTotal[this.activeId] = ret.data.data.count
           this.catheList[this.activeId] = this.list
         }
       },
@@ -144,11 +160,19 @@
             this.list = [...this.list, ...ret.data.data.result]
             this.catheList[this.activeId] = this.list
           }
-          this.total = ret.data.data.count - 3
+          this.userList = {
+            avatar: ret.data.data.avatar,
+            ranknum: ret.data.data.ranknum,
+            credit_num: ret.data.data.credit_num,
+            nickname: ret.data.data.nickname,
+            score: ret.data.data.score
+          }
+          this.catheTotal[this.activeId] = ret.data.data.count - 3
         }
       },
       _pulldown() {
         this.page = 0
+        this.cathePage[this.activeId] = 0
         if (this.activeId === 2) {
           this._getBlacklist(true)
         } else {
@@ -156,8 +180,9 @@
         }
       },
       _scrollToEnd() {
-        if (this.list.length < this.total) {
+        if (this.list.length < (this.catheTotal[this.activeId] || 0)) {
           this.page += 1
+          this.cathePage[this.activeId] = this.page
           if (this.activeId === 2) {
             this._getBlacklist(true)
           } else {
@@ -233,9 +258,10 @@
   }
 
   .ranking-number {
+    width: 30px;
     color: #9A80E4;
     font-weight: 600;
-    margin-right: 15px;
+    margin-right: 5px;
     font-size: 15px;
   }
 
@@ -252,6 +278,8 @@
 
   .ranking-score {
     width: 30%;
+    flex-shrink: 1;
+    justify-content: flex-end;
   }
 
   .ranking-score span {
@@ -261,6 +289,7 @@
   .ranking-credit {
     width: 0;
     flex-grow: 1;
+    min-width: 60px;
     color: #6B41E1;
   }
 
@@ -280,7 +309,7 @@
   }
 
   .ranking-style {
-    padding-top: 56%;
+    padding-top: 52%;
     position: relative;
   }
 
@@ -295,9 +324,9 @@
   }
 
   .top-three {
-    width: 27%;
+    width: 25%;
     height: 80%;
-    margin: 0 2%;
+    margin: 0 3%;
     position: relative;
   }
 

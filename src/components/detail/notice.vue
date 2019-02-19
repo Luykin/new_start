@@ -1,7 +1,7 @@
 <template>
   <transition name="pop">
     <div class="pop-body" @click.self="_close">
-      <div class="task-info" @click.self="_close">
+      <div class="task-info" @click="_close">
         <div class="inner-notice" v-html="$root.notice">
           暂无公告
         </div>
@@ -51,6 +51,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 75%;
+    min-width: 265px;
     max-width: 360px;
     padding: 0;
     background: #F73D64;
@@ -75,7 +76,7 @@
 
   .inner-notice{
     width: 85%;
-    padding: 3%;
+    padding: 0 3%;
     line-height: 24px;
     background: #FFFCF1;
     min-height: 120px;

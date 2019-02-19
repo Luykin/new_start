@@ -5,10 +5,10 @@
       <div class="task-info-header">
         <div class="tih-inner flex">
           <div class="flex js repulation-title">
-            星赞信用
+            抖赞信用
           </div>
           <div class="flex boom-num fw">
-            <span class="flex">300</span>
+            <span class="flex">{{parseInt($root.user.credit_num)}}</span>
             <span class="flex title">信用分</span>
           </div>
           <div class="flex record-num">

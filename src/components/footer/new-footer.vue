@@ -230,7 +230,7 @@
   }
 
   .footer-item-name {
-    margin-bottom: 6%;
+    margin-bottom: 5px;
   }
 
   .choice-layer {
