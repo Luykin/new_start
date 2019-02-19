@@ -69,7 +69,7 @@
         }
       },
       _imitateClick() {
-        console.log('点击上传')
+        // console.log('点击上传')
         this.$refs.file.click()
       },
       _wxChooseImage() {

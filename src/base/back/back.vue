@@ -47,6 +47,7 @@
           })
           return false
         }
+        this.$emit('back')
         this.$router.back(-1)
       },
       _show() {

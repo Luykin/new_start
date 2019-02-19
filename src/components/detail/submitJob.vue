@@ -1,7 +1,7 @@
 <template>
   <transition name="list">
     <div class="detail-body scroll-top">
-      <back ref="back"></back>
+      <back ref="back" @back="_setNull"></back>
       <div class="task-info flex fw js">
         <div class="submit-job-header flex line-back old-line-back">
           {{detail_info.title.slice(0,8)}}
@@ -274,7 +274,6 @@
       },
       _setNull() {
         try {
-          // this.dy_name =''
           this.processZC = 0
           this.process = 0
           this.process2 = 0
@@ -506,7 +505,7 @@
       enlarge,
       downwx,
       interlayer
-    }
+    },
   }
 </script>
 

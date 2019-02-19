@@ -53,8 +53,6 @@
               永久封禁
             </div>
           </div>
-          <!--<div style="height: 10px"></div>-->
-          <!--<empyt v-show="!list.length" :padding="90" :flush="!pullLoading" @flush="_pulldown(1)"></empyt>-->
         </div>
       </betterscroll>
       <router-view></router-view>
