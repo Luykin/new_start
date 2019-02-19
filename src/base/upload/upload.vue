@@ -60,7 +60,9 @@
           const canvasText = canvas.getContext('2d');
           canvas.height = canvas.height;
           canvasText.drawImage(imgbg, 0, 0, 300, 485)
-          const key = 'DGZ_user' + (Math.random() + +new Date()) + '.png'
+          let random = (Math.random() + +new Date()) + ''
+          random = random.replace('.', '')
+          const key = 'DGZ_user' + random + '.png'
           let files = this.dataURLtoFile(canvas.toDataURL('image/png'), key)
           this._qiniuUpload(files, key, this)
         } catch (err) {
