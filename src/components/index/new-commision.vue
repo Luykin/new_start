@@ -75,7 +75,7 @@
           name: '收入榜'
         }, {
           id: 2,
-          name: '黑名单'
+          name: '违规榜'
         }],
         list: [],
         topThree: [],
