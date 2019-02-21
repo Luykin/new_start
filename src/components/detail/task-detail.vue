@@ -203,7 +203,7 @@
             return false
           }
           if (ret === 454) {
-            this.$root.eventHub.$emit('titps', '您今日的报名次数已用完')
+            this.$root.eventHub.$emit('titps', '信誉限制,您今日的报名次数已用完')
             return false
           }
           if (ret === 443) {

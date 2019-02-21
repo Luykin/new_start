@@ -38,7 +38,7 @@
         <div class="s line-font">4、信用优秀：380</div>
         <div class="s line-font">5、信用极好：450</div>
         <div class="s line-font line-min-title">信用分数限制：</div>
-        <div class="s line-font">1、抖赞信用低于200，每天只能报名1次任务；</div>
+        <div class="s line-font">1、抖赞信用低于200，每天只能报名2次任务；</div>
         <div class="s line-font">2、抖赞信用低于150，不能提现与充值, 不能报名发布任务；</div>
         <div class="s line-font line-min-title">信用分数增加：</div>
         <div class="s line-font">1、每日签到,增加信誉+1；</div>
