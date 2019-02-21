@@ -210,6 +210,7 @@
   }
 
   .line-min-title {
+    color: #333;
     font-weight: 600;
   }
 

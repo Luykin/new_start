@@ -400,8 +400,8 @@
     color: #fff;
     font-size: 10px;
     z-index: 9999;
-    top: 0;
-    transform: scale(.75, .75);
+    top: 50%;
+    transform: scale(.75, .75) translate(0, -50%);
   }
 
   .min-score-credit{
