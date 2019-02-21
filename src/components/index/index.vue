@@ -10,25 +10,25 @@
             <userheader></userheader>
           </div>
           <!--bg-none-->
-          <!--<div class="flex task-title">-->
-            <!--<span class="flex js">抖赞信用</span>-->
-          <!--</div>-->
-          <!--<div class="flex credit-user fw">-->
-            <!--<div class="credit-progress">-->
-              <!--<div class="min-score-credit">{{MIN_CREDIT}}</div>-->
-              <!--<div class="max-score-credit">{{MAX_CREDIT}}</div>-->
-              <!--<div class="credit-progress-inner" :style="credit_length(parseInt($root.user.credit_num))">-->
-                <!--<div class="now-credit">-->
-                  <!--{{parseInt($root.user.credit_num)}}-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="flex">-->
-              <!--<div class="credit-user-item flex" v-for="item in creditList">-->
-                <!--<span>{{item.name}}</span>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
+          <div class="flex task-title">
+            <span class="flex js">抖赞信用</span>
+          </div>
+          <div class="flex credit-user fw">
+            <div class="credit-progress">
+              <div class="min-score-credit">{{MIN_CREDIT}}</div>
+              <div class="max-score-credit">{{MAX_CREDIT}}</div>
+              <div class="credit-progress-inner" :style="credit_length($root.user.credit_num)">
+                <div class="now-credit">
+                  {{parseInt($root.user.credit_num)}}
+                </div>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="credit-user-item flex" v-for="item in creditList">
+                <span>{{item.name}}</span>
+              </div>
+            </div>
+          </div>
           <div class="flex task-title">
             <span class="flex js">推荐任务</span>
             <div class="flush flex" @click="_pulldown(true)" v-show="!pullLoading">

@@ -774,3 +774,40 @@ export function rankList(username, page, num) {
     return Promise.resolve(res.response.status)
   })
 }
+
+// 信誉每日签到
+export function signIn(username) {
+  const url = `${PREFIX_URL}/sign/in`
+  let data = {
+    username,
+    uaid: UAID,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}
+
+// 信誉记录
+export function creditList(username, types, page, num) {
+  const url = `${PREFIX_URL}/credit/list`
+  let data = {
+    types,
+    username,
+    uaid: UAID,
+    page,
+    num,
+    timestamp: getTime(),
+  }
+  return axios.post(url, qs.stringify(Object.assign({
+    sign: getSign(data)
+  }, data))).then(function (res) {
+    return Promise.resolve(res)
+  }).catch(res => {
+    return Promise.resolve(res.response.status)
+  })
+}

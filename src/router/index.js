@@ -199,7 +199,13 @@ const routerconst = new Router({
     path: '/reputation',
     name: 'reputation',
     component: () =>
-      import(`components/index/reputation`)
+      import(`components/index/reputation`),
+    children: [{
+      path: '/reputation-list',
+      name: 'reputation-list',
+      component: () =>
+        import(`components/detail/reputation-list`),
+    }]
   }]
 })
 //

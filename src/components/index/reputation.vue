@@ -1,59 +1,94 @@
 <template>
-  <div class="detail-body">
-    <back></back>
-    <div class="task-info flex fw">
-      <div class="task-info-header">
-        <div class="tih-inner flex">
-          <div class="flex js repulation-title">
-            抖赞信用
-          </div>
-          <div class="flex boom-num fw">
-            <span class="flex">{{parseInt($root.user.credit_num)}}</span>
-            <span class="flex title">信用分</span>
-          </div>
-          <div class="flex record-num">
-            <div class="record-num-item flex border-after js fw">
-              <img src="../../assets/img/creditadd.png"/>
-              <div class="rni-info">
-                <span class="flex add-num">15</span>
-                <span class="flex">已加信用</span>
-              </div>
+  <transition name="list">
+    <div class="detail-body">
+      <back></back>
+      <div class="sign-btn flex" @click="_sign">{{$root.user.sign_in ? '已签到' : '每日签到'}}</div>
+      <div class="task-info flex fw">
+        <div class="task-info-header">
+          <div class="tih-inner flex">
+            <div class="flex js repulation-title">
+              抖赞信用
             </div>
-            <div class="record-num-item flex js fw">
-              <img src="../../assets/img/creditreduce.png"/>
-              <div class="rni-info">
-                <span class="flex add-num">15</span>
-                <span class="flex">已扣信用</span>
+            <div class="flex boom-num fw">
+              <span class="flex">{{parseInt($root.user.credit_num)}}</span>
+              <span class="flex title">信用分</span>
+            </div>
+            <div class="flex record-num">
+              <div class="record-num-item flex border-after js fw" @click="_toReputationList(1)">
+                <img src="../../assets/img/creditadd.png"/>
+                <div class="rni-info">
+                  <span class="flex add-num">{{$root.user.add_credit_num || 0}}</span>
+                  <span class="flex">已加信用</span>
+                </div>
+              </div>
+              <div class="record-num-item flex js fw" @click="_toReputationList(2)">
+                <img src="../../assets/img/creditreduce.png"/>
+                <div class="rni-info">
+                  <span class="flex add-num">{{$root.user.reduce_credit_num || 0}}</span>
+                  <span class="flex">已扣信用</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="flex s line-font line-min-title">信用分数：</div>
+        <div class="s line-font">2、信用极差：150</div>
+        <div class="s line-font">1、信用极低：200</div>
+        <div class="s line-font">3、信用良好：310</div>
+        <div class="s line-font">4、信用优秀：380</div>
+        <div class="s line-font">5、信用极好：450</div>
+        <div class="s line-font line-min-title">信用分数限制：</div>
+        <div class="s line-font">1、抖赞信用低于200，每天只能报名1次任务；</div>
+        <div class="s line-font">2、抖赞信用低于150，不能提现与充值, 不能报名发布任务；</div>
+        <div class="s line-font line-min-title">信用分数增加：</div>
+        <div class="s line-font">1、每日签到,增加信誉+1；</div>
+        <div class="s line-font">2、报名任务完成并审核通过+1(每日1次)；</div>
+        <div class="s line-font">3、发布任务并全部审核通过, 无仲裁+2(每日1次)；</div>
+        <div class="s line-font line-min-title">信用分数减少：</div>
+        <div class="s line-font">1、报名任务成功，但规定时间内无提交任务，扣除信用-5；(放弃不扣)</div>
+        <div class="s line-font">2、官方任务中：乱传图、传错图、审核不通过，扣除信用-10；</div>
+        <div class="s line-font">3、普通任务审核不通过，可重新提交，规定时间内未通过，扣除信用-10；</div>
       </div>
-      <div class="flex s line-font line-min-title">信用分数：</div>
-      <div class="s line-font">2、信用极差：290</div>
-      <div class="s line-font">1、信用极低：295</div>
-      <div class="s line-font">3、信用良好：310</div>
-      <div class="s line-font">4、信用优秀：380</div>
-      <div class="s line-font">5、信用极好：450</div>
-      <div class="s line-font line-min-title">信用分数限制：</div>
-
-      <div class="s line-font">1、当你好友，完成并审核通过任务后，你将获得<i class="red-color">2%</i>奖励；</div>
-      <div class="s line-font">2、当你好友的好友，完成并审核通过任务后，你将获得<i class="red-color">1%</i>奖励；</div>
-      <div class="s line-font line-min-title">置顶奖励：</div>
-      <div class="s line-font">1、当你好友发布任务并置顶后，你将获得<i class="red-color">20%</i>奖励；</div>
-      <div class="s line-font">2、当你好友的好友发布任务并置顶后，你将获得<i class="red-color">10%</i>奖励；</div>
+      <router-view></router-view>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
   import back from 'base/back/back'
+  import {signIn} from 'api/index'
 
   export default {
     name: 'reputation',
     components: {
       back
     },
+    methods: {
+      _toReputationList(type) {
+        this.$router.push({
+          name: 'reputation-list',
+          params: {
+            type
+          }
+        })
+      },
+      async _sign() {
+        if (this.$root.user.sign_in) {
+          // this.$root.eventHub.$emit('titps', `您已签到`)
+          return false
+        }
+        this.$root.eventHub.$emit('loading', true)
+        const ret = await signIn(this.$root.user.username)
+        this.$root.eventHub.$emit('loading', null)
+        if (ret.status === 200 && ret.data.code === 200) {
+          // console.log(ret)
+          this.$root.user.add_credit_num += 1
+          this.$root.user.credit_num += 1
+          this.$root.user.sign_in = true
+          this.$root.eventHub.$emit('titps', `签到成功,信誉+1`)
+        }
+      },
+    }
   }
 </script>
 
@@ -175,6 +210,18 @@
   }
 
   .line-min-title {
+    font-weight: 600;
+  }
+
+  .sign-btn {
+    width: auto;
+    padding: 0 4%;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #fff;
+    font-size: 15px;
     font-weight: 600;
   }
 </style>

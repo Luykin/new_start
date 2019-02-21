@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="ranking-item flex js ell" v-if="activeId === 1 && userList" style="background: #E3DEFF">
-            <span class="ranking-number ell">{{userList.ranknum}}</span>
+            <span class="ranking-number ell ranking-number-min">{{userList.ranknum}}</span>
             <img :src="userList.avatar" class="ranking-avatar"/>
             <span class="ranking-name ell">{{userList.nickname}}</span>
             <div class="ranking-credit flex">
@@ -231,7 +231,6 @@
     color: #333333;
     font-size: 14px;
     overflow: hidden;
-    /*border-bottom: 1px solid #E3DEFF;*/
   }
 
   .ranking-item:after {
@@ -361,5 +360,9 @@
 
   .top-three-money {
     font-weight: 600;
+  }
+
+  .ranking-number-min{
+    font-size: 12px;
   }
 </style>

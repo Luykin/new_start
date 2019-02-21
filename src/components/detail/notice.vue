@@ -1,17 +1,18 @@
 <template>
   <transition name="pop">
+    <!--@click.self="_close"-->
     <div class="pop-body" @click.self="_close">
       <div class="task-info" @click="_close">
         <div class="inner-notice" v-html="$root.notice">
-          暂无公告
+          <!--暂无公告-->
         </div>
-        <!--<img src="https://cdn.xingkwh.com/%E5%85%B3%E6%B3%A8%E5%85%AC%E4%BC%97%E5%8F%B72@3x.png"/>-->
       </div>
     </div>
   </transition>
 </template>
 
 <script>
+  import Vue from 'vue';
   export default {
     created() {
       if (!this.$root.notice) {
@@ -19,6 +20,8 @@
           path: '/index'
         })
       }
+    },
+    mounted() {
     },
     methods: {
       _close() {
@@ -28,8 +31,7 @@
         })
       },
     },
-    components: {
-    }
+    components: {}
   }
 </script>
 
@@ -62,7 +64,7 @@
     /*border: 2px solid rgba(173, 26, 106, 0.36);*/
   }
 
-  .task-info:after{
+  .task-info:after {
     width: 136.4%;
     padding-top: 100%;
     content: '';
@@ -74,7 +76,7 @@
     background-size: 100% auto;
   }
 
-  .inner-notice{
+  .inner-notice {
     width: 85%;
     padding: 0 3%;
     line-height: 24px;
@@ -86,7 +88,7 @@
     font-size: 13px;
   }
 
-  .task-info:before{
+  .task-info:before {
     content: '';
     position: absolute;
     bottom: -20px;
