@@ -202,6 +202,10 @@
             this.$root.eventHub.$emit('titps', '请先完成已报名的任务')
             return false
           }
+          if (ret === 454) {
+            this.$root.eventHub.$emit('titps', '您今日的报名次数已用完')
+            return false
+          }
           if (ret === 443) {
             this.$root.eventHub.$emit('titps', '不能报名自己的任务')
             return false

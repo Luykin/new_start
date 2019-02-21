@@ -125,7 +125,6 @@
         this.$root.eventHub.$emit('loading', null)
         if (ret.status === 200 && ret.data.code === 200) {
           this.list = [...this.list, ...ret.data.data.ret]
-          // this.total = ret.data.data.count
           if (callback) {
             callback()
           }
@@ -172,6 +171,7 @@
         this.page = 0
         this.cathePage[this.activeId] = 0
         if (this.activeId === 2) {
+          this.list = []
           this._getBlacklist(true)
         } else {
           this._getRanklist(true, true)
