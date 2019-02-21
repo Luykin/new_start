@@ -43,7 +43,7 @@
         <div class="s line-font line-min-title">信用分数增加：</div>
         <div class="s line-font">1、每日签到,增加信誉<i class="red-color">+1</i>；</div>
         <div class="s line-font">2、报名任务完成并审核通过<i class="red-color">+1</i>(每日1次)；</div>
-        <div class="s line-font">3、发布任务并全部审核通过, 无仲裁<i class="red-color">+2</i>(每日1次)；</div>
+        <div class="s line-font">3、发布任务审核通过, 无仲裁记录<i class="red-color">+2</i>(每日1次)；</div>
         <div class="s line-font line-min-title">信用分数减少：</div>
         <div class="s line-font">1、报名任务成功，但规定时间内无提交任务，扣除信用<i class="red-color">-5</i>；(放弃不扣)</div>
         <div class="s line-font">2、官方任务中：乱传图、传错图、审核不通过，扣除信用<i class="red-color">-10</i>；</div>
