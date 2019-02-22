@@ -76,6 +76,10 @@
           icon: require('../../assets/img/usericon8.png'),
           // disable: true
         }, {
+          name: '多抢权限',
+          path: '/grab-more',
+          icon: require('../../assets/img/usericon9.png')
+        }, {
           name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',
           icon: require('../../assets/img/usericon1.png'),
@@ -86,13 +90,13 @@
           path: '/group',
           icon: require('../../assets/img/usericon2.png')
         }, {
-          name: '商务合作',
-          path: '/cooperate',
-          icon: require('../../assets/img/usericon5.png')
-        }, {
           name: '绑定微信',
           path: '/inlet',
           icon: require('../../assets/img/usericon6.png')
+        }, {
+          name: '商务合作',
+          path: '/cooperate',
+          icon: require('../../assets/img/usericon5.png')
         }]
       }
     },

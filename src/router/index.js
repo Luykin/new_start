@@ -196,6 +196,11 @@ const routerconst = new Router({
     component: () =>
       import(`components/index/maintain`)
   }, {
+    path: '/grab-more',
+    name: 'grab-more',
+    component: () =>
+      import(`components/detail/grab-more`)
+  }, {
     path: '/reputation',
     name: 'reputation',
     component: () =>
