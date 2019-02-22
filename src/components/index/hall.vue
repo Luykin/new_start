@@ -2,8 +2,12 @@
   <transition name="list">
     <div>
       <div class="cachet flex js">
-        <div class="cachet-item flex" v-for="item in btn_list" :class="{'active-cachet-item': item.id === activeId}"
-             @click="_change(item.id)">{{item.name}}
+        <div class="cachet-item flex ell" v-for="item in btn_list" :class="{'active-cachet-item': item.id === activeId}"
+             @click="_change(item.id)">
+          {{item.name}}
+          <span v-if="item.id !== activeId">专区</span>
+          <img src="https://cdn.xingkwh.com/reflush2.png" class="re-flush-image" :class="{'loading-image': doingLoad}"
+               v-else/>
         </div>
       </div>
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
@@ -47,14 +51,14 @@
       return {
         list: [],
         page: 0,
-        num: 20,
+        num: 15,
         total: 0,
         btn_list: [{
           id: 1,
-          name: '抖音专区'
-        },{
+          name: '抖音'
+        }, {
           id: 2,
-          name: '快手专区'
+          name: '快手'
         }],
         activeId: 1,
         pullDownTimer: null,
@@ -93,10 +97,11 @@
     methods: {
       _change(id) {
         if (id === this.activeId) {
+          this._pulldown(true)
           return false
         }
         this._getTaskHall(id, true, true, () => {
-          this.activeId= id
+          this.activeId = id
         })
       },
       _error(err) {
@@ -106,7 +111,7 @@
           console.log(e)
         }
       },
-      async _getTaskHall(id=1, must, loading, callback) {
+      async _getTaskHall(id = 1, must, loading, callback) {
         if (this.doingLoad) {
           return false
         }
@@ -159,9 +164,7 @@
         })
       },
       _pulldown(loading) {
-        this.num = 20
         this.page = 0
-        // this.list = []
         this._getTaskHall(this.activeId, true, loading)
       },
       _scrollToEnd() {
@@ -185,5 +188,24 @@
     top: 65px;
     bottom: 55px;
     overflow: hidden;
+  }
+
+  .re-flush-image {
+    width: 18px;
+    height: auto;
+    margin: 0 0 0 4px;
+  }
+
+  .loading-image {
+    animation: rate .7s linear infinite;
+  }
+
+  @keyframes rate {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
   }
 </style>

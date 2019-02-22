@@ -68,8 +68,8 @@
 </template>
 
 <script>
-  const MIN_CREDIT = 150;
-  const MAX_CREDIT = 450;
+  const MIN_CREDIT = 150
+  const MAX_CREDIT = 450
   import userheader from 'components/userheader/userheader'
   import betterscroll from 'base/better-scroll/better-scroll'
   import empyt from 'base/empyt/empyt'
@@ -84,7 +84,7 @@
     data() {
       return {
         page: 0,
-        num: 20,
+        num: 10,
         list: [],
         total: 0,
         updateTimer: null,
@@ -115,7 +115,7 @@
       },
       credit_length() {
         return (credit_num) => {
-          let proess = 0.5;
+          let proess = 0.5
           if (credit_num <= MIN_CREDIT) {
             proess = 0
           }
@@ -125,7 +125,7 @@
           if (credit_num > MIN_CREDIT && credit_num < MAX_CREDIT) {
             proess = (credit_num - MIN_CREDIT) / (MAX_CREDIT - MIN_CREDIT)
           }
-          return `width:${proess*100}%;`
+          return `width:${proess * 100}%;`
         }
       }
     },
@@ -335,7 +335,6 @@
         if (this.pullLoading) {
           return false
         }
-        this.num = 20
         this.page = 0
         this._getHomeInfo(true, null, loading)
       },
@@ -395,7 +394,8 @@
     margin: 15px auto 12px;
     position: relative;
   }
-  .min-score-credit, .max-score-credit{
+
+  .min-score-credit, .max-score-credit {
     position: absolute;
     color: #fff;
     font-size: 10px;
@@ -404,11 +404,11 @@
     transform: scale(.75, .75) translate(0, -50%);
   }
 
-  .min-score-credit{
+  .min-score-credit {
     left: 16px;
   }
 
-  .max-score-credit{
+  .max-score-credit {
     right: 16px;
   }
 
@@ -456,7 +456,7 @@
     line-height: 15px;
     background: url("https://cdn.xingkwh.com/%E5%BD%93%E5%89%8D%E4%BF%A1%E7%94%A8%E5%80%BC@3x.png") no-repeat;
     background-size: 100% 100%;
-    transform: scale(.85,.85);
+    transform: scale(.85, .85);
     font-size: 10px;
     color: #fff;
   }
