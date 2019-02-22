@@ -6,7 +6,7 @@
              @click="_change(item.id)">
           {{item.name}}
           <span v-if="item.id !== activeId">专区</span>
-          <img src="https://cdn.xingkwh.com/reflush2.png" class="re-flush-image" :class="{'loading-image': doingLoad}"
+          <img src="https://cdn.xingkwh.com/dsad.png" class="re-flush-image" :class="{'loading-image': doingLoad}"
                v-else/>
         </div>
       </div>
@@ -191,13 +191,13 @@
   }
 
   .re-flush-image {
-    width: 18px;
+    width: 14px;
     height: auto;
-    margin: 0 0 0 4px;
+    margin-left: 3px;
   }
 
   .loading-image {
-    animation: rate .7s linear infinite;
+    animation: rate .6s linear infinite;
   }
 
   @keyframes rate {
