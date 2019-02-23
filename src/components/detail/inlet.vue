@@ -3,7 +3,7 @@
     <div class="detail-body">
       <back></back>
       <div class="task-info">
-        <img src="https://cdn.xingkwh.com/%E5%BE%AE%E4%BF%A1%E7%BB%91%E5%AE%9A%E6%B5%81%E7%A8%8B%E5%9B%BE@3x%281%29.png"/>
+        <img src="https://cdn.xingkwh.com/%E5%A4%A7%E8%90%A8%E8%BE%BE%E4%BB%8E.png"/>
       </div>
     </div>
   </transition>
