@@ -17,8 +17,8 @@
                @click=" _getDetail(item.task_id)">
             <div class="my-task-top flex js">
               <img :src="item.avatar"/>
-              <div class="flex my-task-top-title ell fw">
-                <span class="flex js">{{item.title.slice(0, 14)}}</span>
+              <div class="flex my-task-top-title js fw ell">
+                <span class="ell">{{item.title.slice(0, 14)}}</span>
                 <span class="flex js time-cut-down" v-show="item.status === 0">{{'任务倒计时:' + _msecTransform(item.complete_time - nowTime)}}</span>
               </div>
               <div class="flex task-item-money js">
@@ -355,6 +355,7 @@
   .my-task-top-title {
     height: 100%;
     margin: 0 20px 0 10px;
+    flex-grow: 1;
   }
 
   .time-cut-down {
@@ -378,6 +379,10 @@
 
   .describe{
     text-align: center;
+  }
+
+  .task-item-money{
+    flex-grow: 1;
   }
 
 </style>
