@@ -1,6 +1,6 @@
 <template>
   <div class="entrance" @click="$router.push({name: 'entrance'})">
-    <img src="../../assets/img/entrance.png"/>
+    <img src="https://cdn.xingkwh.com/%E5%85%B3%E6%B3%A8%E5%85%AC%E4%BC%97%E5%8F%B7dsa.png"/>
   </div>
 </template>
 
