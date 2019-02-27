@@ -10,16 +10,20 @@
       <!--<img src="../../assets/img/creditadd.png"/>-->
       <!--<img src="../../assets/img/creditreduce.png"/>-->
       <betterscroll class="wrapper" @pulldown="_pulldown" @scrollToEnd="_scrollToEnd" ref='wrapper' :data="list">
-        <div v-for="item in list" class="ranking-item flex js ell">
-          <img src="../../assets/img/creditadd.png" class="ranking-image" v-if="activeId === 1"/>
-          <img src="../../assets/img/creditreduce.png" class="ranking-image" v-else/>
-          <div class="flex fw ranking-info">
-            <div class="ri-title ell">{{item.title}}</div>
-            <div class="flex js ri-create">{{item.time}}</div>
+        <div class="warp-content">
+          <div v-for="item in list" class="ranking-item flex js ell">
+            <img src="../../assets/img/creditadd.png" class="ranking-image" v-if="activeId === 1"/>
+            <img src="../../assets/img/creditreduce.png" class="ranking-image" v-else/>
+            <div class="flex fw ranking-info">
+              <div class="ri-title ell">{{item.title}}</div>
+              <div class="flex js ri-create">{{item.time}}</div>
+            </div>
+            <div class="credit-num flex" :class="{'reduce': activeId === 2}">{{item.credit_num > 0 ? '+' +
+              item.credit_num : item.credit_num}}
+            </div>
           </div>
-          <div class="credit-num flex" :class="{'reduce': activeId === 2}">{{item.credit_num > 0 ? '+' + item.credit_num : item.credit_num}}</div>
+          <empyt v-if="!list.length"></empyt>
         </div>
-        <empyt v-if="!list.length"></empyt>
       </betterscroll>
     </div>
   </transition>
@@ -54,6 +58,9 @@
       // console.log(this.$route.params.type)
       this.activeId = this.$route.params.type
       this._getList(this.activeId)
+    },
+    mounted() {
+      this.$refs.wrapper._initScroll()
     },
     methods: {
       _change(id) {
@@ -113,6 +120,12 @@
 <style scoped>
   .detail-body {
 
+  }
+
+  .warp-content {
+    width: 100%;
+    height: auto;
+    min-height: 100.01%;
   }
 
   .wrapper {
@@ -186,7 +199,7 @@
     color: #FF3939;
   }
 
-  .ranking-info{
+  .ranking-info {
     width: 70%;
   }
 </style>

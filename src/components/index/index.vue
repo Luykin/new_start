@@ -194,7 +194,7 @@
       _browserLogin() {
         const browser_code = decryptByDES(decodeURIComponent(this.getRequestParameter('browser_code')) || '', 'dougezan')
         if (browser_code) {
-          console.log('浏览器code登录', browser_code)
+          // console.log('浏览器code登录', browser_code)
           this._updateuserinfo(browser_code)
         } else {
           console.log('浏览器储存登录browserLogin')
@@ -211,7 +211,7 @@
       },
       _wxLogin(callback) {
         if (this.getRequestParameter('code')) {
-          console.log('微信登录wxLogin', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
+          // console.log('微信登录wxLogin', this.getRequestParameter('code'), '邀请码', this.getRequestParameter('username'))
           // alert('微信code登录')
           this._login(this.getRequestParameter('code'), this.getRequestParameter('username'), null, callback)
         } else {

@@ -18,16 +18,6 @@
     },
     methods: {
       async _setJsapiCode() {
-        const that = this
-        wx.config({
-          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: that.config.app_id, // 必填，公众号的唯一标识
-          timestamp: that.config.timestamp, // 必填，生成签名的时间戳
-          nonceStr: that.config.noncestr, // 必填，生成签名的随机串
-          signature: that.config.sign,// 必填，签名
-          jsApiList: ['chooseImage', 'uploadImage', 'downloadImage', 'getLocalImgData'] // 必填，需要使用的JS接口列表
-        })
-        // alert('配置完成')
         try {
           // console.log(this.url)
           if (this.url && this.url.indexOf('://') > -1) {
