@@ -78,7 +78,8 @@
         }, {
           name: '多抢权限',
           path: '/grab-more',
-          icon: require('../../assets/img/usericon9.png')
+          icon: require('../../assets/img/usericon9.png'),
+          disable: true
         }, {
           name: Boolean(this.$root.user.phone) ? `更换绑定` : '绑定手机号',
           path: '/phone',
