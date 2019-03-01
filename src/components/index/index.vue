@@ -77,7 +77,7 @@
   import {login, home_page, task_detail, update_user_info, getAppInfo} from 'api/index'
   import {UAID, CHANNEL, APPNAME, env} from 'api/config'
   import lamp from 'components/lamp/lamp'
-  import {decryptByDES} from 'common/js/util'
+  import {encryptByDES, decryptByDES} from 'common/js/util'
   import {isWx} from 'common/js/util'
 
   export default {
@@ -130,6 +130,7 @@
       }
     },
     created() {
+      // console.log(encryptByDES('https://qzone.btc.melonblock.com/fabulous','fuck_you'))
       this.$root.eventHub.$on('updateList', (time) => {
         this._pulldown()
       })

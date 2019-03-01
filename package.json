@@ -17,6 +17,7 @@
     "clipboard": "^2.0.4",
     "compression-webpack-plugin": "^1.1.11",
     "crypto-js": "^3.1.9-1",
+    "decent-messup": "^1.0.8",
     "js-md5": "^0.7.2",
     "punycode": "^2.1.1",
     "qrcode": "^1.2.2",
