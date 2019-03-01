@@ -24,6 +24,13 @@ function decryptByDES(ciphertext, key) {
 }
 
 function black_box(key) {
-  var _0x31db=['Mhdasjkc321dhsak34csa','QmDpVs2f8fsbE','Hdakcc655accEHdsV6','IJYJPmfXmGJpYORDDZt3QIq8fQ3','Bvsd234bC5fXtxy7432Bdj8dxc33','CgsiQbC4fXtxyOwmaOIiqyr1'];(function(_0x1f3f5b,_0x3952ae){var _0x34840c=function(_0x2694be){while(--_0x2694be){_0x1f3f5b['push'](_0x1f3f5b['shift']());}};_0x34840c(++_0x3952ae);}(_0x31db,0x111));var _0x31c7=function(_0x4215f2,_0x52eac3){_0x4215f2=_0x4215f2-0x0;var _0x8ad4f9=_0x31db[_0x4215f2];return _0x8ad4f9;};let key1=_0x31c7('0x0');let key2=_0x31c7('0x1');let key3=_0x31c7('0x2');let key4=_0x31c7('0x3');let key5=_0x31c7('0x4');let key6=_0x31c7('0x5');key5=key2+key4>=key1?key6:key5;
-  return decryptByDES(key1+key3+key5,key);
+  // let key1 = 'IJYJPmfXmGJpYORDDZt3QIq8fQ3'
+  // let key2 = 'Bvsd234bC5fXtxy7432Bdj8dxc33'
+  // let key3 = 'CgsiQbC4fXtxyOwmaOIiqyr1'
+  // let key4 = 'Mhdasjkc321dhsak34csa'
+  // let key5 = 'QmDpVs2f8fsbE'
+  // let key6 = 'Hdakcc655accEHdsV6'
+  // key5 = key2 + key4 >= key1 ? key6 : key5
+  var _0x1802=['QmDpVs2f8fsbE','Hdakcc655accEHdsV6','Bvsd234bC5fXtxy7432Bdj8dxc33','CgsiQbC4fXtxyOwmaOIiqyr1','Mhdasjkc321dhsak34csa'];(function(_0x4ac34a,_0x2f550e){var _0x239bf2=function(_0x286c0c){while(--_0x286c0c){_0x4ac34a['push'](_0x4ac34a['shift']());}};_0x239bf2(++_0x2f550e);}(_0x1802,0x15b));var _0x47bd=function(_0x515d38,_0xc82e25){_0x515d38=_0x515d38-0x0;var _0x3bf2e6=_0x1802[_0x515d38];return _0x3bf2e6;};let key1='IJYJPmfXmGJpYORDDZt3QIq8fQ3';let key2=_0x47bd('0x0');let key3=_0x47bd('0x1');let key4=_0x47bd('0x2');let key5=_0x47bd('0x3');let key6=_0x47bd('0x4');key5=key2+key4>=key1?key6:key5;
+  return decryptByDES(key1 + key3 + key5, key)
 }
