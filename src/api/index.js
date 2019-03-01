@@ -1,48 +1,20 @@
 import axios from 'axios'
 import qs from 'qs'
 import {
-  PREFIX_URL,
+  a,
   UAID,
   CHANNEL
 } from './config'
+
+
 import {
   getSign,
   getTime
 } from 'common/js/util'
 
-// export function appinfo() {
-//   const url = `${PREFIX_URL}/app_info`
-//   let data = {
-//     uaid: UAID
-//   }
-//   return axios.get(url, {
-//     params: Object.assign({
-//       sign: getSign(data)
-//     }, data)
-//   }).then(function (res) {
-//     return Promise.resolve(res)
-//   }).catch(res => {
-//     return Promise.resolve(res.response.status)
-//   })
-// }
-//
-// export function combos_category() {
-//   const url = `${PREFIX_URL}/combos_category`
-//   let data = {
-//     uaid: UAID
-//   }
-//   return axios.post(url, qs.stringify(Object.assign({
-//     sign: getSign(data)
-//   }, data))).then(function (res) {
-//     return Promise.resolve(res)
-//   }).catch(res => {
-//     return Promise.resolve(res.response.status)
-//   })
-// }
-
 // 悬赏具体类别(抖音粉丝...)
 export function pub_task(service_group_id) {
-  const url = `${PREFIX_URL}/pub_task`
+  const url = `${a}/pub_task`
   let data = {
     uaid: UAID,
     timestamp: getTime(),
@@ -59,7 +31,7 @@ export function pub_task(service_group_id) {
 
 // 登录
 export function login(wx_login_code, super_code, channel) {
-  const url = `${PREFIX_URL}/login`
+  const url = `${a}/login`
   let data = {
     uaid: UAID,
     wx_login_code,
@@ -82,7 +54,7 @@ export function login(wx_login_code, super_code, channel) {
 
 // 用户更新
 export function update_user_info(username) {
-  const url = `${PREFIX_URL}/update_user_info`
+  const url = `${a}/update_user_info`
   let data = {
     uaid: UAID,
     username,
@@ -99,7 +71,7 @@ export function update_user_info(username) {
 
 // 发布任务
 export function pay_and_pub_task(id, title, task_url, num, single_price, price, score, username) {
-  const url = `${PREFIX_URL}/pay_and_pub_task`
+  const url = `${a}/pay_and_pub_task`
   let data = {
     id,
     title,
@@ -124,7 +96,7 @@ export function pay_and_pub_task(id, title, task_url, num, single_price, price, 
 
 // 主页
 export function home_page(page, num) {
-  const url = `${PREFIX_URL}/home_page`
+  const url = `${a}/home_page`
   let data = {
     uaid: UAID,
     timestamp: getTime(),
@@ -142,7 +114,7 @@ export function home_page(page, num) {
 
 // 任务详情
 export function task_detail(id, username) {
-  const url = `${PREFIX_URL}/task_detail`
+  const url = `${a}/task_detail`
   let data = {
     uaid: UAID,
     timestamp: getTime(),
@@ -160,7 +132,7 @@ export function task_detail(id, username) {
 
 // 发布列表
 export function release_management(username, page, num) {
-  const url = `${PREFIX_URL}/release_management`
+  const url = `${a}/release_management`
   let data = {
     uaid: UAID,
     timestamp: getTime(),
@@ -179,7 +151,7 @@ export function release_management(username, page, num) {
 
 // 商品列表
 export function goods() {
-  const url = `${PREFIX_URL}/goods`
+  const url = `${a}/goods`
   let data = {
     uaid: UAID,
     timestamp: getTime(),
@@ -195,7 +167,7 @@ export function goods() {
 
 // 报名
 export function sign_up(id, username) {
-  const url = `${PREFIX_URL}/sign_up`
+  const url = `${a}/sign_up`
   let data = {
     id,
     username,
@@ -213,7 +185,7 @@ export function sign_up(id, username) {
 
 // 七牛云token
 export function up_token() {
-  const url = `${PREFIX_URL}/up_token`
+  const url = `${a}/up_token`
   let data = {
     timestamp: getTime(),
   }
@@ -229,7 +201,7 @@ export function up_token() {
 
 // 提交任务或者申请仲裁
 export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image, appeal_user_explain, task_nickname, task_image2) {
-  const url = `${PREFIX_URL}/sub_or_arb`
+  const url = `${a}/sub_or_arb`
   let data = {
     id,
     username,
@@ -269,7 +241,7 @@ export function sub_or_arb(username, id, sub_type, task_image, appeal_user_image
 
 // 任务大厅
 export function task_hall(service_group_id, page, num) {
-  const url = `${PREFIX_URL}/task_hall`
+  const url = `${a}/task_hall`
   let data = {
     uaid: UAID,
     timestamp: getTime(),
@@ -292,7 +264,7 @@ export function task_hall(service_group_id, page, num) {
 
 // 单个任务的列表-----
 export function task_audit(id, username, types, page, num) {
-  const url = `${PREFIX_URL}/task_audit`
+  const url = `${a}/task_audit`
   let data = {
     id,
     types,
@@ -313,7 +285,7 @@ export function task_audit(id, username, types, page, num) {
 
 // 通过不通过
 export function pass_or_fail_task(id, task_id, username, click_type, task_message) {
-  const url = `${PREFIX_URL}/pass_or_fail_task`
+  const url = `${a}/pass_or_fail_task`
   let data = {
     id,
     task_id,
@@ -338,7 +310,7 @@ export function pass_or_fail_task(id, task_id, username, click_type, task_messag
 
 // 我的任务
 export function my_task(task_type, username, page, num) {
-  const url = `${PREFIX_URL}/my_task`
+  const url = `${a}/my_task`
   let data = {
     task_type,
     page,
@@ -358,7 +330,7 @@ export function my_task(task_type, username, page, num) {
 
 // 举报维权列表
 export function rights_protection(rp_type, username, page, num) {
-  const url = `${PREFIX_URL}/rights_protection`
+  const url = `${a}/rights_protection`
   let data = {
     rp_type,
     page,
@@ -378,7 +350,7 @@ export function rights_protection(rp_type, username, page, num) {
 
 // 提交辩诉
 export function sub_of_plea(id, username, plea_user_image, plea_user_explain) {
-  const url = `${PREFIX_URL}/sub_of_plea`
+  const url = `${a}/sub_of_plea`
   let data = {
     id,
     plea_user_image,
@@ -399,7 +371,7 @@ export function sub_of_plea(id, username, plea_user_image, plea_user_explain) {
 
 // 订单列表
 export function orders(username, page, num) {
-  const url = `${PREFIX_URL}/orders`
+  const url = `${a}/orders`
   let data = {
     username,
     uaid: UAID,
@@ -418,7 +390,7 @@ export function orders(username, page, num) {
 
 // 提现列表
 export function withdraw_list(username, page, num) {
-  const url = `${PREFIX_URL}/withdraw_list`
+  const url = `${a}/withdraw_list`
   let data = {
     username,
     uaid: UAID,
@@ -437,7 +409,7 @@ export function withdraw_list(username, page, num) {
 
 // 下单
 export function order(id, username, price, score, pay_type) {
-  const url = `${PREFIX_URL}/order`
+  const url = `${a}/order`
   let data = {
     id,
     price,
@@ -458,7 +430,7 @@ export function order(id, username, price, score, pay_type) {
 
 // 提现商品列表
 export function withdraw_good(username) {
-  const url = `${PREFIX_URL}/withdraw_good`
+  const url = `${a}/withdraw_good`
   let data = {
     username,
     uaid: UAID,
@@ -475,7 +447,7 @@ export function withdraw_good(username) {
 
 // 批量审核
 export function pass_task(username, task_id) {
-  const url = `${PREFIX_URL}/batch/pass/task`
+  const url = `${a}/batch/pass/task`
   let data = {
     username,
     task_id,
@@ -493,7 +465,7 @@ export function pass_task(username, task_id) {
 
 // 提现
 export function withdraw(id, username, price) {
-  const url = `${PREFIX_URL}/withdraw`
+  const url = `${a}/withdraw`
   let data = {
     id,
     username,
@@ -512,7 +484,7 @@ export function withdraw(id, username, price) {
 
 // 置顶
 export function set_top_task(id, username, top_score) {
-  const url = `${PREFIX_URL}/set_top_task`
+  const url = `${a}/set_top_task`
   let data = {
     id,
     username,
@@ -531,7 +503,7 @@ export function set_top_task(id, username, top_score) {
 
 
 export function bind_phone(code, phone, username) {
-  const url = `${PREFIX_URL}/bind_phone`
+  const url = `${a}/bind_phone`
   let data = {
     code,
     phone,
@@ -550,7 +522,7 @@ export function bind_phone(code, phone, username) {
 
 // 发生验证码
 export function send_verify(phone) {
-  const url = `${PREFIX_URL}/send_verify`
+  const url = `${a}/send_verify`
   let data = {
     phone,
     uaid: UAID,
@@ -567,7 +539,7 @@ export function send_verify(phone) {
 
 // 取消任务
 export function cancel_publication(id, username) {
-  const url = `${PREFIX_URL}/cancel_publication`
+  const url = `${a}/cancel_publication`
   let data = {
     id,
     username,
@@ -586,7 +558,7 @@ export function cancel_publication(id, username) {
 
 // 查看团队
 export function see_team(username) {
-  const url = `${PREFIX_URL}/see_team`
+  const url = `${a}/see_team`
   let data = {
     username,
     uaid: UAID,
@@ -603,7 +575,7 @@ export function see_team(username) {
 
 //jsapi_code
 export function jsapi_code(js_url) {
-  const url = `${PREFIX_URL}/jsapi_code`
+  const url = `${a}/jsapi_code`
   let data = {
     url: js_url,
     uaid: UAID,
@@ -620,7 +592,7 @@ export function jsapi_code(js_url) {
 
 //跑马灯
 export function with_draw() {
-  const url = `${PREFIX_URL}/message/with/draw`
+  const url = `${a}/message/with/draw`
   let data = {
     timestamp: getTime(),
   }
@@ -635,7 +607,7 @@ export function with_draw() {
 
 //支付查看地址
 export function notify_web(code) {
-  const url = `${PREFIX_URL}/notify/web`
+  const url = `${a}/notify/web`
   let data = {
     code,
     timestamp: getTime(),
@@ -663,7 +635,7 @@ export function anti_seal(username) {
 
 //验证码登录
 export function code_login(code, phone, super_code) {
-  const url = `${PREFIX_URL}/web/login`
+  const url = `${a}/web/login`
   let data = {
     phone,
     code,
@@ -687,7 +659,7 @@ export function code_login(code, phone, super_code) {
 
 //web手机版updateuserinfo
 export function getUserInfo(username) {
-  const url = `${PREFIX_URL}/web/update_user_info`
+  const url = `${a}/web/update_user_info`
   let data = {
     username,
     uaid: UAID,
@@ -704,7 +676,7 @@ export function getUserInfo(username) {
 
 //app_info
 export function getAppInfo() {
-  const url = `${PREFIX_URL}/app/info`
+  const url = `${a}/app/info`
   let data = {
     uaid: UAID,
     timestamp: getTime()
@@ -721,7 +693,7 @@ export function getAppInfo() {
 
 //放弃任务
 export function mission(id, username) {
-  const url = `${PREFIX_URL}/abort/mission`
+  const url = `${a}/abort/mission`
   let data = {
     id,
     username,
@@ -740,7 +712,7 @@ export function mission(id, username) {
 
 // 黑名单
 export function blackList(page, num) {
-  const url = `${PREFIX_URL}/black/list`
+  const url = `${a}/black/list`
   let data = {
     uaid: UAID,
     timestamp: getTime(),
@@ -758,7 +730,7 @@ export function blackList(page, num) {
 
 // 提现排名
 export function rankList(username, page, num) {
-  const url = `${PREFIX_URL}/rank/list`
+  const url = `${a}/rank/list`
   let data = {
     username,
     uaid: UAID,
@@ -777,7 +749,7 @@ export function rankList(username, page, num) {
 
 // 信誉每日签到
 export function signIn(username) {
-  const url = `${PREFIX_URL}/sign/in`
+  const url = `${a}/sign/in`
   let data = {
     username,
     uaid: UAID,
@@ -794,7 +766,7 @@ export function signIn(username) {
 
 // 信誉记录
 export function creditList(username, types, page, num) {
-  const url = `${PREFIX_URL}/credit/list`
+  const url = `${a}/credit/list`
   let data = {
     types,
     username,

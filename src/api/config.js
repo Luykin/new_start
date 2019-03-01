@@ -7,8 +7,8 @@ Object.defineProperty(exports, '__esModule', {
 var _CryptoJS = require('crypto-js')
 var CryptoJS = _interopRequireDefault(_CryptoJS).default
 var env = exports.env = 'qzone'
-// var PREFIX_URL = exports.PREFIX_URL = 'https://' + env + '.btc.melonblock.com/fabulous'
-var PREFIX_URL = exports.PREFIX_URL = black_box('fuck_you')
+// var PREFIX_URL = exports.a = 'https://' + env + '.btc.melonblock.com/fabulous'
+var PREFIX_URL = exports.a = black_box('fuck_you')
 var UAID = exports.UAID = 360400
 var CHANNEL = exports.CHANNEL = '10000'
 var APPNAME = exports.APPNAME = '微信任务平台网页版'
