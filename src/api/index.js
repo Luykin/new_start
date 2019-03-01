@@ -1,10 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
 import {
-  a,
   UAID,
   CHANNEL
 } from './config'
+import {a} from './api_config'
 
 
 import {
