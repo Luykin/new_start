@@ -1,6 +1,7 @@
 import md5 from 'js-md5'
 import CryptoJS from 'crypto-js'
 const PRIVATE_KEY = 'MelonBlock2018FABULOUS'
+import {a} from '../../api/api_config'
 
 export function encryptByDES(message, key) {
   const keyHex = CryptoJS.enc.Utf8.parse(key)
@@ -51,14 +52,15 @@ export function getSign(data) {
   }
   signStr += 'key=' + PRIVATE_KEY
   const sign = md5(signStr)
+  if (!a || md5(a)!== '8cd42a7b85b2a519362fda42573c9298') {
+    throw SyntaxError();
+  }
   return sign
 }
 export function testToken(tokenTime) {
   let nowTime = +new Date()
   let tokenTimeA = tokenTime || 0
   if (nowTime > tokenTimeA) {
-    console.log(nowTime)
-    console.log(tokenTimeA)
     return false
   } else {
     return true
