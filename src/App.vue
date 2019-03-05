@@ -28,7 +28,8 @@
         centerTips: '',
         preloadingshow: [],
         loading: null,
-        timer: null
+        timer: null,
+        url: '/index'
       }
     },
     created() {
@@ -48,8 +49,11 @@
             this._getUserInfo(username, path)
           } else {
             this.$router.replace({
-              path: '/login'
+              path: this.url
             })
+            if (this.url === '/index') {
+              this.url = '/login'
+            }
           }
         } catch (e) {
           this.$router.replace({

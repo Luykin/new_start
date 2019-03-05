@@ -34,7 +34,7 @@
           this.$root.eventHub.$emit('updateUserInfo', '/index')
         } else {
           this.$router.replace({
-            path: '/home'
+            path: '/index'
           })
         }
       },
@@ -57,6 +57,7 @@
           }
           return true
         } else {
+          return true
           // 1.判断url进入方式
           // console.log(this.$route)
           if (this.$route.query.ability && decryptByDES(decodeURIComponent(this.$route.query.ability), FACTOR)) {
