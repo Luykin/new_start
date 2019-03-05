@@ -57,7 +57,7 @@
           }
           return true
         } else {
-          return true
+          return true; //2019.03.04 关闭防封机制
           // 1.判断url进入方式
           // console.log(this.$route)
           if (this.$route.query.ability && decryptByDES(decodeURIComponent(this.$route.query.ability), FACTOR)) {
