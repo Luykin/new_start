@@ -18,11 +18,6 @@
       }
     },
     created() {
-      // console.log(encodeURIComponent(encryptByDES(JSON.stringify({
-      //   username: '123456',
-      //   environment: ENVIRONMENT
-      // }), FACTOR)))
-      // flushAll
       this.$root.eventHub.$on('flushAll', () => {
         this._init()
       })
@@ -57,9 +52,7 @@
           }
           return true
         } else {
-          return true; //2019.03.04 关闭防封机制
-          // 1.判断url进入方式
-          // console.log(this.$route)
+          return true;
           if (this.$route.query.ability && decryptByDES(decodeURIComponent(this.$route.query.ability), FACTOR)) {
             let must_info
             try {
@@ -82,7 +75,6 @@
           }
         }
       },
-      // update_user_info
     }
   }
 </script>
